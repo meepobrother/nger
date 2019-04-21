@@ -1,0 +1,8 @@
+{
+  "name": "nger",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.13.1",
+    "typescript": "^3.4.4"
+  }
+}
