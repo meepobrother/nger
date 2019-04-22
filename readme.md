@@ -5,7 +5,7 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 ## 开发计划及大体思路
 
 ### [nger-cli](./packages/nger-cli)
-
+> 命令行工具
 - [ ] angular小程序 `yarn cli build h5`
 - [ ] 微信公众号 `yarn cli build wechat`
 - [ ] 微信小程序 `yarn cli build weapp`
@@ -15,10 +15,11 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 - [ ] 初始化 `yarn cli init demo`
 
 ### [nger-core](./packages/nger-core)
+> 核心库
 * angular装饰器
 - [x] Component
-- [x] Directive
-- [x] Pipe
+- [ ] Directive 暂时移除
+- [ ] Pipe 暂时移除
 - [x] Injectable
 - [x] NgModule
 - [x] ContentChild
@@ -40,6 +41,11 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 - [x] Cli
 - [x] Command
 - [x] Option
+
+### [nger-logger](./packages/nger-logger)
+> 带色打印工具
+- [x] Logger 接口
+- [x] ConsoleLogger Console实现
 
 ### @Page
 // TODO
