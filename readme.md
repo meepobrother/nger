@@ -5,8 +5,17 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 ## 开发计划
 
 
-### @Page
+### cli 
+TODO
+```ts
+// 项目打包
+nger build --type h5|weapp|alpay|swap|tt --watch
+// 项目初始化
+nger init
+```
 
+### @Page
+// TODO
 ```ts
 @Page({
     path: `pages/index/index`,

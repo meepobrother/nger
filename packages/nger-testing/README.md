@@ -1,11 +1,11 @@
-# `nger-parser`
+# `nger-testing`
 
 > TODO: description
 
 ## Usage
 
 ```
-const ngerParser = require('nger-parser');
+const ngerTesting = require('nger-testing');
 
 // TODO: DEMONSTRATE API
 ```
