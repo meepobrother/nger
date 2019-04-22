@@ -80,6 +80,8 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 - [ ] 扫描项目目录，并记录每个文件导出的有装饰器装饰的类及名称。
 - [ ] 根据运行目标，去掉没有用的或者可以去掉的一些内容，例如`@It`,`@Command`,`@Option`等
+- [ ] `@Component`装饰的类生成对应的`Component(ComponentInstance)`
+- [ ] `@Page`装饰的类生成对应的`Page(PageInstance)`
 - [ ] 搜集配置信息生成`json`文件
 - [ ] 编译`html`生成`wxml`文件
 - [ ] 编译`scss`/`less`/`styl`生成`wxss`文件
