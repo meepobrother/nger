@@ -1,4 +1,4 @@
-import visitor from './visitor'
+import { visitor } from 'nger-core';
 import { NgModuleClassAst, NgModuleMetadataKey, PageMetadataKey, PageClassAst, Type } from 'nger-core';
 import fs from 'fs-extra';
 import { join, dirname } from 'path';

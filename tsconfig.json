@@ -21,7 +21,7 @@
     "baseUrl": "./",
     "outDir": "./dist",
     "rootDir": "./",
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "noImplicitThis": false,
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
@@ -36,20 +36,14 @@
       "nger-core": [
         "packages/nger-core/lib/index.ts"
       ],
+      "nger-logger": [
+        "packages/nger-logger/lib/index.ts"
+      ],
       "nger-compiler": [
         "packages/nger-compiler/lib/index.ts"
       ],
       "nger-components": [
         "packages/nger-components/lib/index.ts"
-      ],
-      "@angular/compiler": [
-        "packages/angular-compiler/lib/compiler.ts"
-      ],
-      "@angular/compiler/src/*": [
-        "packages/angular-compiler/lib/*"
-      ],
-      "@angular/core": [
-        "packages/angular-core/lib/core.ts"
       ]
     },
     "typeRoots": [

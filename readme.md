@@ -5,6 +5,13 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 ## 开发计划及大体思路
 
 ### cli 
+
+* yarn cli build h5
+> 构建h5 angular小程序
+
+* yarn cli init demo
+> 初始化demo
+
 TODO
 ```ts
 // 项目打包
