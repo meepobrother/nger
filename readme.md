@@ -24,41 +24,41 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 ### [nger-core](./packages/nger-core)
 > 核心库
 
-* angular装饰器
-- [x] [Component](https://www.angular.cn/api/core/Component)
-- [ ] [Directive 不支持](https://www.angular.cn/api/core/Pipe)
-- [x] [Pipe](https://www.angular.cn/api/core/Pipe)
-- [x] [Injectable](https://www.angular.cn/api/core/NgModule)
-- [x] [NgModule](https://www.angular.cn/api/core/NgModule)
-- [x] [ContentChild](https://www.angular.cn/api/core/ContentChild)
-- [x] [ContentChildren](https://www.angular.cn/api/core/ContentChildren)
-- [x] [ViewChild](https://www.angular.cn/api/core/ViewChild)
-- [x] [ViewChildren](https://www.angular.cn/api/core/ViewChildren)
-- [x] [Input](https://www.angular.cn/api/core/Input)
-- [x] [Output](https://www.angular.cn/api/core/Output)
-- [x] [HostBinding](https://www.angular.cn/api/core/HostBinding)
-- [x] [HostListener](https://www.angular.cn/api/core/HostListener)
-- [x] [Host](https://www.angular.cn/api/core/Host)
-- [x] [Inject](https://www.angular.cn/api/core/Inject)
-- [x] [SkipSelf](https://www.angular.cn/api/core/SkipSelf)
-- [x] [Self](https://www.angular.cn/api/core/Self)
-- [x] [Optional](https://www.angular.cn/api/core/Optional)
-- [x] [Attribute](https://www.angular.cn/api/core/Attribute)
-* 新增装饰器
-- [x] `Page` 页面
-- [x] `Command` 命令行
-- [x] `Option` 命令参数
-- [x] `It` 测试
-- [x] `Get` 发送`get`请求
-- [x] `Post` 发送`post`请求
-* 生命周期
-- [x] `OnInit`
-- [x] `DoCheck`
-- [x] `OnDestroy`
-- [x] `AfterContentInit`
-- [x] `AfterContentChecked`
-- [x] `AfterViewInit`
-- [x] `AfterViewChecked`
+- [x] angular装饰器
+  - [x] [Component](https://www.angular.cn/api/core/Component)
+  - [ ] [Directive 不支持](https://www.angular.cn/api/core/Pipe)
+  - [x] [Pipe](https://www.angular.cn/api/core/Pipe)
+  - [x] [Injectable](https://www.angular.cn/api/core/NgModule)
+  - [x] [NgModule](https://www.angular.cn/api/core/NgModule)
+  - [x] [ContentChild](https://www.angular.cn/api/core/ContentChild)
+  - [x] [ContentChildren](https://www.angular.cn/api/core/ContentChildren)
+  - [x] [ViewChild](https://www.angular.cn/api/core/ViewChild)
+  - [x] [ViewChildren](https://www.angular.cn/api/core/ViewChildren)
+  - [x] [Input](https://www.angular.cn/api/core/Input)
+  - [x] [Output](https://www.angular.cn/api/core/Output)
+  - [x] [HostBinding](https://www.angular.cn/api/core/HostBinding)
+  - [x] [HostListener](https://www.angular.cn/api/core/HostListener)
+  - [x] [Host](https://www.angular.cn/api/core/Host)
+  - [x] [Inject](https://www.angular.cn/api/core/Inject)
+  - [x] [SkipSelf](https://www.angular.cn/api/core/SkipSelf)
+  - [x] [Self](https://www.angular.cn/api/core/Self)
+  - [x] [Optional](https://www.angular.cn/api/core/Optional)
+  - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
+- [x] 新增装饰器
+  - [x] `Page` 页面
+  - [x] `Command` 命令行
+  - [x] `Option` 命令参数
+  - [x] `It` 测试
+  - [x] `Get` 发送`get`请求
+  - [x] `Post` 发送`post`请求
+- [x] 生命周期
+  - [x] `OnInit`
+  - [x] `DoCheck`
+  - [x] `OnDestroy`
+  - [x] `AfterContentInit`
+  - [x] `AfterContentChecked`
+  - [x] `AfterViewInit`
+  - [x] `AfterViewChecked`
 
 ### [nger-platform-test](./packages/nger-platform-test)
 > 用于启动测试
