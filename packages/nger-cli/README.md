@@ -1,11 +1,9 @@
 # `nger-cli`
 
-> TODO: description
+> 命令行工具
 
 ## Usage
 
 ```
-const ngerCli = require('nger-cli');
-
-// TODO: DEMONSTRATE API
+nger build --type h5|weapp|swap|ali|tt
 ```

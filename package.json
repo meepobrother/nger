@@ -2,7 +2,34 @@
   "name": "nger",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.13.1",
+    "@angular/common": "^7.2.13",
+    "@angular/compiler": "^7.2.13",
+    "@angular/core": "^7.2.13",
+    "@angular/language-service": "^7.2.13",
+    "@types/chai": "^4.1.7",
+    "@types/express": "^4.16.1",
+    "@types/fs-extra": "^5.0.5",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.6",
+    "@types/react": "^16.8.14",
+    "chai": "^4.2.0",
+    "express": "^4.16.4",
+    "fs-extra": "^7.0.1",
+    "mocha": "^6.1.4",
+    "react": "^16.8.6",
+    "ts-node": "^8.1.0",
+    "tsconfig-paths": "^3.8.0",
+    "tslib": "^1.9.3",
+    "typeorm": "^0.2.16",
     "typescript": "^3.4.4"
+  },
+  "dependencies": {
+    "canonical-path": "^1.0.0",
+    "dependency-graph": "^0.8.0",
+    "ims-decorator": "^1.0.67",
+    "rxjs": "^6.4.0"
+  },
+  "scripts": {
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register packages/**/__tests__/**/*.ts"
   }
 }
