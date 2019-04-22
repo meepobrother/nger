@@ -66,6 +66,15 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 ### [nger-platform-cli](./packages/nger-platform-cli)
 > 用于启动cli
 
+### [nger-platform-express](./packages/nger-platform-express)
+> express环境
+
+### [nger-platform-koa](./packages/nger-platform-koa)
+> express环境
+
+### [nger-platform-typeorm](./packages/nger-platform-typeorm)
+> typeorm环境
+
 ### [nger-platform-weapp](./packages/nger-platform-weapp)
 > 小程序运行
 
