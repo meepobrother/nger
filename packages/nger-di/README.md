@@ -1,11 +1,3 @@
-# `nger-di`
+# nger-di
+> 依赖注入实现
 
-> TODO: description
-
-## Usage
-
-```
-const ngerDi = require('nger-di');
-
-// TODO: DEMONSTRATE API
-```

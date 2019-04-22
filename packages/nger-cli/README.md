@@ -5,5 +5,5 @@
 ## Usage
 
 ```
-nger build --type h5|weapp|swap|ali|tt
+nger build h5|weapp|swap|ali|tt --watch
 ```
