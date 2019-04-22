@@ -7,4 +7,4 @@ import { HomePage } from './template/admin/home/home';
         HomePage
     ]
 })
-export class NgerPc { }
+export class NgerAdmin { }
