@@ -14,6 +14,8 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 - [ ] 字节跳动小程序 `yarn cli build tt`
 - [ ] 初始化 `yarn cli init demo`
 
+### [nger-core](./packages/nger-core)
+- [x] angular装饰器实现
 
 
 ### @Page
