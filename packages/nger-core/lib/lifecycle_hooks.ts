@@ -2,7 +2,6 @@ export interface SimpleChange {
     previousValue: any;
     currentValue: any;
     firstChange: boolean;
-    constructor(previousValue: any, currentValue: any, firstChange: boolean);
     isFirstChange(): boolean;
 }
 export interface SimpleChanges {

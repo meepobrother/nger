@@ -1,6 +1,6 @@
-export interface Logger {
-    debug(...args: string[]): void;
-    info(...args: string[]): void;
-    warn(...args: string[]): void;
-    error(...args: string[]): void;
+export abstract class Logger {
+    abstract debug(...args: string[]): void;
+    abstract info(...args: string[]): void;
+    abstract warn(...args: string[]): void;
+    abstract error(...args: string[]): void;
 }
