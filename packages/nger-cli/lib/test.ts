@@ -3,14 +3,14 @@ import { ConsoleLogger, LogLevel } from 'nger-logger';
 import { join } from 'path';
 const root = process.cwd();
 @Command({
-    name: 'init <name>',
-    description: '初始化',
+    name: 'test',
+    description: '单元测试',
     example: {
-        command: 'nger init demo',
-        description: '初始化dmeo'
+        command: 'nger test',
+        description: '单元测试'
     }
 })
-export class InitCommand {
+export class TestCommand {
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
     name: string = '';
 

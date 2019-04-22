@@ -59,10 +59,11 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 ### [nger-platform-test](./packages/nger-platform-test)
 > 用于启动测试
 
-
 ### [nger-platform-cli](./packages/nger-platform-cli)
 > 用于启动cli
 
+### [nger-platform-weapp](./packages/nger-platform-weapp)
+> 小程序运行
 
 ### [nger-di](./packages/nger-di)
 > 依赖注入实现
@@ -77,7 +78,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 > 开发重点 nger-compiler 到 nger-di
 > 目标src目录中的文件，编译到各个平台，并运行。
 
-- [ ] 扫描项目目录，并记录每个文件导出的有装饰器装饰的类及名称
+- [ ] 扫描项目目录，并记录每个文件导出的有装饰器装饰的类及名称。
 - [ ] 根据运行目标，去掉没有用的或者可以去掉的一些内容，例如@It,@Command,@Option等
 
 ### @Page

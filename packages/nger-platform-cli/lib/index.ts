@@ -5,9 +5,7 @@ import chalk from 'chalk';
 import { join } from 'path';
 const pkg = require(join(__dirname, '../', 'package.json'))
 export class NgerPlatformCli {
-    constructor(public context: TypeContext) { }
-    run() {
-        const context = this.context;
+    run(context: TypeContext) {
         let _yargs = yargs;
         const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         _yargs = _yargs
