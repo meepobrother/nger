@@ -65,7 +65,6 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] Logger 接口
 - [x] ConsoleLogger Console实现
 
-
 ### 任务安排
 > 开发重点 nger-compiler 到 nger-di
 - [ ] 扫描项目目录，并记录每个文件导出的有装饰器装饰的类及名称
