@@ -43,7 +43,6 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
 * 新增装饰器
 - [x] Page
-- [x] Cli
 - [x] Command
 - [x] Option
 * 生命周期
