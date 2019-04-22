@@ -6,6 +6,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 ### [nger-cli](./packages/nger-cli)
 > 命令行工具
+
 - [ ] 手机h5 `yarn cli build h5`
 - [ ] pc网站 `yarn cli build pc`
 - [ ] 微信公众号 `yarn cli build wechat`
@@ -19,10 +20,11 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 ### [nger-core](./packages/nger-core)
 > 核心库
+
 * angular装饰器
 - [x] [Component](https://www.angular.cn/api/core/Component)
 - [ ] [Directive 不支持](https://www.angular.cn/api/core/Pipe)
-- [ ] [Pipe](https://www.angular.cn/api/core/Pipe)
+- [x] [Pipe](https://www.angular.cn/api/core/Pipe)
 - [x] [Injectable](https://www.angular.cn/api/core/NgModule)
 - [x] [NgModule](https://www.angular.cn/api/core/NgModule)
 - [x] [ContentChild](https://www.angular.cn/api/core/ContentChild)
@@ -53,8 +55,12 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] AfterViewInit
 - [x] AfterViewChecked
 
+### [nger-di](./packages/nger-di)
+> 依赖注入实现
+
 ### [nger-logger](./packages/nger-logger)
 > 带色打印工具
+
 - [x] Logger 接口
 - [x] ConsoleLogger Console实现
 
