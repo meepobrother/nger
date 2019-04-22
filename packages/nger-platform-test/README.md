@@ -1,11 +1,4 @@
 # `nger-platform-test`
 
-> TODO: description
+> 用于启动测试
 
-## Usage
-
-```
-const ngerPlatformTest = require('nger-platform-test');
-
-// TODO: DEMONSTRATE API
-```
