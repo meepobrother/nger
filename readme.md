@@ -56,6 +56,14 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] AfterViewInit
 - [x] AfterViewChecked
 
+### [nger-platform-test](./packages/nger-platform-test)
+> 用于启动测试
+
+
+### [nger-platform-cli](./packages/nger-platform-cli)
+> 用于启动cli
+
+
 ### [nger-di](./packages/nger-di)
 > 依赖注入实现
 
