@@ -6,12 +6,15 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 
 ### [nger-cli](./packages/nger-cli)
 > 命令行工具
-- [ ] angular小程序 `yarn cli build h5`
+- [ ] 手机h5 `yarn cli build h5`
+- [ ] pc网站 `yarn cli build pc`
 - [ ] 微信公众号 `yarn cli build wechat`
 - [ ] 微信小程序 `yarn cli build weapp`
 - [ ] 支付宝小程序 `yarn cli build alipay`
 - [ ] 百度智能小程序 `yarn cli build swap`
 - [ ] 字节跳动小程序 `yarn cli build tt`
+- [ ] ios客户端 `yarn cli build ios`
+- [ ] android客户端 `yarn cli build android`
 - [ ] 初始化 `yarn cli init demo`
 
 ### [nger-core](./packages/nger-core)
