@@ -72,7 +72,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 > 带色打印工具
 
 - [x] Logger 接口
-- [x] ConsoleLogger Console实现
+- [x] `ConsoleLogger` `Logger`的`console`实现
 
 ### 任务安排
 > 开发重点 nger-compiler 到 nger-di
