@@ -42,9 +42,10 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] [Optional](https://www.angular.cn/api/core/Optional)
 - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
 * 新增装饰器
-- [x] Page
-- [x] Command
-- [x] Option
+- [x] Page 页面
+- [x] Command 命令行
+- [x] Option 命令参数
+- [x] It 测试
 * 生命周期
 - [x] OnInit
 - [x] DoCheck
@@ -68,6 +69,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 > 开发重点 nger-compiler
 
 - [ ] 扫描项目目录，并记录每个文件导出的有装饰器装饰的类及名称
+- [ ] 根据运行目标，去掉没有用的或者可以去掉的一些内容，例如@It,@Command,@Option等
 ### @Page
 // TODO
 ```ts
