@@ -7,3 +7,4 @@ export * from './visitor';
 
 export * from './http/get';
 export * from './http/post';
+export * from './controller';

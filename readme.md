@@ -51,6 +51,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [x] `It` 单元测试
   - [x] `Get` 发送`get`请求
   - [x] `Post` 发送`post`请求
+  - [x] `Controller` Api层，用于后端
 - [x] 生命周期
   - [x] `OnInit`
   - [x] `DoCheck`
