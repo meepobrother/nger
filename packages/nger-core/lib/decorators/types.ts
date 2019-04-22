@@ -91,3 +91,89 @@ export interface ModuleWithProviders<T = any> {
 export interface SchemaMetadata {
     name: string;
 }
+
+
+export type UrlMatcher = (
+    segments: UrlSegment[],
+    group: UrlSegmentGroup,
+    route: Route
+) => UrlMatchResult;
+export type UrlMatchResult = {
+    consumed: UrlSegment[];
+    posParams?: {
+        [name: string]: UrlSegment;
+    };
+};
+export type Data = {
+    [name: string]: any;
+};
+export type ResolveData = {
+    [name: string]: any;
+};
+export type Routes = Route[];
+export declare type LoadChildrenCallback = () => Type<any> | Promise<Type<any>> | Observable<Type<any>>;
+export type LoadChildren = string | LoadChildrenCallback;
+export declare type Params = {
+    [key: string]: any;
+};
+export abstract class ActivatedRouteSnapshot {
+    url: UrlSegment[];
+    params: Params;
+    queryParams: Params;
+    fragment: string;
+    data: Data;
+    outlet: string;
+    component: Type<any> | string | null;
+    readonly routeConfig: Route | null;
+    readonly root: ActivatedRouteSnapshot;
+    readonly parent: ActivatedRouteSnapshot | null;
+    readonly firstChild: ActivatedRouteSnapshot | null;
+    readonly children: ActivatedRouteSnapshot[];
+    readonly pathFromRoot: ActivatedRouteSnapshot[];
+    readonly paramMap: ParamMap;
+    readonly queryParamMap: ParamMap;
+    abstract toString(): string;
+}
+export declare type RunGuardsAndResolvers = 'pathParamsChange' | 'pathParamsOrQueryParamsChange' | 'paramsChange' | 'paramsOrQueryParamsChange' | 'always' | ((from: ActivatedRouteSnapshot, to: ActivatedRouteSnapshot) => boolean);
+
+export interface Route {
+    path?: string;
+    pathMatch?: string;
+    matcher?: UrlMatcher;
+    component?: Type<any>;
+    redirectTo?: string;
+    outlet?: string;
+    canActivate?: any[];
+    canActivateChild?: any[];
+    canDeactivate?: any[];
+    canLoad?: any[];
+    data?: Data;
+    resolve?: ResolveData;
+    children?: Routes;
+    loadChildren?: LoadChildren;
+    runGuardsAndResolvers?: RunGuardsAndResolvers;
+}
+export abstract class UrlSegmentGroup {
+    segments: UrlSegment[];
+    children: {
+        [key: string]: UrlSegmentGroup;
+    };
+    parent: UrlSegmentGroup | null;
+    abstract hasChildren(): boolean;
+    readonly numberOfChildren: number;
+    abstract toString(): string;
+}
+export interface ParamMap {
+    has(name: string): boolean;
+    get(name: string): string | null;
+    getAll(name: string): string[];
+    readonly keys: string[];
+}
+export abstract class UrlSegment {
+    readonly parameterMap: ParamMap;
+    path: string;
+    parameters: {
+        [name: string]: string;
+    };
+    abstract toString(): string;
+}
