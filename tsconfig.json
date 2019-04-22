@@ -8,15 +8,30 @@
     ],
     "jsx": "preserve",
     "importHelpers": true,
-    "strict": true,
+    "strict": false,
+    "strictBindCallApply": false,
+    "strictFunctionTypes": false,
+    "stripInternal": false,
     "moduleResolution": "node",
-    "strictPropertyInitialization": false,
-    "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "allowUnusedLabels": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
+    "suppressImplicitAnyIndexErrors": true,
     "baseUrl": "./",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strictPropertyInitialization": true,
+    "noImplicitThis": false,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true,
+    "noErrorTruncation": true,
+    "noImplicitUseStrict": true,
+    "emitBOM": false,
     "paths": {
       "nger-core": [
         "packages/nger-core/lib/index.ts"
@@ -26,6 +41,15 @@
       ],
       "nger-components": [
         "packages/nger-components/lib/index.ts"
+      ],
+      "@angular/compiler": [
+        "packages/angular-compiler/lib/compiler.ts"
+      ],
+      "@angular/compiler/src/*": [
+        "packages/angular-compiler/lib/*"
+      ],
+      "@angular/core": [
+        "packages/angular-core/lib/core.ts"
       ]
     },
     "typeRoots": [

@@ -149,7 +149,7 @@ Component({
 <ng-template wx:for="items" wx:for-item="it" wx:for-index="i"></ng-template>
 ```
 
-## 多平台SDK统计接口
+## 多平台SDK统一接口
 
 ```ts
 
