@@ -43,18 +43,20 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] [Optional](https://www.angular.cn/api/core/Optional)
 - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
 * 新增装饰器
-- [x] Page 页面
-- [x] Command 命令行
-- [x] Option 命令参数
-- [x] It 测试
+- [x] `Page` 页面
+- [x] `Command` 命令行
+- [x] `Option` 命令参数
+- [x] `It` 测试
+- [x] `Get` 发送`get`请求
+- [x] `Post` 发送`post`请求
 * 生命周期
-- [x] OnInit
-- [x] DoCheck
-- [x] OnDestroy
-- [x] AfterContentInit
-- [x] AfterContentChecked
-- [x] AfterViewInit
-- [x] AfterViewChecked
+- [x] `OnInit`
+- [x] `DoCheck`
+- [x] `OnDestroy`
+- [x] `AfterContentInit`
+- [x] `AfterContentChecked`
+- [x] `AfterViewInit`
+- [x] `AfterViewChecked`
 
 ### [nger-platform-test](./packages/nger-platform-test)
 > 用于启动测试

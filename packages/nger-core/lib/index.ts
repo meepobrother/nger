@@ -4,3 +4,6 @@ export * from './cli/command'
 export * from './cli/option'
 export * from './it';
 export * from './visitor';
+
+export * from './http/get';
+export * from './http/post';
