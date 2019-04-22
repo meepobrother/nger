@@ -6,6 +6,7 @@
   "homepage": "https://github.com/meepobrother/nger#readme",
   "license": "ISC",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "bin": {
     "nger": "lib/bin.js"
   },

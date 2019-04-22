@@ -44,6 +44,12 @@
       ],
       "nger-components": [
         "packages/nger-components/lib/index.ts"
+      ],
+      "nger-platform-cli": [
+        "packages/nger-platform-cli/lib/index.ts"
+      ],
+      "nger-platform-test": [
+        "packages/nger-platform-test/lib/index.ts"
       ]
     },
     "typeRoots": [

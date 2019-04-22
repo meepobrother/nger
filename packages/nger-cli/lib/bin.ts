@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { visitor } from 'nger-core';
-import { NgerCli, bootstrap } from './index';
+import { NgerCli } from './index';
+import { NgerPlatformCli } from 'nger-platform-cli';
 const context = visitor.visitType(NgerCli);
-bootstrap(context);
+new NgerPlatformCli(context).run();

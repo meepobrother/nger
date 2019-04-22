@@ -1,6 +1,5 @@
 export * from './build'
 export * from './init'
-export * from './bootstrap'
 
 import { BuildCommand } from './build'
 import { InitCommand } from './init'
