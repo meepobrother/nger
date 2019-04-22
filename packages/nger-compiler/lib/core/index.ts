@@ -33,26 +33,25 @@ export {
     MethodCall, SafeMethodCall, FunctionCall, ASTWithSource,
     TemplateBinding,
 }
-
 interface TransformHtmlResult {
     type: string;
     props: any;
     children: TransformHtmlResult[];
 }
 export type ITransformVisitor = Visitor<TransformHtmlResult | void>;
-export class NullTransformVisitor implements ITransformVisitor {
-    visit(node: Node) { }
-    visitElement(element: Element) { }
-    visitTemplate(template: Template) { }
-    visitContent(content: Content) { }
-    visitVariable(variable: Variable) { }
-    visitReference(reference: Reference) { }
-    visitTextAttribute(attribute: TextAttribute) { }
-    visitBoundAttribute(attribute: BoundAttribute) { }
-    visitBoundEvent(attribute: BoundEvent) { }
-    visitText(text: Text) { }
-    visitBoundText(text: BoundText) { }
-    visitIcu(icu: Icu) { }
+export class NullTransformHtmlVisitor implements ITransformVisitor {
+    visit(node: Node, context?: any) { }
+    visitElement(element: Element, context?: any) { }
+    visitTemplate(template: Template, context?: any) { }
+    visitContent(content: Content, context?: any) { }
+    visitVariable(variable: Variable, context?: any) { }
+    visitReference(reference: Reference, context?: any) { }
+    visitTextAttribute(attribute: TextAttribute, context?: any) { }
+    visitBoundAttribute(attribute: BoundAttribute, context?: any) { }
+    visitBoundEvent(attribute: BoundEvent, context?: any) { }
+    visitText(text: Text, context?: any) { }
+    visitBoundText(text: BoundText, context?: any) { }
+    visitIcu(icu: Icu, context?: any) { }
 }
 
 export class TransformHtmlVisitor implements ITransformVisitor {

@@ -1,5 +1,5 @@
-import { NullTransformVisitor, Template } from '../../core'
-export class NgIfVisitor extends NullTransformVisitor {
+import { NullTransformHtmlVisitor, Template } from '../../core'
+export class NgIfVisitor extends NullTransformHtmlVisitor {
     visitTemplate(template: Template) {
         return {
             type: template.tagName,

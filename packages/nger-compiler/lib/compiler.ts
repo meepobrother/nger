@@ -3,7 +3,7 @@ import { NgModuleClassAst, NgModuleMetadataKey, PageMetadataKey, PageClassAst, T
 import fs from 'fs-extra';
 import { join, dirname } from 'path';
 import { parseTemplate } from '@angular/compiler';
-import { templateVisitor } from './template'
+// import { templateVisitor } from './template';
 export function compiler(App: Type<any>, outputPath: string) {
     const context = visitor.visitType(App);
     const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
@@ -32,7 +32,7 @@ export function compiler(App: Type<any>, outputPath: string) {
             templateCode = def.template;
         }
         const { nodes } = parseTemplate(templateCode, ``);
-        fs.writeFileSync(outputFile + '.wxml', nodes.map(node => node.visit(templateVisitor)).join('\n'))
+        fs.writeFileSync(outputFile + '.wxml', ``)
         fs.writeFileSync(outputFile + '.wxss', ``)
     });
     // 输出目录
