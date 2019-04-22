@@ -46,12 +46,12 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
 - [x] 新增装饰器
   - [x] `Page` 页面
-  - [x] `Command` 命令行
-  - [x] `Option` 命令参数
-  - [x] `It` 单元测试
-  - [x] `Get` 发送`get`请求
-  - [x] `Post` 发送`post`请求
-  - [x] `Controller` Api层，用于后端
+  - [x] `Command` (可选)命令行
+  - [x] `Option` (可选)命令参数
+  - [x] `It` (可选)单元测试
+  - [x] `Get` (可选)发送`get`请求
+  - [x] `Post` (可选)发送`post`请求
+  - [x] `Controller` (可选)Api层，用于后端
 - [x] 生命周期
   - [x] `OnInit`
   - [x] `DoCheck`
