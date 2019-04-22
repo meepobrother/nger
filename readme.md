@@ -4,50 +4,17 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 
 ## 开发计划及大体思路
 
-### cli 
+### [nger-cli](./packages/nger-cli)
 
-* 构建h5 angular小程序
-```s
-yarn cli build h5
-```
-* 构建微信公众号
-```s
-yarn cli build wechat
-```
-* 构建微信小程序
-```s
-yarn cli build weapp
-```
-* 构建支付宝小程序
-```s
-yarn cli build alipay
-```
-* 构建百度智能小程序
-```s
-yarn cli build swap
-```
-* 构建字节跳动小程序
-```s
-yarn cli build tt
-```
-* 初始化demo
-```s
-yarn cli init demo
-```
+- [ ] angular小程序 `yarn cli build h5`
+- [ ] 微信公众号 `yarn cli build wechat`
+- [ ] 微信小程序 `yarn cli build weapp`
+- [ ] 支付宝小程序 `yarn cli build alipay`
+- [ ] 百度智能小程序 `yarn cli build swap`
+- [ ] 字节跳动小程序 `yarn cli build tt`
+- [ ] 初始化 `yarn cli init demo`
 
-TODO
-```ts
-// 项目打包
-// h5 angular小程序
-// weapp 微信小程序
-// wechat 微信公众号
-// alipay 支付宝小程序
-// swap 百度小程序
-// tt 字节跳动小程序
-nger build --type h5|weapp|alpay|swap|tt --watch
-// 项目初始化
-nger init
-```
+
 
 ### @Page
 // TODO
