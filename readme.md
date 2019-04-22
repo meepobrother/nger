@@ -44,6 +44,14 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 - [x] Cli
 - [x] Command
 - [x] Option
+* 生命周期
+- [x] OnInit
+- [x] DoCheck
+- [x] OnDestroy
+- [x] AfterContentInit
+- [x] AfterContentChecked
+- [x] AfterViewInit
+- [x] AfterViewChecked
 
 ### [nger-logger](./packages/nger-logger)
 > 带色打印工具
