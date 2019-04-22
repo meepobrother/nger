@@ -1,6 +1,10 @@
 import { NgModule } from 'nger-core'
-/** 管理端 */
+import { HomePage } from './template/admin/home/home';
+
+/** Pc端 */
 @NgModule({
-    declarations: []
+    declarations: [
+        HomePage
+    ]
 })
 export class NgerPc { }

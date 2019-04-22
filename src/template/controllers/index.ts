@@ -6,7 +6,6 @@ import { Get, Post, Controller } from 'nger-core'
 export class NgerUserController {
     @Get()
     userInfo: () => Promise<any>;
-
     @Post()
     setUserInfo: (username: string, age: number) => Promise<any>;
 }
