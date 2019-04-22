@@ -83,7 +83,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] 搜集配置信息生成`json`文件
 - [ ] 编译`html`生成`wxml`文件
 - [ ] 编译`scss`/`less`/`styl`生成`wxss`文件
-
+- [ ] 编译生成`js`文件
 ### @Page
 // TODO
 ```ts
