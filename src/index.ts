@@ -6,4 +6,4 @@ import { HomePage } from './pages/home/home'
         HomePage
     ]
 })
-export class App { }
+export default class App { }
