@@ -15,12 +15,12 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 - [ ] 初始化 `yarn cli init demo`
 
 ### [nger-core](./packages/nger-core)
-- [x] Component 组件装饰器
-- [x] Directive 指令装饰器
-- [x] Pipe 过滤装饰器
-- [x] Page 页面装饰器
-- [x] Injectable 可注装饰器
-- [x] NgModule 模块装饰器
+* angular装饰器
+- [x] Component
+- [x] Directive
+- [x] Pipe
+- [x] Injectable
+- [x] NgModule
 - [x] ContentChild
 - [x] ContentChildren
 - [x] ViewChild
@@ -35,6 +35,8 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 - [x] Self
 - [x] Optional
 - [x] Attribute
+* 新增装饰器
+- [x] Page
 - [x] Cli
 - [x] Command
 - [x] Option
