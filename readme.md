@@ -20,25 +20,25 @@ vue、react相继都有了小程序的开发框架，作为ng粉，也该为社�
 ### [nger-core](./packages/nger-core)
 > 核心库
 * angular装饰器
-- [x] Component
-- [ ] Directive 暂时移除
-- [ ] Pipe 暂时移除
-- [x] Injectable
-- [x] NgModule
-- [x] ContentChild
-- [x] ContentChildren
-- [x] ViewChild
-- [x] ViewChildren
-- [x] Input
-- [x] Output
-- [x] HostBinding
-- [x] HostListener
-- [x] Host
-- [x] Inject
-- [x] SkipSelf
-- [x] Self
-- [x] Optional
-- [x] Attribute
+- [x] [Component](https://www.angular.cn/api/core/Component)
+- [ ] [Directive 不支持](https://www.angular.cn/api/core/Pipe)
+- [ ] [Pipe](https://www.angular.cn/api/core/Pipe)
+- [x] [Injectable](https://www.angular.cn/api/core/NgModule)
+- [x] [NgModule](https://www.angular.cn/api/core/NgModule)
+- [x] [ContentChild](https://www.angular.cn/api/core/ContentChild)
+- [x] [ContentChildren](https://www.angular.cn/api/core/ContentChildren)
+- [x] [ViewChild](https://www.angular.cn/api/core/ViewChild)
+- [x] [ViewChildren](https://www.angular.cn/api/core/ViewChildren)
+- [x] [Input](https://www.angular.cn/api/core/Input)
+- [x] [Output](https://www.angular.cn/api/core/Output)
+- [x] [HostBinding](https://www.angular.cn/api/core/HostBinding)
+- [x] [HostListener](https://www.angular.cn/api/core/HostListener)
+- [x] [Host](https://www.angular.cn/api/core/Host)
+- [x] [Inject](https://www.angular.cn/api/core/Inject)
+- [x] [SkipSelf](https://www.angular.cn/api/core/SkipSelf)
+- [x] [Self](https://www.angular.cn/api/core/Self)
+- [x] [Optional](https://www.angular.cn/api/core/Optional)
+- [x] [Attribute](https://www.angular.cn/api/core/Attribute)
 * 新增装饰器
 - [x] Page
 - [x] Cli
