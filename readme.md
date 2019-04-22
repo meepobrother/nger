@@ -142,3 +142,10 @@ Component({
 <!-- to -->
 <ng-template wx:for="items" wx:for-item="it" wx:for-index="i"></ng-template>
 ```
+
+## 多平台SDK统计接口
+
+```ts
+
+```
+
