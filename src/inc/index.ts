@@ -16,7 +16,7 @@ export class IndexController {
     }
 
     @Post()
-    saveUserInfo(username: string, age: number) {
+    setUserInfo(username: string, age: number) {
         this.info = {
             username,
             age
