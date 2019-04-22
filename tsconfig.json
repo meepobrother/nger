@@ -59,7 +59,8 @@
     "emitDecoratorMetadata": true
   },
   "include": [
-    "packages"
+    "packages",
+    "src"
   ],
   "exclude": [
     "node_modules"

@@ -4,14 +4,10 @@ export * from './bootstrap'
 
 import { BuildCommand } from './build'
 import { InitCommand } from './init'
-import { Cli } from 'nger-core'
-import { join } from 'path';
-const pkg = require(join(__dirname, '../', 'package.json'));
+import { NgModule } from 'nger-core'
 
-@Cli({
-    name: 'nger cli',
-    version: pkg.version,
-    commands: [
+@NgModule({
+    providers: [
         BuildCommand,
         InitCommand
     ]

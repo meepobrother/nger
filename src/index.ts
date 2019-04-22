@@ -1,1 +1,6 @@
-import { Provider, ModuleWithProviders, SchemaMetadata } from '@angular/core';
+import { NgModule } from 'nger-core';
+
+@NgModule({
+    imports: []
+})
+export class App { }

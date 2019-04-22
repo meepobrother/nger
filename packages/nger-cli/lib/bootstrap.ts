@@ -1,15 +1,16 @@
 
 import { TypeContext } from "ims-decorator";
-import { CommandMetadataKey, CommandClassAst, OptionMetadataKey, OptionPropertyAst, OptionOptions, CliMetadataKey, CliClassAst, visitor } from "nger-core";
+import { CommandMetadataKey, CommandClassAst, OptionMetadataKey, OptionPropertyAst, OptionOptions, visitor, NgModuleClassAst, NgModuleMetadataKey, isCommandClassAst } from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
+import { join } from 'path';
 
+const pkg = require(join(__dirname, '../', 'package.json'))
 export function bootstrap(context: TypeContext) {
     let _yargs = yargs;
-    const cli = context.getClass(CliMetadataKey) as CliClassAst;
-    const cliDef = cli.ast.metadataDef;
+    const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
     _yargs = _yargs
-        .usage(`欢迎使用${cliDef.name || 'IMS'} ${cliDef.version || '1.0.0'}`)
+        .usage(`欢迎使用nger ${pkg.version || '1.0.0'}`)
         .help('h')
         .alias('h', 'help')
         .describe('help', '查看帮助信息')
@@ -20,9 +21,8 @@ export function bootstrap(context: TypeContext) {
 
     _yargs.example(`ims -h`, `查看所有命令及使用详情`);
     _yargs.example(`ims -v`, `查看版本号`);
-    if (cliDef.commands) {
-        cliDef.commands.map(cmd => {
-            const context = visitor.visitType(cmd);
+    if (ngModule._providers) {
+        ngModule._providers.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
             const command = context.getClass(CommandMetadataKey) as CommandClassAst;
             if (!!command) {
                 const options = context.getProperty(OptionMetadataKey) as OptionPropertyAst[];

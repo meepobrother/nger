@@ -10,7 +10,6 @@ import {
     MethodCall, SafeMethodCall, FunctionCall, ASTWithSource,
     TemplateBinding,
 } from '@angular/compiler/src/expression_parser/ast'
-
 export {
     AST, Quote, AstVisitor, NullAstVisitor, RecursiveAstVisitor,
     AstTransformer, AstMemoryEfficientTransformer, visitAstChildren,

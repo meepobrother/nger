@@ -1,4 +1,4 @@
-import { NullAstVisitor, ClassAst, Visitors, ParserAstContext, ConstructorAst, PropertyAst } from 'ims-decorator';
+import { NullAstVisitor, ClassAst, Visitors, ParserAstContext, ConstructorAst, PropertyAst, MethodAst } from 'ims-decorator';
 import {
     // classes
     isComponentClassAst, ComponentClassAst,
@@ -24,14 +24,11 @@ import {
     InjectConstructorAst, OptionalConstructorAst,
     SkipSelfConstructorAst, AttributeConstructorAst,
 } from './decorators/public_api'
-import { isCliClassAst, CliClassAst } from './cli/cli'
 import { isCommandClassAst, CommandClassAst } from './cli/command'
 import { isOptionPropertyAst, OptionPropertyAst } from './cli/option'
+import { isItMethodAst, ItMethodAst } from './it'
 export class NgVisitor extends NullAstVisitor {
     visitClass(ast: ClassAst, context: ParserAstContext) {
-        if (isCliClassAst(ast)) {
-            return new CliClassAst(ast, context)
-        }
         if (isCommandClassAst(ast)) {
             return new CommandClassAst(ast, context)
         }
@@ -101,6 +98,11 @@ export class NgVisitor extends NullAstVisitor {
         }
         if (isHostListenerPropertyAst(ast)) {
             return new HostListenerPropertyAst(ast, context)
+        }
+    }
+    visitMethod(ast: MethodAst, context: ParserAstContext) {
+        if (isItMethodAst(ast)) {
+            return new ItMethodAst(ast, context)
         }
     }
 }
