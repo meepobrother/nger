@@ -3,6 +3,9 @@ import { Observable } from 'rxjs';
 export interface Type<T> extends Function {
     new(...args: any[]): T;
 }
+export function isType<T>(val: any): val is Type<T> {
+    return typeof val === 'function';
+}
 export enum ChangeDetectionStrategy {
     OnPush = 0,
     Default = 1

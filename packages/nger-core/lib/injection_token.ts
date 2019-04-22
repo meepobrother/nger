@@ -40,10 +40,13 @@ export interface InjectableDef<T> {
 export class InjectionToken<T> {
     readonly ngMetadataName = 'InjectionToken';
     readonly ngInjectableDef: InjectableDef<T> | undefined;
-    constructor(protected _desc: string, options?: {
-        providedIn?: Type<any> | 'root' | null,
-        factory: () => T
-    }) {
+    constructor(
+        protected _desc: string,
+        options?: {
+            providedIn?: Type<any> | 'root' | null,
+            factory: () => T
+        }
+    ) {
         this.ngInjectableDef = undefined;
         if (typeof options == 'number') {
             (this as any).__NG_ELEMENT_ID__ = options;
