@@ -66,6 +66,52 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [x] [Self](https://www.angular.cn/api/core/Self)
   - [x] [Optional](https://www.angular.cn/api/core/Optional)
   - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
+- [x] typeorm装饰器
+  - [x] entity
+    - [x] ChildEntity
+    - [x] Entity
+    - [x] TableInheritance
+  - [x] columns
+    - [x] Column
+    - [x] CreateDateColumn
+    - [x] ObjectIdColumn
+    - [x] PrimaryColumn
+    - [x] PrimaryGeneratedColumn
+    - [x] UpdateDateColumn
+    - [x] VersionColumn
+  - [x] listeners
+    - [x] AfterInsert
+    - [x] AfterLoad
+    - [x] AfterRemove
+    - [x] AfterUpdate
+    - [x] BeforeInsert
+    - [x] BeforeRemove
+    - [x] BeforeUpdate
+    - [x] EventSubscriber
+  - [x] relations
+    - [x] JoinColumn
+    - [x] JoinTable
+    - [x] ManyToMany
+    - [x] ManyToOne
+    - [x] OneToMany
+    - [x] OneToOne
+    - [x] RelationCount
+    - [x] RelationId
+  - [x] transaction
+    - [x] Transaction
+    - [x] TransactionManager
+    - [x] TransactionRepository
+  - [x] tree
+    - [x] Tree
+    - [x] TreeChildren
+    - [x] TreeLevelColumn
+    - [x] TreeParent
+  - [x] other
+    - [x] Check
+    - [x] EntityRepository
+    - [x] Exclusion
+    - [x] Generated
+    - [x] Unique
 - [x] 新增装饰器
   - [x] `Page` 页面
   - [x] `Command` (可选)命令行
