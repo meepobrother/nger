@@ -3,11 +3,11 @@
 > 跑腿接单、派单、实时监控跑腿位置，路线规划。
 
 ### 目录说明
-
-* inc 存放后台api
-* template 存放模板
-* typeorm 存放数据库
-* admin.ts pc端模块
-* app.ts mobile端模块
-* server.ts 服务端api模块
-
+- [src 当前开发目录](./)
+  - [inc Controller存放目录](./inc)
+  - [template 模板源码](./template)
+  - [typeorm 数据库相关](./typeorm)
+  - [admin.ts 后台管理入口](./admin.ts)
+  - [app.ts 手机端管理入口](./app.ts)
+  - [server.ts 服务端入口](./server.ts)
+  - [package.json 模块信息](./package.json)
