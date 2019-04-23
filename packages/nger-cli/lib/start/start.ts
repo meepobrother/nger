@@ -4,17 +4,12 @@ import { createServer } from 'http';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
 import Koa from 'koa';
 import hapi from 'hapi';
-
+import { NgerExpress } from './express'
 export class NgerStart {
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
     /** express */
     express(context: TypeContext) {
-        const app = express();
-        const server = createServer(app)
-        const port = context.get(`port`);
-        server.listen(port, () => {
-            this.logger.info(`app start at http://localhost:${port}`)
-        });
+        new NgerExpress().run(context)
     }
     /** koa */
     koa(context: TypeContext) {

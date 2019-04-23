@@ -13,7 +13,7 @@ import { NgerStart } from './start/public_api'
 })
 export class StartCommand {
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
-    type: 'express' | 'koa' | 'hapi' = 'hapi';
+    type: 'express' | 'koa' | 'hapi' = 'express';
 
     @Option({
         alias: 'p'
