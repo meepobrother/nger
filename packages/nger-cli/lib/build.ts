@@ -18,12 +18,20 @@ export class BuildCommand {
         alias: 'w'
     })
     watch: boolean = false;
+
+    getTypeContext() {
+        if (this.type === 'admin') {
+            const AppSource = join(root, 'src/admin')
+            return visitor.visitType(AppSource);
+        } else {
+            const AppSource = join(root, 'src/app')
+            return visitor.visitType(AppSource);
+        }
+    }
     run() {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`watching: ${!!this.watch}`);
-        const source = join(root, 'src/index')
-        const Addon = require(source).default;
-        const app = visitor.visitType(Addon);
+        const app = this.getTypeContext();
         app.set('watch', this.watch);
         app.set('platform', this.type);
         const build = new NgerCliBuild();

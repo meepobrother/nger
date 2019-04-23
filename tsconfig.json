@@ -53,6 +53,9 @@
       ],
       "nger-platform-express": [
         "packages/nger-platform-express/lib/index.ts"
+      ],
+      "nger-platform-koa": [
+        "packages/nger-platform-koa/lib/index.ts"
       ]
     },
     "typeRoots": [
