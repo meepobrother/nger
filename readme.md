@@ -25,11 +25,11 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 ## 命名规则
 
-- PropertyAst是属性装饰器节点,对应的有is**PropertyAst方法
-- ClassAst是类装饰器节点,对应的有is**ClassAst方法
-- MethodAst是方法装饰器节点,对应的有is**MethodAst方法
-- ControllerAst是构造装饰器节点,对应的有is**ControllerAst方法
-- Parameter是方法参数装饰器节点,对应的有is**ParameterAst方法
+- `**PropertyAst`是属性装饰器节点,对应的有`is**PropertyAst`方法
+- `**ClassAst`是类装饰器节点,对应的有`is**ClassAst`方法
+- `**MethodAst`是方法装饰器节点,对应的有`is**MethodAst`方法
+- `**ControllerAst`是构造装饰器节点,对应的有`is**ControllerAst`方法
+- `**Parameter`是方法参数装饰器节点,对应的有`is**ParameterAst`方法
 
 ## 开发进度
 
