@@ -4,7 +4,7 @@ import { join } from 'path';
 const root = process.cwd();
 import { NgerCliBuild } from './build/public_api'
 @Command({
-    name: 'build <type>',
+    name: 'build [type]',
     description: 'build h5|wechat|weapp|alipay|swap|tt',
     example: {
         command: 'nger build weapp --watch',
@@ -12,18 +12,12 @@ import { NgerCliBuild } from './build/public_api'
     }
 })
 export class BuildCommand {
-    type: 'h5' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' = 'h5';
+    type: 'h5' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin' = 'h5';
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
     @Option({
         alias: 'w'
     })
     watch: boolean = false;
-
-    @Option({
-        alias: 's'
-    })
-    server: 'koa' | 'express' = 'express';
-
     run() {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`watching: ${!!this.watch}`);
@@ -32,7 +26,6 @@ export class BuildCommand {
         const app = visitor.visitType(Addon);
         app.set('watch', this.watch);
         app.set('platform', this.type);
-        app.set('server', this.server);
         const build = new NgerCliBuild();
         switch (this.type) {
             case 'h5':
@@ -58,6 +51,9 @@ export class BuildCommand {
                 break;
             case 'ios':
                 build.ios(app)
+                break;
+            case 'admin':
+                build.admin(app);
                 break;
             default:
                 break;

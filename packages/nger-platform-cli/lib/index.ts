@@ -30,7 +30,6 @@ export class NgerPlatformCli {
                         .command(def.name, def.description, (args: Argv<any>) => {
                             options.map(option => {
                                 const def: OptionOptions = option.ast.metadataDef;
-                                console.log(option.ast.propertyType.name)
                                 const name = option.ast.propertyType.name;
                                 if (name === 'Boolean') {
                                     def.boolean = true;

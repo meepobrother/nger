@@ -17,8 +17,6 @@ export class NgerCliBuild {
     android(context: TypeContext) { }
     /** ios */
     ios(context: TypeContext) { }
-    /** express */
-    express(context: TypeContext) { }
-    /** koa */
-    koa(context: TypeContext) { }
+    /** 后台 */
+    admin(context: TypeContext) { }
 }
