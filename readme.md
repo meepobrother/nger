@@ -95,7 +95,48 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] 编译`html`生成`wxml`文件
 - [ ] 编译`scss`/`less`/`styl`生成`wxss`文件
 - [ ] 编译生成`js`文件
+
+
+## Controller
+> 客户端运行时需要编译器转码
+```ts
+import { Controller, Get, Post } from 'nger-core'
+@Controller({
+    path: '/'
+})
+export class IndexController {
+    info: any = {
+        username: 'nger',
+        age: 28
+    }
+    @Get()
+    userInfo() {
+        return this.info;
+    }
+    @Post()
+    setUserInfo(username: string, age: number) {
+        this.info = {
+            username,
+            age
+        }
+    }
+}
+// to
+import { Get, Post, Controller } from 'nger-core'
+@Controller({
+    path: '/'
+})
+export class NgerUserController {
+    @Get()
+    userInfo: () => Promise<any>;
+    @Post()
+    setUserInfo: (username: string, age: number) => Promise<any>;
+}
+```
+
+
 ### @Page
+
 // TODO
 ```ts
 @Page({
