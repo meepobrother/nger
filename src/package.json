@@ -1,4 +1,9 @@
 {
     "name": "nger-runner",
-    "version": "1.0"
+    "version": "1.0",
+    "nger:app": "app.js",
+    "nger:server": "server.js",
+    "nger:admin": "admin.js",
+    "main": "index.js",
+    "typings": "index.d.ts"
 }

@@ -36,6 +36,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] `yarn cli init`初始化
 - [ ] `yarn cli test`单元测试
 - [x] `yarn cli start`启动服务
+- [ ] `yarn cli publish`发布到当前src模块应用商城
 
 ### [nger-core](./packages/nger-core)
 > 核心库
