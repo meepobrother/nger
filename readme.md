@@ -3,12 +3,18 @@
 vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
 很遗憾，由于ng和小程序的差异性，我们暂时没打算直接把ng项目转换成小程序，而是用ng的一套思想（`依赖注入`、`装饰器`等）来规范开发小程序!已达到一套代码多平台运行。
 
-## 目录结构
+## 目录规范
 - [addons 第三方插件目录](./addon)
 - [attachment 附件目录](./attachment)
 - [config 配置目录](./config)
 - [data 数据目录,缓存，日志等](./data)
 - [src 当前开发目录](./src)
+  - [inc Controller存放目录](./src/inc)
+  - [template 模板源码](./src/template)
+  - [typeorm 数据库相关](./src/typeorm)
+  - [admin.ts 后台管理入口](./src/admin.ts)
+  - [app.ts 手机端管理入口](./src/app.ts)
+  - [server.ts 服务端入口](./src/server.ts)
 - [template 模板打包后存放目录](./template)
 
 ## 开发进度
