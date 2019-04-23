@@ -32,7 +32,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [ ] 字节跳动小程序 `yarn cli build tt`
   - [ ] ios客户端 `yarn cli build ios`
   - [ ] android客户端 `yarn cli build android`
-  - [ ] 初始化 `yarn cli init demo`
+- [ ] 初始化 `yarn cli init demo`
 - [ ] `yarn cli init`初始化
 - [ ] `yarn cli test`单元测试
 - [x] `yarn cli start`启动服务
