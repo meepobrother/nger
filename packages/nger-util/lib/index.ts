@@ -3,23 +3,23 @@ import { execSync } from 'child_process';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { ConsoleLogger } from 'nger-logger';
-const root = process.cwd()
 
 export interface IConfig {
     npm: 'cnpm' | 'npm' | 'yarn';
 }
 
 export class NgerUtil {
+    root: string = process.cwd()
     config: IConfig;
     constructor(public logger: ConsoleLogger) { }
     /** 加载配置文件 */
     loadConfig(): IConfig {
-        const configPath = join(root, 'config/config.json');
+        const configPath = join(this.root, 'config/config.json');
         if (this.config) {
             return this.config;
         }
         if (existsSync(configPath)) {
-            this.config = require(join(root, 'config/config.json'));
+            this.config = require(join(this.root, 'config/config.json'));
         }
         return this.config;
     }
@@ -71,7 +71,7 @@ export class NgerUtil {
     /** 执行命令 */
     execAsync(command: string) {
         return new Promise((resolve, reject) => {
-            exec(command, { cwd: root }, (code, stdout, stderr) => {
+            exec(command, { cwd: this.root }, (code, stdout, stderr) => {
                 if (!!stderr) {
                     reject(stderr);
                 } else {
