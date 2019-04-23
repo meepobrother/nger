@@ -15,6 +15,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [admin.ts 后台管理入口](./src/admin.ts)
   - [app.ts 手机端管理入口](./src/app.ts)
   - [server.ts 服务端入口](./src/server.ts)
+  - [package.json 模块信息](./src/package.json)
 - [template 模板打包后存放目录](./template)
 
 ## 开发进度
