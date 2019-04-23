@@ -9,4 +9,4 @@ export const ChildEntity = (discriminatorValue?: any) => makeDecorator<ChildEnti
 export function isChildEntityClassAst(val: ClassAst): val is ClassAst<ChildEntity> {
     return val.metadataKey === ChildEntityMetadataKey;
 }
-export class ChildEntityAst extends ClassContext<ChildEntity>{ }
+export class ChildEntityClassAst extends ClassContext<ChildEntity>{ }

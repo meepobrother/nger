@@ -16,4 +16,4 @@ export function JoinColumn(options?: any) {
 export function isJoinColumnPropertyAst(val: PropertyAst): val is PropertyAst<JoinColumn> {
     return val.metadataKey === JoinColumnMetadataKey;
 }
-export class JoinColumnAst extends PropertyContext<JoinColumn>{ }
+export class JoinColumnPropertyAst extends PropertyContext<JoinColumn>{ }

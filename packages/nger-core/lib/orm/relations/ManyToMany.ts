@@ -26,4 +26,4 @@ export function ManyToMany(typeFunction: any, inverseSide?: any, options?: any) 
 export function isManyToManyPropertyAst(val: PropertyAst): val is PropertyAst<ManyToMany> {
     return val.metadataKey === ManyToManyMetadataKey;
 }
-export class ManyToManyAst extends PropertyContext<ManyToMany>{ }
+export class ManyToManyPropertyAst extends PropertyContext<ManyToMany>{ }

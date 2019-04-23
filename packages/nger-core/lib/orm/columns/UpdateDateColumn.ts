@@ -6,4 +6,4 @@ export const UpdateDateColumn = makeDecorator<UpdateDateColumn>(UpdateDateColumn
 export function isUpdateDateColumnPropertyAst(val: PropertyAst): val is PropertyAst<UpdateDateColumn> {
     return val.metadataKey === UpdateDateColumnMetadataKey;
 }
-export class UpdateDateColumnAst extends PropertyContext<UpdateDateColumn>{ }
+export class UpdateDateColumnPropertyAst extends PropertyContext<UpdateDateColumn>{ }

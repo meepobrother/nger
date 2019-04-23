@@ -5,4 +5,4 @@ export const TransactionManager = () => makeDecorator<TransactionManager>(Transa
 export function isTransactionManagerParameterAst(val: ParameterAst): val is ParameterAst<TransactionManager> {
     return val.metadataKey === TransactionManagerMetadataKey;
 }
-export class TransactionManagerAst extends ParameterContext<TransactionManager>{ }
+export class TransactionManagerParameterAst extends ParameterContext<TransactionManager>{ }

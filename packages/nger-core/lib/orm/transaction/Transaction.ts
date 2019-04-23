@@ -14,4 +14,4 @@ export function Transaction(options?: any) {
 export function isTransactionMethodAst(val: MethodAst): val is MethodAst<Transaction> {
     return val.metadataKey === TransactionMetadataKey;
 }
-export class TransactionAst extends MethodContext<Transaction>{ }
+export class TransactionMethodAst extends MethodContext<Transaction>{ }

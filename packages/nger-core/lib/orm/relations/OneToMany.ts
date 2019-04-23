@@ -22,4 +22,4 @@ export const OneToMany = <T>(
 export function isOneToManyPropertyAst(val: PropertyAst): val is PropertyAst<OneToMany> {
     return val.metadataKey === OneToManyMetadataKey;
 }
-export class OneToManyAst extends PropertyContext<OneToMany>{ }
+export class OneToManyPropertyAst extends PropertyContext<OneToMany>{ }

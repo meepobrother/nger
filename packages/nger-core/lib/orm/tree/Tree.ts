@@ -10,4 +10,4 @@ export const Tree = (type: TreeType) => makeDecorator<TreeOptions>(TreeMetadataK
 export function isTreeClassAst(val: ClassAst): val is ClassAst<TreeOptions> {
     return val.metadataKey === TreeMetadataKey;
 }
-export class TreeAst extends ClassContext<TreeOptions>{ }
+export class TreeClassAst extends ClassContext<TreeOptions>{ }

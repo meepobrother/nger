@@ -20,4 +20,4 @@ export function JoinTable(options?: any) {
 export function isJoinTablePropertyAst(val: PropertyAst): val is PropertyAst<JoinTable> {
     return val.metadataKey === JoinTableMetadataKey;
 }
-export class JoinTableAst extends PropertyContext<JoinTable>{ }
+export class JoinTablePropertyAst extends PropertyContext<JoinTable>{ }

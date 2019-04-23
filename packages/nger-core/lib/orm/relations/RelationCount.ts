@@ -16,4 +16,4 @@ export const RelationCount = <T>(
 export function isRelationCountPropertyAst(val: PropertyAst): val is PropertyAst<RelationCount> {
     return val.metadataKey === RelationCountMetadataKey;
 }
-export class RelationCountAst extends PropertyContext<RelationCount>{ }
+export class RelationCountPropertyAst extends PropertyContext<RelationCount>{ }

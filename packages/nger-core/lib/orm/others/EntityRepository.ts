@@ -10,6 +10,6 @@ export const EntityRepository = (entity?: any) => makeDecorator<EntityRepository
 export function isEntityRepositoryPropertyAst(val: ClassAst): val is ClassAst<EntityRepositoryOptions> {
     return val.metadataKey === EntityRepositoryMetadataKey;
 }
-export class EntityRepositoryAst extends PropertyContext<EntityRepositoryOptions> { }
+export class EntityRepositoryPropertyAst extends PropertyContext<EntityRepositoryOptions> { }
 import { Repository } from 'typeorm';
 export type EntityRepository<T> = Repository<T>;

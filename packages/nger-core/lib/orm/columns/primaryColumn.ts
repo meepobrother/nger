@@ -6,4 +6,4 @@ export const PrimaryColumn = makeDecorator<PrimaryColumn>(PrimaryColumnMetadataK
 export function isPrimaryColumnPropertyAst(val: PropertyAst): val is PropertyAst<PrimaryColumn> {
     return val.metadataKey === PrimaryColumnMetadataKey;
 }
-export class PrimaryColumnAst extends PropertyContext<PrimaryColumn>{ }
+export class PrimaryColumnPropertyAst extends PropertyContext<PrimaryColumn>{ }

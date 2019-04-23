@@ -18,4 +18,4 @@ export const RelationId = <T>(
 export function isRelationIdPropertyAst(val: PropertyAst): val is PropertyAst<RelationId> {
     return val.metadataKey === RelationIdMetadataKey;
 }
-export class RelationIdAst extends PropertyContext<RelationId>{ }
+export class RelationIdPropertyAst extends PropertyContext<RelationId>{ }

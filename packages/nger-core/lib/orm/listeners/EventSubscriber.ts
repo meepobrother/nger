@@ -5,4 +5,4 @@ export const EventSubscriber = () => makeDecorator<EventSubscriber>(EventSubscri
 export function isEventSubscriberClassAst(val: ClassAst): val is ClassAst<EventSubscriber> {
     return val.metadataKey === EventSubscriberMetadataKey;
 }
-export class EventSubscriberAst extends ClassContext<EventSubscriber>{ }
+export class EventSubscriberClassAst extends ClassContext<EventSubscriber>{ }

@@ -9,4 +9,4 @@ export const TransactionRepository = (entityType?: Function) => makeDecorator<Tr
 export function isTransactionRepositoryParameterAst(val: ParameterAst): val is ParameterAst<TransactionRepository> {
     return val.metadataKey === TransactionRepositoryMetadataKey;
 }
-export class TransactionRepositoryAst extends ParameterContext<TransactionRepository>{ }
+export class TransactionRepositoryParameterAst extends ParameterContext<TransactionRepository>{ }

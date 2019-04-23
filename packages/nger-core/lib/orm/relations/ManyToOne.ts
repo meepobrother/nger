@@ -28,4 +28,4 @@ export function ManyToOne(typeFunction: any, inverseSide?: any, options?: any) {
 export function isManyToOnePropertyAst(val: PropertyAst): val is PropertyAst<ManyToOne> {
     return val.metadataKey === ManyToOneMetadataKey;
 }
-export class ManyToOneAst extends PropertyContext<ManyToOne>{ }
+export class ManyToOnePropertyAst extends PropertyContext<ManyToOne>{ }

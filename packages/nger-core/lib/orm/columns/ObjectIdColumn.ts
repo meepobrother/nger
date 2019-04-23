@@ -6,4 +6,4 @@ export const ObjectIdColumn = makeDecorator<ObjectIdColumn>(ObjectIdColumnMetada
 export function isObjectIdColumnPropertyAst(val: PropertyAst): val is PropertyAst<ObjectIdColumn> {
     return val.metadataKey === ObjectIdColumnMetadataKey;
 }
-export class ObjectIdColumnAst extends PropertyContext<ObjectIdColumn>{ }
+export class ObjectIdColumnPropertyAst extends PropertyContext<ObjectIdColumn>{ }

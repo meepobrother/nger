@@ -23,7 +23,7 @@ export function Unique(name: any, fields?: any) {
         name, fields
     });
 }
-export class UniqueAst extends PropertyContext<Unique>{ }
+export class UniquePropertyAst extends PropertyContext<Unique>{ }
 export function isUniquePropertyAst(val: PropertyAst): val is PropertyAst<Unique> {
     return val.metadataKey === UniqueMetadataKey;
 }

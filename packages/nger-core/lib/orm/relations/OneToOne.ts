@@ -26,4 +26,4 @@ export function OneToOne(typeFunction: any, inverseSide?: any, options?: any) {
 export function isOneToOnePropertyAst(val: PropertyAst): val is PropertyAst<OneToOne> {
     return val.metadataKey === OneToOneMetadataKey;
 }
-export class OneToOneAst extends PropertyContext<OneToOne>{ }
+export class OneToOnePropertyAst extends PropertyContext<OneToOne>{ }

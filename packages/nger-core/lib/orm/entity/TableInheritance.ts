@@ -9,4 +9,4 @@ export const TableInheritance = makeDecorator<TableInheritance>(TableInheritance
 export function isTableInheritanceClassAst(val: ClassAst): val is ClassAst<TableInheritance> {
     return val.metadataKey === TableInheritanceMetadataKey;
 }
-export class TableInheritanceAst extends ClassContext<TableInheritance>{ }
+export class TableInheritanceClassAst extends ClassContext<TableInheritance>{ }

@@ -6,4 +6,4 @@ export const PrimaryGeneratedColumn = makeDecorator<PrimaryGeneratedColumn>(Prim
 export function isPrimaryGeneratedColumnPropertyAst(val: PropertyAst): val is PropertyAst<PrimaryGeneratedColumn> {
     return val.metadataKey === PrimaryGeneratedColumnMetadataKey;
 }
-export class PrimaryGeneratedColumnAst extends PropertyContext<PrimaryGeneratedColumn>{ }
+export class PrimaryGeneratedColumnPropertyAst extends PropertyContext<PrimaryGeneratedColumn>{ }

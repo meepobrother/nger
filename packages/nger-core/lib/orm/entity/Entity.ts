@@ -9,4 +9,4 @@ export const Entity = makeDecorator<Entity>(EntityMetadataKey);
 export function isEntityClassAst(val: ClassAst): val is ClassAst<Entity> {
     return val.metadataKey === EntityMetadataKey;
 }
-export class EntityAst extends ClassContext<Entity>{ }
+export class EntityClassAst extends ClassContext<Entity>{ }

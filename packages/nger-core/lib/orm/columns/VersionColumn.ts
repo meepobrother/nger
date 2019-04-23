@@ -6,4 +6,4 @@ export const VersionColumn = makeDecorator<VersionColumn>(VersionColumnMetadataK
 export function isVersionColumnPropertyAst(val: PropertyAst): val is PropertyAst<VersionColumn> {
     return val.metadataKey === VersionColumnMetadataKey;
 }
-export class VersionColumnAst extends PropertyContext<VersionColumn>{ }
+export class VersionColumnPropertyAst extends PropertyContext<VersionColumn>{ }
