@@ -3,10 +3,17 @@ import { TypeContext } from 'ims-decorator';
 import express from 'express';
 import { createServer } from 'http';
 import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMetadataKey, GetMethodAst, PostMetadataKey, PostMethodAst } from 'nger-core';
+import { NgerUtil } from 'nger-util';
 export class NgerPlatformExpress {
-    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
-    run(context: TypeContext) {
-        const app = express();
+    logger: ConsoleLogger;
+    util: NgerUtil;
+    constructor() {
+        this.logger = new ConsoleLogger(LogLevel.debug)
+        this.util = new NgerUtil(this.logger);
+    }
+    async run(context: TypeContext) {
+        const exp = await this.util.loadPkg<typeof express>('express')
+        const app = exp();
         const server = createServer(app)
         const port = context.get(`port`);
         const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
@@ -36,7 +43,7 @@ export class NgerPlatformExpress {
                     }
                 })
             });
-        })
+        });
         server.listen(port, () => {
             this.logger.info(`app start at http://localhost:${port}`)
         });

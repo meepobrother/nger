@@ -64,22 +64,22 @@ export class NgVisitor extends NullAstVisitor {
     }
     visitConstructor(ast: ConstructorAst, context: ParserAstContext) {
         if (isHostConstructorAst(ast)) {
-            return new HostConstructorAst(ast, context)
+            return new HostConstructorAst(ast as any, context)
         }
         if (isSelfConstructorAst(ast)) {
-            return new SelfConstructorAst(ast, context)
+            return new SelfConstructorAst(ast as any, context)
         }
         if (isInjectConstructorAst(ast)) {
-            return new InjectConstructorAst(ast, context)
+            return new InjectConstructorAst(ast as any, context)
         }
         if (isOptionalConstructorAst(ast)) {
-            return new OptionalConstructorAst(ast, context)
+            return new OptionalConstructorAst(ast as any, context)
         }
         if (isSkipSelfConstructorAst(ast)) {
-            return new SkipSelfConstructorAst(ast, context)
+            return new SkipSelfConstructorAst(ast as any, context)
         }
         if (isAttributeConstructorAst(ast)) {
-            return new AttributeConstructorAst(ast, context)
+            return new AttributeConstructorAst(ast as any, context)
         }
     }
     visitProperty(ast: PropertyAst, context: ParserAstContext) {
