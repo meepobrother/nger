@@ -20,6 +20,10 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [ ] 初始化 `yarn cli init demo`
 - [ ] `yarn cli init`初始化
 - [ ] `yarn cli test`单元测试
+- [ ] `yarn cli start`启动服务
+  - [ ] `yarn cli start hapi` hapi引擎
+  - [ ] `yarn cli start express` express引擎
+  - [ ] `yarn cli start koa` koa引擎
 
 ### [nger-core](./packages/nger-core)
 > 核心库
@@ -60,33 +64,6 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [x] `AfterContentChecked`
   - [x] `AfterViewInit`
   - [x] `AfterViewChecked`
-
-### [nger-platform-test](./packages/nger-platform-test)
-> 用于启动测试
-
-### [nger-platform-cli](./packages/nger-platform-cli)
-> 用于启动cli
-
-### [nger-platform-express](./packages/nger-platform-express)
-> express环境
-
-### [nger-platform-koa](./packages/nger-platform-koa)
-> express环境
-
-### [nger-platform-typeorm](./packages/nger-platform-typeorm)
-> typeorm环境
-
-### [nger-platform-weapp](./packages/nger-platform-weapp)
-> 小程序运行
-
-### [nger-di](./packages/nger-di)
-> 依赖注入实现
-
-### [nger-logger](./packages/nger-logger)
-> 带色打印工具
-
-- [x] Logger 接口
-- [x] `ConsoleLogger` `Logger`的`console`实现
 
 ### 任务安排
 > 开发重点 nger-compiler 到 nger-di
@@ -236,3 +213,32 @@ Component({
 
 ```
 
+
+
+
+### [nger-platform-test](./packages/nger-platform-test)
+> 用于启动测试
+
+### [nger-platform-cli](./packages/nger-platform-cli)
+> 用于启动cli
+
+### [nger-platform-express](./packages/nger-platform-express)
+> express环境
+
+### [nger-platform-koa](./packages/nger-platform-koa)
+> express环境
+
+### [nger-platform-typeorm](./packages/nger-platform-typeorm)
+> typeorm环境
+
+### [nger-platform-weapp](./packages/nger-platform-weapp)
+> 小程序运行
+
+### [nger-di](./packages/nger-di)
+> 依赖注入实现
+
+### [nger-logger](./packages/nger-logger)
+> 带色打印工具
+
+- [x] Logger 接口
+- [x] `ConsoleLogger` `Logger`的`console`实现
