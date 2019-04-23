@@ -23,9 +23,9 @@ export class StartCommand {
     run() {
         this.logger.warn(`start ${this.type}`);
         const start = new NgerStart();
-        const source = join(root, 'src/index')
-        const Addon = require(source).default;
-        const app = visitor.visitType(Addon);
+        const source = join(root, 'src/server')
+        const serverSource = require(source).default;
+        const app = visitor.visitType(serverSource);
         app.set('port', this.port);
         switch (this.type) {
             case 'express':

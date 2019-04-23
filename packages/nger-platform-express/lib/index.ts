@@ -2,16 +2,14 @@ import { ConsoleLogger, LogLevel } from 'nger-logger';
 import { TypeContext } from 'ims-decorator';
 import express from 'express';
 import { createServer } from 'http';
-import { AddonMetadataKey, AddonClassAst, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMetadataKey, GetMethodAst, PostMetadataKey, PostMethodAst } from 'nger-core';
+import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMetadataKey, GetMethodAst, PostMetadataKey, PostMethodAst } from 'nger-core';
 export class NgerPlatformExpress {
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
     run(context: TypeContext) {
         const app = express();
         const server = createServer(app)
         const port = context.get(`port`);
-        const addon = context.getClass(AddonMetadataKey) as AddonClassAst;
-        const serverContext = addon.server;
-        const ngModule = serverContext.getClass(NgModuleMetadataKey) as NgModuleClassAst;
+        const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(declaration => {
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
             const gets = declaration.getMethod(GetMetadataKey) as GetMethodAst[];

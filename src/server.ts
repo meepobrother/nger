@@ -7,4 +7,4 @@ import { IndexController } from './inc';
     ],
     providers: []
 })
-export class NgerServer { }
+export default class NgerServer { }

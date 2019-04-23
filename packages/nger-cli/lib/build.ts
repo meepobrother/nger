@@ -21,10 +21,10 @@ export class BuildCommand {
 
     getTypeContext() {
         if (this.type === 'admin') {
-            const AppSource = join(root, 'src/admin')
+            const AppSource = require(join(root, 'src/admin')).default;
             return visitor.visitType(AppSource);
         } else {
-            const AppSource = join(root, 'src/app')
+            const AppSource = require(join(root, 'src/app')).default;
             return visitor.visitType(AppSource);
         }
     }

@@ -6,4 +6,4 @@ import { HomePage } from './template/mobile/home/home';
         HomePage
     ]
 })
-export class NgerApp { }
+export default class NgerApp { }
