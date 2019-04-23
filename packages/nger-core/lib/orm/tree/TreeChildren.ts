@@ -7,4 +7,4 @@ export const TreeChildren = makeDecorator<TreeChildren>(TreeChildrenMetadataKey)
 export function isTreeChildrenPropertyAst(val: PropertyAst): val is PropertyAst<TreeChildren> {
     return val.metadataKey === TreeChildrenMetadataKey;
 }
-export class TreeChildrenAst extends PropertyContext<TreeChildren>{ }
+export class TreeChildrenPropertyAst extends PropertyContext<TreeChildren>{ }

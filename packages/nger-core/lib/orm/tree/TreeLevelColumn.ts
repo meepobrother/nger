@@ -5,4 +5,4 @@ export const TreeLevelColumn = ()=>makeDecorator<TreeLevelColumn>(TreeLevelColum
 export function isTreeLevelColumnPropertyAst(val: PropertyAst): val is PropertyAst<TreeLevelColumn> {
     return val.metadataKey === TreeLevelColumnMetadataKey;
 }
-export class TreeLevelColumnAst extends PropertyContext<TreeLevelColumn>{ }
+export class TreeLevelColumnPropertyAst extends PropertyContext<TreeLevelColumn>{ }

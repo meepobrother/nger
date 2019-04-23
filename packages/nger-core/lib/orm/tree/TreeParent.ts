@@ -5,4 +5,4 @@ export const TreeParent = () => makeDecorator<TreeParent>(TreeParentMetadataKey)
 export function isTreeParentPropertyAst(val: PropertyAst): val is PropertyAst<TreeParent> {
     return val.metadataKey === TreeParentMetadataKey;
 }
-export class TreeParentAst extends PropertyContext<TreeParent>{ }
+export class TreeParentPropertyAst extends PropertyContext<TreeParent>{ }

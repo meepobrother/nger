@@ -125,11 +125,11 @@ export class NgVisitor extends NullAstVisitor {
         if (orm.isBeforeInsertPropertyAst(ast)) {
             return new orm.BeforeInsertPropertyAst(ast, context)
         }
-        if (orm.isBeforeRemovePropertyPropertyAst(ast)) {
-            return new orm.BeforeRemoveAst(ast, context)
+        if (orm.isBeforeRemovePropertyAst(ast)) {
+            return new orm.BeforeRemovePropertyAst(ast, context)
         }
-        if (orm.isBeforeUpdatePropertyPropertyAst(ast)) {
-            return new orm.BeforeUpdateAst(ast, context)
+        if (orm.isBeforeUpdatePropertyAst(ast)) {
+            return new orm.BeforeUpdatePropertyAst(ast, context)
         }
         // other
         if (orm.isEntityRepositoryPropertyAst(ast)) {

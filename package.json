@@ -46,6 +46,7 @@
   "scripts": {
     "test": "mocha -r ts-node/register -r tsconfig-paths/register packages/**/__tests__/**/*.ts",
     "ts": "ts-node -r tsconfig-paths/register",
-    "cli": "yarn ts packages/nger-cli/lib/bin.ts"
+    "cli": "yarn ts packages/nger-cli/lib/bin.ts",
+    "start": "yarn cli start koa"
   }
 }
