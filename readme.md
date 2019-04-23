@@ -24,6 +24,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [template 模板打包后存放目录](./template)
 
 ## 命名规则
+
 - PropertyAst是属性装饰器节点,对应的有is**PropertyAst方法
 - ClassAst是类装饰器节点,对应的有is**ClassAst方法
 - MethodAst是方法装饰器节点,对应的有is**MethodAst方法
