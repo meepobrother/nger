@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'nger-core';
 import { ImsUserGroup } from './user_group';
 // 用户表
 @Entity({

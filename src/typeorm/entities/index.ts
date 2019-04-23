@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn } from 'nger-core';
 
 @Entity({
     name: 'ims_demo'

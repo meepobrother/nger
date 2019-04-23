@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn } from 'nger-core';
 import { ImsUser } from './user';
 import { ImsGroup } from './group';
 // 用户角色表

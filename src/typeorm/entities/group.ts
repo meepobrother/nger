@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'nger-core';
 import { ImsGroupRole } from './group_role';
 // 角色表
 @Entity({
