@@ -1,15 +1,14 @@
 import { TypeContext } from 'ims-decorator';
-import express from 'express';
 import { createServer } from 'http';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
 import Koa from 'koa';
 import hapi from 'hapi';
-import { NgerExpress } from './express'
+import { NgerPlatformExpress } from 'nger-platform-express'
 export class NgerStart {
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
     /** express */
     express(context: TypeContext) {
-        new NgerExpress().run(context)
+        new NgerPlatformExpress().run(context)
     }
     /** koa */
     koa(context: TypeContext) {

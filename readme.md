@@ -22,7 +22,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] `yarn cli test`单元测试
 - [ ] `yarn cli start`启动服务
   - [ ] `yarn cli start hapi` hapi引擎
-  - [ ] `yarn cli start express` express引擎
+  - [x] `yarn cli start express` express引擎
   - [ ] `yarn cli start koa` koa引擎
 
 ### [nger-core](./packages/nger-core)

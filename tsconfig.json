@@ -50,6 +50,9 @@
       ],
       "nger-platform-test": [
         "packages/nger-platform-test/lib/index.ts"
+      ],
+      "nger-platform-express": [
+        "packages/nger-platform-express/lib/index.ts"
       ]
     },
     "typeRoots": [
