@@ -1,8 +1,8 @@
 import { Injectable } from 'nger-core'
-import { NgerUserController } from '../controllers'
+import { IndexController } from '../../inc/index'
 @Injectable()
 export class NgerUserInjectable {
-    constructor(public userCtrol: NgerUserController) { }
+    constructor(public userCtrol: IndexController) { }
 
     getInfo() {
         return this.userCtrol.userInfo();

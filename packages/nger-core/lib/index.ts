@@ -10,3 +10,5 @@ export * from './http/post';
 export * from './controller';
 export * from './addon';
 export * from './injection_token';
+
+export * from './orm';
