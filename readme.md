@@ -7,6 +7,8 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [addons 第三方插件目录](./addon)
 - [attachment 附件目录](./attachment)
 - [config 配置目录](./config)
+  - [config.json 基础配置](./config/config.json)
+  - [key.json 作者信息](./config/key.json)
 - [data 数据目录,缓存，日志等](./data)
 - [src 当前开发目录](./src)
   - [inc Controller存放目录](./src/inc)
