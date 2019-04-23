@@ -66,7 +66,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [x] [Self](https://www.angular.cn/api/core/Self)
   - [x] [Optional](https://www.angular.cn/api/core/Optional)
   - [x] [Attribute](https://www.angular.cn/api/core/Attribute)
-- [x] typeorm装饰器
+- [x] [typeorm装饰器](https://github.com/typeorm/typeorm/blob/master/README-zh_CN.md)
   - [x] entity
     - [x] ChildEntity
     - [x] Entity
@@ -112,14 +112,15 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
     - [x] Exclusion
     - [x] Generated
     - [x] Unique
-- [x] 新增装饰器
+- [x] nest装饰器
+  - [x] `Get` (可选)发送`get`请求
+  - [x] `Post` (可选)发送`post`请求
+  - [x] `Controller` (可选)Api层，用于后端
+- [x] 其他装饰器
   - [x] `Page` 页面
   - [x] `Command` (可选)命令行
   - [x] `Option` (可选)命令参数
   - [x] `It` (可选)单元测试
-  - [x] `Get` (可选)发送`get`请求
-  - [x] `Post` (可选)发送`post`请求
-  - [x] `Controller` (可选)Api层，用于后端
 - [x] 生命周期
   - [x] `OnInit`
   - [x] `DoCheck`
