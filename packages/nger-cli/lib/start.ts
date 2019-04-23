@@ -26,19 +26,21 @@ export class StartCommand {
         const source = join(root, 'src/server')
         const serverSource = require(source).default;
         const app = visitor.visitType(serverSource);
-        app.set('port', this.port);
-        switch (this.type) {
-            case 'express':
-                start.express(app);
-                break;
-            case 'koa':
-                start.koa(app);
-                break;
-            case 'hapi':
-                start.hapi(app);
-                break;
-            default:
-                break;
+        if (app) {
+            app.set('port', this.port);
+            switch (this.type) {
+                case 'express':
+                    start.express(app);
+                    break;
+                case 'koa':
+                    start.koa(app);
+                    break;
+                case 'hapi':
+                    start.hapi(app);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

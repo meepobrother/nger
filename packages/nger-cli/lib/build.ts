@@ -32,39 +32,41 @@ export class BuildCommand {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`watching: ${!!this.watch}`);
         const app = this.getTypeContext();
-        app.set('watch', this.watch);
-        app.set('platform', this.type);
-        const build = new NgerCliBuild();
-        switch (this.type) {
-            case 'h5':
-                build.h5(app)
-                break;
-            case 'wechat':
-                build.wechat(app)
-                break;
-            case 'weapp':
-                build.weapp(app)
-                break;
-            case 'alipay':
-                build.alipay(app)
-                break;
-            case 'swap':
-                build.swap(app)
-                break;
-            case 'tt':
-                build.tt(app)
-                break;
-            case 'android':
-                build.android(app)
-                break;
-            case 'ios':
-                build.ios(app)
-                break;
-            case 'admin':
-                build.admin(app);
-                break;
-            default:
-                break;
+        if (app) {
+            app.set('watch', this.watch);
+            app.set('platform', this.type);
+            const build = new NgerCliBuild();
+            switch (this.type) {
+                case 'h5':
+                    build.h5(app)
+                    break;
+                case 'wechat':
+                    build.wechat(app)
+                    break;
+                case 'weapp':
+                    build.weapp(app)
+                    break;
+                case 'alipay':
+                    build.alipay(app)
+                    break;
+                case 'swap':
+                    build.swap(app)
+                    break;
+                case 'tt':
+                    build.tt(app)
+                    break;
+                case 'android':
+                    build.android(app)
+                    break;
+                case 'ios':
+                    build.ios(app)
+                    break;
+                case 'admin':
+                    build.admin(app);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

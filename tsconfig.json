@@ -17,7 +17,7 @@
     "noUnusedParameters": false,
     "allowUnusedLabels": true,
     "noImplicitReturns": false,
-    "suppressImplicitAnyIndexErrors": true,
+    "suppressImplicitAnyIndexErrors": false,
     "baseUrl": "./",
     "outDir": "./dist",
     "rootDir": "./",
@@ -26,15 +26,21 @@
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noFallthroughCasesInSwitch": true,
     "noEmitOnError": true,
     "noErrorTruncation": true,
     "noImplicitUseStrict": true,
     "emitBOM": false,
     "paths": {
+      "ims-decorator": [
+        "packages/ims-decorator/lib/index.ts"
+      ],
       "nger-core": [
         "packages/nger-core/lib/index.ts"
+      ],
+      "nger-di": [
+        "packages/nger-di/lib/index.ts"
       ],
       "nger-logger": [
         "packages/nger-logger/lib/index.ts"

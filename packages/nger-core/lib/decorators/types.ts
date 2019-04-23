@@ -75,7 +75,7 @@ export interface FactoryProvider extends FactorySansProvider {
     provide: any;
     multi?: boolean;
 }
-export declare type StaticProvider = ValueProvider | ExistingProvider | StaticClassProvider | ConstructorProvider | FactoryProvider | any[];
+export type StaticProvider = ValueProvider | ExistingProvider | StaticClassProvider | ConstructorProvider | FactoryProvider;
 export interface TypeProvider extends Type<any> { }
 export interface ClassSansProvider {
     useClass: Type<any>;
@@ -84,7 +84,7 @@ export interface ClassProvider extends ClassSansProvider {
     provide: any;
     multi?: boolean;
 }
-export declare type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider | ExistingProvider | FactoryProvider | any[];
+export type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider | ExistingProvider | FactoryProvider | any[];
 
 export interface ModuleWithProviders<T = any> {
     ngModule: Type<T>;
@@ -114,9 +114,9 @@ export type ResolveData = {
     [name: string]: any;
 };
 export type Routes = Route[];
-export declare type LoadChildrenCallback = () => Type<any> | Promise<Type<any>> | Observable<Type<any>>;
+export type LoadChildrenCallback = () => Type<any> | Promise<Type<any>> | Observable<Type<any>>;
 export type LoadChildren = string | LoadChildrenCallback;
-export declare type Params = {
+export type Params = {
     [key: string]: any;
 };
 export abstract class ActivatedRouteSnapshot {
@@ -137,7 +137,7 @@ export abstract class ActivatedRouteSnapshot {
     readonly queryParamMap: ParamMap;
     abstract toString(): string;
 }
-export declare type RunGuardsAndResolvers = 'pathParamsChange' | 'pathParamsOrQueryParamsChange' | 'paramsChange' | 'paramsOrQueryParamsChange' | 'always' | ((from: ActivatedRouteSnapshot, to: ActivatedRouteSnapshot) => boolean);
+export type RunGuardsAndResolvers = 'pathParamsChange' | 'pathParamsOrQueryParamsChange' | 'paramsChange' | 'paramsOrQueryParamsChange' | 'always' | ((from: ActivatedRouteSnapshot, to: ActivatedRouteSnapshot) => boolean);
 
 export interface Route {
     path?: string;

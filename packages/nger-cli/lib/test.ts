@@ -1,7 +1,5 @@
 import { Command } from 'nger-core'
 import { ConsoleLogger, LogLevel } from 'nger-logger';
-import { join } from 'path';
-const root = process.cwd();
 
 @Command({
     name: 'test',

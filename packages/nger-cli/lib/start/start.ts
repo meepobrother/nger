@@ -1,8 +1,5 @@
 import { TypeContext } from 'ims-decorator';
-import { createServer } from 'http';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
-import Koa from 'koa';
-import hapi from 'hapi';
 import { NgerPlatformExpress } from 'nger-platform-express'
 import { NgerPlatformKoa } from 'nger-platform-koa'
 
@@ -18,14 +15,6 @@ export class NgerStart {
     }
     /** hapi */
     async hapi(context: TypeContext) {
-        const hapiServer = new hapi.Server({
-            port: 3000,
-            host: 'localhost'
-        });
-        const server = hapiServer.listener;
-        const port = context.get(`port`);
-        server.listen(port, () => {
-            this.logger.info(`app start at http://localhost:${port}`)
-        });
+        
     }
 }

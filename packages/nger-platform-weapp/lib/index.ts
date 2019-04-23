@@ -14,7 +14,7 @@ export class NgerPlatformWeapp {
             // pipe
             if (de instanceof PipeClassAst) { }
         });
-        ngModule.imports.map(de => {
+        ngModule._imports.map(de => {
             // ng module
             if (de instanceof NgModuleClassAst) { }
         });

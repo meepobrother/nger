@@ -22,7 +22,6 @@
     "@types/yargs": "^13.0.0",
     "chai": "^4.2.0",
     "chokidar": "^2.1.5",
-    "hapi": "^18.1.0",
     "mocha": "^6.1.4",
     "react": "^16.8.6",
     "ts-node": "^8.1.0",
@@ -38,13 +37,13 @@
     "canonical-path": "^1.0.0",
     "dependency-graph": "^0.8.0",
     "fs-extra": "^7.0.1",
-    "ims-decorator": "^1.0.67",
+    "reflect-metadata": "^0.1.13",
     "rxjs": "^6.4.0",
     "shelljs": "^0.8.3",
     "typeorm": "^0.2.16"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register packages/**/__tests__/**/*.ts",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register ./**/__tests__/**/*.ts",
     "ts": "ts-node -r tsconfig-paths/register",
     "cli": "yarn ts packages/nger-cli/lib/bin.ts",
     "start": "yarn cli start koa"

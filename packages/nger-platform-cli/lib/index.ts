@@ -3,8 +3,13 @@ import { CommandMetadataKey, CommandClassAst, OptionMetadataKey, OptionPropertyA
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
+import { ConsoleLogger, LogLevel } from 'nger-logger';
 const pkg = require(join(__dirname, '../', 'package.json'))
 export class NgerPlatformCli {
+    logger: ConsoleLogger;
+    constructor() {
+        this.logger = new ConsoleLogger(LogLevel.debug);
+    }
     run(context: TypeContext) {
         let _yargs = yargs;
         const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
@@ -17,7 +22,6 @@ export class NgerPlatformCli {
             .alias('v', 'version')
             .describe('version', '查看版本号信息')
             .epilog(`${chalk.green("power by ims")}`)
-
         _yargs.example(`ims -h`, `查看所有命令及使用详情`);
         _yargs.example(`ims -v`, `查看版本号`);
         if (ngModule._providers) {
@@ -26,7 +30,8 @@ export class NgerPlatformCli {
                 if (!!command) {
                     const options = context.getProperty(OptionMetadataKey) as OptionPropertyAst[];
                     const def = command.ast.metadataDef;
-                    _yargs = _yargs.example(def.example.command, def.example.description)
+                    _yargs = _yargs
+                        .example(def.example.command, def.example.description)
                         .command(def.name, def.description, (args: Argv<any>) => {
                             options.map(option => {
                                 const def: OptionOptions = option.ast.metadataDef;

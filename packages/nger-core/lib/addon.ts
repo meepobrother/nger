@@ -8,9 +8,9 @@ export interface AddonOptions {
 };
 export const Addon = makeDecorator<AddonOptions>(AddonMetadataKey);
 export class AddonClassAst extends ClassContext<AddonOptions> {
-    app: TypeContext;
-    admin: TypeContext;
-    server: TypeContext;
+    app: TypeContext | undefined;
+    admin: TypeContext | undefined;
+    server: TypeContext | undefined;
     constructor(ast: any, context: any) {
         super(ast, context);
         const def = this.ast.metadataDef;
