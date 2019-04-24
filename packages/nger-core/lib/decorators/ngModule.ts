@@ -1,4 +1,4 @@
-import { makeDecorator, ClassContext, ClassAst, TypeContext } from 'ims-decorator';
+import { makeDecorator, ClassContext, ClassAst, TypeContext, ConstructorAst, ConstructorContext } from 'ims-decorator';
 export const NgModuleMetadataKey = 'NgModuleMetadataKey';
 import { InjectConstructorAst } from './inject'
 import { Provider, Type, ModuleWithProviders, SchemaMetadata } from 'nger-di';
@@ -21,7 +21,36 @@ import { HostConstructorAst } from './host';
 import { SkipSelfConstructorAst } from './skip-self';
 import { SelfConstructorAst } from './self';
 import { OptionalConstructorAst } from './optional';
-
+function handlerConstructorContext(deps: any[], ast: ConstructorContext<any>) {
+    deps[ast.ast.parameterIndex] = deps[ast.ast.parameterIndex] || [];
+    // 构造函数装饰器 这里就要判断了 目的是拿到token即可
+    // 如果是Inject 那就是inject的target
+    if (ast instanceof InjectConstructorAst) {
+        deps[ast.ast.parameterIndex].push(ast.ast.metadataDef.token || ast.ast.parameterType)
+    }
+    if (ast instanceof HostConstructorAst) {
+        deps[ast.ast.parameterIndex].push(InjectFlags.Host)
+    }
+    if (ast instanceof SkipSelfConstructorAst) {
+        deps[ast.ast.parameterIndex].push(InjectFlags.SkipSelf)
+    }
+    if (ast instanceof SelfConstructorAst) {
+        deps[ast.ast.parameterIndex].push(InjectFlags.Self)
+    }
+    if (ast instanceof OptionalConstructorAst) {
+        deps[ast.ast.parameterIndex].push(InjectFlags.Optional)
+    }
+}
+function handlerTypeContextToParams(dec: TypeContext) {
+    const deps = new Array(dec.paramsLength);
+    dec.getConstructor().map(ast => {
+        handlerConstructorContext(deps, ast)
+    });
+    dec.paramsTypes.map((par, index) => {
+        if (!deps[index]) deps[index] = par;
+    });
+    return deps;
+}
 export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
     declarations: TypeContext[] = [];
     exports: TypeContext[] = [];
@@ -52,30 +81,7 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
 
         // 处理 declarations
         this.declarations.map(dec => {
-            const deps = new Array(dec.paramsLength);
-            dec.getConstructor().map(ast => {
-                deps[ast.ast.parameterIndex] = deps[ast.ast.parameterIndex] || [];
-                // 构造函数装饰器 这里就要判断了 目的是拿到token即可
-                // 如果是Inject 那就是inject的target
-                if (ast instanceof InjectConstructorAst) {
-                    deps[ast.ast.parameterIndex].push(ast.ast.metadataDef.token || ast.ast.parameterType)
-                }
-                if (ast instanceof HostConstructorAst) {
-                    deps[ast.ast.parameterIndex].push(InjectFlags.Host)
-                }
-                if (ast instanceof SkipSelfConstructorAst) {
-                    deps[ast.ast.parameterIndex].push(InjectFlags.SkipSelf)
-                }
-                if (ast instanceof SelfConstructorAst) {
-                    deps[ast.ast.parameterIndex].push(InjectFlags.Self)
-                }
-                if (ast instanceof OptionalConstructorAst) {
-                    deps[ast.ast.parameterIndex].push(InjectFlags.Optional)
-                }
-            });
-            dec.paramsTypes.map((par, index) => {
-                if (!deps[index]) deps[index] = par;
-            });
+            const deps = handlerTypeContextToParams(dec)
             const declarationProvider: FactoryProvider = {
                 provide: dec.target,
                 useFactory: (...params) => new dec.target(...params),
@@ -89,7 +95,11 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
         if (def.providers) {
             def.providers.map(pro => {
                 if (isTypeProvider(pro)) {
-                    const deps = [];
+                    const ctx = this.context.typeContext.visitor.visitType(pro);
+                    let deps: any[] = [];
+                    if (ctx) {
+                        deps = handlerTypeContextToParams(ctx)
+                    }
                     const proProvider: FactoryProvider = {
                         provide: pro,
                         useFactory: (...params: any) => new pro(...params),
@@ -97,6 +107,7 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
                         multi: false
                     }
                     injector.setStatic([proProvider]);
+                    injector.setExport(pro);
                 } else if (isClassProvider(pro)) {
                     const deps = [];
                     const proProvider: StaticClassProvider = {
@@ -104,8 +115,10 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
                         deps: deps
                     }
                     injector.setStatic([proProvider]);
+                    injector.setExport(pro.provide);
                 } else {
                     injector.setStatic([pro]);
+                    injector.setExport(pro.provide);
                 }
             });
         }

@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional } from 'nger-core';
+import { Injectable, Inject } from 'nger-core';
 import pm2, { StartOptions, Proc, ProcessDescription } from 'pm2';
 import { NgerUtil } from 'nger-util'
 import { Logger } from 'nger-logger';

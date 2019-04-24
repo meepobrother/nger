@@ -3,10 +3,10 @@ import {
     Type, FactoryProvider, StaticClassProvider, ValueProvider,
     ExistingProvider, ConstructorProvider, isValueProvider,
     StaticProvider, isExistingProvider, isStaticClassProvider,
-    isFactoryProvider, ClassProvider, TypeProvider
+    isFactoryProvider
 } from './type'
 import { InjectionToken } from './injection_token';
-import { ConsoleLogger, LogLevel, Logger, ERROR } from 'nger-logger';
+import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
 export const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
 export const SOURCE = '__source';
 const NG_TOKEN_PATH = 'ngTokenPath';
@@ -94,7 +94,7 @@ function tryResolveToken(
 
 
 export function createFactoryProviderRecord(val: FactoryProvider): Record {
-    return new Record(val.useFactory, createDependencyRecord(val.deps), undefined);
+    return new Record((...params: any[]) => val.useFactory(...params), createDependencyRecord(val.deps), undefined);
 }
 export function createStaticClassProviderRecord(val: StaticClassProvider): Record {
     return new Record((...params: any[]) => new val.useClass(...params), createDependencyRecord(val.deps), undefined)
@@ -298,13 +298,14 @@ export class Injector implements IInjector {
     static NULL: IInjector = NULL_INJECTOR;
     _records: Map<any, Record | Record[]> = new Map();
     exports: Map<any, Record | Record[]> = new Map();
-    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug)
+    logger: Logger;
     parent: Injector;
     constructor(
         records: StaticProvider[],
         parent: Injector | null = null,
         public source: string | null = null
     ) {
+        this.logger = inject(Logger, new ConsoleLogger(LogLevel.debug)) as Logger;
         if (!parent) {
             parent = Injector.NULL as Injector;
         }
@@ -329,7 +330,11 @@ export class Injector implements IInjector {
     }
     debug() {
         this._records.forEach((item, key) => {
-            this.logger.debug(`injector:${this.source} ${key.name} registed`)
+            if (Array.isArray(item)) {
+
+            } else {
+                this.logger.debug(`injector:${this.source} ${key.name} registed, Dependeny: ${stringify(item.deps.map(dep => dep.token))}`)
+            }
         });
     }
     set(token: any, record: Record | Record[]) {
@@ -394,7 +399,6 @@ export function resolveToken(
                 throw Error(NO_NEW_LINE + 'Circular dependency');
             } else if (value === EMPTY) {
                 record.value = CIRCULAR;
-                let obj = undefined;
                 let fn = record.fn;
                 let depRecords = record.deps;
                 let deps = EMPTY;
@@ -420,10 +424,11 @@ export function resolveToken(
                             InjectFlags.Default));
                     }
                 }
-                value = fn.apply(obj, deps);
+                value = fn(...deps);
                 record.value = value;
                 return value;
             }
+            return value;
         }
         if (Array.isArray(record)) {
             value = record.map(rec => handler(rec))

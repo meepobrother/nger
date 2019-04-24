@@ -13,7 +13,7 @@ export class UserController {
 
     @Get()
     info() {
-        console.log(this.logger)
+        console.log(this.pm2)
         return this.home.userInfo();
     }
 }

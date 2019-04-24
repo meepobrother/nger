@@ -1,4 +1,4 @@
-import { makeDecorator, ClassAst, PropertyContext, PropertyAst } from 'ims-decorator';
+import { makeDecorator, PropertyContext, PropertyAst } from 'ims-decorator';
 export const InputMetadataKey = 'InputMetadataKey';
 
 export interface InputOptions {
