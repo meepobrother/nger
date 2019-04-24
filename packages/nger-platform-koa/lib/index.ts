@@ -53,8 +53,10 @@ export class NgerPlatformKoa {
             posts.map(post => {
                 this.logger.debug(`post ${controller.path}/${post.path}`)
                 router.post(`${controller.path}/${post.path}`, async (ctx) => {
-                    const data = await declaration.instance[post.ast.propertyKey]();
-                    ctx.body = data;
+                    if (declaration.instance) {
+                        const data = await declaration.instance[post.ast.propertyKey]();
+                        ctx.body = data;
+                    }
                 })
             });
         });

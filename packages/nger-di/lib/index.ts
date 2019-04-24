@@ -1,3 +1,4 @@
 export * from './injector';
-export * from './createTypeRecord';
 export * from './util';
+export * from './injection_token';
+export * from './type';

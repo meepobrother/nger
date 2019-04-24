@@ -1,6 +1,5 @@
 import { makeDecorator, ClassContext, ClassAst } from 'ims-decorator';
 export const PipeMetadataKey = 'PipeMetadataKey';
-import { Provider } from './types'
 
 export interface PipeOptions {
     name: string;

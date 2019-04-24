@@ -24,22 +24,27 @@ export class NgerPlatformExpress {
             gets.map(get => {
                 this.logger.debug(`get ${controller.path}/${get.path}`)
                 app.get(`${controller.path}/${get.path}`, async (req, res, next) => {
-                    const data = await declaration.instance[get.ast.propertyKey]();
-                    if (typeof data === 'object') {
-                        res.json(data)
-                    } else {
-                        res.end(data)
+                    if (declaration.instance) {
+                        const data = await declaration.instance[get.ast.propertyKey]();
+                        if (typeof data === 'object') {
+                            res.json(data)
+                        } else {
+                            res.end(data)
+                        }
                     }
                 });
             });
+
             posts.map(post => {
                 this.logger.debug(`post ${controller.path}/${post.path}`)
                 app.post(`${controller.path}/${post.path}`, async (req, res, next) => {
-                    const data = await declaration.instance[post.ast.propertyKey]();
-                    if (typeof data === 'object') {
-                        res.json(data)
-                    } else {
-                        res.end(data)
+                    if (declaration.instance) {
+                        const data = await declaration.instance[post.ast.propertyKey]();
+                        if (typeof data === 'object') {
+                            res.json(data)
+                        } else {
+                            res.end(data)
+                        }
                     }
                 })
             });

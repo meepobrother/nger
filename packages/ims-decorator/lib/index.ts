@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Injector } from 'nger-di';
+import { Injector, StaticProvider } from 'nger-di';
 export interface Type<T> extends Function {
     new(...args: any[]): T;
 }
@@ -9,7 +9,6 @@ export function isType<T>(val: any): val is Type<T> {
 export const getDesignType = (target: any, propertyKey: PropertyKey) => Reflect.getMetadata('design:type', target, propertyKey as any);
 export const getDesignParamTypes = (target: any, propertyKey?: PropertyKey) => Reflect.getMetadata('design:paramtypes', target, propertyKey as any);
 export const getDesignTargetParams = (target: any) => Reflect.getMetadata('design:paramtypes', target);
-
 export const getDesignReturnType = (target: any, propertyKey: PropertyKey) => Reflect.getMetadata('design:returntype', target, propertyKey as any);
 export enum AstTypes {
     class,
@@ -178,7 +177,7 @@ export interface AstVisitor {
     visitParameter(ast: ParameterAst, context: ParserAstContext): any;
     visitConstructor(ast: ConstructorAst, context: ParserAstContext): any;
 }
-
+import { ConsoleLogger, LogLevel } from 'nger-logger'
 export class TypeContext {
     parent: TypeContext;
     children: TypeContext[] = [];
@@ -189,10 +188,35 @@ export class TypeContext {
     constructors: ConstructorContext<any>[] = [];
     /** 目标 */
     target: any;
+    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug)
     /** 实例 */
-    instance: any;
+    _instance: any;
+    get instance() {
+        if(this._instance) return this._instance;
+        this._instance = this.injector.get(this.target)
+        return this._instance;
+    }
     global: Map<string, any> = new Map();
-    injector: Injector;
+
+    _injector: Injector;
+    get injector(): Injector {
+        if (this._injector) return this._injector;
+        return this.setInjector([]);
+    }
+    set injector(injector: Injector) {
+        this._injector = injector;
+    }
+    setInjector(records: StaticProvider[]) {
+        if (this._injector) {
+            return this._injector;
+        }
+        if (this.parent) {
+            this._injector = this.parent.injector.create(records)
+            return this._injector;
+        }
+        this._injector = new Injector(records)
+        return this._injector;
+    }
 
     setParent(parent: TypeContext) {
         this.parent = parent;
@@ -224,7 +248,6 @@ export class TypeContext {
             this.paramsTypes = types;
             this.paramsLength = types.length;
             // injector get
-            this.instance = new type();
         } else {
             throw new Error(`${type.name} get context error`)
         }
@@ -345,7 +368,6 @@ export class ParserAstContext {
         const typeContext = this.visitor.visitType(type);
         if (typeContext) {
             typeContext.setParent(this.typeContext);
-            this.typeContext.set(type, typeContext.instance)
         }
         return typeContext as T;
     }

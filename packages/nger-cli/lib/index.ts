@@ -9,7 +9,7 @@ import { StartCommand } from './start';
 import { NgModule } from 'nger-core';
 
 @NgModule({
-    providers: [
+    declarations: [
         BuildCommand,
         InitCommand,
         TestCommand,

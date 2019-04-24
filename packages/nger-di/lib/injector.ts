@@ -1,87 +1,13 @@
 import { stringify } from './util';
-export interface InjectorType<T> extends Type<T> {
-    ngInjectorDef: never;
-}
-export interface InjectableDef<T> {
-    providedIn: InjectorType<any> | 'root' | 'any' | null;
-    factory: () => T;
-    value: T | undefined;
-}
-export function defineInjectable<T>(opts: {
-    providedIn?: Type<any> | 'root' | 'any' | null,
-    factory: () => T,
-}): InjectableDef<T> {
-    return ({
-        providedIn: opts.providedIn as any || null,
-        factory: opts.factory,
-        value: undefined,
-    } as InjectableDef<T>);
-}
-export class InjectionToken<T> {
-    readonly ngMetadataName = 'InjectionToken';
-    readonly ngInjectableDef: InjectableDef<T> | undefined;
-    constructor(
-        protected _desc: string,
-        options?: {
-            providedIn?: Type<any> | 'root' | null,
-            factory: () => T
-        }
-    ) {
-        this.ngInjectableDef = undefined;
-        if (typeof options == 'number') {
-            (this as any).__NG_ELEMENT_ID__ = options;
-        } else if (options !== undefined) {
-            this.ngInjectableDef = defineInjectable<T>({
-                providedIn: options.providedIn || 'root',
-                factory: options.factory,
-            });
-        }
-    }
-    toString(): string { return `InjectionToken ${this._desc}`; }
-}
-export interface Type<T> extends Function {
-    new(...args: any[]): T;
-}
-export interface ValueSansProvider {
-    useValue: any;
-}
-export interface ValueProvider extends ValueSansProvider {
-    provide: any;
-    multi?: boolean;
-}
-export interface StaticClassSansProvider {
-    useClass: Type<any>;
-    deps: any[];
-}
-export interface StaticClassProvider extends StaticClassSansProvider {
-    provide: any;
-    multi?: boolean;
-}
-export interface ConstructorSansProvider {
-    deps?: any[];
-}
-export interface ConstructorProvider extends ConstructorSansProvider {
-    provide: Type<any>;
-    multi?: boolean;
-}
-export interface ExistingSansProvider {
-    useExisting: any;
-}
-export interface ExistingProvider extends ExistingSansProvider {
-    provide: any;
-    multi?: boolean;
-}
-export interface FactorySansProvider {
-    useFactory: Function;
-    deps?: any[];
-}
-export interface FactoryProvider extends FactorySansProvider {
-    provide: any;
-    multi?: boolean;
-}
-export type StaticProvider = ValueProvider | ExistingProvider | StaticClassProvider | ConstructorProvider | FactoryProvider;
-
-import { Logger, ConsoleLogger, LogLevel } from 'nger-logger';
+import {
+    Type, FactoryProvider, StaticClassProvider, ValueProvider,
+    ExistingProvider, ConstructorProvider, isValueProvider,
+    StaticProvider, isExistingProvider, isStaticClassProvider,
+    isFactoryProvider, ClassProvider, TypeProvider
+} from './type'
+import { InjectionToken } from './injection_token';
+import { ConsoleLogger, LogLevel } from 'nger-logger';
+// record定义
 export class Record {
     constructor(
         public fn: Function,
@@ -95,16 +21,11 @@ export interface DependencyRecord {
 }
 // 全局record记录map
 export const globalRecord: Map<any, Record | Record[]> = new Map();
-globalRecord.set(Logger, {
-    fn: () => {
-        return new ConsoleLogger(LogLevel.debug)
-    },
-    deps: [],
-    value: undefined
-});
+// 设置全局record
 export function setRecord(token: any, record: Record | Record[] | undefined) {
     if (record) globalRecord.set(token, record)
 }
+// 从全局里获取
 export function inject<T>(token: any, flags: InjectFlags = InjectFlags.Default, notFound?: T): T | T[] | undefined {
     const record = globalRecord.get(token);
     try {
@@ -126,6 +47,7 @@ const IDENT = function <T>(value: T): T {
 export const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
 const EMPTY = <any[]>[];
 const CIRCULAR = IDENT;
+// 解析token,刨出错误
 function tryResolveToken(
     token: any,
     record: Record | Record[] | undefined,
@@ -161,7 +83,7 @@ function tryResolveToken(
     }
 }
 const NO_NEW_LINE = 'ɵ';
-
+// 解析token
 export function resolveToken(
     token: any,
     record: Record | Record[] | undefined,
@@ -222,18 +144,6 @@ export function resolveToken(
     return value;
 }
 
-export function isValueProvider(val: StaticProvider): val is ValueProvider {
-    return !!(val as ValueProvider).useValue
-}
-export function isExistingProvider(val: StaticProvider): val is ExistingProvider {
-    return !!(val as ExistingProvider).useExisting
-}
-export function isStaticClassProvider(val: StaticProvider): val is StaticClassProvider {
-    return !!(val as StaticClassProvider).useClass
-}
-export function isFactoryProvider(val: StaticProvider): val is FactoryProvider {
-    return !!(val as FactoryProvider).useFactory
-}
 export function createFactoryProviderRecord(val: FactoryProvider): Record {
     return new Record(val.useFactory, createDependencyRecord(val.deps), undefined);
 }
@@ -305,7 +215,6 @@ export function createDependencyRecord(deps: any[] | undefined): DependencyRecor
     return [];
 }
 export function createConstructorProvider(val: ConstructorProvider): Record {
-
     return new Record((...params: any[]) => new val.provide(...params), createDependencyRecord(val.deps), undefined)
 }
 export function createMultiRecord(res: Record | Record[] | undefined, newRecord: Record) {
@@ -425,7 +334,9 @@ export function catchInjectorError(
 export class Injector implements IInjector {
     static THROW_IF_NOT_FOUND = THROW_IF_NOT_FOUND;
     static NULL: IInjector = new NullInjector();
-    private _records: Map<any, Record | Record[]> = new Map();
+    _records: Map<any, Record | Record[]> = new Map();
+    exports: Map<any, Record | Record[]> = new Map();
+    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug)
     constructor(
         records: StaticProvider[],
         private parent: Injector = Injector.NULL as Injector,
@@ -439,6 +350,28 @@ export class Injector implements IInjector {
     }
     create(records: StaticProvider[]) {
         return new Injector(records, this)
+    }
+    setExport(token: any) {
+        const record = this._records.get(token);
+        if (record) this.exports.set(token, record)
+    }
+    setStatic(records: StaticProvider[]) {
+        records.map(record => {
+            this._records.set(record.provide, createStaticRecrod(record))
+        });
+    }
+    debug() {
+        this._records.forEach((item, key) => {
+            this.logger.info(`${key.name}`)
+        });
+    }
+    set(token: any, record: Record | Record[]) {
+        this._records.set(token, record)
+    }
+    extend(injector: Injector) {
+        injector.exports.forEach((rec, key) => {
+            this._records.set(key, rec)
+        });
     }
     get<T>(token: IToken<T>, notFound?: T, flags: InjectFlags = InjectFlags.Default): T | T[] | undefined {
         const record = this._records.get(token);
@@ -458,18 +391,6 @@ export class Injector implements IInjector {
 }
 const NULL_INJECTOR = Injector.NULL as Injector;
 
-// 其他
-export interface ClassSansProvider {
-    useClass: Type<any>;
-}
-export interface ClassProvider extends ClassSansProvider {
-    provide: any;
-    multi?: boolean;
-}
-export type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider |
-    ExistingProvider | FactoryProvider;
-
-export interface TypeProvider extends Type<any> { }
 export function createTypeProviderRecord(val: TypeProvider): Record {
     return {
         fn: () => new val(),

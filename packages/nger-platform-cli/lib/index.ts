@@ -24,8 +24,8 @@ export class NgerPlatformCli {
             .epilog(`${chalk.green("power by ims")}`)
         _yargs.example(`ims -h`, `查看所有命令及使用详情`);
         _yargs.example(`ims -v`, `查看版本号`);
-        if (ngModule._providers) {
-            ngModule._providers.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
+        if (ngModule.declarations) {
+            ngModule.declarations.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
                 const command = context.getClass(CommandMetadataKey) as CommandClassAst;
                 if (!!command) {
                     const options = context.getProperty(OptionMetadataKey) as OptionPropertyAst[];

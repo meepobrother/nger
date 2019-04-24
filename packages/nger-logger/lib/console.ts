@@ -1,5 +1,4 @@
 import { Logger } from "./logger";
-import { Injectable } from 'nger-core';
 const RESET = '\x1b[0m';
 const RED = '\x1b[31m';
 const YELLOW = '\x1b[33m';
@@ -16,9 +15,6 @@ export enum LogLevel {
     error,
 }
 
-@Injectable({
-    providedIn: 'root',
-})
 export class ConsoleLogger extends Logger {
     constructor(private logLevel: LogLevel) {
         super();

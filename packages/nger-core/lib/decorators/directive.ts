@@ -1,6 +1,6 @@
 import { makeDecorator, ClassContext, ClassAst } from 'ims-decorator';
 export const DirectiveMetadataKey = 'DirectiveMetadataKey';
-import { Provider } from './types'
+import { Provider } from 'nger-di'
 
 export interface DirectiveOptions {
     selector?: string;
