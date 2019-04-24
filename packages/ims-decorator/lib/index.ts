@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Injector } from '@angular/core';
+import { Injector } from 'nger-di';
 export interface Type<T> extends Function {
     new(...args: any[]): T;
 }
@@ -7,7 +7,9 @@ export function isType<T>(val: any): val is Type<T> {
     return typeof val === 'function'
 }
 export const getDesignType = (target: any, propertyKey: PropertyKey) => Reflect.getMetadata('design:type', target, propertyKey as any);
-export const getDesignParamTypes = (target: any, propertyKey: PropertyKey) => Reflect.getMetadata('design:paramtypes', target, propertyKey as any);
+export const getDesignParamTypes = (target: any, propertyKey?: PropertyKey) => Reflect.getMetadata('design:paramtypes', target, propertyKey as any);
+export const getDesignTargetParams = (target: any) => Reflect.getMetadata('design:paramtypes', target);
+
 export const getDesignReturnType = (target: any, propertyKey: PropertyKey) => Reflect.getMetadata('design:returntype', target, propertyKey as any);
 export enum AstTypes {
     class,
@@ -32,6 +34,8 @@ export class ClassAst<T = any> extends Ast<T> {
         target: Type<any>,
         metadataKey: string,
         metadataDef: T,
+        public params: any[],
+        public paramsLength: number,
         sourceRoot: string
     ) {
         super(AstTypes.class, target, metadataKey, metadataDef, sourceRoot);
@@ -150,6 +154,7 @@ export class ConstructorAst<T = any> extends Ast<T> {
         metadataDef: T,
         public parameterType: any,
         public parameterIndex: number,
+        public parameterLength: number,
         sourceRoot: string
     ) {
         super(AstTypes.constructor, target, metadataKey, metadataDef, sourceRoot);
@@ -187,6 +192,7 @@ export class TypeContext {
     /** 实例 */
     instance: any;
     global: Map<string, any> = new Map();
+    injector: Injector;
 
     setParent(parent: TypeContext) {
         this.parent = parent;
@@ -201,6 +207,8 @@ export class TypeContext {
     set(key: any, val: any) {
         this.global.set(key, val);
     }
+    paramsLength: number;
+    paramsTypes: any[];
 
     constructor(public type: any, public visitor: AstVisitor) {
         const context = getContext(type);
@@ -212,6 +220,9 @@ export class TypeContext {
             this.propertys = context.visitProperty();
             this.methods = context.visitMethod();
             this.constructors = context.visitController();
+            const types = getDesignTargetParams(type) || [];
+            this.paramsTypes = types;
+            this.paramsLength = types.length;
             // injector get
             this.instance = new type();
         } else {
@@ -247,7 +258,7 @@ export class TypeContext {
         return this.methods;
     }
 
-    getController(metadataKey?: string): ConstructorContext<any>[] {
+    getConstructor(metadataKey?: string): ConstructorContext<any>[] {
         if (metadataKey) {
             return this.constructors.filter(cls => cls.ast.metadataKey === metadataKey)
         }
@@ -259,8 +270,8 @@ export class NullAstVisitor implements AstVisitor {
     visit(ast: Ast, context?: ParserAstContext) {
         return ast.visit(this, context);
     }
-    visitType(type: any): TypeContext | undefined {
-        return undefined;
+    visitType(type: any): TypeContext {
+        return new TypeContext(type, this)
     }
     visitClass(ast: ClassAst, context?: ParserAstContext): any { }
     visitMethod(ast: MethodAst, context: ParserAstContext): any { }
@@ -481,7 +492,7 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
         if (propertyKey) {
             if (typeof descriptor === 'number') {
                 const context = parserManager.getContext(target.constructor);
-                const types = getDesignParamTypes(target, propertyKey)
+                const types = getDesignParamTypes(target, propertyKey) || []
                 metadataDef = getDefault({
                     type: 'parameter',
                     metadataDef: metadataDef as T,
@@ -512,7 +523,7 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
                 // method
                 try {
                     const returnType = getDesignReturnType(target, propertyKey)
-                    const paramTypes = getDesignParamTypes(target, propertyKey);
+                    const paramTypes = getDesignParamTypes(target, propertyKey) || [];
                     const context = parserManager.getContext(target.constructor);
                     metadataDef = getDefault({
                         type: 'method',
@@ -531,27 +542,28 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
             if (typeof descriptor === 'number') {
                 // constructor
                 const context = parserManager.getContext(target);
-                const types = getDesignParamTypes(target, 'constructor')
+                const types = getDesignTargetParams(target) || []
                 metadataDef = getDefault({
                     type: 'constructor',
                     metadataDef: metadataDef as T,
                     metadataKey,
                     target,
                     parameterType: types[descriptor],
-                    parameterIndex: descriptor
+                    parameterIndex: descriptor,
                 });
-                const ast = new ConstructorAst(target, metadataKey, metadataDef, types[descriptor], descriptor, sourceRoot || '');
+                const ast = new ConstructorAst(target, metadataKey, metadataDef, types[descriptor], descriptor, types.length, sourceRoot || '');
                 visitor.visitConstructor(ast, context)
             } else {
                 // class
                 const context = parserManager.getContext(target);
+                const types = getDesignTargetParams(target) || []
                 metadataDef = getDefault({
                     type: 'class',
                     metadataDef: metadataDef as T,
                     metadataKey,
                     target
                 });
-                const ast = new ClassAst(target, metadataKey, metadataDef, sourceRoot || '');
+                const ast = new ClassAst(target, metadataKey, metadataDef, types, types.length, sourceRoot || '');
                 visitor.visitClass(ast, context);
                 return target;
             }

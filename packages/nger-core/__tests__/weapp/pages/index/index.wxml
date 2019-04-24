@@ -1,0 +1,2 @@
+<view wx:if="{{condiction}}">1</view>
+<view wx:else>3</view> 

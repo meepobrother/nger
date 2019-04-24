@@ -1,4 +1,4 @@
-import { Injector, ITokenString } from '../lib/index'
+import { Injector, ITokenString, InjectFlags } from '../lib/index'
 import { expect } from 'chai'
 describe(`ims di`, () => {
     it(`ConstructorProvider`, () => {
@@ -74,10 +74,12 @@ describe(`ims di`, () => {
             useClass: User1,
             deps: [idToken]
         }])
-        const res = injector.get(User2);
+        const res = injector.get(User2, InjectFlags.Default);
         expect(res).to.instanceof(User1)
         if (res instanceof User1) {
             expect(res.id).to.equal(1)
         }
+        const skip = injector.get(User2, InjectFlags.SkipSelf);
+        expect(skip).to.equal(undefined)
     })
 })

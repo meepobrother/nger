@@ -7,7 +7,7 @@ export interface OutputOptions {
 }
 export const Output = makeDecorator<OutputOptions>(OutputMetadataKey);
 export class OutputPropertyAst extends PropertyContext<OutputOptions> { }
-export function isOutputPropertyAst(ast: ClassAst): ast is PropertyAst<OutputOptions> {
+export function isOutputPropertyAst(ast: PropertyAst): ast is PropertyAst<OutputOptions> {
     return ast.metadataKey === OutputMetadataKey;
 }
 export abstract class EventEmitter<T = any> extends Subject<T> {

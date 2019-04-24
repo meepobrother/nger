@@ -1,7 +1,11 @@
 <ng-template *ngIf="condiction;then thenBlock;else elseBlock;"></ng-template>
-<ng-template #elseBlock></ng-template>
-<ng-template #thenBlock></ng-template>
+<ng-template #elseBlock>
+    <view>1</view>
+</ng-template>
+<ng-template #thenBlock>
+    <view>2</view>
+</ng-template>
 <!-- 
 <view wx:if="{{condiction}}">1</view>
-<view wx:else>3</view> 
+<view wx:else>2</view> 
 -->

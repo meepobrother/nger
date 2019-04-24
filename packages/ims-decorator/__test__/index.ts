@@ -1,13 +1,28 @@
+import "reflect-metadata"
 import {
     isType,
     makeDecorator,
     getContext,
     isClassAst,
-    isPropertyAst
+    isPropertyAst,
+    getDesignParamTypes
 } from '../lib/index';
 import { expect } from 'chai'
 class ImsDemo { }
 describe('ims-decorator', () => {
+    it(`getDesignParamTypes`, () => {
+        function Demo() {
+            return (target: any) => { }
+        }
+        @Demo()
+        class ImsDemo2 {
+            constructor(public id: number) { }
+            add(a: number, b: number) { }
+        }
+        const res = Reflect.getMetadata('design:paramtypes', ImsDemo2);
+
+        debugger;
+    })
     it('isType', () => {
         expect(isType(ImsDemo)).to.equal(true)
     })

@@ -18,6 +18,6 @@ export const ViewChildren = (
     });
 }
 export class ViewChildrenPropertyAst extends PropertyContext<ViewChildrenOptions> { }
-export function isViewChildrenPropertyAst(ast: ClassAst): ast is PropertyAst<ViewChildrenOptions> {
+export function isViewChildrenPropertyAst(ast: PropertyAst): ast is PropertyAst<ViewChildrenOptions> {
     return ast.metadataKey === ViewChildrenMetadataKey;
 }

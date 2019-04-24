@@ -18,7 +18,7 @@ export const ContentChild = (
     });
 }
 export class ContentChildPropertyAst extends PropertyContext<ContentChildOptions> { }
-export function isContentChildPropertyAst(ast: ClassAst): ast is PropertyAst<ContentChildOptions> {
+export function isContentChildPropertyAst(ast: PropertyAst): ast is PropertyAst<ContentChildOptions> {
     return ast.metadataKey === ContentChildMetadataKey;
 }
 
