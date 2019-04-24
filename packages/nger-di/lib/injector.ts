@@ -6,7 +6,19 @@ import {
     isFactoryProvider, ClassProvider, TypeProvider
 } from './type'
 import { InjectionToken } from './injection_token';
-import { ConsoleLogger, LogLevel } from 'nger-logger';
+import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
+export const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
+export const SOURCE = '__source';
+const NG_TOKEN_PATH = 'ngTokenPath';
+const NEW_LINE = /\n/gm;
+const _THROW_IF_NOT_FOUND = new Object();
+export const THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
+const NO_NEW_LINE = 'ɵ';
+const IDENT = function <T>(value: T): T {
+    return value;
+};
+const EMPTY = <any[]>[];
+const CIRCULAR = IDENT;
 // record定义
 export class Record {
     constructor(
@@ -21,12 +33,15 @@ export interface DependencyRecord {
 }
 // 全局record记录map
 export const globalRecord: Map<any, Record | Record[]> = new Map();
+globalRecord.set(Logger, new Record(() => {
+    return new ConsoleLogger(LogLevel.debug)
+}, [], undefined));
 // 设置全局record
 export function setRecord(token: any, record: Record | Record[] | undefined) {
     if (record) globalRecord.set(token, record)
 }
 // 从全局里获取
-export function inject<T>(token: any, flags: InjectFlags = InjectFlags.Default, notFound?: T): T | T[] | undefined {
+export function inject<T>(token: any, notFound?: T, flags: InjectFlags = InjectFlags.Default): T | T[] | undefined {
     const record = globalRecord.get(token);
     try {
         return tryResolveToken(
@@ -41,12 +56,6 @@ export function inject<T>(token: any, flags: InjectFlags = InjectFlags.Default, 
         return catchInjectorError(e, token, 'StaticInjectorError', this.source);
     }
 }
-const IDENT = function <T>(value: T): T {
-    return value;
-};
-export const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
-const EMPTY = <any[]>[];
-const CIRCULAR = IDENT;
 // 解析token,刨出错误
 function tryResolveToken(
     token: any,
@@ -82,67 +91,7 @@ function tryResolveToken(
         throw e;
     }
 }
-const NO_NEW_LINE = 'ɵ';
-// 解析token
-export function resolveToken(
-    token: any,
-    record: Record | Record[] | undefined,
-    records: Map<any, Record | Record[]>,
-    parent: Injector,
-    notFoundValue: any,
-    flags: InjectFlags
-) {
-    let value;
-    if (record && !(flags & InjectFlags.SkipSelf)) {
-        // If we don't have a record, this implies that we don't own the provider hence don't know how
-        // to resolve it.
-        function handler(record: Record) {
-            value = record.value;
-            if (value == CIRCULAR) {
-                throw Error(NO_NEW_LINE + 'Circular dependency');
-            } else if (value === EMPTY) {
-                record.value = CIRCULAR;
-                let obj = undefined;
-                let fn = record.fn;
-                let depRecords = record.deps;
-                let deps = EMPTY;
-                if (depRecords.length) {
-                    deps = [];
-                    for (let i = 0; i < depRecords.length; i++) {
-                        const depRecord: DependencyRecord = depRecords[i];
-                        const options = depRecord.options;
-                        const childRecord =
-                            options & OptionFlags.CheckSelf ? records.get(depRecord.token) : undefined;
-                        deps.push(tryResolveToken(
-                            // Current Token to resolve
-                            depRecord.token,
-                            // A record which describes how to resolve the token.
-                            // If undefined, this means we don't have such a record
-                            childRecord,
-                            // Other records we know about.
-                            records,
-                            // If we don't know how to resolve dependency and we should not check parent for it,
-                            // than pass in Null injector.
-                            !childRecord && !(options & OptionFlags.CheckParent) ? NULL_INJECTOR : parent,
-                            options & OptionFlags.Optional ? null : Injector.THROW_IF_NOT_FOUND,
-                            InjectFlags.Default));
-                    }
-                }
-                value = fn.apply(obj, deps);
-                record.value = value;
-                return value;
-            }
-        }
-        if (Array.isArray(record)) {
-            value = record.map(rec => handler(rec))
-        } else {
-            value = handler(record)
-        }
-    } else if (!(flags & InjectFlags.Self)) {
-        value = parent.get(token, notFoundValue, InjectFlags.Default);
-    }
-    return value;
-}
+
 
 export function createFactoryProviderRecord(val: FactoryProvider): Record {
     return new Record(val.useFactory, createDependencyRecord(val.deps), undefined);
@@ -161,7 +110,6 @@ export function createExistingProviderRecord(val: ExistingProvider): Record {
         token: Injector
     }], undefined);
 }
-
 /**
  * deps: [
  *  [InjectFlags.Host,InjectFlags.Optional,ImsServices]
@@ -298,26 +246,23 @@ export const topInjector = {
     get: inject
 } as Injector;
 
-const _THROW_IF_NOT_FOUND = new Object();
-export const THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
-
 export interface IInjector {
     get<T>(token: IToken<T>, notFound?: T, flags?: InjectFlags, ): T | T[] | undefined;
 }
-
+// null
 export class NullInjector implements IInjector {
     get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND, flags: InjectFlags): any {
         // 如果是Optional
-        if (notFoundValue === _THROW_IF_NOT_FOUND) {
+        const res = inject(token, notFoundValue, flags);
+        if (res === _THROW_IF_NOT_FOUND) {
             const error = new Error(`NullInjectorError: No provider for ${stringify(token)}!`);
             error.name = 'NullInjectorError';
             throw error;
         }
-        return notFoundValue;
+        return res;
     }
 }
-export const SOURCE = '__source';
-const NG_TOKEN_PATH = 'ngTokenPath';
+const NULL_INJECTOR = new NullInjector() as Injector;
 
 export function catchInjectorError(
     e: any, token: any, injectorErrorName: string, source: string | null): never {
@@ -330,10 +275,9 @@ export function catchInjectorError(
     e[NG_TEMP_TOKEN_PATH] = null;
     throw e;
 }
-
 export class Injector implements IInjector {
     static THROW_IF_NOT_FOUND = THROW_IF_NOT_FOUND;
-    static NULL: IInjector = new NullInjector();
+    static NULL: IInjector = NULL_INJECTOR;
     _records: Map<any, Record | Record[]> = new Map();
     exports: Map<any, Record | Record[]> = new Map();
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug)
@@ -362,7 +306,7 @@ export class Injector implements IInjector {
     }
     debug() {
         this._records.forEach((item, key) => {
-            this.logger.info(`${key.name}`)
+            this.logger.debug(`injector ${key.name} registed`)
         });
     }
     set(token: any, record: Record | Record[]) {
@@ -389,8 +333,6 @@ export class Injector implements IInjector {
         }
     }
 }
-const NULL_INJECTOR = Injector.NULL as Injector;
-
 export function createTypeProviderRecord(val: TypeProvider): Record {
     return {
         fn: () => new val(),
@@ -405,8 +347,6 @@ export function createClassProviderRecord(val: ClassProvider): Record {
         value: undefined
     }
 }
-
-const NEW_LINE = /\n/gm;
 function formatError(
     text: string, obj: any, injectorErrorName: string, source: string | null = null): string {
     text = text && text.charAt(0) === '\n' && text.charAt(1) == NO_NEW_LINE ? text.substr(2) : text;
@@ -425,4 +365,64 @@ function formatError(
         context = `{${parts.join(', ')}}`;
     }
     return `${injectorErrorName}${source ? '(' + source + ')' : ''}[${context}]: ${text.replace(NEW_LINE, '\n  ')}`;
+}
+// 解析token
+export function resolveToken(
+    token: any,
+    record: Record | Record[] | undefined,
+    records: Map<any, Record | Record[]>,
+    parent: Injector,
+    notFoundValue: any,
+    flags: InjectFlags
+) {
+    let value;
+    if (record && !(flags & InjectFlags.SkipSelf)) {
+        // If we don't have a record, this implies that we don't own the provider hence don't know how
+        // to resolve it.
+        function handler(record: Record) {
+            value = record.value;
+            if (value == CIRCULAR) {
+                throw Error(NO_NEW_LINE + 'Circular dependency');
+            } else if (value === EMPTY) {
+                record.value = CIRCULAR;
+                let obj = undefined;
+                let fn = record.fn;
+                let depRecords = record.deps;
+                let deps = EMPTY;
+                if (depRecords.length) {
+                    deps = [];
+                    for (let i = 0; i < depRecords.length; i++) {
+                        const depRecord: DependencyRecord = depRecords[i];
+                        const options = depRecord.options;
+                        const childRecord =
+                            options & OptionFlags.CheckSelf ? records.get(depRecord.token) : undefined;
+                        deps.push(tryResolveToken(
+                            // Current Token to resolve
+                            depRecord.token,
+                            // A record which describes how to resolve the token.
+                            // If undefined, this means we don't have such a record
+                            childRecord,
+                            // Other records we know about.
+                            records,
+                            // If we don't know how to resolve dependency and we should not check parent for it,
+                            // than pass in Null injector.
+                            !childRecord && !(options & OptionFlags.CheckParent) ? NULL_INJECTOR : parent,
+                            options & OptionFlags.Optional ? null : Injector.THROW_IF_NOT_FOUND,
+                            InjectFlags.Default));
+                    }
+                }
+                value = fn.apply(obj, deps);
+                record.value = value;
+                return value;
+            }
+        }
+        if (Array.isArray(record)) {
+            value = record.map(rec => handler(rec))
+        } else {
+            value = handler(record)
+        }
+    } else if (!(flags & InjectFlags.Self)) {
+        value = parent.get(token, notFoundValue, InjectFlags.Default);
+    }
+    return value;
 }
