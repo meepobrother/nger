@@ -1,9 +1,10 @@
 import { NgModule } from 'nger-core';
-import { IndexController } from './inc';
+import { HomeController, UserController } from './inc';
 /** api服务 */
 @NgModule({
     declarations: [
-        IndexController
+        HomeController, 
+        UserController
     ],
     providers: []
 })
