@@ -2,7 +2,7 @@ import { exec } from 'shelljs';
 import { execSync } from 'child_process';
 import { join } from 'path';
 import { existsSync } from 'fs';
-import { ConsoleLogger } from 'nger-logger';
+import { Logger } from 'nger-logger';
 
 export interface IConfig {
     npm: 'cnpm' | 'npm' | 'yarn';
@@ -11,7 +11,7 @@ export interface IConfig {
 export class NgerUtil {
     root: string = process.cwd()
     config: IConfig;
-    constructor(public logger: ConsoleLogger) { }
+    constructor(public logger: Logger) { }
     /** 加载配置文件 */
     loadConfig(): IConfig {
         const configPath = join(this.root, 'config/config.json');

@@ -39,6 +39,15 @@
       "nger-core": [
         "packages/nger-core/lib/index.ts"
       ],
+      "nger-module-pm2": [
+        "packages/nger-module-pm2/lib/index.ts"
+      ],
+      "nger-module-gulp": [
+        "packages/nger-module-gulp/lib/index.ts"
+      ],
+      "nger-module-webpack": [
+        "packages/nger-module-webpack/lib/index.ts"
+      ],
       "nger-di": [
         "packages/nger-di/lib/index.ts"
       ],

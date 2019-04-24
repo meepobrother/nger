@@ -6,7 +6,7 @@ import {
     isFactoryProvider, ClassProvider, TypeProvider
 } from './type'
 import { InjectionToken } from './injection_token';
-import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
+import { ConsoleLogger, LogLevel, Logger, ERROR } from 'nger-logger';
 export const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
 export const SOURCE = '__source';
 const NG_TOKEN_PATH = 'ngTokenPath';
@@ -48,7 +48,7 @@ export function inject<T>(token: any, notFound?: T, flags: InjectFlags = InjectF
             token,
             record,
             globalRecord,
-            Injector.NULL as Injector,
+            ERROR_INJECTOR,
             notFound,
             flags
         );
@@ -249,6 +249,17 @@ export const topInjector = {
 export interface IInjector {
     get<T>(token: IToken<T>, notFound?: T, flags?: InjectFlags, ): T | T[] | undefined;
 }
+export class ErrorInjector implements IInjector {
+    get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND, flags: InjectFlags): any {
+        // 如果是Optional
+        if (notFoundValue === _THROW_IF_NOT_FOUND) {
+            const error = new Error(`NullInjectorError: No provider for ${stringify(token)}!`);
+            error.name = 'NullInjectorError';
+            throw error;
+        }
+        return notFoundValue;
+    }
+}
 // null
 export class NullInjector implements IInjector {
     get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND, flags: InjectFlags): any {
@@ -263,9 +274,15 @@ export class NullInjector implements IInjector {
     }
 }
 const NULL_INJECTOR = new NullInjector() as Injector;
+const ERROR_INJECTOR = new ErrorInjector() as Injector;
+
 
 export function catchInjectorError(
-    e: any, token: any, injectorErrorName: string, source: string | null): never {
+    e: any,
+    token: any,
+    injectorErrorName: string,
+    source: string | null
+): never {
     const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
     if (token[SOURCE]) {
         tokenPath.unshift(token[SOURCE]);
@@ -275,25 +292,31 @@ export function catchInjectorError(
     e[NG_TEMP_TOKEN_PATH] = null;
     throw e;
 }
+
 export class Injector implements IInjector {
     static THROW_IF_NOT_FOUND = THROW_IF_NOT_FOUND;
     static NULL: IInjector = NULL_INJECTOR;
     _records: Map<any, Record | Record[]> = new Map();
     exports: Map<any, Record | Record[]> = new Map();
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug)
+    parent: Injector;
     constructor(
         records: StaticProvider[],
-        private parent: Injector = Injector.NULL as Injector,
+        parent: Injector | null = null,
         public source: string | null = null
     ) {
+        if (!parent) {
+            parent = Injector.NULL as Injector;
+        }
+        this.parent = parent;
         this._records.set(Injector, new Record(() => this, [], undefined));
         records.map(record => {
             // todo
             this._records.set(record.provide, createStaticRecrod(record))
         });
     }
-    create(records: StaticProvider[]) {
-        return new Injector(records, this)
+    create(records: StaticProvider[], source: string | null = null) {
+        return new Injector(records, this, source)
     }
     setExport(token: any) {
         const record = this._records.get(token);
@@ -306,7 +329,7 @@ export class Injector implements IInjector {
     }
     debug() {
         this._records.forEach((item, key) => {
-            this.logger.debug(`injector ${key.name} registed`)
+            this.logger.debug(`injector:${this.source} ${key.name} registed`)
         });
     }
     set(token: any, record: Record | Record[]) {
@@ -331,20 +354,6 @@ export class Injector implements IInjector {
         } catch (e) {
             return catchInjectorError(e, token, 'StaticInjectorError', this.source);
         }
-    }
-}
-export function createTypeProviderRecord(val: TypeProvider): Record {
-    return {
-        fn: () => new val(),
-        deps: [],
-        value: undefined
-    }
-}
-export function createClassProviderRecord(val: ClassProvider): Record {
-    return {
-        fn: (...params: any[]) => new val.useClass(),
-        deps: [],
-        value: undefined
     }
 }
 function formatError(
@@ -406,7 +415,7 @@ export function resolveToken(
                             records,
                             // If we don't know how to resolve dependency and we should not check parent for it,
                             // than pass in Null injector.
-                            !childRecord && !(options & OptionFlags.CheckParent) ? NULL_INJECTOR : parent,
+                            !childRecord && !(options & OptionFlags.CheckParent) ? ERROR_INJECTOR : parent,
                             options & OptionFlags.Optional ? null : Injector.THROW_IF_NOT_FOUND,
                             InjectFlags.Default));
                     }

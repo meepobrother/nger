@@ -183,7 +183,7 @@ export class TypeContext {
     /** 实例 */
     _instance: any;
     get instance() {
-        if(this._instance) return this._instance;
+        if (this._instance) return this._instance;
         this._instance = this.injector.get(this.target)
         return this._instance;
     }
@@ -202,10 +202,10 @@ export class TypeContext {
             return this._injector;
         }
         if (this.parent) {
-            this._injector = this.parent.injector.create(records)
+            this._injector = this.parent.injector.create(records, this.target.name)
             return this._injector;
         }
-        this._injector = new Injector(records)
+        this._injector = new Injector(records, null, this.target.name)
         return this._injector;
     }
 

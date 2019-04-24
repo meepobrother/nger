@@ -15,11 +15,8 @@ export interface NgModuleOptions {
     jit?: true;
 }
 export const NgModule = makeDecorator<NgModuleOptions>(NgModuleMetadataKey);
-import {
-    AllProvider, TypeProvider, ClassProvider,
-    StaticProvider, isTypeProvider, isClassProvider, InjectFlags
-} from 'nger-di';
-import { StaticClassProvider } from '@angular/core/src/di/provider';
+import { isTypeProvider, isClassProvider, InjectFlags } from 'nger-di';
+import { StaticClassProvider, FactoryProvider } from '@angular/core/src/di/provider';
 import { HostConstructorAst } from './host';
 import { SkipSelfConstructorAst } from './skip-self';
 import { SelfConstructorAst } from './self';
@@ -79,22 +76,23 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
             dec.paramsTypes.map((par, index) => {
                 if (!deps[index]) deps[index] = par;
             });
-            const declarationProvider: StaticClassProvider = {
+            const declarationProvider: FactoryProvider = {
                 provide: dec.target,
-                useClass: dec.target,
+                useFactory: (...params) => new dec.target(...params),
                 deps: deps,
                 multi: false
             }
             injector.setStatic([declarationProvider]);
+            injector.setExport(dec.target);
         })
         // 处理provider
         if (def.providers) {
             def.providers.map(pro => {
                 if (isTypeProvider(pro)) {
                     const deps = [];
-                    const proProvider: StaticClassProvider = {
+                    const proProvider: FactoryProvider = {
                         provide: pro,
-                        useClass: pro,
+                        useFactory: (...params: any) => new pro(...params),
                         deps: deps,
                         multi: false
                     }
