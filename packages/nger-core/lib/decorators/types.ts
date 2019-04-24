@@ -6,6 +6,7 @@ export interface Type<T> extends Function {
 export function isType<T>(val: any): val is Type<T> {
     return typeof val === 'function';
 }
+
 export enum ChangeDetectionStrategy {
     OnPush = 0,
     Default = 1
@@ -36,8 +37,6 @@ export abstract class QueryList<T> {
     abstract setDirty(): void;
     abstract destroy(): void;
 }
-
-
 export interface ValueSansProvider {
     useValue: any;
 }
@@ -94,8 +93,6 @@ export interface ModuleWithProviders<T = any> {
 export interface SchemaMetadata {
     name: string;
 }
-
-
 export type UrlMatcher = (
     segments: UrlSegment[],
     group: UrlSegmentGroup,

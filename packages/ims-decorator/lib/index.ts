@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { Injector } from '@angular/core';
 export interface Type<T> extends Function {
     new(...args: any[]): T;
 }
@@ -211,6 +212,7 @@ export class TypeContext {
             this.propertys = context.visitProperty();
             this.methods = context.visitMethod();
             this.constructors = context.visitController();
+            // injector get
             this.instance = new type();
         } else {
             throw new Error(`${type.name} get context error`)
@@ -258,12 +260,7 @@ export class NullAstVisitor implements AstVisitor {
         return ast.visit(this, context);
     }
     visitType(type: any): TypeContext | undefined {
-        const context = getContext(type);
-        if (context) {
-            return new TypeContext(type, this);
-        } else {
-            // throw new Error(`visitType:${type.name} get context error`)
-        }
+        return undefined;
     }
     visitClass(ast: ClassAst, context?: ParserAstContext): any { }
     visitMethod(ast: MethodAst, context: ParserAstContext): any { }
@@ -272,7 +269,6 @@ export class NullAstVisitor implements AstVisitor {
     visitConstructor(ast: ConstructorAst, context: ParserAstContext): any { }
 }
 export class Visitors extends NullAstVisitor {
-    addons: TypeContext[] = [];
     constructor(public visitors: AstVisitor[]) {
         super();
     }
@@ -446,7 +442,6 @@ export class ParserVisitor extends NullAstVisitor {
         context.parameters.push(ast);
     }
 }
-
 
 export class ParserManager {
     visitor: AstVisitor = new ParserVisitor();
