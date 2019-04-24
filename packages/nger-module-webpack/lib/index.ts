@@ -1,7 +1,13 @@
 import { NgModule } from 'nger-core';
-
+import { WebpackConfigToken } from './providers/tokens'
 @NgModule({
-    providers: []
+    providers: [{
+        provide: WebpackConfigToken,
+        useValue: {
+
+        },
+        multi: true
+    }]
 })
-export class NgerWebpackModule { }
+export class NgerModuleWebpack { }
 
