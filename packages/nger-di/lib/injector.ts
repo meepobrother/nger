@@ -252,17 +252,57 @@ export function createExistingProviderRecord(val: ExistingProvider): Record {
     }], undefined);
 }
 
-export function createDependencyRecord(deps: any[] | undefined): DependencyRecord[] {
-    const dependencyRecords: DependencyRecord[] = [];
-    if (deps && deps.length > 0) {
-        deps.map((dep, index) => {
-            dependencyRecords.push({
-                token: dep,
-                options: index,
+/**
+ * deps: [
+ *  [InjectFlags.Host,InjectFlags.Optional,ImsServices]
+ * ImsServices,
+ * [ImsServices]
+ * ...
+ * ]
+ */
+export function createDeps(deps: any[]): DependencyRecord[] {
+    return deps.map((dep, index) => {
+        // [InjectFlags.Host]
+        if (Array.isArray(dep)) {
+            let token, options = OptionFlags.Default;
+            dep.map(opt => {
+                if (typeof opt === 'number') {
+                    if (opt === InjectFlags.Self) {
+                        options = options & ~OptionFlags.CheckParent;
+                    } else if (opt === InjectFlags.Optional) {
+                        options = options | OptionFlags.Optional;
+                    } else if (opt === InjectFlags.SkipSelf) {
+                        options = options & ~OptionFlags.CheckSelf;
+                    }
+                } else {
+                    token = opt;
+                }
             });
-        })
+            return {
+                token,
+                options
+            }
+        } else {
+            return {
+                token: dep,
+                options: OptionFlags.Default
+            }
+        }
+    })
+}
+/**
+ * deps: [
+ *  [InjectFlags.Host,InjectFlags.Optional,ImsServices]
+ * ImsServices,
+ * [ImsServices]
+ * ...
+ * ]
+ */
+export function createDependencyRecord(deps: any[] | undefined): DependencyRecord[] {
+    if (deps && deps.length > 0) {
+        return createDeps(deps)
     }
-    return dependencyRecords;
+    return [];
 }
 export function createConstructorProvider(val: ConstructorProvider): Record {
 

@@ -1,7 +1,8 @@
 import { TypeContext } from 'ims-decorator';
 import { HostConstructorAst, SelfConstructorAst, InjectConstructorAst, OptionalConstructorAst, SkipSelfConstructorAst } from 'nger-core';
-import { Record, DependencyRecord, OptionFlags } from './injector'
+import { Record, DependencyRecord, OptionFlags, InjectFlags } from './injector'
 import { resolveForwardRef } from './util'
+
 // Host/Self/Inject/Optional/SkipSelf
 export function createTypeRecord(context: TypeContext): { token: any, record: Record } {
     // 没有Attribute
