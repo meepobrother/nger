@@ -6,12 +6,13 @@ import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
 
-import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from 'nger-core';
+import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform } from 'nger-core';
 import { join } from 'path';
-export class NgerPlatformKoa {
+export class NgerPlatformKoa extends Platform {
     logger: ConsoleLogger
     util: NgerUtil;
     constructor() {
+        super();
         this.logger = new ConsoleLogger(LogLevel.debug);
         this.util = new NgerUtil(this.logger)
     }

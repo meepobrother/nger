@@ -11,3 +11,5 @@ export * from './controller';
 export * from './addon';
 
 export * from './orm';
+export * from './platform';
+

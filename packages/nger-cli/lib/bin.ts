@@ -10,5 +10,5 @@ if (!context) {
 }
 if (context) {
     logger.info(`nger is running!`)
-    new NgerPlatformCli().run(context);
+    new NgerPlatformCli().bootstrap(context);
 }

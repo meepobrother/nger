@@ -22,7 +22,7 @@ import {
     isSkipSelfConstructorAst, isAttributeConstructorAst,
     HostConstructorAst, SelfConstructorAst,
     InjectConstructorAst, OptionalConstructorAst,
-    SkipSelfConstructorAst, AttributeConstructorAst,
+    SkipSelfConstructorAst, AttributeConstructorAst, isInjectPropertyAst, InjectPropertyAst,
 } from './decorators/public_api'
 import { isCommandClassAst, CommandClassAst } from './cli/command'
 import { isOptionPropertyAst, OptionPropertyAst } from './cli/option'
@@ -109,6 +109,9 @@ export class NgVisitor extends NullAstVisitor {
         }
     }
     visitProperty(ast: PropertyAst, context: ParserAstContext) {
+        if (isInjectPropertyAst(ast)) {
+            return new InjectPropertyAst(ast, context)
+        }
         // listener
         if (orm.isAfterInsertPropertyAst(ast)) {
             return new orm.AfterInsertPropertyAst(ast, context)

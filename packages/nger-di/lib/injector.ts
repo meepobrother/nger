@@ -178,34 +178,34 @@ export function createMultiRecord(res: Record | Record[] | undefined, newRecord:
     }
     return records;
 }
-export function createStaticRecrod(record: StaticProvider) {
+export function createStaticRecrod(record: StaticProvider, records: Map<any, Record | Record[]>) {
     if (isValueProvider(record)) {
         if (!!record.multi) {
-            return createMultiRecord(this.map.get(record.provide), createValueProviderRecord(record));
+            return createMultiRecord(records.get(record.provide), createValueProviderRecord(record));
         } else {
             return createValueProviderRecord(record)
         }
     } else if (isExistingProvider(record)) {
         if (!!record.multi) {
-            return createMultiRecord(this.map.get(record.provide), createExistingProviderRecord(record));
+            return createMultiRecord(records.get(record.provide), createExistingProviderRecord(record));
         } else {
             return createExistingProviderRecord(record)
         }
     } else if (isStaticClassProvider(record)) {
         if (!!record.multi) {
-            return createMultiRecord(this.map.get(record.provide), createStaticClassProviderRecord(record));
+            return createMultiRecord(records.get(record.provide), createStaticClassProviderRecord(record));
         } else {
             return createStaticClassProviderRecord(record)
         }
     } else if (isFactoryProvider(record)) {
         if (!!record.multi) {
-            return createMultiRecord(this.map.get(record.provide), createFactoryProviderRecord(record));
+            return createMultiRecord(records.get(record.provide), createFactoryProviderRecord(record));
         } else {
             return createFactoryProviderRecord(record)
         }
     } else {
         if (!!record.multi) {
-            return createMultiRecord(this.map.get(record.provide), createConstructorProvider(record));
+            return createMultiRecord(records.get(record.provide), createConstructorProvider(record));
         } else {
             return createConstructorProvider(record)
         }
@@ -313,7 +313,7 @@ export class Injector implements IInjector {
         this._records.set(Injector, new Record(() => this, [], undefined));
         records.map(record => {
             // todo
-            this._records.set(record.provide, createStaticRecrod(record))
+            this._records.set(record.provide, createStaticRecrod(record, this._records))
         });
     }
     create(records: StaticProvider[], source: string | null = null) {
@@ -325,7 +325,7 @@ export class Injector implements IInjector {
     }
     setStatic(records: StaticProvider[]) {
         records.map(record => {
-            this._records.set(record.provide, createStaticRecrod(record))
+            this._records.set(record.provide, createStaticRecrod(record, this._records))
         });
     }
     debug() {

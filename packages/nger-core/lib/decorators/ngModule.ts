@@ -1,7 +1,13 @@
-import { makeDecorator, ClassContext, ClassAst, TypeContext, ConstructorAst, ConstructorContext } from 'ims-decorator';
+import { makeDecorator, ClassContext, ClassAst, TypeContext, ConstructorContext } from 'ims-decorator';
 export const NgModuleMetadataKey = 'NgModuleMetadataKey';
-import { InjectConstructorAst } from './inject'
-import { Provider, Type, ModuleWithProviders, SchemaMetadata } from 'nger-di';
+import { InjectConstructorAst, InjectMetadataKey, InjectPropertyAst } from './inject'
+import { Provider, Type, ModuleWithProviders, SchemaMetadata, Injector } from 'nger-di';
+import { isTypeProvider, isClassProvider, InjectFlags } from 'nger-di';
+import { InjectionToken, StaticClassProvider, FactoryProvider } from 'nger-di';
+import { HostConstructorAst } from './host';
+import { SkipSelfConstructorAst } from './skip-self';
+import { SelfConstructorAst } from './self';
+import { OptionalConstructorAst } from './optional';
 export interface NgModuleOptions {
     providers?: Provider[];
     declarations?: Array<Type<any> | any[]>;
@@ -15,12 +21,7 @@ export interface NgModuleOptions {
     jit?: true;
 }
 export const NgModule = makeDecorator<NgModuleOptions>(NgModuleMetadataKey);
-import { isTypeProvider, isClassProvider, InjectFlags } from 'nger-di';
-import { StaticClassProvider, FactoryProvider } from '@angular/core/src/di/provider';
-import { HostConstructorAst } from './host';
-import { SkipSelfConstructorAst } from './skip-self';
-import { SelfConstructorAst } from './self';
-import { OptionalConstructorAst } from './optional';
+
 function handlerConstructorContext(deps: any[], ast: ConstructorContext<any>) {
     deps[ast.ast.parameterIndex] = deps[ast.ast.parameterIndex] || [];
     // 构造函数装饰器 这里就要判断了 目的是拿到token即可
@@ -50,6 +51,20 @@ function handlerTypeContextToParams(dec: TypeContext) {
         if (!deps[index]) deps[index] = par;
     });
     return deps;
+}
+export const APP_INITIALIZER = new InjectionToken<(() => void)[]>(`APP_INITIALIZER`);
+function setAppInitializer(injector: Injector, dec: TypeContext) {
+    injector.setStatic([{
+        provide: APP_INITIALIZER,
+        useValue: () => {
+            const injects = dec.getProperty(InjectMetadataKey) as InjectPropertyAst[];
+            injects.map(inject => {
+                const { metadataDef, propertyKey, propertyType } = inject.ast;
+                dec.instance[propertyKey] = injector.get(metadataDef.token || propertyType)
+            });
+        },
+        multi: true
+    }]);
 }
 export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
     declarations: TypeContext[] = [];
@@ -81,7 +96,7 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
 
         // 处理 declarations
         this.declarations.map(dec => {
-            const deps = handlerTypeContextToParams(dec)
+            const deps = handlerTypeContextToParams(dec);
             const declarationProvider: FactoryProvider = {
                 provide: dec.target,
                 useFactory: (...params) => new dec.target(...params),
@@ -90,7 +105,9 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
             }
             injector.setStatic([declarationProvider]);
             injector.setExport(dec.target);
-        })
+            // 注册属性赋值器
+            setAppInitializer(injector, dec)
+        });
         // 处理provider
         if (def.providers) {
             def.providers.map(pro => {
@@ -99,6 +116,7 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
                     let deps: any[] = [];
                     if (ctx) {
                         deps = handlerTypeContextToParams(ctx)
+                        setAppInitializer(injector, ctx)
                     }
                     const proProvider: FactoryProvider = {
                         provide: pro,
@@ -109,7 +127,12 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
                     injector.setStatic([proProvider]);
                     injector.setExport(pro);
                 } else if (isClassProvider(pro)) {
-                    const deps = [];
+                    const ctx = this.context.typeContext.visitor.visitType(pro);
+                    let deps: any[] = [];
+                    if (ctx) {
+                        deps = handlerTypeContextToParams(ctx)
+                        setAppInitializer(injector, ctx)
+                    }
                     const proProvider: StaticClassProvider = {
                         ...pro,
                         deps: deps
@@ -122,6 +145,8 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
                 }
             });
         }
+        injector.setExport(APP_INITIALIZER);
+        // 处理属性inject
         injector.debug();
     }
 }

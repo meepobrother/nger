@@ -2,12 +2,13 @@ import { ConsoleLogger, LogLevel } from 'nger-logger';
 import { TypeContext } from 'ims-decorator';
 import express from 'express';
 import { createServer } from 'http';
-import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMetadataKey, GetMethodAst, PostMetadataKey, PostMethodAst } from 'nger-core';
+import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMetadataKey, GetMethodAst, PostMetadataKey, PostMethodAst, Platform } from 'nger-core';
 import { NgerUtil } from 'nger-util';
-export class NgerPlatformExpress {
+export class NgerPlatformExpress extends Platform {
     logger: ConsoleLogger;
     util: NgerUtil;
     constructor() {
+        super();
         this.logger = new ConsoleLogger(LogLevel.debug)
         this.util = new NgerUtil(this.logger);
     }

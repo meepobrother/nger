@@ -7,11 +7,11 @@ export class NgerStart {
     logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
     /** express */
     express(context: TypeContext) {
-        new NgerPlatformExpress().run(context);
+        new NgerPlatformExpress().bootstrap(context);
     }
     /** koa */
     koa(context: TypeContext) {
-        new NgerPlatformKoa().run(context);
+        new NgerPlatformKoa().bootstrap(context);
     }
     /** hapi */
     async hapi(context: TypeContext) {

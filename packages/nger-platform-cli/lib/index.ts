@@ -1,13 +1,14 @@
 import { TypeContext } from "ims-decorator";
-import { CommandMetadataKey, CommandClassAst, OptionMetadataKey, OptionPropertyAst, OptionOptions, visitor, NgModuleClassAst, NgModuleMetadataKey, isCommandClassAst } from "nger-core";
+import { CommandMetadataKey, CommandClassAst, OptionMetadataKey, OptionPropertyAst, OptionOptions, visitor, NgModuleClassAst, NgModuleMetadataKey, Platform } from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
 const pkg = require(join(__dirname, '../', 'package.json'))
-export class NgerPlatformCli {
+export class NgerPlatformCli extends Platform {
     logger: ConsoleLogger;
     constructor() {
+        super();
         this.logger = new ConsoleLogger(LogLevel.debug);
     }
     run(context: TypeContext) {
