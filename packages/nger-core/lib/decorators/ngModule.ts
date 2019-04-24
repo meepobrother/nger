@@ -47,13 +47,17 @@ function handlerTypeContextToParams(dec: TypeContext) {
     dec.getConstructor().map(ast => {
         handlerConstructorContext(deps, ast)
     });
-    dec.paramsTypes.map((par, index) => {
+    dec.paramsTypes && dec.paramsTypes.map((par, index) => {
         if (!deps[index]) deps[index] = par;
     });
     return deps;
 }
 export const APP_INITIALIZER = new InjectionToken<(() => void)[]>(`APP_INITIALIZER`);
+export const APP_ALLREADY = new InjectionToken<(() => void)[]>(`APP_ALLREADY`);
+const hasInjectedTarget = new Set();
 function setAppInitializer(injector: Injector, dec: TypeContext) {
+    if (hasInjectedTarget.has(dec.target)) return;
+    hasInjectedTarget.add(dec.target);
     injector.setStatic([{
         provide: APP_INITIALIZER,
         useValue: () => {
@@ -62,6 +66,13 @@ function setAppInitializer(injector: Injector, dec: TypeContext) {
                 const { metadataDef, propertyKey, propertyType } = inject.ast;
                 dec.instance[propertyKey] = injector.get(metadataDef.token || propertyType)
             });
+        },
+        multi: true
+    }, {
+        provide: APP_ALLREADY,
+        useValue: () => {
+            const { instance } = dec;
+            if (instance.ngOnInit) instance.ngOnInit();
         },
         multi: true
     }]);
@@ -145,6 +156,23 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
                 }
             });
         }
+        // 当前ngModule注入
+        const typeContext = this.context.typeContext;
+        let deps: any[] = [];
+        if (typeContext) {
+            deps = handlerTypeContextToParams(typeContext)
+            setAppInitializer(injector, typeContext)
+        }
+        const proProvider: FactoryProvider = {
+            provide: this.ast.target,
+            useFactory: (...params: any) => new this.ast.target(...params),
+            deps: deps,
+            multi: false
+        }
+        injector.setStatic([proProvider]);
+        injector.setExport(this.ast.target);
+        setAppInitializer(injector, typeContext);
+
         injector.setExport(APP_INITIALIZER);
         // 处理属性inject
         injector.debug();

@@ -208,22 +208,19 @@ export class TypeContext {
         this._injector = new Injector(records, null, this.target.name)
         return this._injector;
     }
-
     setParent(parent: TypeContext) {
         this.parent = parent;
         parent.children.push(this);
     }
-
     get<T = any>(key: any): T | undefined {
         if (this.global.has(key)) return this.global.get(key);
         if (this.parent) return this.parent.get(key)
     }
-
     set(key: any, val: any) {
         this.global.set(key, val);
     }
-    paramsLength: number;
-    paramsTypes: any[];
+    paramsLength: number = 0;
+    paramsTypes: any[] = [];
 
     constructor(public type: any, public visitor: AstVisitor) {
         const context = getContext(type);
@@ -245,7 +242,7 @@ export class TypeContext {
     }
 
     inject(type: any) {
-        return this.get(type)
+        return this.injector.get(type)
     }
 
     getClass<T extends ClassContext<any> = ClassContext<any>>(metadataKey: string): T | undefined {

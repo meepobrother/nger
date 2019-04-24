@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Inject } from 'nger-core'
 import { Logger } from 'nger-logger'
-import { APP_INITIALIZER } from '@angular/core'
 @Controller({
     path: '/'
 })
