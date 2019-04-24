@@ -33,12 +33,7 @@ export {
     MethodCall, SafeMethodCall, FunctionCall, ASTWithSource,
     TemplateBinding,
 }
-interface TransformHtmlResult {
-    type: string;
-    props: any;
-    children: TransformHtmlResult[];
-}
-export type ITransformVisitor = Visitor<TransformHtmlResult | void>;
+export type ITransformVisitor = Visitor<any>;
 export class NullTransformHtmlVisitor implements ITransformVisitor {
     visit(node: Node, context?: any) { }
     visitElement(element: Element, context?: any) { }
@@ -55,7 +50,7 @@ export class NullTransformHtmlVisitor implements ITransformVisitor {
 }
 
 export class TransformHtmlVisitor implements ITransformVisitor {
-    visitors: ITransformVisitor[] = [];
+    constructor(public visitors: Visitor<any>[]) { }
     visit(node: Node) {
         for (let it of this.visitors) {
             let res = node.visit(it);
@@ -128,10 +123,4 @@ export class TransformHtmlVisitor implements ITransformVisitor {
             return res;
         }
     }
-}
-export function transformHtml(source: string, visitor: any) {
-    const transformHtmlVisitor = new TransformHtmlVisitor();
-    transformHtmlVisitor.visitors.push(visitor);
-    const { nodes } = parseTemplate(source, ``);
-    return nodes.map(node => node.visit(transformHtmlVisitor))
 }
