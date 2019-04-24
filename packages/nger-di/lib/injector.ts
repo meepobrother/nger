@@ -147,9 +147,7 @@ export function createFactoryProviderRecord(val: FactoryProvider): Record {
     return new Record(val.useFactory, createDependencyRecord(val.deps), undefined);
 }
 export function createStaticClassProviderRecord(val: StaticClassProvider): Record {
-    return new Record((...params: any[]) => {
-        new val.useClass(...params)
-    }, createDependencyRecord(val.deps), undefined)
+    return new Record((...params: any[]) => new val.useClass(...params), createDependencyRecord(val.deps), undefined)
 }
 export function createValueProviderRecord(val: ValueProvider): Record {
     return new Record(() => val.useValue, [], undefined);
