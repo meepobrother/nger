@@ -248,7 +248,11 @@ export class Injector {
             return inject<T>(token, notFound)
         }
     }
-    getRecordValue(record: Record | Record[]) {
+    // 创建子级injector
+    create(records: StaticProvider[]) {
+        return new Injector(records, this)
+    }
+    private getRecordValue(record: Record | Record[]) {
         if (Array.isArray(record)) {
             return record.map(rec => this.getRecordValue(rec))
         } else {
