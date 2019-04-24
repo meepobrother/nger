@@ -81,6 +81,7 @@ export interface FactoryProvider extends FactorySansProvider {
 export type StaticProvider = ValueProvider | ExistingProvider | StaticClassProvider | ConstructorProvider | FactoryProvider;
 
 import { Logger, ConsoleLogger, LogLevel } from 'nger-logger';
+import { isType } from 'ims-decorator';
 export class Record {
     constructor(
         public fn: Function,
@@ -142,13 +143,13 @@ export function isStaticClassProvider(val: StaticProvider): val is StaticClassPr
 export function isFactoryProvider(val: StaticProvider): val is FactoryProvider {
     return !!(val as FactoryProvider).useFactory
 }
-export function createisFactoryProviderRecord(val: FactoryProvider): Record {
-    return new Record(val.useFactory, val.deps, undefined);
+export function createFactoryProviderRecord(val: FactoryProvider): Record {
+    return new Record(val.useFactory, createDependencyRecord(val.deps), undefined);
 }
 export function createStaticClassProviderRecord(val: StaticClassProvider): Record {
     return new Record((...params: any[]) => {
         new val.useClass(...params)
-    }, val.deps, undefined)
+    }, createDependencyRecord(val.deps), undefined)
 }
 export function createValueProviderRecord(val: ValueProvider): Record {
     return new Record(() => val.useValue, [], undefined);
@@ -156,19 +157,27 @@ export function createValueProviderRecord(val: ValueProvider): Record {
 export function createExistingProviderRecord(val: ExistingProvider): Record {
     return new Record((injector: Injector) => {
         return injector.get(val.useExisting)
-    }, [], undefined);
+    }, [{
+        options: 0,
+        token: Injector
+    }], undefined);
 }
-export function createConstructorProvider(val: ConstructorProvider): Record {
-    const deps: DependencyRecord[] = [];
-    if (val.deps) {
-        val.deps.map((dep, index) => {
-            deps.push({
+
+export function createDependencyRecord(deps: any[] | undefined): DependencyRecord[] {
+    const dependencyRecords: DependencyRecord[] = [];
+    if (deps && deps.length > 0) {
+        deps.map((dep, index) => {
+            dependencyRecords.push({
                 token: dep,
                 options: index,
             });
         })
     }
-    return new Record((...params: any[]) => new val.provide(...params), deps, undefined)
+    return dependencyRecords;
+}
+export function createConstructorProvider(val: ConstructorProvider): Record {
+
+    return new Record((...params: any[]) => new val.provide(...params), createDependencyRecord(val.deps), undefined)
 }
 export function createMultiRecord(res: Record | Record[] | undefined, newRecord: Record) {
     let records: Record[] = [];
@@ -204,9 +213,9 @@ export function createStaticRecrod(record: StaticProvider) {
         }
     } else if (isFactoryProvider(record)) {
         if (!!record.multi) {
-            return createMultiRecord(this.map.get(record.provide), createisFactoryProviderRecord(record));
+            return createMultiRecord(this.map.get(record.provide), createFactoryProviderRecord(record));
         } else {
-            return createisFactoryProviderRecord(record)
+            return createFactoryProviderRecord(record)
         }
     } else {
         if (!!record.multi) {
@@ -223,6 +232,7 @@ export type ITokenString<T> = string & {
     target: T
 }
 export type IToken<T> = Type<T> | Abstract<T> | InjectionToken<T> | ITokenString<T>;
+
 export class Injector {
     map: Map<any, Record | Record[]> = new Map();
     constructor(records: StaticProvider[], private parent?: Injector) {
