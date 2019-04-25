@@ -1,12 +1,12 @@
 import { Injectable } from 'nger-core'
-import { IndexController } from '../../inc/index'
+import { HomeController } from '../../inc/home'
 @Injectable()
 export class NgerUserInjectable {
-    constructor(public userCtrol: IndexController) { }
+    constructor(public home: HomeController) { }
     getInfo() {
-        return this.userCtrol.userInfo();
+        return this.home.userInfo();
     }
     setUser(username: string, age: number) {
-        return this.userCtrol.setUserInfo(username, age)
+        return this.home.setUserInfo(username, age)
     }
 }

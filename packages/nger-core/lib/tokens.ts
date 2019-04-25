@@ -8,6 +8,7 @@ export const TypeormOptionsToken = new InjectionToken<ConnectionOptions>(`Typeor
 export const ConnectionToken = new InjectionToken<Connection>(`ConnectionToken`)
 // ConnectionManagerToken
 export const ConnectionManagerToken = new InjectionToken<ConnectionManager>(`ConnectionManagerToken`)
+// 
 
 export interface NgerConfig {
     // 包管理工具

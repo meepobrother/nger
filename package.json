@@ -3,6 +3,7 @@
   "private": true,
   "devDependencies": {
     "@angular/compiler": "^7.2.13",
+    "@angular/compiler-cli": "^7.2.14",
     "@angular/core": "^7.2.13",
     "@angular/language-service": "^7.2.13",
     "@angular/router": "^7.2.13",

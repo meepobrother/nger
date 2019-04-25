@@ -11,27 +11,30 @@ export abstract class Platform {
             });
         }
         try {
-            const initializers = context.injector.get(APP_INITIALIZER) as any[];
-            const errors: any[] = [];
-            for (let init of initializers) {
-                try {
-                    await init()
-                } catch (e) {
-                    errors.push(init)
-                }
-            }
-            if (errors.length > 0) {
-                console.log(`发现 ${errors.length} 个错误, 正在重试。。。`)
-                await Promise.all(errors.map(init => init()))
-            }
-            const readys = context.injector.get(APP_ALLREADY) as any[];
-            readys.map(res => res());
-            const instance = context.instance;
-            if ((instance as OnError).ngOnError) this.onErrorHandler = (e) => instance.ngOnError(e);
+            await this.init(context)
             await this.run(context);
         } catch (e) {
             return this.catchError(e)
         }
+    }
+    async init(context: TypeContext) {
+        const initializers = context.injector.get(APP_INITIALIZER) as any[];
+        const errors: any[] = [];
+        for (let init of initializers) {
+            try {
+                await init()
+            } catch (e) {
+                errors.push(init)
+            }
+        }
+        if (errors.length > 0) {
+            console.log(`发现 ${errors.length} 个错误, 正在重试。。。`)
+            await Promise.all(errors.map(init => init()))
+        }
+        const readys = context.injector.get(APP_ALLREADY) as any[];
+        readys.map(res => res());
+        const instance = context.instance;
+        if ((instance as OnError).ngOnError) this.onErrorHandler = (e) => instance.ngOnError(e);
     }
     abstract run(context: TypeContext): any;
     // 错误捕获

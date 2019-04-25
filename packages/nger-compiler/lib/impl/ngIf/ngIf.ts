@@ -11,6 +11,7 @@ export class ExpressAstVisitor extends NullAstVisitor {
         return ast.name
     }
 }
+
 export class NgIfVisitor extends NullTransformHtmlVisitor {
     expressVisitor: ExpressAstVisitor = new ExpressAstVisitor();
     visitTemplate(template: Template) {

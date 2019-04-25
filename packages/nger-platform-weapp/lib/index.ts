@@ -18,10 +18,6 @@ export class NgerPlatformWeapp {
             // ng module
             if (de instanceof NgModuleClassAst) { }
         });
-        ngModule._providers.map(de => {
-            // injectable
-            if (de instanceof InjectableClassAst) { }
-        });
     }
 
     createPage(context: TypeContext, ): PageInstance {
