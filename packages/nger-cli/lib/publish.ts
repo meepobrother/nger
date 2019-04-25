@@ -2,14 +2,14 @@ import { Command, Inject } from 'nger-core'
 import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
 
 @Command({
-    name: 'test',
-    description: '单元测试',
+    name: 'publish',
+    description: '发布src目录下的应用',
     example: {
-        command: 'nger test',
-        description: '单元测试'
+        command: 'nger publish',
+        description: '发布应用'
     }
 })
-export class TestCommand {
+export class PublishCommand {
     @Inject() logger: Logger;
 
     run() {

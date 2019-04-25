@@ -1,5 +1,5 @@
-import { Command, Option, visitor } from 'nger-core'
-import { ConsoleLogger, LogLevel } from 'nger-logger';
+import { Command, Option, visitor, Inject } from 'nger-core'
+import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
 import { join } from 'path';
 const root = process.cwd();
 import { NgerCliBuild } from './build/public_api'
@@ -13,7 +13,10 @@ import { NgerCliBuild } from './build/public_api'
 })
 export class BuildCommand {
     type: 'h5' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin' = 'h5';
-    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
+
+    @Inject() logger: Logger;
+    @Inject() build: NgerCliBuild;
+
     @Option({
         alias: 'w'
     })
@@ -35,34 +38,33 @@ export class BuildCommand {
         if (app) {
             app.set('watch', this.watch);
             app.set('platform', this.type);
-            const build = new NgerCliBuild();
             switch (this.type) {
                 case 'h5':
-                    build.h5(app)
+                    this.build.h5(app)
                     break;
                 case 'wechat':
-                    build.wechat(app)
+                    this.build.wechat(app)
                     break;
                 case 'weapp':
-                    build.weapp(app)
+                    this.build.weapp(app)
                     break;
                 case 'alipay':
-                    build.alipay(app)
+                    this.build.alipay(app)
                     break;
                 case 'swap':
-                    build.swap(app)
+                    this.build.swap(app)
                     break;
                 case 'tt':
-                    build.tt(app)
+                    this.build.tt(app)
                     break;
                 case 'android':
-                    build.android(app)
+                    this.build.android(app)
                     break;
                 case 'ios':
-                    build.ios(app)
+                    this.build.ios(app)
                     break;
                 case 'admin':
-                    build.admin(app);
+                    this.build.admin(app);
                     break;
                 default:
                     break;

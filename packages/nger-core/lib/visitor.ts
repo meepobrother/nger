@@ -27,7 +27,6 @@ import {
 import { isCommandClassAst, CommandClassAst } from './cli/command'
 import { isOptionPropertyAst, OptionPropertyAst } from './cli/option'
 import { isItMethodAst, ItMethodAst } from './it'
-import { isAddonClassAst, AddonClassAst } from './addon'
 import { isControllerClassAst, ControllerClassAst } from './controller'
 import { isGetMethodAst, GetMethodAst } from './http/get'
 import { isPostMethodAst, PostMethodAst } from './http/post'
@@ -35,9 +34,6 @@ import * as orm from './orm';
 
 export class NgVisitor extends NullAstVisitor {
     visitClass(ast: ClassAst, context: ParserAstContext) {
-        if (isAddonClassAst(ast)) {
-            return new AddonClassAst(ast, context)
-        }
         if (isControllerClassAst(ast)) {
             return new ControllerClassAst(ast, context)
         }

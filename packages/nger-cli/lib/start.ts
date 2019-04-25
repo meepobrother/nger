@@ -1,8 +1,9 @@
-import { Command, visitor, Option } from 'nger-core'
-import { ConsoleLogger, LogLevel } from 'nger-logger';
+import { Command, visitor, Option, Inject } from 'nger-core'
+import { Logger } from 'nger-logger';
 import { join } from 'path';
 const root = process.cwd();
-import { NgerStart } from './start/public_api'
+import { NgerCliStart } from './start/start';
+
 @Command({
     name: 'start [type]',
     description: '启动',
@@ -12,8 +13,10 @@ import { NgerStart } from './start/public_api'
     }
 })
 export class StartCommand {
-    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug);
+    @Inject() logger: Logger;
     type: 'express' | 'koa' | 'hapi' = 'koa';
+
+    @Inject() start: NgerCliStart;
 
     @Option({
         alias: 'p'
@@ -22,7 +25,6 @@ export class StartCommand {
 
     run() {
         this.logger.warn(`start ${this.type}`);
-        const start = new NgerStart();
         const source = join(root, 'src/server')
         const serverSource = require(source).default;
         const app = visitor.visitType(serverSource);
@@ -30,13 +32,13 @@ export class StartCommand {
             app.set('port', this.port);
             switch (this.type) {
                 case 'express':
-                    start.express(app);
+                    this.start.express(app);
                     break;
                 case 'koa':
-                    start.koa(app);
+                    this.start.koa(app);
                     break;
                 case 'hapi':
-                    start.hapi(app);
+                    this.start.hapi(app);
                     break;
                 default:
                     break;

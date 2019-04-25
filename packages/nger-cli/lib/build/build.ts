@@ -1,5 +1,6 @@
 import { TypeContext } from 'ims-decorator';
-
+import { Injectable } from 'nger-core';
+@Injectable()
 export class NgerCliBuild {
     /** 构建h5应用 */
     h5(context: TypeContext) { }

@@ -11,20 +11,19 @@ export abstract class Platform {
             });
         }
         try {
-            await this.run(context);
             const initializers = context.injector.get(APP_INITIALIZER) as any[];
             await Promise.all(initializers.map(init => init()));
             const readys = context.injector.get(APP_ALLREADY) as any[];
             readys.map(res => res());
             const instance = context.instance;
             if ((instance as OnError).ngOnError) this.onErrorHandler = (e) => instance.ngOnError(e);
-            console.log(this.onErrorHandler)
+            await this.run(context);
         } catch (e) {
             return this.catchError(e)
         }
     }
     abstract run(context: TypeContext): any;
-
+    // 错误捕获
     catchError(e: Error) {
         if (this.onErrorHandler) {
             return this.onErrorHandler(e)

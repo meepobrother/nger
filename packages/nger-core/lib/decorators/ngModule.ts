@@ -50,6 +50,7 @@ function handlerTypeContextToParams(dec: TypeContext) {
     dec.paramsTypes && dec.paramsTypes.map((par, index) => {
         if (!deps[index]) deps[index] = par;
     });
+    // 还要找到属性的 不赋值
     return deps;
 }
 export const APP_INITIALIZER = new InjectionToken<(() => void)[]>(`APP_INITIALIZER`);
@@ -60,20 +61,26 @@ function setAppInitializer(injector: Injector, dec: TypeContext) {
     hasInjectedTarget.add(dec.target);
     injector.setStatic([{
         provide: APP_INITIALIZER,
-        useValue: () => {
-            const injects = dec.getProperty(InjectMetadataKey) as InjectPropertyAst[];
-            injects.map(inject => {
-                const { metadataDef, propertyKey, propertyType } = inject.ast;
-                dec.instance[propertyKey] = injector.get(metadataDef.token || propertyType)
-            });
+        useFactory: (injector: Injector) => {
+            return () => {
+                const injects = dec.getProperty(InjectMetadataKey) as InjectPropertyAst[];
+                injects.map(inject => {
+                    const { metadataDef, propertyKey, propertyType } = inject.ast;
+                    dec.instance[propertyKey] = injector.get(metadataDef.token || propertyType)
+                });
+            }
         },
+        deps: [Injector],
         multi: true
     }, {
         provide: APP_ALLREADY,
-        useValue: () => {
-            const { instance } = dec;
-            if (instance.ngOnInit) instance.ngOnInit();
+        useFactory: () => {
+            return () => {
+                const { instance } = dec;
+                if (instance.ngOnInit) instance.ngOnInit();
+            }
         },
+        deps: [],
         multi: true
     }]);
 }
@@ -84,7 +91,6 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
     // 这里是启动组件 也就是首页 前端有用
     bootstrap: TypeContext[] = [];
     _imports: TypeContext[] = [];
-    _providers: TypeContext[] = [];
     constructor(ast: any, context: any) {
         super(ast, context);
         const def = this.ast.metadataDef;
@@ -104,7 +110,6 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
         }
         // 这里需要注册 Provider
         // 需要注册的有 declarations,providers,imports 的 exports
-
         // 处理 declarations
         this.declarations.map(dec => {
             const deps = handlerTypeContextToParams(dec);
@@ -123,7 +128,8 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
         if (def.providers) {
             def.providers.map(pro => {
                 if (isTypeProvider(pro)) {
-                    const ctx = this.context.typeContext.visitor.visitType(pro);
+                    // 这里必须有上下级关系，保留
+                    const ctx = this.context.visitType(pro);
                     let deps: any[] = [];
                     if (ctx) {
                         deps = handlerTypeContextToParams(ctx)

@@ -4,10 +4,15 @@ import { BuildCommand } from './build';
 import { InitCommand } from './init';
 import { TestCommand } from './test';
 import { StartCommand } from './start';
+import { PublishCommand } from './publish';
+
 import { NgModule } from 'nger-core';
-import { NgerModuleGulp } from 'nger-module-gulp'
-import { NgerModuleWebpack } from 'nger-module-webpack'
-import { NgerModulePm2 } from 'nger-module-pm2'
+import { NgerModuleGulp } from 'nger-module-gulp';
+import { NgerModuleWebpack } from 'nger-module-webpack';
+import { NgerModulePm2 } from 'nger-module-pm2';
+
+import { NgerCliBuild } from './build/build'
+import { NgerCliStart } from './start/start'
 
 @NgModule({
     imports: [
@@ -19,7 +24,12 @@ import { NgerModulePm2 } from 'nger-module-pm2'
         BuildCommand,
         InitCommand,
         TestCommand,
-        StartCommand
+        StartCommand,
+        PublishCommand
+    ],
+    providers: [
+        NgerCliStart,
+        NgerCliBuild,
     ]
 })
 export class NgerCli { }

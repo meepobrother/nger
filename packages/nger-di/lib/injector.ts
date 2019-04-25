@@ -357,7 +357,7 @@ export class Injector implements IInjector {
                 flags
             );
         } catch (e) {
-            return catchInjectorError(e, token, 'StaticInjectorError', this.source);
+            return catchInjectorError(e, token, `${this.source}:StaticInjectorError`, this.source);
         }
     }
 }
