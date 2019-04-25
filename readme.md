@@ -15,31 +15,14 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 > 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
 > 将ng中的ngIf、ngFor通过编译器，拓展到其他运行环境，如小程序等。
 
-<h2 align="center">目录</h2>
+<h2 align="center">依赖环境</h2>
 
-- [目录规范](#%E7%9B%AE%E5%BD%95%E8%A7%84%E8%8C%83)
-- [命名规则](#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99)
-- [核心思想](#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3)
-- [开发进度](#%E5%BC%80%E5%8F%91%E8%BF%9B%E5%BA%A6)
-  - [nger-cli](#nger-cli)
-  - [nger-core](#nger-core)
-- [生态](#%E7%94%9F%E6%80%81)
-- [任务安排](#%E4%BB%BB%E5%8A%A1%E5%AE%89%E6%8E%92)
-- [TODO](#todo)
-  - [Controller](#controller)
-  - [@Page](#page)
-  - [@Component](#component)
-  - [ngIf](#ngif)
-  - [ngFor](#ngfor)
-- [多平台SDK统一接口](#%E5%A4%9A%E5%B9%B3%E5%8F%B0sdk%E7%BB%9F%E4%B8%80%E6%8E%A5%E5%8F%A3)
-  - [nger-platform-test](#nger-platform-test)
-  - [nger-platform-cli](#nger-platform-cli)
-  - [nger-platform-express](#nger-platform-express)
-  - [nger-platform-koa](#nger-platform-koa)
-  - [nger-platform-typeorm](#nger-platform-typeorm)
-  - [nger-platform-weapp](#nger-platform-weapp)
-  - [nger-di](#nger-di)
-  - [nger-logger](#nger-logger)
+1. [安装nodejs](https://nodejs.org/en/download/)
+2. [安装docker](https://www.docker.com/products/docker-desktop)
+3. [安装docker-compose](https://docs.docker.com/compose/install/)
+4. npm install
+5. docker-compose up -d
+6. npm run cli start koa
 
 
 ## 目录规范
