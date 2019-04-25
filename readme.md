@@ -1,6 +1,7 @@
 <p align="center"><img width="120" src="./logo.png" alt="Vue logo"></p>
 
 <h2 align="center">用ng自由组合开发小程序</h2>
+
 > 项目名称意义，我们都是用ng的人！I am a nger!
 
 vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
