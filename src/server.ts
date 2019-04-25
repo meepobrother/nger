@@ -12,7 +12,9 @@ const typeormConfig: any = {
     host: 'localhost',
     port: 3306,
     database: 'nger',
-    name: 'nger'
+    name: 'nger',
+    // 是否同步数据库
+    synchronize: true
 }
 /** api服务 */
 @NgModule({

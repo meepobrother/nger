@@ -20,8 +20,10 @@ export abstract class Platform {
                     errors.push(init)
                 }
             }
-            console.log(`发现 ${errors.length} 个错误, 正在重试。。。`)
-            await Promise.all(errors.map(init => init()))
+            if (errors.length > 0) {
+                console.log(`发现 ${errors.length} 个错误, 正在重试。。。`)
+                await Promise.all(errors.map(init => init()))
+            }
             const readys = context.injector.get(APP_ALLREADY) as any[];
             readys.map(res => res());
             const instance = context.instance;
