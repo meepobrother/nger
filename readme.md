@@ -5,9 +5,13 @@
 vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
 很遗憾，由于ng和小程序的差异性，我们暂时没打算直接把ng项目转换成小程序，而是用ng的一套思想（`依赖注入`、`装饰器`等）来规范开发小程序!以达到一套代码多平台运行。
 
-<h2 align="center">目录</h2>
+<h2 align="center">设计总纲</h2>
 
-- [设计总纲](#%E8%AE%BE%E8%AE%A1%E6%80%BB%E7%BA%B2)
+> 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
+> 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
+> 将ng中的ngIf、ngFor通过编译器，拓展到其他运行环境，如小程序等。
+
+<h2 align="center">目录</h2>
 - [目录规范](#%E7%9B%AE%E5%BD%95%E8%A7%84%E8%8C%83)
 - [命名规则](#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99)
 - [核心思想](#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3)
@@ -15,8 +19,9 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [nger-cli](#nger-cli)
   - [nger-core](#nger-core)
 - [生态](#%E7%94%9F%E6%80%81)
-  - [任务安排](#%E4%BB%BB%E5%8A%A1%E5%AE%89%E6%8E%92)
-- [Controller](#controller)
+- [任务安排](#%E4%BB%BB%E5%8A%A1%E5%AE%89%E6%8E%92)
+- [TODO](#todo)
+  - [Controller](#controller)
   - [@Page](#page)
   - [@Component](#component)
   - [ngIf](#ngif)
@@ -31,10 +36,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [nger-di](#nger-di)
   - [nger-logger](#nger-logger)
 
-## 设计总纲
-> 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
-> 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
-> 将ng中的ngIf、ngFor通过编译器，拓展到其他运行环境，如小程序等。
+
 ## 目录规范
 - [addons 第三方插件目录](./addon)
 - [attachment 附件目录](./attachment)
@@ -176,7 +178,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 | [nger-module-gulp](./packages/nger-module-gulp) | gulp打包相关 |
 
 
-### 任务安排
+## 任务安排
 > 开发重点 nger-compiler 到 nger-di
 > 目标src目录中的文件，编译到各个平台，并运行。
 
@@ -189,7 +191,9 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] 编译`scss`/`less`/`styl`生成`wxss`文件
 - [ ] 编译生成`js`文件
 
-## Controller
+## TODO
+
+### Controller
 > 客户端运行时需要编译器转码
 ```ts
 import { Controller, Get, Post } from 'nger-core'
