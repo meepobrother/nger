@@ -1,4 +1,6 @@
-## 用angular开发小程序
+<p align="center"><img width="120" src="./logo.png" alt="Vue logo"></p>
+
+<h2 align="center">用angular开发小程序</h2>
 
 vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
 很遗憾，由于ng和小程序的差异性，我们暂时没打算直接把ng项目转换成小程序，而是用ng的一套思想（`依赖注入`、`装饰器`等）来规范开发小程序!以达到一套代码多平台运行。
