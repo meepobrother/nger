@@ -50,6 +50,7 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register ./**/__tests__/**/*.ts",
     "ts": "ts-node -r tsconfig-paths/register",
     "cli": "npm run ts packages/nger-cli/lib/bin.ts",
+    "docker": "docker-compose up -d",
     "start": "npm run cli start koa"
   }
 }
