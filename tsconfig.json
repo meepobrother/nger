@@ -48,6 +48,9 @@
       "nger-module-webpack": [
         "packages/nger-module-webpack/lib/index.ts"
       ],
+      "nger-module-typeorm": [
+        "packages/nger-module-typeorm/lib/index.ts"
+      ],
       "nger-di": [
         "packages/nger-di/lib/index.ts"
       ],

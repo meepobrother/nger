@@ -223,22 +223,20 @@ export class TypeContext {
     paramsTypes: any[] = [];
 
     constructor(public type: any, public visitor: AstVisitor) {
+        this.target = type;
         const context = getContext(type);
         if (context) {
-            this.target = type;
             context.typeContext = this;
             context.visitor = visitor;
             this.classes = context.visitClass();
             this.propertys = context.visitProperty();
             this.methods = context.visitMethod();
             this.constructors = context.visitController();
-            const types = getDesignTargetParams(type) || [];
-            this.paramsTypes = types;
-            this.paramsLength = types.length;
             // injector get
-        } else {
-            throw new Error(`${type.name} get context error`)
         }
+        const types = getDesignTargetParams(type) || [];
+        this.paramsTypes = types;
+        this.paramsLength = types.length;
     }
 
     inject(type: any) {
@@ -250,9 +248,7 @@ export class TypeContext {
             const item = this.classes.find(cls => cls.ast.metadataKey === metadataKey) as T;
             if (item) return item;
             return this.parent && this.parent.getClass<T>(metadataKey)
-        } catch (e) {
-            // console.log(`pless ims-common to handler :${metadataKey}`);
-        }
+        } catch (e) { }
     }
 
     getProperty(metadataKey?: string): PropertyContext<any>[] {

@@ -15,7 +15,6 @@ export function stringify(token: any): string {
   if (token.name) {
     return `${token.name}`;
   }
-  console.log(token)
   const res = token.toString();
   if (res == null) {
     return '' + res;

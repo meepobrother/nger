@@ -4,16 +4,18 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import { Logger } from 'nger-logger';
 
-export interface IConfig {
-    npm: 'cnpm' | 'npm' | 'yarn';
+export interface NgerConfig {
+    // 包管理工具
+    npm: 'yarn' | 'npm' | 'cnpm';
 }
+
 
 export class NgerUtil {
     root: string = process.cwd()
-    config: IConfig;
+    config: NgerConfig;
     constructor(public logger: Logger) { }
     /** 加载配置文件 */
-    loadConfig(): IConfig {
+    loadConfig(): NgerConfig {
         const configPath = join(this.root, 'config/config.json');
         if (this.config) {
             return this.config;

@@ -2,7 +2,7 @@ import { NgModule, OnInit, Inject, OnError } from 'nger-core';
 import { HomeController, UserController } from './inc';
 import { NgerModulePm2 } from 'nger-module-pm2';
 import { Logger } from 'nger-logger';
-
+import { NgerModuleTypeorm } from 'nger-module-typeorm'
 /** api服务 */
 @NgModule({
     declarations: [
@@ -11,7 +11,8 @@ import { Logger } from 'nger-logger';
     ],
     providers: [],
     imports: [
-        NgerModulePm2
+        NgerModulePm2,
+        NgerModuleTypeorm
     ]
 })
 export default class NgerServer implements OnInit, OnError {

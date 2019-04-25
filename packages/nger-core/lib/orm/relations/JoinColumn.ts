@@ -1,7 +1,7 @@
 import { makeDecorator, PropertyAst, PropertyContext } from 'ims-decorator';
 import { JoinColumnOptions } from 'typeorm'
 export interface JoinColumn {
-    options: JoinColumnOptions | JoinColumnOptions[]
+    options?: JoinColumnOptions | JoinColumnOptions[]
 }
 export const JoinColumnMetadataKey = 'JoinColumnMetadataKey';
 
