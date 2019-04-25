@@ -4,6 +4,7 @@ import { Injector, Type, setRecord, Record } from 'nger-di';
 import { createTypeormConfig } from './createTypeormConfig';
 import { getConnectionManager, ConnectionOptions } from 'typeorm';
 import { Logger } from 'nger-logger'
+import { ModuleWithProviders } from '@angular/compiler/src/core';
 @NgModule({
     providers: [NgerUtil, {
         provide: APP_INITIALIZER,
@@ -42,5 +43,33 @@ import { Logger } from 'nger-logger'
         multi: true
     }]
 })
-export class NgerModuleTypeorm { }
+export class NgerModuleTypeorm {
+    // 启动
+    static forRoot(orm: Type<any>, config: ConnectionOptions): ModuleWithProviders {
+        return {
+            ngModule: NgerModuleTypeorm,
+            providers: [{
+                provide: TypeormOptionsToken,
+                useValue: config
+            }, {
+                provide: TypeormToken,
+                useValue: orm,
+                multi: true
+            }]
+        }
+    }
+    // 加载多个typeorm类
+    static forChild(orm: Type<any>): ModuleWithProviders {
+        return {
+            ngModule: NgerModuleTypeorm,
+            providers: [
+                {
+                    provide: TypeormToken,
+                    useValue: orm,
+                    multi: true
+                }
+            ]
+        }
+    }
+}
 export { TypeormToken, TypeormOptionsToken, ConnectionOptions, getConnectionManager }
