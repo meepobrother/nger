@@ -1,5 +1,5 @@
 import { Command, Inject } from 'nger-core'
-import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
+import { Logger } from 'nger-logger';
 
 @Command({
     name: 'publish',

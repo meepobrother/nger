@@ -13,7 +13,7 @@ import { NgerModulePm2 } from 'nger-module-pm2';
 
 import { NgerCliBuild } from './build/build'
 import { NgerCliStart } from './start/start'
-
+import { PackCommand } from './pack'
 @NgModule({
     imports: [
         NgerModuleGulp,
@@ -25,7 +25,8 @@ import { NgerCliStart } from './start/start'
         InitCommand,
         TestCommand,
         StartCommand,
-        PublishCommand
+        PublishCommand,
+        PackCommand
     ],
     providers: [
         NgerCliStart,
