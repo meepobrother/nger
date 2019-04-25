@@ -1,6 +1,7 @@
 import { Type } from './type'
 export class InjectionToken<T> {
     readonly ngMetadataName = 'InjectionToken';
+    readonly name: string;
     constructor(
         protected _desc: string,
         protected options?: {
@@ -8,6 +9,7 @@ export class InjectionToken<T> {
             factory: () => T
         }
     ) {
+        this.name = this._desc;
         if (typeof options == 'number') {
             (this as any).__NG_ELEMENT_ID__ = options;
         } else if (options !== undefined) { }

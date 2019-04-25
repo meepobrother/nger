@@ -1,14 +1,20 @@
 import { makeDecorator, ClassContext, ClassAst, TypeContext, ConstructorContext, isType } from 'ims-decorator';
 export const NgModuleMetadataKey = 'NgModuleMetadataKey';
-import { InjectConstructorAst, InjectMetadataKey, InjectPropertyAst } from './inject'
-import { Provider, Type, ModuleWithProviders, SchemaMetadata, Injector } from 'nger-di';
-import { isTypeProvider, isClassProvider, InjectFlags } from 'nger-di';
-import { InjectionToken, StaticClassProvider, FactoryProvider } from 'nger-di';
+import {
+    InjectConstructorAst, InjectMetadataKey, InjectPropertyAst
+} from './inject'
+import {
+    Provider, Type, ModuleWithProviders, SchemaMetadata, Injector,
+    InjectionToken, StaticClassProvider, FactoryProvider,
+    isTypeProvider, isClassProvider, InjectFlags
+} from 'nger-di';
+
 import { HostConstructorAst } from './host';
 import { SkipSelfConstructorAst } from './skip-self';
 import { SelfConstructorAst } from './self';
 import { OptionalConstructorAst } from './optional';
 import { EntityRepositoryPropertyAst, EntityRepositoryMetadataKey } from '../orm/index';
+
 export interface NgModuleOptions {
     providers?: Provider[];
     declarations?: Array<Type<any>>;
@@ -74,11 +80,13 @@ function setAppInitializer(injector: Injector, dec: TypeContext) {
                 });
                 // entity
                 const entities = dec.getProperty(EntityRepositoryMetadataKey) as EntityRepositoryPropertyAst[];
-                // entities.map(entity => {
-                //     const { metadataDef, propertyKey } = entity.ast;
-                //     const connection = injector.get(ConnectionToken) as Connection;
-                //     dec.instance[propertyKey] = connection.getRepository(metadataDef.entity);
-                // });
+                entities.map(entity => {
+                    const { metadataDef, propertyKey } = entity.ast;
+                    setTimeout(() => {
+                        const connection = injector.get(ConnectionToken) as Connection;
+                        dec.instance[propertyKey] = connection.getRepository(metadataDef.entity);
+                    }, 0);
+                });
             }
         },
         deps: [Injector],
@@ -105,34 +113,35 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
     constructor(ast: any, context: any) {
         super(ast, context);
         const def = this.ast.metadataDef;
+        const injector = this.context.typeContext.injector;
         if (def.declarations) this.declarations = this.forEachObjectToTypeContent(def.declarations);
         if (def.exports) this.exports = this.forEachObjectToTypeContent(def.exports);
         if (def.entryComponents) this.entryComponents = this.forEachObjectToTypeContent(def.entryComponents);
         if (def.bootstrap) this.bootstrap = this.forEachObjectToTypeContent(def.bootstrap);
         if (def.imports) {
             def.imports.map(imp => {
+                let context: TypeContext;
                 if (isType(imp)) {
                     // type
-                    return this.context.visitType(imp);
+                    context = this.context.visitType(imp) as TypeContext;
                 } else {
                     // ModuleWithProviders
                     const { ngModule, providers } = imp as ModuleWithProviders
-                    const context = this.context.visitType(ngModule);
+                    context = this.context.visitType(ngModule) as TypeContext;
                     if (context && providers) {
-                        providers.map(pro => this.handlerProvider(context.injector, pro));
+                        providers.map(pro => this.handlerProvider(injector, pro));
                     }
-                    return context;
                 }
+                injector.extend(context.injector)
             })
         }
-        if (def.imports) this._imports = this.forEachObjectToTypeContent(def.imports);
-        const injector = this.context.typeContext.injector;
+        
         if (def.exports) {
             def.exports.map(exp => injector.setExport(exp))
         }
         if (this._imports) {
             this._imports.map(imp => {
-                injector.extend(imp.injector)
+
             })
         }
         // 这里需要注册 Provider

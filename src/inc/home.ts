@@ -15,9 +15,7 @@ export class HomeController {
         username: 'nger',
         age: 28
     }
-
     constructor() { }
-
     @Get()
     userInfo() {
         this.logger.debug(`i am a injector logger!`)

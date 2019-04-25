@@ -12,7 +12,16 @@ export abstract class Platform {
         }
         try {
             const initializers = context.injector.get(APP_INITIALIZER) as any[];
-            await Promise.all(initializers.map(init => init()));
+            const errors: any[] = [];
+            for (let init of initializers) {
+                try {
+                    await init()
+                } catch (e) {
+                    errors.push(init)
+                }
+            }
+            console.log(`发现 ${errors.length} 个错误, 正在重试。。。`)
+            await Promise.all(errors.map(init => init()))
             const readys = context.injector.get(APP_ALLREADY) as any[];
             readys.map(res => res());
             const instance = context.instance;

@@ -5,7 +5,9 @@ export const TypeormToken = new InjectionToken<Type<any>>(`TypeormToken`);
 // Typeorm配置
 export const TypeormOptionsToken = new InjectionToken<ConnectionOptions>(`TypeormOptionsToken`);
 // Typeorm Connection
-export const ConnectionToken = new InjectionToken<Connection>(`ConnectionManagerToken`)
+export const ConnectionToken = new InjectionToken<Connection>(`ConnectionToken`)
+// ConnectionManagerToken
+export const ConnectionManagerToken = new InjectionToken<ConnectionManager>(`ConnectionManagerToken`)
 
 export interface NgerConfig {
     // 包管理工具
