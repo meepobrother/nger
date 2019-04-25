@@ -34,6 +34,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 ## 设计总纲
 > 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
 > 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
+> 将ng中的ngIf、ngFor通过编译器，拓展到其他运行环境，如小程序等。
 ## 目录规范
 - [addons 第三方插件目录](./addon)
 - [attachment 附件目录](./attachment)
