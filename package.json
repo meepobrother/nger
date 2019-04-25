@@ -39,6 +39,7 @@
     "dependency-graph": "^0.8.0",
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.1",
+    "mysql": "^2.17.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.4.0",
     "shelljs": "^0.8.3",

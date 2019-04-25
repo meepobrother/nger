@@ -1,4 +1,4 @@
-import { ClassAst, ClassContext, TypeContext } from 'ims-decorator';
+import { ClassAst, ClassContext, TypeContext, makeDecorator } from 'ims-decorator';
 export interface TypeormOptions {
     /**
      * 表
@@ -14,6 +14,7 @@ export interface TypeormOptions {
     subscribers?: any[] | object;
 }
 export const TypeormMetadataKey = 'TypeormMetadataKey';
+export const Typeorm = makeDecorator<TypeormOptions>(TypeormMetadataKey)
 export function isTypeormClassAst(val: ClassAst): val is ClassAst<TypeormOptions> {
     return val.metadataKey === TypeormMetadataKey;
 }

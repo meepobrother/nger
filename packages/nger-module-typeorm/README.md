@@ -1,11 +1,28 @@
 # `nger-module-typeorm`
 
-> TODO: description
+> 使用typeorm
 
-## Usage
-
-```
-const ngerModuleTypeorm = require('nger-module-typeorm');
-
-// TODO: DEMONSTRATE API
+## use
+```ts
+import {NgerModuleTypeorm} from 'nger-module-typeorm';
+@NgModule({
+    imports: [NgerModuleTypeorm],
+    providers: [{
+        provide: TypeormToken,
+        useValue: ImsDemoTypeorm,
+        multi: true
+    },{
+        provide: TypeormOptionsToken,
+        useValue: {
+            type: 'mysql',
+            username: 'root',
+            password: '123456',
+            host: 'localhost',
+            port: 4200,
+            database: 'nger',
+            name: 'nger'
+        }
+    }]
+})
+export class ImsDemo{}
 ```

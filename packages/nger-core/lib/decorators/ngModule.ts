@@ -1,4 +1,4 @@
-import { makeDecorator, ClassContext, ClassAst, TypeContext, ConstructorContext } from 'ims-decorator';
+import { makeDecorator, ClassContext, ClassAst, TypeContext, ConstructorContext, isType } from 'ims-decorator';
 export const NgModuleMetadataKey = 'NgModuleMetadataKey';
 import { InjectConstructorAst, InjectMetadataKey, InjectPropertyAst } from './inject'
 import { Provider, Type, ModuleWithProviders, SchemaMetadata, Injector } from 'nger-di';
@@ -10,13 +10,13 @@ import { SelfConstructorAst } from './self';
 import { OptionalConstructorAst } from './optional';
 export interface NgModuleOptions {
     providers?: Provider[];
-    declarations?: Array<Type<any> | any[]>;
-    imports?: Array<Type<any> | ModuleWithProviders<{}> | any[]>;
-    exports?: Array<Type<any> | any[]>;
-    entryComponents?: Array<Type<any> | any[]>;
+    declarations?: Array<Type<any>>;
+    imports?: Array<Type<any> | ModuleWithProviders<{}>>;
+    exports?: Array<Type<any>>;
+    entryComponents?: Array<Type<any>>;
     // 这里是启动组件 也就是首页 前端有用
-    bootstrap?: Array<Type<any> | any[]>;
-    schemas?: Array<SchemaMetadata | any[]>;
+    bootstrap?: Array<Type<any>>;
+    schemas?: Array<SchemaMetadata>;
     id?: string;
     jit?: true;
 }
@@ -98,6 +98,22 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
         if (def.exports) this.exports = this.forEachObjectToTypeContent(def.exports);
         if (def.entryComponents) this.entryComponents = this.forEachObjectToTypeContent(def.entryComponents);
         if (def.bootstrap) this.bootstrap = this.forEachObjectToTypeContent(def.bootstrap);
+        if (def.imports) {
+            def.imports.map(imp => {
+                if (isType(imp)) {
+                    // type
+                    return this.context.visitType(imp);
+                } else {
+                    // ModuleWithProviders
+                    const { ngModule, providers } = imp as ModuleWithProviders
+                    const context = this.context.visitType(ngModule);
+                    if (context && providers) {
+                        providers.map(pro => this.handlerProvider(context.injector, pro));
+                    }
+                    return context;
+                }
+            })
+        }
         if (def.imports) this._imports = this.forEachObjectToTypeContent(def.imports);
         const injector = this.context.typeContext.injector;
         if (def.exports) {
@@ -126,41 +142,7 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
         });
         // 处理provider
         if (def.providers) {
-            def.providers.map(pro => {
-                if (isTypeProvider(pro)) {
-                    // 这里必须有上下级关系，保留
-                    const ctx = this.context.visitType(pro);
-                    let deps: any[] = [];
-                    if (ctx) {
-                        deps = handlerTypeContextToParams(ctx)
-                        setAppInitializer(injector, ctx)
-                    }
-                    const proProvider: FactoryProvider = {
-                        provide: pro,
-                        useFactory: (...params: any) => new pro(...params),
-                        deps: deps,
-                        multi: false
-                    }
-                    injector.setStatic([proProvider]);
-                    injector.setExport(pro);
-                } else if (isClassProvider(pro)) {
-                    const ctx = this.context.typeContext.visitor.visitType(pro);
-                    let deps: any[] = [];
-                    if (ctx) {
-                        deps = handlerTypeContextToParams(ctx)
-                        setAppInitializer(injector, ctx)
-                    }
-                    const proProvider: StaticClassProvider = {
-                        ...pro,
-                        deps: deps
-                    }
-                    injector.setStatic([proProvider]);
-                    injector.setExport(pro.provide);
-                } else {
-                    injector.setStatic([pro]);
-                    injector.setExport(pro.provide);
-                }
-            });
+            def.providers.map(pro => this.handlerProvider(injector, pro));
         }
         // 当前ngModule注入
         const typeContext = this.context.typeContext;
@@ -182,6 +164,42 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
         injector.setExport(APP_INITIALIZER);
         // 处理属性inject
         injector.debug();
+    }
+
+    handlerProvider(injector: Injector, pro: Provider) {
+        if (isTypeProvider(pro)) {
+            // 这里必须有上下级关系，保留
+            const ctx = this.context.visitType(pro);
+            let deps: any[] = [];
+            if (ctx) {
+                deps = handlerTypeContextToParams(ctx)
+                setAppInitializer(injector, ctx)
+            }
+            const proProvider: FactoryProvider = {
+                provide: pro,
+                useFactory: (...params: any) => new pro(...params),
+                deps: deps,
+                multi: false
+            }
+            injector.setStatic([proProvider]);
+            injector.setExport(pro);
+        } else if (isClassProvider(pro)) {
+            const ctx = this.context.typeContext.visitor.visitType(pro);
+            let deps: any[] = [];
+            if (ctx) {
+                deps = handlerTypeContextToParams(ctx)
+                setAppInitializer(injector, ctx)
+            }
+            const proProvider: StaticClassProvider = {
+                ...pro,
+                deps: deps
+            }
+            injector.setStatic([proProvider]);
+            injector.setExport(pro.provide);
+        } else {
+            injector.setStatic([pro]);
+            injector.setExport(pro.provide);
+        }
     }
 }
 export function isNgModuleClassAst(ast: ClassAst): ast is ClassAst<NgModuleOptions> {
