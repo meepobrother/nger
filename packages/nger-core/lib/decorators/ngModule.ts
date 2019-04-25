@@ -8,6 +8,9 @@ import { HostConstructorAst } from './host';
 import { SkipSelfConstructorAst } from './skip-self';
 import { SelfConstructorAst } from './self';
 import { OptionalConstructorAst } from './optional';
+import { EntityRepository } from '_typeorm@0.2.16@typeorm';
+import { EntityRepositoryMetadataKey } from '../orm';
+import { EntityRepositoryPropertyAst } from '../orm';
 export interface NgModuleOptions {
     providers?: Provider[];
     declarations?: Array<Type<any>>;
@@ -63,11 +66,15 @@ function setAppInitializer(injector: Injector, dec: TypeContext) {
         provide: APP_INITIALIZER,
         useFactory: (injector: Injector) => {
             return () => {
+                // injects
                 const injects = dec.getProperty(InjectMetadataKey) as InjectPropertyAst[];
                 injects.map(inject => {
                     const { metadataDef, propertyKey, propertyType } = inject.ast;
                     dec.instance[propertyKey] = injector.get(metadataDef.token || propertyType)
                 });
+                // entity
+                const entities = dec.getProperty(EntityRepositoryMetadataKey) as EntityRepositoryPropertyAst[];
+                
             }
         },
         deps: [Injector],
