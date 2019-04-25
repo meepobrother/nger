@@ -8,9 +8,7 @@ import { HostConstructorAst } from './host';
 import { SkipSelfConstructorAst } from './skip-self';
 import { SelfConstructorAst } from './self';
 import { OptionalConstructorAst } from './optional';
-import { EntityRepository } from '_typeorm@0.2.16@typeorm';
-import { EntityRepositoryMetadataKey } from '../orm';
-import { EntityRepositoryPropertyAst } from '../orm';
+import { EntityRepositoryPropertyAst, EntityRepositoryMetadataKey } from '../orm/index';
 export interface NgModuleOptions {
     providers?: Provider[];
     declarations?: Array<Type<any>>;
@@ -23,6 +21,7 @@ export interface NgModuleOptions {
     id?: string;
     jit?: true;
 }
+import { ConnectionToken } from '../tokens'
 export const NgModule = makeDecorator<NgModuleOptions>(NgModuleMetadataKey);
 
 function handlerConstructorContext(deps: any[], ast: ConstructorContext<any>) {
@@ -59,6 +58,7 @@ function handlerTypeContextToParams(dec: TypeContext) {
 export const APP_INITIALIZER = new InjectionToken<(() => void)[]>(`APP_INITIALIZER`);
 export const APP_ALLREADY = new InjectionToken<(() => void)[]>(`APP_ALLREADY`);
 const hasInjectedTarget = new Set();
+import { Connection } from 'typeorm'
 function setAppInitializer(injector: Injector, dec: TypeContext) {
     if (hasInjectedTarget.has(dec.target)) return;
     hasInjectedTarget.add(dec.target);
@@ -74,7 +74,11 @@ function setAppInitializer(injector: Injector, dec: TypeContext) {
                 });
                 // entity
                 const entities = dec.getProperty(EntityRepositoryMetadataKey) as EntityRepositoryPropertyAst[];
-                
+                // entities.map(entity => {
+                //     const { metadataDef, propertyKey } = entity.ast;
+                //     const connection = injector.get(ConnectionToken) as Connection;
+                //     dec.instance[propertyKey] = connection.getRepository(metadataDef.entity);
+                // });
             }
         },
         deps: [Injector],

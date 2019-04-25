@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Inject } from 'nger-core'
+import { Controller, Get, Post, Inject, EntityRepository } from 'nger-core'
 import { Logger } from 'nger-logger'
+import { ImsDemoEntity } from '../typeorm'
 @Controller({
     path: '/'
 })
 export class HomeController {
 
     @Inject() public logger: Logger
+
+    @EntityRepository(ImsDemoEntity)
+    demo: EntityRepository<ImsDemoEntity>;
 
     info: any = {
         username: 'nger',
@@ -17,7 +21,7 @@ export class HomeController {
     @Get()
     userInfo() {
         this.logger.debug(`i am a injector logger!`)
-        return this.info;
+        return this.demo.find();
     }
 
     @Post()
