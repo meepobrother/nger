@@ -11,15 +11,15 @@ export class NgerGulpService {
     // 所有gulp注册的任务
     @Inject(GulpTasksToken) tasks: GulpTask[];
 
-    src(): typeof gulp.src {
+    get src(): typeof gulp.src {
         return gulp.src;
     };
 
-    dest(): typeof gulp.dest {
+    get dest(): typeof gulp.dest {
         return gulp.dest;
     };
 
-    watch(): typeof gulp.watch {
+    get watch(): typeof gulp.watch {
         return gulp.watch;
     }
 

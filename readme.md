@@ -5,6 +5,33 @@
 vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
 很遗憾，由于ng和小程序的差异性，我们暂时没打算直接把ng项目转换成小程序，而是用ng的一套思想（`依赖注入`、`装饰器`等）来规范开发小程序!以达到一套代码多平台运行。
 
+## 目录
+
+- [目录](#%E7%9B%AE%E5%BD%95)
+- [设计总纲](#%E8%AE%BE%E8%AE%A1%E6%80%BB%E7%BA%B2)
+- [目录规范](#%E7%9B%AE%E5%BD%95%E8%A7%84%E8%8C%83)
+- [命名规则](#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99)
+- [核心思想](#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3)
+- [开发进度](#%E5%BC%80%E5%8F%91%E8%BF%9B%E5%BA%A6)
+  - [nger-cli](#nger-cli)
+  - [nger-core](#nger-core)
+- [生态](#%E7%94%9F%E6%80%81)
+  - [任务安排](#%E4%BB%BB%E5%8A%A1%E5%AE%89%E6%8E%92)
+- [Controller](#controller)
+  - [@Page](#page)
+  - [@Component](#component)
+  - [ngIf](#ngif)
+  - [ngFor](#ngfor)
+- [多平台SDK统一接口](#%E5%A4%9A%E5%B9%B3%E5%8F%B0sdk%E7%BB%9F%E4%B8%80%E6%8E%A5%E5%8F%A3)
+  - [nger-platform-test](#nger-platform-test)
+  - [nger-platform-cli](#nger-platform-cli)
+  - [nger-platform-express](#nger-platform-express)
+  - [nger-platform-koa](#nger-platform-koa)
+  - [nger-platform-typeorm](#nger-platform-typeorm)
+  - [nger-platform-weapp](#nger-platform-weapp)
+  - [nger-di](#nger-di)
+  - [nger-logger](#nger-logger)
+
 ## 设计总纲
 > 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
 > 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
@@ -142,6 +169,12 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - [x] `AfterContentChecked`
   - [x] `AfterViewInit`
   - [x] `AfterViewChecked`
+
+## 生态
+| 模块及文档连接                                         | 作用       |
+|-------------------------------------------------|----------|
+| [nger-module-gulp](./packages/nger-module-gulp) | gulp打包相关 |
+
 
 ### 任务安排
 > 开发重点 nger-compiler 到 nger-di
