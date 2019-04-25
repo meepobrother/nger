@@ -1,4 +1,4 @@
-import { NgModule, OnInit, Inject } from 'nger-core';
+import { NgModule, OnInit, Inject, OnError } from 'nger-core';
 import { HomeController, UserController } from './inc';
 import { NgerModulePm2 } from 'nger-module-pm2';
 import { Logger } from 'nger-logger';
@@ -14,7 +14,7 @@ import { Logger } from 'nger-logger';
         NgerModulePm2
     ]
 })
-export default class NgerServer implements OnInit {
+export default class NgerServer implements OnInit, OnError {
     // 只能获取全局注入对象
     @Inject() public logger: Logger;
     @Inject() public home: HomeController;
@@ -22,5 +22,9 @@ export default class NgerServer implements OnInit {
     constructor() { }
     ngOnInit() {
         this.logger.info(`NgerServer on init!! and inject the HomeController ${this.home.info.username}`);
+    }
+    // server 端捕获错误
+    ngOnError(err: Error) {
+        console.log(`ngOnError`, err.message)
     }
 }

@@ -26,5 +26,8 @@
   },
   "bugs": {
     "url": "https://github.com/meepobrother/nger/issues"
+  },
+  "dependencies": {
+    "nger-logger": "*"
   }
 }

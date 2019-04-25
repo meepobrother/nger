@@ -1,4 +1,4 @@
-import { Type } from 'nger-core'
+import { Type } from './type';
 export function stringify(token: any): string {
   if (typeof token === 'string') {
     return token;

@@ -1,3 +1,4 @@
+import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
 import { stringify } from './util';
 import {
     Type, FactoryProvider, StaticClassProvider, ValueProvider,
@@ -6,7 +7,6 @@ import {
     isFactoryProvider
 } from './type'
 import { InjectionToken } from './injection_token';
-import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
 export const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
 export const SOURCE = '__source';
 const NG_TOKEN_PATH = 'ngTokenPath';

@@ -19,6 +19,9 @@ export interface DoCheck {
 export interface OnDestroy {
     ngOnDestroy(): void;
 }
+export interface OnError {
+    ngOnError(err: Error): void;
+}
 export interface AfterContentInit {
     ngAfterContentInit(): void;
 }

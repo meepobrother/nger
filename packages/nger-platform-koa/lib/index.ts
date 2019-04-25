@@ -38,7 +38,6 @@ export class NgerPlatformKoa extends Platform {
             const ms = Date.now() - start;
             ctx.set('X-Response-Time', `${ms}ms`);
         });
-
         const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(declaration => {
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
@@ -47,16 +46,24 @@ export class NgerPlatformKoa extends Platform {
             gets.map(get => {
                 this.logger.debug(`get ${controller.path}/${get.path}`)
                 router.get(`${controller.path}/${get.path}`, async (ctx) => {
-                    const data = await declaration.instance[get.ast.propertyKey]();
-                    ctx.body = data;
+                    try {
+                        const data = await declaration.instance[get.ast.propertyKey]();
+                        ctx.body = data;
+                    } catch (e) {
+                        this.catchError(e)
+                    }
                 });
             });
             posts.map(post => {
                 this.logger.debug(`post ${controller.path}/${post.path}`)
                 router.post(`${controller.path}/${post.path}`, async (ctx) => {
                     if (declaration.instance) {
-                        const data = await declaration.instance[post.ast.propertyKey]();
-                        ctx.body = data;
+                        try {
+                            const data = await declaration.instance[post.ast.propertyKey]();
+                            ctx.body = data;
+                        } catch (e) {
+                            this.catchError(e)
+                        }
                     }
                 })
             });

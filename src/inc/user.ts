@@ -18,4 +18,9 @@ export class UserController {
         console.info(this.logger)
         return this.home.userInfo();
     }
+
+    @Get()
+    error() {
+        throw new Error(`nger:error get error`)
+    }
 }
