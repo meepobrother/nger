@@ -28,8 +28,8 @@ import { isCommandClassAst, CommandClassAst } from './cli/command'
 import { isOptionPropertyAst, OptionPropertyAst } from './cli/option'
 import { isItMethodAst, ItMethodAst } from './it'
 import { isControllerClassAst, ControllerClassAst } from './controller'
-import { isGetMethodAst, GetMethodAst } from './http/get'
-import { isPostMethodAst, PostMethodAst } from './http/post'
+import { isGetMethodAst, GetMethodAst, isGetPropertyAst, GetPropertyAst } from './http/get'
+import { isPostMethodAst, PostMethodAst, isPostPropertyAst, PostPropertyAst } from './http/post'
 
 export class NgVisitor extends NullAstVisitor {
     visitClass(ast: ClassAst, context: ParserAstContext) {
@@ -79,6 +79,12 @@ export class NgVisitor extends NullAstVisitor {
         }
     }
     visitProperty(ast: PropertyAst, context: ParserAstContext) {
+        if (isGetPropertyAst(ast)) {
+            return new GetPropertyAst(ast, context)
+        }
+        if (isPostPropertyAst(ast)) {
+            return new PostPropertyAst(ast, context)
+        }
         if (isInjectPropertyAst(ast)) {
             return new InjectPropertyAst(ast, context)
         }
