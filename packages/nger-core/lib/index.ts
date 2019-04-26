@@ -11,4 +11,4 @@ export * from './orm/index';
 export * from './platform';
 export * from './tokens';
 export * from './authGuard';
-
+export * from './isDevMode';

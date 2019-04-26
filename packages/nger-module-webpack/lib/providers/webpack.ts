@@ -4,17 +4,20 @@ import { WebpackConfigToken } from './tokens';
 import { WebpackMergeService } from './merge';
 import chalk from 'chalk';
 import ora from 'ora';
+import { Injector } from 'nger-di';
 
 @Injectable()
 export class WebpackService {
-    @Inject(WebpackConfigToken) configs: Configuration[] = [];
-
-    @Inject() merge: WebpackMergeService;
-
     serveSpinner: ora.Ora = ora(`Starting development server, please wait~`);
 
+    constructor(
+        @Inject() public injector: Injector,
+        @Inject() public merge: WebpackMergeService
+    ) { }
+
+    configs: Configuration[];
     get compiler(): Compiler {
-        console.log(this.configs)
+        this.configs = this.injector.get(WebpackConfigToken) as Configuration[];
         if (this.configs.length > 1) {
             const config = this.merge.merge(...this.configs)
             return webpack(config)

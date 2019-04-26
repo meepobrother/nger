@@ -1,4 +1,4 @@
-import { NgModule, DevModelToken } from 'nger-core';
+import { NgModule } from 'nger-core';
 import { WebpackConfigToken } from './providers/tokens'
 import { WebpackMergeService } from './providers/merge';
 import { WebpackService } from './providers/webpack';
@@ -15,6 +15,10 @@ const root = process.cwd();
             useValue: {
                 mode: 'development',
                 entry: join(root, 'src/admin.ts'),
+                output: {
+                    path: join(root, 'template/admin'),
+                    filename: `[name].js`
+                },
                 plugins: []
             } as Configuration,
             multi: true

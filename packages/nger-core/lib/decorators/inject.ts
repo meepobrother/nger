@@ -3,7 +3,11 @@ export const InjectMetadataKey = 'InjectMetadataKey';
 export interface InjectOptions {
     token: any;
 }
-export const Inject = (token?: any) => {
+export interface Inject {
+    (token?: any): any;
+    new(token?: any): any;
+}
+export function Inject(token?: any) {
     return makeDecorator<InjectOptions>(InjectMetadataKey)({ token });
 }
 export class InjectConstructorAst extends ConstructorContext<InjectOptions> { }

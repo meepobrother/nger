@@ -72,7 +72,7 @@ export interface ClassProvider extends ClassSansProvider {
 // ValueProvider and ValueProvider
 // null and TypeProvider
 // null and ClassProvider
-export type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider | ExistingProvider | FactoryProvider;
+export type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider | ExistingProvider | FactoryProvider | any[];
 // provider 一共6个
 // TypeProvider 
 export function isTypeProvider(val: any): val is TypeProvider {

@@ -215,7 +215,10 @@ export interface Abstract<T> extends Function {
 export type ITokenString<T> = string & {
     target: T
 }
-export type IToken<T> = Type<T> | Abstract<T> | InjectionToken<T> | ITokenString<T>;
+export type ITokenAny<T> = any & {
+    target?: T;
+}
+export type IToken<T> = Type<T> | Abstract<T> | InjectionToken<T> | ITokenString<T> | ITokenAny<T>;
 export enum InjectFlags {
     // TODO(alxhub): make this 'const' when ngc no longer writes exports of it into ngfactory files.
     /** Check self and check parent injector if needed */
@@ -330,7 +333,7 @@ export class Injector implements IInjector {
     debug() {
         this._records.forEach((item, key) => {
             if (Array.isArray(item)) {
-                this.logger.debug(`injector:multi:${this.source} ${key.name} registed`)
+                this.logger.debug(`injector:multi:${this.source} ${key.name} registed ${item.length}`)
             } else {
                 this.logger.debug(`injector:${this.source} ${key.name} registed, Dependeny: ${stringify(item.deps.map(dep => dep.token))}`)
             }

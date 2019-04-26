@@ -12,9 +12,10 @@ import { NgerRunnerTypeorm } from './typeorm'
         HomeController,
         UserController
     ],
-    providers: [
-        { provide: DevModelToken, useValue: true },
-    ],
+    providers: [{
+        provide: DevModelToken,
+        useValue: true
+    }],
     imports: [
         NgerModulePm2,
         NgerModuleWebpack,
