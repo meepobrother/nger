@@ -387,4 +387,4 @@ Component({
 
 ## 资助
 
-<p align="center"><img width="220" src="./WechatIMG95.jpeg" alt="Vue logo"></p>
+<p><img width="220" src="./WechatIMG95.jpeg" alt="Vue logo"></p>
