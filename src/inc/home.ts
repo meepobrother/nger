@@ -19,7 +19,7 @@ export class HomeController {
     @Get('http://www.baidu.com')
     getBaidu: GetProperty<any>;
 
-    @Get()
+    @Get('baidu')
     baidu() {
         return this.getBaidu();
     }
