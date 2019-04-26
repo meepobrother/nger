@@ -2,7 +2,7 @@ import { makeDecorator, ClassAst, ClassContext, PropertyContext, PropertyAst } f
 import { Injector } from 'nger-di';
 export const AuthGuardMetadataKey = `AuthGuardMetadataKey`
 export interface AuthGuardOptions {
-    // 代表权限的字符串或者一个函数
+    // 代表权限的字符串或者一个函数或者一个类
     allows: AuthGuardRight | AuthGuardMethod | AuthGuardAbs;
 }
 export abstract class AuthGuardAbs {
