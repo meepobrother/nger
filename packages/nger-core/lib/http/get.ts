@@ -23,3 +23,5 @@ export function isGetPropertyAst(val: PropertyAst): val is PropertyAst<GetOption
     return val.metadataKey === GetMetadataKey;
 }
 export class GetPropertyAst extends PropertyContext<GetOptions>{ }
+
+export type GetProperty<T> = (...args: any[]) => Promise<T>;
