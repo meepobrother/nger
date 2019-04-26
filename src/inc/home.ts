@@ -23,7 +23,7 @@ export class HomeController {
     baidu() {
         return this.getBaidu();
     }
-
+    
     constructor() { }
 
     @It(`Get /userInfo`, async (expect, that) => {
