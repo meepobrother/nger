@@ -12,9 +12,7 @@ export function immutabilityCheckMetaReducer(
 
 function freeze(target: any) {
     Object.freeze(target);
-
     const targetIsFunction = isFunction(target);
-
     Object.getOwnPropertyNames(target).forEach(prop => {
         const propValue = target[prop];
         if (
@@ -28,6 +26,5 @@ function freeze(target: any) {
             freeze(propValue);
         }
     });
-
     return target;
 }

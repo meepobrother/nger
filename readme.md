@@ -383,3 +383,8 @@ Component({
 
 - [x] Logger 接口
 - [x] `ConsoleLogger` `Logger`的`console`实现
+
+
+## 资助
+
+<p align="center"><img width="220" src="./WechatIMG95.jpeg" alt="Vue logo"></p>

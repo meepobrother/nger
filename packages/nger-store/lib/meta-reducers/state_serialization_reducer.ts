@@ -6,10 +6,8 @@ export function stateSerializationCheckMetaReducer(
 ): ActionReducer<any, any> {
     return function (state, action) {
         const nextState = reducer(state, action);
-
         const unserializable = getUnserializable(nextState);
         throwIfUnserializable(unserializable, 'state');
-
         return nextState;
     };
 }

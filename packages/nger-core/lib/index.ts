@@ -12,3 +12,10 @@ export * from './platform';
 export * from './tokens';
 export * from './authGuard';
 export * from './isDevMode';
+
+export class ErrorHandler {
+    handleError(error: any): void {
+        console.log(error.message)
+        console.log(error.stack)
+    }
+}
