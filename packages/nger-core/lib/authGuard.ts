@@ -17,7 +17,7 @@ export function isAuthGuardRight(val: any): val is AuthGuardRight {
 export function isAuthGuardMethod(val: any): val is AuthGuardRight {
     return typeof val === 'function'
 }
-export const AuthGuard = (allows: AuthGuardRight | AuthGuardMethod) => {
+export const AuthGuard = (allows: AuthGuardRight | AuthGuardMethod | AbsAuthGuard) => {
     if (!allows) allows = ['default'];
     return makeDecorator<AuthGuardOptions>(AuthGuardMetadataKey)({
         allows
