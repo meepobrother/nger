@@ -23,3 +23,5 @@ export function isPostPropertyAst(val: PropertyAst): val is PropertyAst<PostOpti
     return val.metadataKey === PostMetadataKey;
 }
 export class PostPropertyAst extends PropertyContext<PostOptions>{ }
+
+export type PostProperty<T> = (...args: any[]) => Promise<T>;

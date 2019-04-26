@@ -58,9 +58,6 @@
       "nger-logger": [
         "packages/nger-logger/lib/index.ts"
       ],
-      "nger-compiler": [
-        "packages/nger-compiler/lib/index.ts"
-      ],
       "nger-components": [
         "packages/nger-components/lib/index.ts"
       ],
@@ -82,8 +79,26 @@
       "nger-platform-koa": [
         "packages/nger-platform-koa/lib/index.ts"
       ],
+      "nger-compiler": [
+        "packages/nger-compiler/lib/index.ts"
+      ],
+      "nger-compiler-react": [
+        "packages/nger-compiler-react/lib/index.ts"
+      ],
       "nger-compiler-style": [
         "packages/nger-compiler-style/lib/index.ts"
+      ],
+      "nger-compiler-uglify": [
+        "packages/nger-compiler-uglify/lib/index.ts"
+      ],
+      "nger-compiler-typescript": [
+        "packages/nger-compiler-typescript/lib/index.ts"
+      ],
+      "nger-compiler-img": [
+        "packages/nger-compiler-img/lib/index.ts"
+      ],
+      "nger-compiler-weapp": [
+        "packages/nger-compiler-weapp/lib/index.ts"
       ],
       "nger-util": [
         "packages/nger-util/lib/index.ts"
