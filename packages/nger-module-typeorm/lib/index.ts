@@ -5,6 +5,8 @@ import { createTypeormConfig } from './createTypeormConfig';
 import { getConnectionManager, ConnectionOptions, getConnection } from 'typeorm';
 import { Logger } from 'nger-logger'
 import { ModuleWithProviders } from '@angular/compiler/src/core';
+import fs from 'fs-extra';
+import { join } from 'path';
 @NgModule({
     providers: [
         NgerUtil,
@@ -69,7 +71,9 @@ import { ModuleWithProviders } from '@angular/compiler/src/core';
 })
 export class NgerModuleTypeorm {
     // 启动
-    static forRoot(orm: Type<any>, config: ConnectionOptions): ModuleWithProviders {
+    static forRoot(orm: Type<any>): ModuleWithProviders {
+        const root = process.cwd();
+        const config = require(join(root, 'config/config.json'));
         return {
             ngModule: NgerModuleTypeorm,
             providers: [{

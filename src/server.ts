@@ -4,20 +4,8 @@ import { NgerModulePm2 } from 'nger-module-pm2';
 import { Logger } from 'nger-logger';
 import { NgerModuleTypeorm } from 'nger-module-typeorm'
 import { NgerModuleWebpack } from 'nger-module-webpack'
-
 import { NgerRunnerTypeorm } from './typeorm'
 
-const typeormConfig: any = {
-    type: 'mysql',
-    username: 'root',
-    password: '123456',
-    host: 'localhost',
-    port: 3306,
-    database: 'nger',
-    name: 'nger',
-    // 是否同步数据库
-    synchronize: true
-}
 /** api服务 */
 @NgModule({
     declarations: [
@@ -30,7 +18,7 @@ const typeormConfig: any = {
     imports: [
         NgerModulePm2,
         NgerModuleWebpack,
-        NgerModuleTypeorm.forRoot(NgerRunnerTypeorm, typeormConfig)
+        NgerModuleTypeorm.forRoot(NgerRunnerTypeorm)
     ]
 })
 export default class NgerServer implements OnInit, OnError {
