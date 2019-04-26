@@ -25,7 +25,7 @@ const typeormConfig: any = {
     providers: [],
     imports: [
         NgerModulePm2,
-        NgerModuleTypeorm.forRoot(NgerRunnerTypeorm, typeormConfig)
+        // NgerModuleTypeorm.forRoot(NgerRunnerTypeorm, typeormConfig)
     ]
 })
 export default class NgerServer implements OnInit, OnError {

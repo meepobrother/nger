@@ -1,8 +1,5 @@
 import { MetadataCollector } from '@angular/compiler-cli/src/metadata/collector'
-import ts from 'typescript'
-const root = process.cwd();
 import { join, dirname } from 'path'
-const tsconfig = require(join(root, 'tsconfig.json'))
 export {
     ModuleMetadata, isModuleMetadata, MetadataEntry,
     isClassMetadata, isMetadataSymbolicExpression,
@@ -15,24 +12,15 @@ export {
     isMethodMetadata, isNgDiagnostic, isTsDiagnostic
 } from '@angular/compiler-cli'
 import {
-    ModuleMetadata, isModuleMetadata, MetadataEntry,
+    isModuleMetadata, MetadataEntry,
     isClassMetadata, isMetadataSymbolicCallExpression,
     isMetadataImportedSymbolReferenceExpression
 } from '@angular/compiler-cli'
 import { NgModuleOptions } from 'nger-core';
-
-export function getMetadata(file: string): ModuleMetadata | undefined {
-    const collector = new MetadataCollector();
-    const compilerHost = ts.createCompilerHost(tsconfig.compilerOptions);
-    const sourceFile = compilerHost.getSourceFile(file, ts.ScriptTarget.ESNext)
-    if (sourceFile) {
-        return collector.getMetadata(sourceFile)
-    }
-}
-
+import { getMetadata } from '../getMetadata';
+import { createDeclarations } from './declarations'
 export function getNgModuleMetadata(modulePath: string): NgModuleOptions | undefined {
     const metadata = getMetadata(modulePath);
-    const dir = dirname(modulePath)
     let ngModuleDef: any = {};
     if (isModuleMetadata(metadata)) {
         const metadataMap = metadata.metadata;
@@ -51,19 +39,14 @@ export function getNgModuleMetadata(modulePath: string): NgModuleOptions | undef
                                         if (arg) {
                                             Object.keys(arg).map(key => {
                                                 const item = arg[key]
-                                                if (key === 'declarations') {
-                                                    // 是页面或组件或者Controller类的
+                                                switch (key) {
+                                                    case 'declarations':
+                                                        createDeclarations(item)
+                                                        break;
+                                                    case 'providers':
+                                                        createProviders(item);
+                                                        break;
                                                 }
-                                                item.map(it => {
-                                                    if (isMetadataImportedSymbolReferenceExpression(it)) {
-                                                        ngModuleDef[key] = {
-                                                            module: join(dir, it.module),
-                                                            name: it.name
-                                                        }
-                                                    } else {
-                                                        debugger;
-                                                    }
-                                                })
                                             })
                                         }
                                     })

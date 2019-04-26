@@ -8,8 +8,8 @@ export class HomeController {
 
     @Inject() public logger: Logger
 
-    @EntityRepository(ImsDemoEntity)
-    demo: EntityRepository<ImsDemoEntity>;
+    // @EntityRepository(ImsDemoEntity)
+    // demo: EntityRepository<ImsDemoEntity>;
 
     info: any = {
         username: 'nger',
@@ -25,7 +25,7 @@ export class HomeController {
     @Get()
     userInfo() {
         this.logger.debug(`i am a injector logger!`)
-        return this.demo.find();
+        // return this.demo.find();
     }
 
     @Post()

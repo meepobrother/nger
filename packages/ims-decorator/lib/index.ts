@@ -579,27 +579,3 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
 export interface Abstract<T> extends Function {
     prototype: T;
 }
-export declare type Provider<T = any> = Type<any> | ClassProvider<T> | ValueProvider<T> | FactoryProvider<T>;
-export type ProvideKey = string | symbol | Type<any> | Abstract<any>;
-export interface ClassProvider<T = any> {
-    provide: ProvideKey;
-    useClass: Type<T>;
-}
-export function isClassProvider<T>(val: any): val is ClassProvider<T> {
-    return typeof val.useClass === 'function'
-}
-export interface ValueProvider<T = any> {
-    provide: ProvideKey;
-    useValue: T;
-}
-export function isValueProvider<T>(val: any): val is ValueProvider<T> {
-    return !!val.useValue
-}
-export interface FactoryProvider<T = any> {
-    provide: ProvideKey;
-    useFactory: (...args: any[]) => T;
-    deps?: any[]
-}
-export function isFactoryProvider<T>(val: any): val is FactoryProvider<T> {
-    return typeof val.useFactory === 'function'
-}

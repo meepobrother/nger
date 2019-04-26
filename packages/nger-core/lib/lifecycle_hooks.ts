@@ -22,6 +22,9 @@ export interface OnDestroy {
 export interface OnError {
     ngOnError(err: Error): void;
 }
+export interface OnPageNotFound {
+    ngOnPageNotFound(err: Error): void;
+}
 export interface AfterContentInit {
     ngAfterContentInit(): void;
 }

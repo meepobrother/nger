@@ -5,18 +5,20 @@ import { ConsoleLogger, LogLevel } from 'nger-logger';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
-
-import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform } from 'nger-core';
+import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
 import { join } from 'path';
+import { NgerPlatformAxios } from 'nger-platform-axios'
 export class NgerPlatformKoa extends Platform {
     logger: ConsoleLogger
     util: NgerUtil;
+    axios: NgerPlatformAxios = new NgerPlatformAxios();
     constructor() {
         super();
         this.logger = new ConsoleLogger(LogLevel.debug);
         this.util = new NgerUtil(this.logger)
     }
     async run(context: TypeContext) {
+        await this.axios.run(context);
         const KoaPkg = await this.util.loadPkg<typeof Koa>('koa');
         const KoaRouter = await this.util.loadPkg<typeof Router>('koa-router')
         const KoaStatic = await this.util.loadPkg<typeof Static>('koa-static')
@@ -47,6 +49,11 @@ export class NgerPlatformKoa extends Platform {
                 this.logger.debug(`get ${controller.path}/${get.path}`)
                 router.get(`${controller.path}/${get.path}`, async (ctx) => {
                     try {
+                        // get.parameters.map(par=>{
+                        //     if(par instanceof ReqParameterAst){
+                        //         params[par.ast.parameterIndex] = ctx.request
+                        //     }
+                        // })
                         const data = await declaration.instance[get.ast.propertyKey]();
                         ctx.body = data;
                     } catch (e) {

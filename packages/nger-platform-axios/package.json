@@ -1,0 +1,29 @@
+{
+  "name": "nger-platform-axios",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "imeepos <1037483576@qq.com>",
+  "homepage": "https://github.com/meepobrother/nger#readme",
+  "license": "ISC",
+  "main": "lib/nger-platform-axios.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meepobrother/nger.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/meepobrother/nger/issues"
+  }
+}

@@ -9,5 +9,4 @@ const root = process.cwd();
 const app = join(root, 'src/app.ts')
 const args = getNgModuleMetadata(app);
 
-
 debugger;

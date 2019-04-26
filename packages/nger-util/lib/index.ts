@@ -2,17 +2,19 @@ import { exec } from 'shelljs';
 import { execSync } from 'child_process';
 import { join } from 'path';
 import { existsSync } from 'fs';
-import { Logger } from 'nger-logger';
-
+import { Logger, ConsoleLogger, LogLevel } from 'nger-logger';
+import { CompilerOptions } from 'typescript'
 export interface NgerConfig {
     // 包管理工具
     npm: 'yarn' | 'npm' | 'cnpm';
 }
 
-
 export class NgerUtil {
     root: string = process.cwd()
     config: NgerConfig;
+    static create() {
+        return new NgerUtil(new ConsoleLogger(LogLevel.debug))
+    }
     constructor(public logger: Logger) { }
     /** 加载配置文件 */
     loadConfig(): NgerConfig {
@@ -24,6 +26,10 @@ export class NgerUtil {
             this.config = require(join(this.root, 'config/config.json'));
         }
         return this.config;
+    }
+
+    getCompilerOptions(): CompilerOptions {
+        return require(join(this.root, 'tsconfig')).compilerOptions
     }
     /** 加载包 */
     async loadPkg<T = any>(name: string, attr?: string): Promise<T> {

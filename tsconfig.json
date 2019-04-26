@@ -7,6 +7,7 @@
       "esnext"
     ],
     "jsx": "preserve",
+    "jsxFactory": "h",
     "importHelpers": true,
     "strict": false,
     "strictBindCallApply": false,
@@ -72,8 +73,17 @@
       "nger-platform-express": [
         "packages/nger-platform-express/lib/index.ts"
       ],
+      "nger-platform-axios": [
+        "packages/nger-platform-axios/lib/index.ts"
+      ],
+      "nger-platform-weapp": [
+        "packages/nger-platform-weapp/lib/index.ts"
+      ],
       "nger-platform-koa": [
         "packages/nger-platform-koa/lib/index.ts"
+      ],
+      "nger-compiler-style": [
+        "packages/nger-compiler-style/lib/index.ts"
       ],
       "nger-util": [
         "packages/nger-util/lib/index.ts"
@@ -93,7 +103,8 @@
   },
   "include": [
     "packages",
-    "src"
+    "src",
+    "typings/*.d.ts"
   ],
   "exclude": [
     "node_modules"

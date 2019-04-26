@@ -1,6 +1,7 @@
 
+/// <reference path="./typings/index.d.ts" />
 import { TypeContext } from 'ims-decorator';
-import { NgModuleMetadataKey, NgModuleClassAst, InputMetadataKey, InputPropertyAst, Platform } from 'nger-core';
+import { NgModuleMetadataKey, NgModuleClassAst, InputMetadataKey, InputPropertyAst } from 'nger-core';
 export interface PageInstance {
     data?: any;
     onLoad?(
@@ -47,15 +48,9 @@ export interface AppInstance {
 export interface CompilerAppLife {
     ngOnInit: any, ngOnError: any, ngOnDestroy: any, ngAfterViewInit: any, ngOnPageNotFound: any
 }
-declare const App: any;
-export class NgerPlatformWeapp extends Platform {
-    runtime: NgerPlatformWeappRunTIme;
-    run(context: TypeContext) {
-        this.runtime = new NgerPlatformWeappRunTIme();
-        App(this.runtime.createApp(context))
+export class Compiler {
+    constructor(readonly context: TypeContext) {
     }
-}
-export class NgerPlatformWeappRunTIme {
     createApp(context: TypeContext): AppInstance {
         const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         let lifes: CompilerAppLife[] = [];

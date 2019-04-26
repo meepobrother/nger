@@ -22,3 +22,4 @@ export class ComponentClassAst extends ClassContext<ComponentOptions> { }
 export function isComponentClassAst(ast: ClassAst): ast is ClassAst<ComponentOptions> {
     return ast.metadataKey === ComponentMetadataKey;
 }
+export interface Component { }
