@@ -1,6 +1,7 @@
 /node_modules/
 /back/
 /data/
+/config/
 /attachment/
 /template/
 /.temp
