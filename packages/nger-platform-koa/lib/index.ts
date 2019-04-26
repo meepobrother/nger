@@ -1,17 +1,24 @@
 import { TypeContext } from 'ims-decorator';
 import { createServer } from 'http';
+import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
+import { DevModelToken } from 'nger-core';
+
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
 import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
 import { join } from 'path';
 import { NgerPlatformAxios } from 'nger-platform-axios'
+import webpackKoa2Middleware from 'webpack-koa2-middleware'
+import { WebpackService } from 'nger-module-webpack';
 export class NgerPlatformKoa extends Platform {
-    logger: ConsoleLogger
+    logger: ConsoleLogger;
     util: NgerUtil;
     axios: NgerPlatformAxios = new NgerPlatformAxios();
+    app: Koa;
+    injector: Injector;
     constructor() {
         super();
         this.logger = new ConsoleLogger(LogLevel.debug);
@@ -22,19 +29,19 @@ export class NgerPlatformKoa extends Platform {
         const KoaPkg = await this.util.loadPkg<typeof Koa>('koa');
         const KoaRouter = await this.util.loadPkg<typeof Router>('koa-router')
         const KoaStatic = await this.util.loadPkg<typeof Static>('koa-static')
-        const app = new KoaPkg();
+        this.injector = context.injector;
+        this.app = new KoaPkg();
         const router = new KoaRouter();
-        const server = createServer(app.callback())
+        const server = createServer(this.app.callback())
         const port = context.get(`port`);
-        app.use(KoaStatic(join(this.util.root, 'template')))
-        app.use(KoaStatic(join(this.util.root, 'attachment')))
-        app.use(async (ctx, next) => {
+        this.app.use(KoaStatic(join(this.util.root, 'template')))
+        this.app.use(KoaStatic(join(this.util.root, 'attachment')))
+        this.app.use(async (ctx, next) => {
             await next();
             const rt = ctx.response.get('X-Response-Time');
             this.logger.info(`${ctx.method} ${ctx.url} - ${rt}`);
         });
-
-        app.use(async (ctx, next) => {
+        this.app.use(async (ctx, next) => {
             const start = Date.now();
             await next();
             const ms = Date.now() - start;
@@ -75,9 +82,18 @@ export class NgerPlatformKoa extends Platform {
                 })
             });
         });
-        app.use(router.routes()).use(router.allowedMethods())
+        this.app.use(router.routes()).use(router.allowedMethods())
+        this.attachWebpackCompiler();
         server.listen(port, () => {
             this.logger.info(`app start at http://localhost:${port}`)
         });
+    }
+
+    attachWebpackCompiler() {
+        const compiler = this.injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
+        const dev = this.injector.get(DevModelToken, false);
+        if (dev && !!compiler) {
+            this.app.use(webpackKoa2Middleware(compiler.compiler));
+        }
     }
 }

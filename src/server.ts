@@ -1,8 +1,10 @@
-import { NgModule, OnInit, Inject, OnError, TypeormToken, TypeormOptionsToken } from 'nger-core';
+import { NgModule, OnInit, Inject, OnError, DevModelToken } from 'nger-core';
 import { HomeController, UserController } from './inc';
 import { NgerModulePm2 } from 'nger-module-pm2';
 import { Logger } from 'nger-logger';
 import { NgerModuleTypeorm } from 'nger-module-typeorm'
+import { NgerModuleWebpack } from 'nger-module-webpack'
+
 import { NgerRunnerTypeorm } from './typeorm'
 
 const typeormConfig: any = {
@@ -22,10 +24,13 @@ const typeormConfig: any = {
         HomeController,
         UserController
     ],
-    providers: [],
+    providers: [
+        { provide: DevModelToken, useValue: true },
+    ],
     imports: [
         NgerModulePm2,
-        // NgerModuleTypeorm.forRoot(NgerRunnerTypeorm, typeormConfig)
+        NgerModuleWebpack,
+        NgerModuleTypeorm.forRoot(NgerRunnerTypeorm, typeormConfig)
     ]
 })
 export default class NgerServer implements OnInit, OnError {
@@ -39,6 +44,7 @@ export default class NgerServer implements OnInit, OnError {
     }
     // server 端捕获错误
     ngOnError(err: Error) {
-        console.log(`ngOnError`, err.message)
+        this.logger.error(`ngOnError`, err.message)
+        this.logger.error(`ngOnError:detail ${err.stack}`)
     }
 }
