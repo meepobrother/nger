@@ -1,16 +1,18 @@
 import { makeDecorator, ClassAst, ClassContext, PropertyContext, PropertyAst } from 'ims-decorator'
-import { Injector } from 'nger-di';
-export const AuthGuardMetadataKey = `AuthGuardMetadataKey`
+export const AuthGuardMetadataKey = `AuthGuardMetadataKey`;
+// 权限控制类
+export abstract class AuthGuardAbs {
+    abstract canActive(user: any): boolean;
+}
+// 权限字符串
+export type AuthGuardRight = string[];
+// 权限控制函数
+export type AuthGuardMethod = (user: any) => boolean;
 export interface AuthGuardOptions {
     // 代表权限的字符串或者一个函数或者一个类
     allows: AuthGuardRight | AuthGuardMethod | AuthGuardAbs;
 }
-export abstract class AuthGuardAbs {
-    abstract canActive(injector: Injector): boolean;
-}
-export type AuthGuardRight = string[];
-// instance是当前对象
-export type AuthGuardMethod = (injector: Injector) => boolean;
+
 export function isAuthGuardAbs(val: any): val is AuthGuardAbs {
     return val && !!val.canActive
 }
