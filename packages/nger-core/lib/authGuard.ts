@@ -3,7 +3,10 @@ import { Injector } from 'nger-di';
 export const AuthGuardMetadataKey = `AuthGuardMetadataKey`
 export interface AuthGuardOptions {
     // 代表权限的字符串或者一个函数
-    allows: AuthGuardRight | AuthGuardMethod;
+    allows: AuthGuardRight | AuthGuardMethod | AbsAuthGuard;
+}
+export abstract class AbsAuthGuard {
+    abstract canActive(injector: Injector): boolean;
 }
 export type AuthGuardRight = string[];
 // instance是当前对象
