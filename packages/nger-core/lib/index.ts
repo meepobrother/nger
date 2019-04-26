@@ -10,4 +10,5 @@ export * from './controller';
 export * from './orm/index';
 export * from './platform';
 export * from './tokens';
+export * from './authGuard';
 

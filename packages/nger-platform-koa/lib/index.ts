@@ -3,8 +3,7 @@ import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
-import { DevModelToken } from 'nger-core';
-
+import { DevModelToken, isAuthGuardRight, isAuthGuardMethod } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
