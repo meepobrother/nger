@@ -11,6 +11,9 @@ export abstract class AbsAuthGuard {
 export type AuthGuardRight = string[];
 // instance是当前对象
 export type AuthGuardMethod = (injector: Injector) => boolean;
+export function isAbsAuthGuard(val: any): val is AbsAuthGuard{
+    return val && !!val.canActive
+}
 export function isAuthGuardRight(val: any): val is AuthGuardRight {
     return Array.isArray(val)
 }
