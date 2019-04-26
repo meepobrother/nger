@@ -1,16 +1,18 @@
 import { NgModule, OnInit, Inject, OnError, DevModelToken } from 'nger-core';
-import { HomeController, UserController } from './inc';
+import { HomeController, UserController, SmsController } from './inc';
 import { NgerModulePm2 } from 'nger-module-pm2';
 import { Logger } from 'nger-logger';
 import { NgerModuleTypeorm } from 'nger-module-typeorm'
 import { NgerModuleWebpack } from 'nger-module-webpack'
-import { NgerRunnerTypeorm } from './typeorm'
-
+import { NgerRunnerTypeorm } from './typeorm';
+import { StoreModule } from 'nger-store';
+import { counterReducer } from './store/counter.reducer'
 /** api服务 */
 @NgModule({
     declarations: [
         HomeController,
-        UserController
+        UserController,
+        SmsController
     ],
     providers: [{
         provide: DevModelToken,
@@ -19,7 +21,8 @@ import { NgerRunnerTypeorm } from './typeorm'
     imports: [
         NgerModulePm2,
         NgerModuleWebpack,
-        NgerModuleTypeorm.forRoot(NgerRunnerTypeorm)
+        NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
+        StoreModule.forRoot({ count: counterReducer })
     ]
 })
 export default class NgerServer implements OnInit, OnError {

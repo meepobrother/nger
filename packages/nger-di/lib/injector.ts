@@ -105,10 +105,7 @@ export function createValueProviderRecord(val: ValueProvider): Record {
 export function createExistingProviderRecord(val: ExistingProvider): Record {
     return new Record((injector: Injector) => {
         return injector.get(val.useExisting)
-    }, [{
-        options: 0,
-        token: Injector
-    }], undefined);
+    }, createDeps([Injector]), undefined);
 }
 /**
  * deps: [
@@ -163,7 +160,15 @@ export function createDependencyRecord(deps: any[] | undefined): DependencyRecor
     return [];
 }
 export function createConstructorProvider(val: ConstructorProvider): Record {
-    return new Record((...params: any[]) => new val.provide(...params), createDependencyRecord(val.deps), undefined)
+    return new Record((...params: any[]) => {
+        if (val.provide) {
+            if (typeof val.provide === 'function') {
+                return new val.provide(...params)
+            }
+            return val.provide;
+        }
+        return undefined;
+    }, createDependencyRecord(val.deps), undefined)
 }
 export function createMultiRecord(res: Record | Record[] | undefined, newRecord: Record) {
     let records: Record[] = [];
@@ -215,7 +220,7 @@ export interface Abstract<T> extends Function {
 export type ITokenString<T> = string & {
     target: T
 }
-export type ITokenAny<T> = any & {
+export type ITokenAny<T> = (number | string | object | Function | Array<any>) & {
     target?: T;
 }
 export type IToken<T> = Type<T> | Abstract<T> | InjectionToken<T> | ITokenString<T> | ITokenAny<T>;
@@ -277,7 +282,6 @@ export class NullInjector implements IInjector {
 const NULL_INJECTOR = new NullInjector() as Injector;
 const ERROR_INJECTOR = new ErrorInjector() as Injector;
 
-
 export function catchInjectorError(
     e: any,
     token: any,
@@ -293,7 +297,6 @@ export function catchInjectorError(
     e[NG_TEMP_TOKEN_PATH] = null;
     throw e;
 }
-
 export class Injector implements IInjector {
     static THROW_IF_NOT_FOUND = THROW_IF_NOT_FOUND;
     static NULL: IInjector = NULL_INJECTOR;
@@ -312,6 +315,7 @@ export class Injector implements IInjector {
         }
         this.parent = parent;
         this._records.set(Injector, new Record(() => this, [], undefined));
+        setRecord(Injector, new Record(() => this, [], undefined));
         records.map(record => {
             // todo
             this._records.set(record.provide, createStaticRecrod(record, this._records))
@@ -346,9 +350,6 @@ export class Injector implements IInjector {
         injector.exports.forEach((rec, key) => {
             let record = this._records.get(key)
             if (Array.isArray(record)) {
-                console.log(`\n\n\n`);
-                console.log(`${record.length}`)
-                console.log(`\n\n\n`);
                 if (Array.isArray(rec)) {
                     record = [...record, ...rec]
                     this._records.set(key, record)

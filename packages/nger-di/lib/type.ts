@@ -72,7 +72,7 @@ export interface ClassProvider extends ClassSansProvider {
 // ValueProvider and ValueProvider
 // null and TypeProvider
 // null and ClassProvider
-export type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider | ExistingProvider | FactoryProvider | any[];
+export type Provider = TypeProvider | ValueProvider | ClassProvider | ConstructorProvider | ExistingProvider | FactoryProvider;
 // provider 一共6个
 // TypeProvider 
 export function isTypeProvider(val: any): val is TypeProvider {
@@ -129,5 +129,5 @@ export interface SchemaMetadata {
 
 export interface ModuleWithProviders<T = any> {
     ngModule: Type<T>;
-    providers?: Provider[];
+    providers: Provider[];
 }

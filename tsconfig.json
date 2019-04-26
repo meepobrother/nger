@@ -100,6 +100,9 @@
       "nger-compiler-weapp": [
         "packages/nger-compiler-weapp/lib/index.ts"
       ],
+      "nger-store": [
+        "packages/nger-store/lib/index.ts"
+      ],
       "nger-util": [
         "packages/nger-util/lib/index.ts"
       ]

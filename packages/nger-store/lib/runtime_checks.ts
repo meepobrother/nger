@@ -1,4 +1,5 @@
-import { isDevMode, Provider } from 'nger-di';
+import { Provider } from 'nger-di';
+import { isDevMode } from 'nger-core'
 import {
   stateSerializationCheckMetaReducer,
   actionSerializationCheckMetaReducer,

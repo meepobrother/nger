@@ -18,7 +18,7 @@ import {
     MetaReducer,
     RuntimeChecks,
 } from './models';
-import { compose, combineReducers, createReducerFactory } from './utils';
+import { combineReducers, createReducerFactory } from './utils';
 import {
     INITIAL_STATE,
     INITIAL_REDUCERS,
@@ -128,7 +128,7 @@ export class StoreModule {
                 },
                 {
                     provide: INITIAL_REDUCERS,
-                    deps: [Injector, _INITIAL_REDUCERS, _STORE_REDUCERS],
+                    deps: [Injector, _INITIAL_REDUCERS],
                     useFactory: _createStoreReducers,
                 },
                 {
@@ -151,12 +151,12 @@ export class StoreModule {
                     deps: [_REDUCER_FACTORY, _RESOLVED_META_REDUCERS],
                     useFactory: createReducerFactory,
                 },
-                ACTIONS_SUBJECT_PROVIDERS,
-                REDUCER_MANAGER_PROVIDERS,
-                SCANNED_ACTIONS_SUBJECT_PROVIDERS,
-                STATE_PROVIDERS,
-                STORE_PROVIDERS,
-                provideRuntimeChecks(config.runtimeChecks),
+                ...ACTIONS_SUBJECT_PROVIDERS,
+                ...REDUCER_MANAGER_PROVIDERS,
+                ...SCANNED_ACTIONS_SUBJECT_PROVIDERS,
+                ...STATE_PROVIDERS,
+                ...STORE_PROVIDERS,
+                ...provideRuntimeChecks(config.runtimeChecks),
             ],
         };
     }
@@ -224,8 +224,7 @@ export class StoreModule {
                     multi: true,
                     deps: [
                         Injector,
-                        _FEATURE_REDUCERS,
-                        [_FEATURE_REDUCERS_TOKEN],
+                        _FEATURE_REDUCERS
                     ],
                     useFactory: _createFeatureReducers,
                 },

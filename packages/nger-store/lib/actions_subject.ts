@@ -11,7 +11,6 @@ export class ActionsSubject extends BehaviorSubject<Action>
     constructor() {
         super({ type: INIT });
     }
-
     next(action: Action): void {
         if (typeof action === 'undefined') {
             throw new TypeError(`Actions must be objects`);

@@ -18,7 +18,7 @@ import { EntityRepositoryPropertyAst, EntityRepositoryMetadataKey } from '../orm
 export interface NgModuleOptions {
     providers?: Provider[];
     declarations?: Array<Type<any>>;
-    imports?: Array<Type<any> | ModuleWithProviders<{}>>;
+    imports?: Array<Type<any> | ModuleWithProviders<any>>;
     exports?: Array<Type<any>>;
     entryComponents?: Array<Type<any>>;
     // 这里是启动组件 也就是首页 前端有用
