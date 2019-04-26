@@ -30,9 +30,13 @@ import { isItMethodAst, ItMethodAst } from './it'
 import { isControllerClassAst, ControllerClassAst } from './controller'
 import { isGetMethodAst, GetMethodAst, isGetPropertyAst, GetPropertyAst } from './http/get'
 import { isPostMethodAst, PostMethodAst, isPostPropertyAst, PostPropertyAst } from './http/post'
-
+import { OrmVisitor } from './orm'
+import { isAuthGuardClassAst, AuthGuardClassAst, isAuthGuardPropertyAst, AuthGuardPropertyAst } from './authGuard';
 export class NgVisitor extends NullAstVisitor {
     visitClass(ast: ClassAst, context: ParserAstContext) {
+        if (isAuthGuardClassAst(ast)) {
+            return new AuthGuardClassAst(ast, context)
+        }
         if (isControllerClassAst(ast)) {
             return new ControllerClassAst(ast, context)
         }
@@ -79,6 +83,9 @@ export class NgVisitor extends NullAstVisitor {
         }
     }
     visitProperty(ast: PropertyAst, context: ParserAstContext) {
+        if (isAuthGuardPropertyAst(ast)) {
+            return new AuthGuardPropertyAst(ast, context)
+        }
         if (isGetPropertyAst(ast)) {
             return new GetPropertyAst(ast, context)
         }
@@ -129,7 +136,6 @@ export class NgVisitor extends NullAstVisitor {
     }
 }
 
-import { OrmVisitor } from './orm'
 export const visitor = new Visitors([
     new NgVisitor(),
     new OrmVisitor()

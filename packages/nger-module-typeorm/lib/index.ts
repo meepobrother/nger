@@ -73,7 +73,7 @@ export class NgerModuleTypeorm {
     // 启动
     static forRoot(orm: Type<any>): ModuleWithProviders {
         const root = process.cwd();
-        const config = require(join(root, 'config/config.json'));
+        const config = require(join(root, 'config/config.json')).db;
         return {
             ngModule: NgerModuleTypeorm,
             providers: [{

@@ -169,12 +169,10 @@ export function createMultiRecord(res: Record | Record[] | undefined, newRecord:
     let records: Record[] = [];
     if (Array.isArray(res)) {
         records = [...res, newRecord]
+    } else if (res) {
+        records = [res, newRecord]
     } else {
-        if (res) {
-            records = [res, newRecord]
-        } else {
-            records = [newRecord]
-        }
+        records = [newRecord]
     }
     return records;
 }
@@ -325,13 +323,14 @@ export class Injector implements IInjector {
     }
     setStatic(records: StaticProvider[]) {
         records.map(record => {
-            this._records.set(record.provide, createStaticRecrod(record, this._records))
+            const recs = createStaticRecrod(record, this._records);
+            this._records.set(record.provide, recs);
         });
     }
     debug() {
         this._records.forEach((item, key) => {
             if (Array.isArray(item)) {
-
+                this.logger.debug(`injector:multi:${this.source} ${key.name} registed`)
             } else {
                 this.logger.debug(`injector:${this.source} ${key.name} registed, Dependeny: ${stringify(item.deps.map(dep => dep.token))}`)
             }
@@ -342,6 +341,23 @@ export class Injector implements IInjector {
     }
     extend(injector: Injector) {
         injector.exports.forEach((rec, key) => {
+            let record = this._records.get(key)
+            if (Array.isArray(record)) {
+                console.log(`\n\n\n`);
+                console.log(`${record.length}`)
+                console.log(`\n\n\n`);
+                if (Array.isArray(rec)) {
+                    record = [...record, ...rec]
+                    this._records.set(key, record)
+                } else {
+                    record = [...record, rec]
+                    this._records.set(key, record)
+                }
+            } else if (record) {
+                // 啥也不做
+            } else {
+                this._records.set(key, rec)
+            }
             this._records.set(key, rec)
         });
     }
