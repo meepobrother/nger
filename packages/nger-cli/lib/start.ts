@@ -1,4 +1,4 @@
-import { Command, Option, Inject, Compiler } from 'nger-core'
+import { Command, Option, Inject, Compiler, setDevMode } from 'nger-core'
 import { Logger } from 'nger-logger';
 import { join } from 'path';
 const root = process.cwd();
@@ -9,7 +9,7 @@ import { Injector } from 'nger-di';
     name: 'start [type]',
     description: '启动',
     example: {
-        command: 'nger start express|koi',
+        command: 'nger start koi [-p 3000 --dev]',
         description: '启动'
     }
 })
@@ -24,26 +24,26 @@ export class StartCommand {
     })
     port: number = 3000;
 
+    @Option()
+    dev: boolean = false;
+
     constructor(@Inject() public injector: Injector) { }
 
     run() {
-        this.injector.debug;
+        setDevMode(!!this.dev);
         this.logger && this.logger.warn(`start ${this.type}`);
         const source = join(root, 'src/server')
         const serverSource = require(source).default;
-        const compiler = new Compiler();
-        const ref = compiler.bootstrap(serverSource)
-        if (ref) {
-            ref.context.set('port', this.port);
+        if (serverSource) {
             switch (this.type) {
                 case 'express':
-                    this.start.express(ref);
+                    this.start.express(serverSource);
                     break;
                 case 'koa':
-                    this.start.koa(ref);
+                    this.start.koa(serverSource);
                     break;
                 case 'hapi':
-                    this.start.hapi(ref);
+                    this.start.hapi(serverSource);
                     break;
                 default:
                     break;

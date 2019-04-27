@@ -1,11 +1,3 @@
 # `nger-compiler-uglify`
 
-> TODO: description
-
-## Usage
-
-```
-const ngerCompilerUglify = require('nger-compiler-uglify');
-
-// TODO: DEMONSTRATE API
-```
+> 最小化代码，作用在发布之前

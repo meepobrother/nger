@@ -9,6 +9,8 @@
 vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
 很遗憾，由于ng和小程序的差异性，我们暂时没打算直接把ng项目转换成小程序，而是用ng的一套思想（`依赖注入`、`装饰器`等）来规范开发小程序!以达到一套代码多平台运行。
 
+技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
+
 <h2 align="center">设计总纲</h2>
 
 > 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
@@ -181,6 +183,16 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] 编译生成`js`文件
 
 ## TODO
+
+小程序适配思路
+
+其实小程序和ng的适配度还蛮高的！
+- @Component正好和Component对应。不唯一，可以有任意个实例
+- App和NgModule对应。全局唯一
+- @Directive和小程序的指令对应，这里有区别ng中可以自定义指令，小程序不行。不唯一。
+- @Page和小程序的Page对应。全局唯一
+
+
 
 ### Controller
 > 客户端运行时需要编译器转码

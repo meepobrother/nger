@@ -1,11 +1,3 @@
 # `nger-compiler-img`
 
-> TODO: description
-
-## Usage
-
-```
-const ngerCompilerImg = require('nger-compiler-img');
-
-// TODO: DEMONSTRATE API
-```
+> img图片处理，发生在打包之前

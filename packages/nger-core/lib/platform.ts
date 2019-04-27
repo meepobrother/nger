@@ -1,12 +1,16 @@
-import { TypeContext } from 'ims-decorator';
 import { APP_INITIALIZER, APP_ALLREADY } from './decorators/ngModule';
 import { OnError } from './lifecycle_hooks';
-import { InjectFlags } from 'nger-di';
+import { InjectFlags, Type } from 'nger-di';
 import { NgModuleRef } from 'nger-core';
+import { Compiler } from './compiler';
 export abstract class Platform {
     private onErrorHandler: (e: Error) => any;
-    constructor() { }
-    async bootstrap<T>(ref: NgModuleRef<T>) {
+    private compiler: Compiler;
+    constructor() {
+        this.compiler = new Compiler();
+    }
+    async bootstrap<T>(type: Type<T>) {
+        const ref = this.compiler.bootstrap(type)
         if (process) {
             process.on('uncaughtException', (err: Error) => {
                 return this.catchError(err)

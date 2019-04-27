@@ -1,11 +1,3 @@
 # `nger-platform-axios`
 
-> TODO: description
-
-## Usage
-
-```
-const ngerPlatformAxios = require('nger-platform-axios');
-
-// TODO: DEMONSTRATE API
-```
+> 服务端和浏览器端的http请求模块
