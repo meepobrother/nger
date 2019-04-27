@@ -9,11 +9,13 @@ import Static from 'koa-static';
 import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
 import { join, resolve } from 'path';
 import { NgerPlatformAxios } from 'nger-platform-axios'
-
+const compress = require('koa-compress');
 // import webpackKoa2Middleware from 'webpack-koa2-middleware'
 import koaWebpack from 'koa-webpack';
 import { WebpackService } from 'nger-module-webpack';
 import { TypeContext } from 'ims-decorator';
+import dev from 'webpack-dev-server';
+
 export class NgerPlatformKoa extends Platform {
     logger: ConsoleLogger;
     util: NgerUtil;
@@ -34,7 +36,7 @@ export class NgerPlatformKoa extends Platform {
         const router = new KoaRouter();
         const server = createServer(this.app.callback())
         const port = ref.context.get(`port`);
-        this.app.use(KoaStatic(join(this.util.root, 'template')))
+        // this.app.use(KoaStatic(join(this.util.root, 'template')))
         this.app.use(KoaStatic(join(this.util.root, 'attachment')))
         this.app.use(async (ctx, next) => {
             await next();
@@ -55,6 +57,13 @@ export class NgerPlatformKoa extends Platform {
             this.axios.handler(declaration, controllerRef.instance, controller)
         });
         this.attachWebpackCompiler(router);
+        this.app.use(compress({
+            filter: function (content_type) {
+                return /text/i.test(content_type)
+            },
+            threshold: 2048,
+            flush: require('zlib').Z_SYNC_FLUSH
+        }))
         this.app.use(router.routes()).use(router.allowedMethods())
         server.listen(port, () => {
             this.logger.info(`app start at http://localhost:${port}`)
@@ -88,35 +97,48 @@ export class NgerPlatformKoa extends Platform {
         });
     }
 
-    async attachWebpackCompiler(router: any) {
+    async attachWebpackCompiler(router: Router) {
         const webpack = this.injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
         const config = webpack.config;
-        const dev = this.injector.get(DevModelToken, false);
-        console.log({ config, dev })
-        if (dev && !!webpack) {
-            const middleware = await koaWebpack({
-                config,
-                devMiddleware: {
-                    logLevel: 'silent',
-                    inline: true,
-                    heartbeat: 2000,
-                },
-                hotClient: {
-                    logLevel: 'silent',
-                    autoConfigure: false
-                },
-                compiler: webpack.compiler
-            });
-            this.app.use(middleware);
-            this.app.use(async (ctx, next) => {
-                if (config.output) {
-                    const filename = resolve(config.output.path || '', 'index.html')
-                    ctx.response.type = 'html'
-                    ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename)
-                } else {
-                    next();
-                }
-            });
+        const isDevModel = this.injector.get(DevModelToken, false);
+        if (isDevModel) {
+            let publicPath = '/';
+            if (config) {
+                if (config.output && config.output.publicPath) publicPath = config.output.publicPath
+            }
+            new dev(webpack.compiler, {
+                historyApiFallback: true,
+                hot: true,
+                open: true,
+                inline: true,
+                publicPath
+            }).listen(3001);
+            // const middleware = await koaWebpack({
+            //     config,
+            //     devMiddleware: {
+            //         logLevel: 'silent',
+            //         inline: true,
+            //         heartbeat: 2000,
+            //         index: 'index.html'
+            //     },
+            //     hotClient: {
+            //         logLevel: 'silent',
+            //         autoConfigure: false,
+            //     }
+            // });
+            // this.app.use(middleware);
         }
     }
+}
+
+function streamToString(stream) {
+    return new Promise((resolve, reject) => {
+        let data = ``
+        stream.on('data', (chunk) => {
+            data += chunk.toString('utf8');
+        })
+        stream.on('end', () => {
+            return resolve(`${data}`)
+        })
+    })
 }

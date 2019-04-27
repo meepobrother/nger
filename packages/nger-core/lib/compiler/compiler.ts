@@ -3,8 +3,8 @@ import { Type, Injector } from 'nger-di'
 import { visitor } from '../visitor'
 import { createStaticProvider, clearCache, getModules } from './createStaticProvider'
 export class Compiler {
-    modules: Map<Type<any>, NgModuleRef<any>> = new Map();
-    compileNgModuleRef<T>(
+    private modules: Map<Type<any>, NgModuleRef<any>> = new Map();
+    private compileNgModuleRef<T>(
         type: Type<T>,
         // 上级
         injector: Injector

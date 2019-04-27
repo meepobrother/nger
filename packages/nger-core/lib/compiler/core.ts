@@ -55,7 +55,6 @@ export class UpdatePropertyError extends Error {
 }
 export class ComponentRef<T> extends BaseCore<T>{
     readonly injector: Injector;
-
     constructor(public context: TypeContext) {
         super(context.instance);
         this.injector = context.injector;
@@ -118,6 +117,9 @@ export class ControllerRef<T> extends ComponentRef<T>{ }
 
 export class CommandRef<T> extends ComponentRef<T>{ }
 
+// 数据转换器
+export class PipeRef<T> extends ComponentRef<T>{ }
+
 export class NgModuleRef<T> extends BaseCore<T>{
     instance: T;
     injector: Injector;
@@ -129,6 +131,11 @@ export class NgModuleRef<T> extends BaseCore<T>{
             provide: context.target,
             useValue: this.instance,
         }]);
+    }
+
+    createPipeRef(type: Type<T>) {
+        const ctx = this.context.visitType(type)
+        return new PipeRef<T>(ctx);
     }
     // component
     createComponentRef<T>(type: Type<T>): ComponentRef<T> {

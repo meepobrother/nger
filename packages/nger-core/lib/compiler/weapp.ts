@@ -1,4 +1,3 @@
-
 import { ComponentRef, NgModuleRef, PageRef } from './core';
 export interface WeappPageInstance {
     data?: any;

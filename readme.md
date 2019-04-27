@@ -43,6 +43,14 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 ## 开发文档
 
+- 核心概念
+  - TypeContext 每个用装饰器装饰过得类都会有一个TypeContext,主要作用是查询装饰器参数。
+  - NgModuleRef @NgModule装饰器装饰的类的运行时实例，每个NgModule在系统运行时创建
+  - ComponentRef @Component装饰的类实例，需要NgModuleRef创建。
+  - PipeRef @Pipe装饰的类实例，需要NgModuleRef创建。
+  - DirectiveRef @Directive装饰的类实例，需要NgModuleRef创建。
+  - PageRef @Page装饰的类实例，需要NgModuleRef创建。
+  - ControllerRef @Controller装饰的类实例，需要NgModuleRef创建。
 ## 命名规则
 
 - `**PropertyAst`是属性装饰器节点,对应的有`is**PropertyAst`方法
