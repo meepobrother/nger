@@ -36,7 +36,7 @@ export class NgerPlatformKoa extends Platform {
         const router = new KoaRouter();
         const server = createServer(this.app.callback())
         const port = ref.context.get(`port`);
-        // this.app.use(KoaStatic(join(this.util.root, 'template')))
+        this.app.use(KoaStatic(join(this.util.root, 'template')))
         this.app.use(KoaStatic(join(this.util.root, 'attachment')))
         this.app.use(async (ctx, next) => {
             await next();
