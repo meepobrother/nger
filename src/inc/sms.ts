@@ -17,7 +17,7 @@ export class SmsController {
     ) {
         this.count$ = store.pipe(select('count'));
         this.count$.subscribe(res => {
-            console.log(res)
+            console.log(`count`, res)
         });
     }
 

@@ -1,7 +1,7 @@
 import { TypeContext } from 'ims-decorator';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
 import { NgerUtil } from 'nger-util';
-import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst, PostPropertyAst } from 'nger-core';
+import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, NgModuleRef, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst, PostPropertyAst } from 'nger-core';
 import axios from 'axios'
 export class NgerPlatformAxios extends Platform {
     logger: ConsoleLogger
@@ -11,10 +11,11 @@ export class NgerPlatformAxios extends Platform {
         this.logger = new ConsoleLogger(LogLevel.debug);
         this.util = new NgerUtil(this.logger)
     }
-    async run(context: TypeContext) {
+    async run<T>(ref: NgModuleRef<T>) {
         const _axios = await this.util.loadPkg<typeof axios>('axios');
-        const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
+        const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(declaration => {
+            const instance = ref.createControllerRef(declaration.target)
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
             const gets = declaration.getProperty(GetMetadataKey) as GetPropertyAst[];
             const posts = declaration.getProperty(PostMetadataKey) as PostPropertyAst[];
@@ -22,7 +23,7 @@ export class NgerPlatformAxios extends Platform {
                 const def = get.ast.metadataDef;
                 def.path = def.path || `${get.ast.propertyKey as string}`;
                 if (def.path.startsWith('http')) {
-                    declaration.instance[get.ast.propertyKey] = (...args: any[]) => {
+                    instance[get.ast.propertyKey] = (...args: any[]) => {
                         let params: any = {}
                         args.map(arg => {
                             if (typeof arg === 'object') {
@@ -34,7 +35,7 @@ export class NgerPlatformAxios extends Platform {
                         }).then(data => data.data)
                     }
                 } else {
-                    declaration.instance[get.ast.propertyKey] = (...args: any[]) => {
+                    instance[get.ast.propertyKey] = (...args: any[]) => {
                         let params: any = {}
                         args.map(arg => {
                             if (typeof arg === 'object') {
@@ -49,7 +50,7 @@ export class NgerPlatformAxios extends Platform {
                 const def = post.ast.metadataDef;
                 def.path = def.path || `${post.ast.propertyKey as string}`;
                 if (def.path.startsWith('http')) {
-                    declaration.instance[post.ast.propertyKey] = (...args: any[]) => {
+                    instance[post.ast.propertyKey] = (...args: any[]) => {
                         let body: any = {}
                         args.map(arg => {
                             if (typeof arg === 'object') {
@@ -59,7 +60,7 @@ export class NgerPlatformAxios extends Platform {
                         return _axios.post(`${def.path}`, body).then(data => data.data)
                     }
                 } else {
-                    declaration.instance[post.ast.propertyKey] = (...args: any[]) => {
+                    instance[post.ast.propertyKey] = (...args: any[]) => {
                         let body: any = {}
                         args.map(arg => {
                             if (typeof arg === 'object') {

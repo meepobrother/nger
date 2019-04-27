@@ -16,7 +16,6 @@ export class Store<T> extends Observable<T> implements Observer<Action> {
         private reducerManager: ReducerManager
     ) {
         super();
-
         this.source = state$;
     }
 

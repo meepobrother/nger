@@ -2,21 +2,20 @@ import { TypeContext } from 'ims-decorator';
 import { Logger } from 'nger-logger';
 import { NgerPlatformExpress } from 'nger-platform-express'
 import { NgerPlatformKoa } from 'nger-platform-koa'
-import { Injectable, Inject } from 'nger-core';
-
+import { Injectable, Inject, NgModuleRef } from 'nger-core';
 @Injectable()
 export class NgerCliStart {
     @Inject() logger: Logger;
     /** express */
-    express(context: TypeContext) {
-        new NgerPlatformExpress().bootstrap(context);
+    express<T>(ref: NgModuleRef<T>) {
+        new NgerPlatformExpress().bootstrap(ref);
     }
     /** koa */
-    koa(context: TypeContext) {
-        new NgerPlatformKoa().bootstrap(context);
+    koa<T>(ref: NgModuleRef<T>) {
+        new NgerPlatformKoa().bootstrap(ref);
     }
     /** hapi */
-    async hapi(context: TypeContext) {
+    async hapi<T>(ref: NgModuleRef<T>) {
 
     }
 }

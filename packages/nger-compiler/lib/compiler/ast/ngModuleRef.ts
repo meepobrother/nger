@@ -18,7 +18,6 @@ export class TransformVisitor implements ast.MetadataVisitor {
         }
     }
     visitClassMetadataAst(ast: ast.ClassMetadataAst, context: any): any {
-        if(){}
         debugger;
         console.log(`visitModuleMetadataAst`)
     }

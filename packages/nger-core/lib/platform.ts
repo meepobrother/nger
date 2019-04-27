@@ -1,26 +1,31 @@
 import { TypeContext } from 'ims-decorator';
 import { APP_INITIALIZER, APP_ALLREADY } from './decorators/ngModule';
 import { OnError } from './lifecycle_hooks';
+import { InjectFlags } from 'nger-di';
+import { NgModuleRef } from 'nger-core';
 export abstract class Platform {
     private onErrorHandler: (e: Error) => any;
     constructor() { }
-    async bootstrap(context: TypeContext) {
+    async bootstrap<T>(ref: NgModuleRef<T>) {
         if (process) {
             process.on('uncaughtException', (err: Error) => {
                 return this.catchError(err)
             });
         }
         try {
-            await this.init(context)
-            await this.run(context);
+            await this.init(ref)
+            await this.run(ref);
         } catch (e) {
             return this.catchError(e)
         }
     }
-    async init(context: TypeContext) {
-        const initializers = context.injector.get(APP_INITIALIZER) as any[];
+    async init<T>(ref: NgModuleRef<T>) {
+        // 遍历然后module创建
+        const initializers = ref.injector.get(APP_INITIALIZER) as any[];
         const errors: any[] = [];
-        for (let init of initializers) {
+        const initKeys = Object.keys(initializers);
+        for (let key of initKeys) {
+            const init = initializers[key]
             try {
                 await init()
             } catch (e) {
@@ -31,12 +36,13 @@ export abstract class Platform {
             console.log(`发现 ${errors.length} 个错误, 正在重试。。。`)
             await Promise.all(errors.map(init => init()))
         }
-        const readys = context.injector.get(APP_ALLREADY) as any[];
+        // 先执行所有imports进来的NgModule
+        const readys = ref.injector.get(APP_ALLREADY, [], InjectFlags.Optional) as any[];
         readys.map(res => res());
-        const instance = context.instance;
+        const instance = ref.instance as any;
         if ((instance as OnError).ngOnError) this.onErrorHandler = (e) => instance.ngOnError(e);
     }
-    abstract run(context: TypeContext): any;
+    abstract run<T>(ref: NgModuleRef<T>): any;
     // 错误捕获
     catchError(e: Error) {
         if (this.onErrorHandler) {

@@ -12,10 +12,12 @@ export * from './platform';
 export * from './tokens';
 export * from './authGuard';
 export * from './isDevMode';
+export * from './effect';
+export * from './compiler';
 
 export class ErrorHandler {
     handleError(error: any): void {
-        console.log(error.message)
-        console.log(error.stack)
+        console.log(`handleError:ERROR`,error.message)
+        console.log(`handleError:ERROR`,error.stack)
     }
 }

@@ -11,7 +11,7 @@ export class EffectsRunner implements OnDestroy {
   constructor(
     private effectSources: EffectSources,
     private store: Store<any>
-  ) {}
+  ) { }
 
   start() {
     if (!this.effectsSubscription) {

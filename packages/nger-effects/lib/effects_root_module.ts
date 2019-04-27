@@ -1,6 +1,5 @@
 import { NgModule, Inject, Optional } from 'nger-core';
 import {
-  StoreModule,
   Store,
   StoreRootModule,
   StoreFeatureModule,
@@ -22,11 +21,9 @@ export class EffectsRootModule {
     @Optional() storeFeatureModule: StoreFeatureModule
   ) {
     runner.start();
-
     rootEffects.forEach(effectSourceInstance =>
       sources.addEffects(effectSourceInstance)
     );
-
     store.dispatch({ type: ROOT_EFFECTS_INIT });
   }
 

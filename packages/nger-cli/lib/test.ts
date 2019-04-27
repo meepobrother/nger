@@ -20,8 +20,8 @@ export class TestCommand {
     run() {
         this.logger.warn(`testing`);
         _mocha.addFile(join(__dirname, `test/${this.type}.ts`))
-        _mocha.run((failures: number) => { 
-            console.log(failures)
+        _mocha.run((failures: number) => {
+            console.log(`TestCommand`, failures)
         });
     }
 }

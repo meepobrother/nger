@@ -1,14 +1,11 @@
 import { EffectMetadata, EffectsMetadata } from './models';
 import { getCreateEffectMetadata } from './effect_creator';
 import { getEffectDecoratorMetadata } from './effect_decorator';
-
 export function getEffectsMetadata<T>(instance: T): EffectsMetadata<T> {
   const metadata: EffectsMetadata<T> = {};
-
   for (const { propertyName, dispatch } of getSourceMetadata(instance)) {
     metadata[propertyName] = { dispatch };
   }
-
   return metadata;
 }
 

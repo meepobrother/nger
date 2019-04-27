@@ -32,6 +32,7 @@ import { isGetMethodAst, GetMethodAst, isGetPropertyAst, GetPropertyAst } from '
 import { isPostMethodAst, PostMethodAst, isPostPropertyAst, PostPropertyAst } from './http/post'
 import { OrmVisitor } from './orm'
 import { isAuthGuardClassAst, AuthGuardClassAst, isAuthGuardPropertyAst, AuthGuardPropertyAst } from './authGuard';
+import { isEffectPropertyAst, EffectPropertyAst } from './effect';
 export class NgVisitor extends NullAstVisitor {
     visitClass(ast: ClassAst, context: ParserAstContext) {
         if (isAuthGuardClassAst(ast)) {
@@ -83,6 +84,9 @@ export class NgVisitor extends NullAstVisitor {
         }
     }
     visitProperty(ast: PropertyAst, context: ParserAstContext) {
+        if (isEffectPropertyAst(ast)) {
+            return new EffectPropertyAst(ast, context);
+        }
         if (isAuthGuardPropertyAst(ast)) {
             return new AuthGuardPropertyAst(ast, context)
         }

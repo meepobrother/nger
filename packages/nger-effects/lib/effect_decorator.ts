@@ -1,11 +1,13 @@
 import { compose } from 'nger-store';
 import { EffectMetadata } from './models';
 import { getSourceForInstance } from './utils';
-
 const METADATA_KEY = '__@ngrx/effects__';
-
-export function Effect<T>({ dispatch = true } = {}): PropertyDecorator {
-  return function<K extends Extract<keyof T, string>>(
+export interface EffectOptions {
+  propertyName?: string;
+  dispatch?: boolean;
+}
+export function Effect<T>(dispatch = true): PropertyDecorator {
+  return function <K extends Extract<keyof T, string>>(
     target: T,
     propertyName: K
   ) {
@@ -13,7 +15,6 @@ export function Effect<T>({ dispatch = true } = {}): PropertyDecorator {
     setEffectMetadataEntries<T>(target, [metadata]);
   } as (target: {}, propertyName: string | symbol) => void;
 }
-
 export function getEffectDecoratorMetadata<T>(
   instance: T
 ): EffectMetadata<T>[] {
@@ -21,7 +22,6 @@ export function getEffectDecoratorMetadata<T>(
     getEffectMetadataEntries,
     getSourceForInstance
   )(instance);
-
   return effectsDecorators;
 }
 
@@ -35,8 +35,8 @@ function setEffectMetadataEntries<T>(
   )
     ? (constructor as any)[METADATA_KEY]
     : Object.defineProperty(constructor, METADATA_KEY, { value: [] })[
-        METADATA_KEY
-      ];
+    METADATA_KEY
+    ];
   Array.prototype.push.apply(meta, entries);
 }
 

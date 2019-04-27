@@ -1,5 +1,10 @@
 import { TypeContext } from "ims-decorator";
-import { CommandMetadataKey, CommandClassAst, OptionMetadataKey, OptionPropertyAst, OptionOptions, visitor, NgModuleClassAst, NgModuleMetadataKey, Platform } from "nger-core";
+import {
+    CommandMetadataKey, CommandClassAst,
+    OptionMetadataKey, OptionPropertyAst, OptionOptions
+    , NgModuleClassAst, NgModuleMetadataKey, Platform,
+    NgModuleRef
+} from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
@@ -11,9 +16,9 @@ export class NgerPlatformCli extends Platform {
         super();
         this.logger = new ConsoleLogger(LogLevel.debug);
     }
-    run(context: TypeContext) {
+    run<T>(ref: NgModuleRef<T>) {
         let _yargs = yargs;
-        const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
+        const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         _yargs = _yargs
             .usage(`欢迎使用nger ${pkg.version || '1.0.0'}`)
             .help('h')
@@ -27,6 +32,7 @@ export class NgerPlatformCli extends Platform {
         _yargs.example(`ims -v`, `查看版本号`);
         if (ngModule.declarations) {
             ngModule.declarations.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
+                const componentRef = ref.createCommandRef(context.target)
                 const command = context.getClass(CommandMetadataKey) as CommandClassAst;
                 if (!!command) {
                     const options = context.getProperty(OptionMetadataKey) as OptionPropertyAst[];
@@ -44,7 +50,7 @@ export class NgerPlatformCli extends Platform {
                                 }
                                 args.option(option.ast.propertyKey as string, {
                                     ...def,
-                                    default: context.instance[option.ast.propertyKey]
+                                    default: componentRef.instance[option.ast.propertyKey]
                                 });
                             });
                             return args
@@ -61,10 +67,10 @@ export class NgerPlatformCli extends Platform {
                                         delete props[def.alias];
                                     }
                                 }
-                                context.instance[opt.ast.propertyKey] = val;
+                                componentRef.instance[opt.ast.propertyKey] = val;
                             });
-                            Object.keys(props).map(key => context.instance[key] = props[key])
-                            await context.instance.run();
+                            Object.keys(props).map(key => componentRef.instance[key] = props[key])
+                            await componentRef.instance && componentRef.instance['run']();
                         });
                 }
             })

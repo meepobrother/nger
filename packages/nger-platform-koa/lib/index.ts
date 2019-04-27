@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
-import { DevModelToken, isAuthGuardRight, isAuthGuardMethod } from 'nger-core';
+import { DevModelToken, NgModuleRef } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
@@ -23,16 +23,16 @@ export class NgerPlatformKoa extends Platform {
         this.logger = new ConsoleLogger(LogLevel.debug);
         this.util = new NgerUtil(this.logger)
     }
-    async run(context: TypeContext) {
-        await this.axios.run(context);
+    async run<T>(ref: NgModuleRef<T>) {
+        await this.axios.run(ref);
         const KoaPkg = await this.util.loadPkg<typeof Koa>('koa');
         const KoaRouter = await this.util.loadPkg<typeof Router>('koa-router')
         const KoaStatic = await this.util.loadPkg<typeof Static>('koa-static')
-        this.injector = context.injector;
+        this.injector = ref.injector;
         this.app = new KoaPkg();
         const router = new KoaRouter();
         const server = createServer(this.app.callback())
-        const port = context.get(`port`);
+        const port = ref.context.get(`port`);
         this.app.use(KoaStatic(join(this.util.root, 'template')))
         this.app.use(KoaStatic(join(this.util.root, 'attachment')))
         this.app.use(async (ctx, next) => {
@@ -46,8 +46,9 @@ export class NgerPlatformKoa extends Platform {
             const ms = Date.now() - start;
             ctx.set('X-Response-Time', `${ms}ms`);
         });
-        const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
+        const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(declaration => {
+            const controllerRef = ref.createControllerRef(declaration.target)
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
             const gets = declaration.getMethod(GetMetadataKey) as GetMethodAst[];
             const posts = declaration.getMethod(PostMetadataKey) as PostMethodAst[];
@@ -60,7 +61,7 @@ export class NgerPlatformKoa extends Platform {
                         //         params[par.ast.parameterIndex] = ctx.request
                         //     }
                         // })
-                        const data = await declaration.instance[get.ast.propertyKey]();
+                        const data = await controllerRef.instance[get.ast.propertyKey]();
                         ctx.body = data;
                     } catch (e) {
                         this.catchError(e)
@@ -70,13 +71,11 @@ export class NgerPlatformKoa extends Platform {
             posts.map(post => {
                 this.logger.debug(`post ${controller.path}/${post.path}`)
                 router.post(`${controller.path}/${post.path}`, async (ctx) => {
-                    if (declaration.instance) {
-                        try {
-                            const data = await declaration.instance[post.ast.propertyKey]();
-                            ctx.body = data;
-                        } catch (e) {
-                            this.catchError(e)
-                        }
+                    try {
+                        const data = await controllerRef.instance[post.ast.propertyKey]();
+                        ctx.body = data;
+                    } catch (e) {
+                        this.catchError(e)
                     }
                 })
             });

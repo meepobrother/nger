@@ -105,6 +105,12 @@
       ],
       "nger-util": [
         "packages/nger-util/lib/index.ts"
+      ],
+      "nger-effects": [
+        "packages/nger-effects/lib/index.ts"
+      ],
+      "nger-platform-di": [
+        "packages/nger-platform-di/lib/index.ts"
       ]
     },
     "typeRoots": [

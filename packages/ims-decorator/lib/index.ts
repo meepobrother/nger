@@ -221,22 +221,29 @@ export class TypeContext {
     }
     paramsLength: number = 0;
     paramsTypes: any[] = [];
-
+    context: ParserAstContext | undefined;
     constructor(public type: any, public visitor: AstVisitor) {
         this.target = type;
-        const context = getContext(type);
-        if (context) {
-            context.typeContext = this;
-            context.visitor = visitor;
-            this.classes = context.visitClass();
-            this.propertys = context.visitProperty();
-            this.methods = context.visitMethod();
-            this.constructors = context.visitController();
-            // injector get
+        this.context = getContext(type);
+        if (this.context) {
+            this.context.typeContext = this;
+            this.context.visitor = visitor;
+            this.classes = this.context.visitClass();
+            this.propertys = this.context.visitProperty();
+            this.methods = this.context.visitMethod();
+            this.constructors = this.context.visitController();
         }
         const types = getDesignTargetParams(type) || [];
         this.paramsTypes = types;
         this.paramsLength = types.length;
+    }
+
+    visitType<T extends TypeContext = TypeContext>(type: any): T {
+        const typeContext = this.visitor.visitType(type);
+        if (typeContext) {
+            typeContext.setParent(this);
+        }
+        return typeContext as T;
     }
 
     inject(type: any) {
@@ -338,7 +345,9 @@ export class ParserAstContext {
     parameters: ParameterAst[] = [];
     parametersMap: Map<PropertyKey, ParameterAst[]> = new Map();
 
-    instance: any;
+    get instance() {
+        return this.typeContext.instance;
+    }
 
     visitor: AstVisitor;
     typeContext: TypeContext;
