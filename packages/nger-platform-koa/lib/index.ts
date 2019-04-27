@@ -2,7 +2,7 @@ import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
-import { DevModelToken, NgModuleRef } from 'nger-core';
+import { DevModelToken, NgModuleRef, ControllerRef } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
@@ -13,6 +13,7 @@ import { NgerPlatformAxios } from 'nger-platform-axios'
 // import webpackKoa2Middleware from 'webpack-koa2-middleware'
 import koaWebpack from 'koa-webpack';
 import { WebpackService } from 'nger-module-webpack';
+import { TypeContext } from 'ims-decorator';
 export class NgerPlatformKoa extends Platform {
     logger: ConsoleLogger;
     util: NgerUtil;
@@ -25,7 +26,6 @@ export class NgerPlatformKoa extends Platform {
         this.util = new NgerUtil(this.logger)
     }
     async run<T>(ref: NgModuleRef<T>) {
-        await this.axios.run(ref);
         const KoaPkg = await this.util.loadPkg<typeof Koa>('koa');
         const KoaRouter = await this.util.loadPkg<typeof Router>('koa-router')
         const KoaStatic = await this.util.loadPkg<typeof Static>('koa-static')
@@ -51,35 +51,8 @@ export class NgerPlatformKoa extends Platform {
         ngModule.declarations.map(declaration => {
             const controllerRef = ref.createControllerRef(declaration.target)
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
-            const gets = declaration.getMethod(GetMetadataKey) as GetMethodAst[];
-            const posts = declaration.getMethod(PostMetadataKey) as PostMethodAst[];
-            gets.map(get => {
-                this.logger.debug(`get ${controller.path}/${get.path}`)
-                router.get(`${controller.path}/${get.path}`, async (ctx) => {
-                    try {
-                        // get.parameters.map(par=>{
-                        //     if(par instanceof ReqParameterAst){
-                        //         params[par.ast.parameterIndex] = ctx.request
-                        //     }
-                        // })
-                        const data = await controllerRef.instance[get.ast.propertyKey]();
-                        ctx.body = data;
-                    } catch (e) {
-                        this.catchError(e)
-                    }
-                });
-            });
-            posts.map(post => {
-                this.logger.debug(`post ${controller.path}/${post.path}`)
-                router.post(`${controller.path}/${post.path}`, async (ctx) => {
-                    try {
-                        const data = await controllerRef.instance[post.ast.propertyKey]();
-                        ctx.body = data;
-                    } catch (e) {
-                        this.catchError(e)
-                    }
-                })
-            });
+            this.handler(declaration, router, controller, controllerRef);
+            this.axios.handler(declaration, controllerRef.instance, controller)
         });
         this.attachWebpackCompiler(router);
         this.app.use(router.routes()).use(router.allowedMethods())
@@ -88,20 +61,49 @@ export class NgerPlatformKoa extends Platform {
         });
     }
 
+    handler(declaration: TypeContext, router: any, controller: any, controllerRef: any) {
+        const gets = declaration.getMethod(GetMetadataKey) as GetMethodAst[];
+        gets.map(get => {
+            this.logger.debug(`get ${controller.path}/${get.path}`)
+            router.get(`${controller.path}/${get.path}`, async (ctx) => {
+                try {
+                    const data = await controllerRef.instance[get.ast.propertyKey]();
+                    ctx.body = data;
+                } catch (e) {
+                    this.catchError(e)
+                }
+            });
+        });
+        const posts = declaration.getMethod(PostMetadataKey) as PostMethodAst[];
+        posts.map(post => {
+            this.logger.debug(`post ${controller.path}/${post.path}`)
+            router.post(`${controller.path}/${post.path}`, async (ctx) => {
+                try {
+                    const data = await controllerRef.instance[post.ast.propertyKey]();
+                    ctx.body = data;
+                } catch (e) {
+                    this.catchError(e)
+                }
+            })
+        });
+    }
+
     async attachWebpackCompiler(router: any) {
         const webpack = this.injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
         const config = webpack.config;
         const dev = this.injector.get(DevModelToken, false);
+        console.log({ config, dev })
         if (dev && !!webpack) {
             const middleware = await koaWebpack({
                 config,
                 devMiddleware: {
-                    publicPath: config.output && config.output.publicPath || '/',
                     logLevel: 'silent',
-                    watchOptions: { aggregateTimeout: 200 }
+                    inline: true,
+                    heartbeat: 2000,
                 },
                 hotClient: {
-                    logLevel: 'silent'
+                    logLevel: 'silent',
+                    autoConfigure: false
                 },
                 compiler: webpack.compiler
             });

@@ -8,3 +8,9 @@ import { HomePage } from './template/admin/home/home';
     ]
 })
 export default class NgerAdmin { }
+
+const domRoot = document.getElementById('app');
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
+history.push('/home', { some: 'data' })
+console.log(11)

@@ -5,30 +5,34 @@ import webpack, { Configuration } from 'webpack'
 import { join } from 'path';
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const root = process.cwd();
+import assets from './assets';
 @NgModule({
     providers: [{
         provide: WebpackConfigToken,
         useValue: {
             entry: {
-                main: [join(root, 'src/admin.ts')]
+                main: ['webpack-hot-middleware/client?noInfo=true&reload=true', join(root, 'src/admin.ts')]
             },
             devtool: 'inline-source-map',
             watch: true,
             resolve: {
-                plugins: [new TsconfigPathsPlugin({ configFile: 'tsconfig.json' })]
+                plugins: [
+                    new TsconfigPathsPlugin({ configFile: 'tsconfig.json' }),
+                ]
             },
             plugins: [
                 new HtmlWebpackPlugin({
-                    template: join(root, 'template/admin/index.html'),
+                    template: join(__dirname, 'index.html'),
                     filename: 'index.html',
                     chunks: [
-                        'manifest'
+                        'manifest', 'main'
                     ]
                 }),
                 new webpack.WatchIgnorePlugin([
                     /\.js$/,
                     /\.d\.ts$/
                 ]),
+                new webpack.HotModuleReplacementPlugin(),
             ],
             output: {
                 path: join(root, 'attachments/template/admin'),
@@ -49,8 +53,7 @@ const root = process.cwd();
                             }
                         }
                     ]
-
-                }]
+                }, ...assets]
             },
             performance: {
                 hints: 'warning',

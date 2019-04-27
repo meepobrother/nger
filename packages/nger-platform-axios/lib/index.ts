@@ -12,65 +12,69 @@ export class NgerPlatformAxios extends Platform {
         this.util = new NgerUtil(this.logger)
     }
     async run<T>(ref: NgModuleRef<T>) {
-        const _axios = await this.util.loadPkg<typeof axios>('axios');
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(declaration => {
             const instance = ref.createControllerRef(declaration.target)
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
-            const gets = declaration.getProperty(GetMetadataKey) as GetPropertyAst[];
-            const posts = declaration.getProperty(PostMetadataKey) as PostPropertyAst[];
-            gets.map(get => {
-                const def = get.ast.metadataDef;
-                def.path = def.path || `${get.ast.propertyKey as string}`;
-                if (def.path.startsWith('http')) {
-                    instance[get.ast.propertyKey] = (...args: any[]) => {
-                        let params: any = {}
-                        args.map(arg => {
-                            if (typeof arg === 'object') {
-                                params = { ...params, ...arg }
-                            }
-                        });
-                        if (def.path) return _axios.get(def.path, {
-                            params: params
-                        }).then(data => data.data)
-                    }
-                } else {
-                    instance[get.ast.propertyKey] = (...args: any[]) => {
-                        let params: any = {}
-                        args.map(arg => {
-                            if (typeof arg === 'object') {
-                                params = { ...params, ...arg }
-                            }
-                        });
-                        return _axios.get(`${controller.path}/${def.path}`, { params }).then(data => data.data)
-                    }
+            this.handler(declaration, instance, controller)
+        });
+    }
+
+    async handler(declaration: TypeContext, instance: any, controller: any) {
+        const _axios = await this.util.loadPkg<typeof axios>('axios');
+        const gets = declaration.getProperty(GetMetadataKey) as GetPropertyAst[];
+        const posts = declaration.getProperty(PostMetadataKey) as PostPropertyAst[];
+        gets.map(get => {
+            const def = get.ast.metadataDef;
+            def.path = def.path || `${get.ast.propertyKey as string}`;
+            if (def.path.startsWith('http')) {
+                instance[get.ast.propertyKey] = (...args: any[]) => {
+                    let params: any = {}
+                    args.map(arg => {
+                        if (typeof arg === 'object') {
+                            params = { ...params, ...arg }
+                        }
+                    });
+                    if (def.path) return _axios.get(def.path, {
+                        params: params
+                    }).then(data => data.data)
                 }
-            });
-            posts.map(post => {
-                const def = post.ast.metadataDef;
-                def.path = def.path || `${post.ast.propertyKey as string}`;
-                if (def.path.startsWith('http')) {
-                    instance[post.ast.propertyKey] = (...args: any[]) => {
-                        let body: any = {}
-                        args.map(arg => {
-                            if (typeof arg === 'object') {
-                                body = { ...body, ...arg }
-                            }
-                        });
-                        return _axios.post(`${def.path}`, body).then(data => data.data)
-                    }
-                } else {
-                    instance[post.ast.propertyKey] = (...args: any[]) => {
-                        let body: any = {}
-                        args.map(arg => {
-                            if (typeof arg === 'object') {
-                                body = { ...body, ...arg }
-                            }
-                        });
-                        return _axios.post(`${controller.path}/${def.path}`, body).then(data => data.data)
-                    }
+            } else {
+                instance[get.ast.propertyKey] = (...args: any[]) => {
+                    let params: any = {}
+                    args.map(arg => {
+                        if (typeof arg === 'object') {
+                            params = { ...params, ...arg }
+                        }
+                    });
+                    return _axios.get(`${controller.path}/${def.path}`, { params }).then(data => data.data)
                 }
-            });
+            }
+        });
+        posts.map(post => {
+            const def = post.ast.metadataDef;
+            def.path = def.path || `${post.ast.propertyKey as string}`;
+            if (def.path.startsWith('http')) {
+                instance[post.ast.propertyKey] = (...args: any[]) => {
+                    let body: any = {}
+                    args.map(arg => {
+                        if (typeof arg === 'object') {
+                            body = { ...body, ...arg }
+                        }
+                    });
+                    return _axios.post(`${def.path}`, body).then(data => data.data)
+                }
+            } else {
+                instance[post.ast.propertyKey] = (...args: any[]) => {
+                    let body: any = {}
+                    args.map(arg => {
+                        if (typeof arg === 'object') {
+                            body = { ...body, ...arg }
+                        }
+                    });
+                    return _axios.post(`${controller.path}/${def.path}`, body).then(data => data.data)
+                }
+            }
         });
     }
 }

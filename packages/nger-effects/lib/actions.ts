@@ -12,7 +12,6 @@ import { filter } from 'rxjs/operators';
 export class Actions<V = Action> extends Observable<V> {
   constructor(@Inject(ScannedActionsSubject) source?: Observable<V>) {
     super();
-
     if (source) {
       this.source = source;
     }

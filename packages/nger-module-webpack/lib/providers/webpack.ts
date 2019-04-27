@@ -5,14 +5,15 @@ import { WebpackMergeService } from './merge';
 import chalk from 'chalk';
 import ora from 'ora';
 import { Injector } from 'nger-di';
-
+import { Store } from 'nger-store'
 @Injectable()
 export class WebpackService {
     serveSpinner: ora.Ora = ora(`Starting development server, please wait~`);
 
     constructor(
         @Inject() public injector: Injector,
-        @Inject() public merge: WebpackMergeService
+        @Inject() public merge: WebpackMergeService,
+        private store: Store<{ count: number }>
     ) { }
 
     configs: Configuration[];
