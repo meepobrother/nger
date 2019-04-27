@@ -15,9 +15,11 @@ const root = process.cwd();
             useValue: {
                 mode: 'development',
                 entry: join(root, 'src/admin.ts'),
-                output: {
-                    path: join(root, 'template/admin'),
-                    filename: `[name].js`
+                resolve: {
+                    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                    mainFields: ['main:h5', 'main', 'module'],
+                    symlinks: true,
+                    modules: [join(root, 'packages'), join(root, 'node_modules')]
                 },
                 plugins: []
             } as Configuration,

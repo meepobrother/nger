@@ -1,4 +1,3 @@
-import { TypeContext } from 'ims-decorator';
 import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
@@ -8,9 +7,11 @@ import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
 import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { NgerPlatformAxios } from 'nger-platform-axios'
-import webpackKoa2Middleware from 'webpack-koa2-middleware'
+
+// import webpackKoa2Middleware from 'webpack-koa2-middleware'
+import koaWebpack from 'koa-webpack';
 import { WebpackService } from 'nger-module-webpack';
 export class NgerPlatformKoa extends Platform {
     logger: ConsoleLogger;
@@ -80,18 +81,40 @@ export class NgerPlatformKoa extends Platform {
                 })
             });
         });
+        this.attachWebpackCompiler(router);
         this.app.use(router.routes()).use(router.allowedMethods())
-        this.attachWebpackCompiler();
         server.listen(port, () => {
             this.logger.info(`app start at http://localhost:${port}`)
         });
     }
 
-    attachWebpackCompiler() {
-        const compiler = this.injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
+    async attachWebpackCompiler(router: any) {
+        const webpack = this.injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
+        const config = webpack.config;
         const dev = this.injector.get(DevModelToken, false);
-        if (dev && !!compiler) {
-            this.app.use(webpackKoa2Middleware(compiler.compiler));
+        if (dev && !!webpack) {
+            const middleware = await koaWebpack({
+                config,
+                devMiddleware: {
+                    publicPath: config.output && config.output.publicPath || '/',
+                    logLevel: 'silent',
+                    watchOptions: { aggregateTimeout: 200 }
+                },
+                hotClient: {
+                    logLevel: 'silent'
+                },
+                compiler: webpack.compiler
+            });
+            this.app.use(middleware);
+            this.app.use(async (ctx, next) => {
+                if (config.output) {
+                    const filename = resolve(config.output.path || '', 'index.html')
+                    ctx.response.type = 'html'
+                    ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename)
+                } else {
+                    next();
+                }
+            });
         }
     }
 }

@@ -11,6 +11,7 @@ import { CounterEffects } from './store/counter.effects'
 
 import { EffectsModule } from 'nger-effects';
 import { Injector } from 'nger-di';
+import { NgerWebpackAdmin } from 'packages/nger-webpack-admin/lib';
 /** api服务 */
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import { Injector } from 'nger-di';
     imports: [
         NgerModulePm2,
         NgerModuleWebpack,
+        NgerWebpackAdmin,
         NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
         StoreModule.forRoot({ count: counterReducer }),
         EffectsModule.forRoot([CounterEffects])

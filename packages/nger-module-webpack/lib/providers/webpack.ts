@@ -17,14 +17,16 @@ export class WebpackService {
 
     configs: Configuration[];
     get compiler(): Compiler {
+        return webpack(this.config)
+    }
+    get config(): Configuration {
         this.configs = this.injector.get(WebpackConfigToken) as Configuration[];
         if (this.configs.length > 1) {
-            const config = this.merge.merge(...this.configs)
-            return webpack(config)
+            return this.merge.merge(...this.configs)
         } else if (this.configs.length === 1) {
-            return webpack(this.configs[0])
+            return this.configs[0]
         }
-        return webpack({})
+        return {}
     }
 
     /** 运行 */
