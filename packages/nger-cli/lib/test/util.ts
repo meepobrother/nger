@@ -1,5 +1,3 @@
-
-
 const root = process.cwd();
 import { visitor } from 'nger-core';
 import { join } from 'path';

@@ -1,5 +1,5 @@
 import { Command, Inject } from 'nger-core'
-import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
+import { Logger } from 'nger-logger';
 import { join } from 'path';
 const root = process.cwd();
 @Command({
