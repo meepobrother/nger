@@ -14,6 +14,7 @@ export * from './authGuard';
 export * from './isDevMode';
 export * from './effect';
 export * from './compiler';
+export * from './sdk';
 
 export class ErrorHandler {
     handleError(error: any): void {

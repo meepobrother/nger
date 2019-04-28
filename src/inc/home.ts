@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Inject, GetProperty, It } from 'nger-core'
+import { Controller, Get, Post, Inject, GetProperty, It, Http } from 'nger-core'
 import { Logger } from 'nger-logger'
-import { ImsDemoEntity } from '../typeorm'
 @Controller({
     path: '/'
 })
@@ -24,7 +23,12 @@ export class HomeController {
         return this.getBaidu();
     }
 
-    constructor() { }
+    constructor(public http: Http) { }
+
+    @Get()
+    getHttp() {
+        return this.http.get(`http://baidu.com`)
+    }
 
     @It(`Get /userInfo`, async (expect, that) => {
         const res = await that.userInfo();

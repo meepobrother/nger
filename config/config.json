@@ -1,5 +1,7 @@
 {
     "npm": "cnpm",
+    "port": 3000,
+    "host": "localhost",
     "db": {
         "type": "mysql",
         "username": "root",

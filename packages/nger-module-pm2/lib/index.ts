@@ -12,13 +12,7 @@ import { NgerUtil } from 'nger-util';
                 return new ConsoleLogger(LogLevel.debug)
             },
             deps: []
-        }, {
-            provide: NgerUtil,
-            useFactory: (logger: Logger) => {
-                return new NgerUtil(logger)
-            },
-            deps: [Logger]
-        }
+        }, NgerUtil
     ]
 })
 export class NgerModulePm2 { }

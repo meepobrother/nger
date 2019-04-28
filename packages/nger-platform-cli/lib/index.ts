@@ -1,21 +1,26 @@
-import { TypeContext } from "ims-decorator";
 import {
     CommandMetadataKey, CommandClassAst,
     OptionMetadataKey, OptionPropertyAst, OptionOptions
-    , NgModuleClassAst, NgModuleMetadataKey, Platform,
-    NgModuleRef
+    , NgModuleClassAst, NgModuleMetadataKey,
+    NgModuleRef, PlatformFactory, APP_INITIALIZER, Logger
 } from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
-import { ConsoleLogger, LogLevel } from 'nger-logger';
+import ngerPlatformNode from 'nger-platform-node'
 const pkg = require(join(__dirname, '../', 'package.json'))
-export class NgerPlatformCli extends Platform {
-    logger: ConsoleLogger;
-    constructor() {
-        super();
-        this.logger = new ConsoleLogger(LogLevel.debug);
-    }
+export default PlatformFactory.create('cli', [{
+    provide: APP_INITIALIZER,
+    useFactory: (logger: Logger, ref: NgModuleRef<any>) => {
+        return () => {
+            return new NgerPlatformCli(logger).run(ref)
+        }
+    },
+    deps: [Logger, NgModuleRef],
+    multi: true
+}], ngerPlatformNode)
+export class NgerPlatformCli {
+    constructor(public logger: Logger) { }
     run<T>(ref: NgModuleRef<T>) {
         let _yargs = yargs;
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
@@ -34,7 +39,7 @@ export class NgerPlatformCli extends Platform {
             ngModule.declarations.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
                 const componentRef = ref.createCommandRef(context.target)
                 const command = context.getClass(CommandMetadataKey) as CommandClassAst;
-                if (!!command) {
+                if (!!command && componentRef) {
                     const options = context.getProperty(OptionMetadataKey) as OptionPropertyAst[];
                     const def = command.ast.metadataDef;
                     _yargs = _yargs

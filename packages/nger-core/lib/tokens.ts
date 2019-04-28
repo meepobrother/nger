@@ -14,14 +14,3 @@ export type DevModel = boolean;
 export const DevModelToken = new InjectionToken<DevModel>(`DevModelToken`);
 // 运行平台
 export const PlatformToken = new InjectionToken<DevModel>(`PlatformToken`);
-
-export interface NgerConfig {
-    // 包管理工具
-    npm: 'yarn' | 'npm' | 'cnpm';
-    // api接口地址
-    api: {
-        ip: string;
-        port: number;
-    },
-    db: ConnectionOptions;
-}

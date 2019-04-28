@@ -53,7 +53,9 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
   - DirectiveRef @Directive装饰的类实例，需要NgModuleRef创建。
   - PageRef @Page装饰的类实例，需要NgModuleRef创建。
   - ControllerRef @Controller装饰的类实例，需要NgModuleRef创建。
-
+- 内置周期钩子
+  - APP_INITIALIZER 系统初始化时运行，依赖注入还没有注册完毕，可在此时动态插入或替换某注入服务。并自动执行NgModule类中的构建方法。Platform需要注入此类型钩子，才能正常运行。
+  - APP_ALLREADY APP_INITIALIZER所有钩子执行完毕后执行。这时依赖注入已准备完毕，所有服务可通过injector的方式获取。这个周期内，不要修改依赖注入服务。
 ## 核心思想
 > ng的依赖注入
 

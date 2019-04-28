@@ -111,6 +111,9 @@
       ],
       "nger-platform-di": [
         "packages/nger-platform-di/lib/index.ts"
+      ],
+      "nger-platform-node": [
+        "packages/nger-platform-node/lib/index.ts"
       ]
     },
     "typeRoots": [

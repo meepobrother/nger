@@ -4,3 +4,4 @@ export abstract class Logger {
     abstract warn(...args: string[]): void;
     abstract error(...args: string[]): void;
 }
+

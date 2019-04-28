@@ -2,20 +2,11 @@ import { exec } from 'shelljs';
 import { execSync } from 'child_process';
 import { join } from 'path';
 import { existsSync } from 'fs';
-import { Logger, ConsoleLogger, LogLevel } from 'nger-logger';
+import { Logger, NgerConfig } from 'nger-core';
 import { CompilerOptions } from 'typescript'
-export interface NgerConfig {
-    // 包管理工具
-    npm: 'yarn' | 'npm' | 'cnpm';
-}
-
 export class NgerUtil {
     root: string = process.cwd()
-    config: NgerConfig;
-    static create() {
-        return new NgerUtil(new ConsoleLogger(LogLevel.debug))
-    }
-    constructor(public logger: Logger) { }
+    constructor(public logger: Logger, public config: NgerConfig) { }
     /** 加载配置文件 */
     loadConfig(): NgerConfig {
         const configPath = join(this.root, 'config/config.json');
@@ -31,6 +22,7 @@ export class NgerUtil {
     getCompilerOptions(): CompilerOptions {
         return require(join(this.root, 'tsconfig')).compilerOptions
     }
+
     /** 加载包 */
     async loadPkg<T = any>(name: string, attr?: string): Promise<T> {
         let target: any;
@@ -54,7 +46,7 @@ export class NgerUtil {
         let command: string = '';
         if (!cfg) {
             // cnpm 优先
-            cfg = cfg || { npm: 'yarn' };
+            cfg = cfg || { npm: 'yarn' } as any;
             if (this.shouldUseYarn()) {
                 cfg.npm = 'yarn';
             } else if (this.shouldUseCnpm()) {

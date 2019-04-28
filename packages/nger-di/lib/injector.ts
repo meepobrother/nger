@@ -53,7 +53,8 @@ export function inject<T>(token: any, notFound?: T, flags: InjectFlags = InjectF
             globalRecord,
             ERROR_INJECTOR,
             notFound,
-            flags
+            flags,
+            undefined
         );
     } catch (e) {
         return catchInjectorError(e, token, 'StaticInjectorError', this.source);
@@ -66,10 +67,11 @@ function tryResolveToken(
     records: Map<any, Record | Record[]>,
     parent: Injector,
     notFoundValue: any,
-    flags: InjectFlags
+    flags: InjectFlags,
+    current: Injector | undefined
 ): any {
     try {
-        return resolveToken(token, record, records, parent, notFoundValue, flags);
+        return resolveToken(token, record, records, parent, notFoundValue, flags, current);
     } catch (e) {
         // ensure that 'e' is of type Error.
         if (!(e instanceof Error)) {
@@ -259,10 +261,11 @@ export interface IInjector {
     get<T>(token: IToken<T>, notFound?: T, flags?: InjectFlags, ): T | T[] | undefined;
 }
 export class ErrorInjector implements IInjector {
+    source = `ErrorInjector`
     get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND, flags: InjectFlags): any {
         // 如果是Optional
         if (notFoundValue === _THROW_IF_NOT_FOUND) {
-            const error = new Error(`NullInjectorError: No provider for ${stringify(token)}!`);
+            const error = new Error(`NullInjectorError: No provider for ${stringify(token)}`);
             error.name = 'NullInjectorError';
             throw error;
         }
@@ -271,6 +274,7 @@ export class ErrorInjector implements IInjector {
 }
 // null
 export class NullInjector implements IInjector {
+    source: string | null = 'NullInjector'
     get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND, flags: InjectFlags): any {
         // 如果是Optional
         const res = inject(token, notFoundValue, flags);
@@ -335,10 +339,6 @@ export class Injector implements IInjector {
     create(records: StaticProvider[], source: string | null = null) {
         return new Injector(records, this, source)
     }
-    // setExport(token: any) {
-    //     const record = this._records.get(token);
-    //     if (record) this.exports.set(token, record)
-    // }
     setStatic(records: StaticProvider[]) {
         records.map(record => {
             const recs = createStaticRecrod(record, this._records);
@@ -357,6 +357,7 @@ export class Injector implements IInjector {
     set(token: any, record: Record | Record[]) {
         this._records.set(token, record)
     }
+    // 这个是替换
     extend(injector: Injector) {
         injector._records.forEach((rec, key) => {
             let record = this._records.get(key)
@@ -369,12 +370,17 @@ export class Injector implements IInjector {
                     this._records.set(key, record)
                 }
             } else if (record) {
-                // 啥也不做
+                // 啥也不做 还是覆盖 
+                // todo todo todo 
+                // this._records.set(key, record)
             } else {
                 this._records.set(key, rec)
             }
             this._records.set(key, rec)
         });
+    }
+    setParent(injector: Injector) {
+        this.parent = injector;
     }
     get<T>(token: IToken<T>, notFound?: T, flags: InjectFlags = InjectFlags.Default): T | T[] | undefined {
         const record = this._records.get(token);
@@ -388,10 +394,12 @@ export class Injector implements IInjector {
                 this._records,
                 this.parent,
                 notFound,
-                flags
+                flags,
+                this
             );
         } catch (e) {
-            return catchInjectorError(e, token, `${this.source}:StaticInjectorError`, this.source);
+            console.log(`${this.source}:${new Date().getTime()}`, this.parent.source);
+            return catchInjectorError(e, token, `StaticInjectorError`, this.source);
         }
     }
 }
@@ -421,9 +429,13 @@ export function resolveToken(
     records: Map<any, Record | Record[]>,
     parent: Injector,
     notFoundValue: any,
-    flags: InjectFlags
+    flags: InjectFlags,
+    current: Injector | undefined
 ) {
     let value;
+    if (!record) {
+        console.log(`${current ? current.source: ''} can not found , so from parent ${parent.source} found`, stringify(token))
+    }
     if (record && !(flags & InjectFlags.SkipSelf)) {
         // If we don't have a record, this implies that we don't own the provider hence don't know how
         // to resolve it.
@@ -455,7 +467,9 @@ export function resolveToken(
                             // than pass in Null injector.
                             !childRecord && !(options & OptionFlags.CheckParent) ? ERROR_INJECTOR : parent,
                             options & OptionFlags.Optional ? null : Injector.THROW_IF_NOT_FOUND,
-                            InjectFlags.Default));
+                            InjectFlags.Default,
+                            current
+                        ));
                     }
                 }
                 value = fn(...deps);

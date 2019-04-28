@@ -1,32 +1,35 @@
 import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
-import { ConsoleLogger, LogLevel } from 'nger-logger';
-import { DevModelToken, NgModuleRef, ControllerRef } from 'nger-core';
+import { DevModelToken, NgModuleRef, getPort } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
-import { NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
-import { join, resolve } from 'path';
-import { NgerPlatformAxios } from 'nger-platform-axios'
+import { Logger, APP_INITIALIZER, PlatformFactory, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
+import { join } from 'path';
+import NgerPlatformAxios from 'nger-platform-axios'
 const compress = require('koa-compress');
 // import webpackKoa2Middleware from 'webpack-koa2-middleware'
-import koaWebpack from 'koa-webpack';
 import { WebpackService } from 'nger-module-webpack';
 import { TypeContext } from 'ims-decorator';
 import dev from 'webpack-dev-server';
-
-export class NgerPlatformKoa extends Platform {
-    logger: ConsoleLogger;
-    util: NgerUtil;
-    axios: NgerPlatformAxios = new NgerPlatformAxios();
-    app: Koa;
-    injector: Injector;
-    constructor() {
-        super();
-        this.logger = new ConsoleLogger(LogLevel.debug);
-        this.util = new NgerUtil(this.logger)
-    }
+export default PlatformFactory.create('koa', [{
+    provide: APP_INITIALIZER,
+    useFactory: (logger: Logger, util: NgerUtil, ref: NgModuleRef<any>) => {
+        return () => {
+            new NgerPlatformKoa(logger, util).run(ref)
+        }
+    },
+    deps: [Logger, NgerUtil, NgModuleRef],
+    multi: true
+}], NgerPlatformAxios)
+export class NgerPlatformKoa {
+    public injector: Injector
+    public app: Koa;
+    constructor(
+        public logger: Logger,
+        public util: NgerUtil,
+    ) { }
     async run<T>(ref: NgModuleRef<T>) {
         const KoaPkg = await this.util.loadPkg<typeof Koa>('koa');
         const KoaRouter = await this.util.loadPkg<typeof Router>('koa-router')
@@ -35,7 +38,7 @@ export class NgerPlatformKoa extends Platform {
         this.app = new KoaPkg();
         const router = new KoaRouter();
         const server = createServer(this.app.callback())
-        const port = ref.context.get(`port`);
+        const port = getPort();
         this.app.use(KoaStatic(join(this.util.root, 'template')))
         this.app.use(KoaStatic(join(this.util.root, 'attachment')))
         this.app.use(async (ctx, next) => {
@@ -54,7 +57,7 @@ export class NgerPlatformKoa extends Platform {
             const controllerRef = ref.createControllerRef(declaration.target)
             const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
             this.handler(declaration, router, controller, controllerRef);
-            this.axios.handler(declaration, controllerRef.instance, controller)
+            // this.axios.handler(declaration, controllerRef.instance, controller)
         });
         this.attachWebpackCompiler(router);
         this.app.use(compress({
@@ -79,7 +82,7 @@ export class NgerPlatformKoa extends Platform {
                     const data = await controllerRef.instance[get.ast.propertyKey]();
                     ctx.body = data;
                 } catch (e) {
-                    this.catchError(e)
+                    // this.catchError(e)
                 }
             });
         });
@@ -91,7 +94,7 @@ export class NgerPlatformKoa extends Platform {
                     const data = await controllerRef.instance[post.ast.propertyKey]();
                     ctx.body = data;
                 } catch (e) {
-                    this.catchError(e)
+                    // this.catchError(e)
                 }
             })
         });

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { visitor } from 'nger-core';
 import { NgerCli } from './index';
-import { NgerPlatformCli } from 'nger-platform-cli';
+import ngerPlatformCli from 'nger-platform-cli';
 import { ConsoleLogger, LogLevel } from 'nger-logger';
 
 const context = visitor.visitType(NgerCli);
@@ -13,5 +13,5 @@ if (!context) {
 
 if (context) {
     logger.info(`nger is running!`)
-    new NgerPlatformCli().bootstrap(NgerCli);
+    ngerPlatformCli.bootstrap([])(NgerCli);
 }

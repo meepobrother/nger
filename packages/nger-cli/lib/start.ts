@@ -1,5 +1,4 @@
-import { Command, Option, Inject, Compiler, setDevMode } from 'nger-core'
-import { Logger } from 'nger-logger';
+import { Command, Option, Inject, setPort, setDevMode, Logger } from 'nger-core'
 import { join } from 'path';
 const root = process.cwd();
 import { NgerCliStart } from './start/start';
@@ -31,6 +30,7 @@ export class StartCommand {
 
     run() {
         setDevMode(!!this.dev);
+        setPort(this.port || 3000)
         this.logger && this.logger.warn(`start ${this.type}`);
         const source = join(root, 'src/server')
         const serverSource = require(source).default;

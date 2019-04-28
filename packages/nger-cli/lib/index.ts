@@ -22,12 +22,12 @@ import { PackCommand } from './pack'
         NgerModulePm2
     ],
     declarations: [
-        BuildCommand,
-        InitCommand,
-        TestCommand,
-        StartCommand,
-        PublishCommand,
-        PackCommand
+        BuildCommand,// 构建命令
+        InitCommand,// 初始化命令
+        TestCommand,// 测试命令
+        StartCommand,// 启动命令
+        PublishCommand,// 发布命令
+        PackCommand// 打包命令
     ],
     providers: [
         NgerCliStart,

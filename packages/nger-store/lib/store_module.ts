@@ -54,10 +54,10 @@ import { provideRuntimeChecks } from './runtime_checks';
 @NgModule({})
 export class StoreRootModule {
     constructor(
-        actions$: ActionsSubject,
-        reducer$: ReducerObservable,
-        scannedActions$: ScannedActionsSubject,
-        store: Store<any>
+        // actions$: ActionsSubject,
+        // reducer$: ReducerObservable,
+        // scannedActions$: ScannedActionsSubject,
+        // store: Store<any>
     ) { }
 }
 
