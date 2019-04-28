@@ -1,6 +1,5 @@
-import { Controller, Inject, Get, Optional } from 'nger-core';
+import { Controller, Inject, Get, Optional, Logger } from 'nger-core';
 import { HomeController } from './home'
-import { Logger } from 'nger-logger';
 import { NgerPm2Service } from 'nger-module-pm2';
 
 @Controller('/user')

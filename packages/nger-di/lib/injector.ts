@@ -1,4 +1,3 @@
-import { ConsoleLogger, LogLevel, Logger } from 'nger-logger';
 import { stringify } from './util';
 import {
     Type, FactoryProvider, StaticClassProvider, ValueProvider,
@@ -33,9 +32,6 @@ export interface DependencyRecord {
 }
 // 全局record记录map
 export const globalRecord: Map<any, Record | Record[]> = new Map();
-globalRecord.set(Logger, new Record(() => {
-    return new ConsoleLogger(LogLevel.debug)
-}, [], undefined));
 // 设置全局record
 export function setRecord(token: any, record: Record | Record[] | undefined) {
     if (record) globalRecord.set(token, record)
@@ -314,14 +310,12 @@ export class Injector implements IInjector {
     static NULL: Injector = NULL_INJECTOR as Injector;
     _records: Map<any, Record | Record[]> = new Map();
     exports: Map<any, Record | Record[]> = new Map();
-    logger: Logger;
     parent: Injector;
     constructor(
         records: StaticProvider[],
         parent: Injector | null = null,
         public source: string | null = null
     ) {
-        this.logger = inject(Logger, new ConsoleLogger(LogLevel.debug)) as Logger;
         if (!parent) {
             parent = Injector.NULL as Injector;
         }
@@ -356,9 +350,9 @@ export class Injector implements IInjector {
     debug() {
         this._records.forEach((item, key) => {
             if (Array.isArray(item)) {
-                this.logger.debug(`injector:multi:${this.source} ${key.name} registed ${item.length}`)
+                console.debug(`injector:multi:${this.source} ${key.name} registed ${item.length}`)
             } else {
-                this.logger.debug(`injector:${this.source} ${(key && key.name) || ''} registed, Dependeny: ${stringify(item.deps.map(dep => dep.token))}`)
+                console.debug(`injector:${this.source} ${(key && key.name) || ''} registed, Dependeny: ${stringify(item.deps.map(dep => dep.token))}`)
             }
         });
     }

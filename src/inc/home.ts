@@ -1,5 +1,4 @@
-import { Controller, Get, Post, Inject, GetProperty, It, Http } from 'nger-core'
-import { Logger } from 'nger-logger'
+import { Controller, Get, Post, Inject, GetProperty, It, Http, Logger } from 'nger-core'
 @Controller({
     path: '/'
 })

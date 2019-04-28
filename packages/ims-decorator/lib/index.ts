@@ -168,7 +168,6 @@ export interface AstVisitor {
     visitParameter(ast: ParameterAst, context: ParserAstContext): any;
     visitConstructor(ast: ConstructorAst, context: ParserAstContext): any;
 }
-import { ConsoleLogger, LogLevel } from 'nger-logger'
 export class TypeContext {
     parent: TypeContext;
     children: TypeContext[] = [];

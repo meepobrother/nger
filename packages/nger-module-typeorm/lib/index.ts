@@ -1,9 +1,8 @@
-import { NgModule, APP_INITIALIZER, TypeormToken, TypeormOptionsToken, ConnectionToken, ConnectionManagerToken } from 'nger-core'
+import { Logger,NgModule, APP_INITIALIZER, TypeormToken, TypeormOptionsToken, ConnectionToken, ConnectionManagerToken } from 'nger-core'
 import { NgerUtil } from 'nger-util';
 import { Injector, Type, setRecord, Record, ModuleWithProviders } from 'nger-di';
 import { createTypeormConfig } from './createTypeormConfig';
 import { getConnectionManager, ConnectionOptions, getConnection } from 'typeorm';
-import { Logger } from 'nger-logger'
 import { join } from 'path';
 @NgModule({
     providers: [

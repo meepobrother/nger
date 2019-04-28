@@ -1,5 +1,4 @@
-import { Command, Option, visitor, Inject } from 'nger-core'
-import { Logger } from 'nger-logger';
+import { Command, Option, visitor, Inject, Logger } from 'nger-core'
 import { join } from 'path';
 const root = process.cwd();
 import { NgerCliBuild } from './build/public_api'

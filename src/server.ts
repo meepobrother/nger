@@ -1,7 +1,6 @@
-import { NgModule, OnInit, Inject, OnError, DevModelToken } from 'nger-core';
+import { NgModule, OnInit, Inject, OnError, DevModelToken, Logger } from 'nger-core';
 import { HomeController, UserController, SmsController } from './inc';
 import { NgerModulePm2 } from 'nger-module-pm2';
-import { Logger } from 'nger-logger';
 import { NgerModuleTypeorm } from 'nger-module-typeorm'
 import { NgerModuleWebpack } from 'nger-module-webpack'
 import { NgerRunnerTypeorm } from './typeorm';

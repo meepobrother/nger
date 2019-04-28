@@ -1,6 +1,5 @@
-import { Controller, Inject, Optional, Post, PostProperty, Get } from 'nger-core';
+import { Controller, Inject, Optional, Post, PostProperty, Get, Logger } from 'nger-core';
 import { HomeController } from './home'
-import { Logger } from 'nger-logger';
 import { NgerPm2Service } from 'nger-module-pm2';
 import { Store, select } from 'nger-store';
 import { Observable } from 'rxjs'
