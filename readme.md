@@ -25,7 +25,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 3. [安装docker-compose](https://docs.docker.com/compose/install/)
 4. npm install
 5. docker-compose up -d
-6. npm run cli start koa
+6. npm start
 
 ## 目录规范
 - [addons 第三方插件目录](./addon)
