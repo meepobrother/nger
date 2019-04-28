@@ -12,24 +12,6 @@ import { NgModule } from 'nger-core'
 const domRoot = document.getElementById('app');
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-
-console.log(11)
-
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-console.log(11)
-
 
 if ((module as any).hot) {
     (module as any).hot.accept()

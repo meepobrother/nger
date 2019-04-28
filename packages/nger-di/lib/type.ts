@@ -1,6 +1,9 @@
 export interface Type<T> extends Function {
     new(...args: any[]): T;
 }
+export function isType<T>(val: any): val is Type<T> {
+    return typeof val === 'function'
+}
 export interface ValueSansProvider {
     useValue: any;
 }

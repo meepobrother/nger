@@ -9,7 +9,7 @@ export const APP_ID_RANDOM_PROVIDER = {
     useFactory: _appIdRandomProviderFactory,
     deps: <any[]>[],
 };
-function _randomChar(): string {
+export function _randomChar(): string {
     return String.fromCharCode(97 + Math.floor(Math.random() * 25));
 }
 export const PLATFORM_INITIALIZER = new InjectionToken<Array<() => void>>('Platform Initializer');

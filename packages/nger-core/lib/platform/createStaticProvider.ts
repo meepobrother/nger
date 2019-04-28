@@ -38,7 +38,7 @@ export function clearCache() {
     set.clear();
 }
 export function getModules() {
-    return [...set]
+    return set
 }
 export function createTypeProvider(imp: Type<any>, context: TypeContext) {
     return {

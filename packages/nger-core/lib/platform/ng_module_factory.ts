@@ -1,8 +1,9 @@
-import { Type, Injector } from 'nger-di'
+import { Type, Injector, isType } from 'nger-di'
 import { NgModuleRef } from './ng_module_ref'
 import { ScannerVisitor } from './scanner_visitor';
 import { ParserVisitor } from './parser_visitor';
-import { createStaticProvider, handlerTypeContextToParams } from './createStaticProvider'
+import { createStaticProvider, handlerTypeContextToParams, getModules } from './createStaticProvider'
+import { NgModuleMetadataKey, NgModuleClassAst } from '../decorators/ngModule';
 export class NgModuleFactory<T> {
     get moduleType(): Type<T> {
         return this._moduleType;
@@ -20,12 +21,26 @@ export class NgModuleFactory<T> {
             provide: context.target,
             useFactory: (...params: any[]) => new context.target(...params),
             deps: handlerTypeContextToParams(context)
-        }])
+        }]);
+        // 启动imports
+
+        // 运行imports
         const instance = _tempInjector.get<T>(context.target)
         // 解析一些属性并赋值
         const parserVisitor = injector.get(ParserVisitor) as ParserVisitor;
-
         parserVisitor.parse<T>(instance, context);
+
+        const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
+        const imports = ngModule.ast.metadataDef.imports;
+        if (imports) {
+            imports.map(imp => {
+                if (isType<any>(imp)) {
+                    new NgModuleFactory(imp).create(context.injector)
+                } else {
+                    new NgModuleFactory(imp.ngModule).create(context.injector)
+                }
+            })
+        }
         if (instance) {
             return new NgModuleRef<T>(injector, instance, context);
         } else {

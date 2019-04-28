@@ -15,7 +15,3 @@ class Demo implements Home { }
     ]
 })
 export default class NgerApp { }
-
-
-console.log(11)
-
