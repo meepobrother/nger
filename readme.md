@@ -12,7 +12,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
 
 <h2 align="center">系统构架</h2>
-<p align="center"><img width="840" src="./nger系统概述.png" alt="Vue logo"></p>
+<p align="center"><img width="100%" src="./nger系统概述.png" alt="Vue logo"></p>
 
 > 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
 > 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
