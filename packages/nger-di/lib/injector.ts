@@ -228,7 +228,12 @@ export type ITokenString<T> = string & {
 export type ITokenAny<T> = (number | string | object | Function | Array<any>) & {
     target?: T;
 }
-export type IToken<T> = Type<T> | Abstract<T> | InjectionToken<T> | ITokenString<T> | ITokenAny<T>;
+export type IToken<T> =
+    Type<T> |
+    Abstract<T> |
+    InjectionToken<T> |
+    ITokenString<T> |
+    ITokenAny<T>;
 export enum InjectFlags {
     // TODO(alxhub): make this 'const' when ngc no longer writes exports of it into ngfactory files.
     /** Check self and check parent injector if needed */
@@ -328,6 +333,9 @@ export class Injector implements IInjector {
             this._records.set(record.provide, createStaticRecrod(record, this._records))
         });
     }
+    static create(options: { providers: StaticProvider[], parent?: Injector, name?: string }): Injector {
+        return new Injector(options.providers, options.parent, options.name)
+    }
     clearCache(token: any) {
         const record = this._records.get(token)
         if (Array.isArray(record)) {
@@ -382,11 +390,8 @@ export class Injector implements IInjector {
     setParent(injector: Injector) {
         this.parent = injector;
     }
-    get<T>(token: IToken<T>, notFound?: T, flags: InjectFlags = InjectFlags.Default): T | T[] | undefined {
+    get<T>(token: IToken<T>, notFound?: T | null, flags: InjectFlags = InjectFlags.Default): T {
         const record = this._records.get(token);
-        if (token instanceof InjectionToken) {
-            notFound = notFound || {} as T;
-        }
         try {
             return tryResolveToken(
                 token,
@@ -398,7 +403,6 @@ export class Injector implements IInjector {
                 this
             );
         } catch (e) {
-            console.log(`${this.source}:${new Date().getTime()}`, this.parent.source);
             return catchInjectorError(e, token, `StaticInjectorError`, this.source);
         }
     }
@@ -433,9 +437,6 @@ export function resolveToken(
     current: Injector | undefined
 ) {
     let value;
-    if (!record) {
-        console.log(`${current ? current.source: ''} can not found , so from parent ${parent.source} found`, stringify(token))
-    }
     if (record && !(flags & InjectFlags.SkipSelf)) {
         // If we don't have a record, this implies that we don't own the provider hence don't know how
         // to resolve it.

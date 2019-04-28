@@ -1,11 +1,11 @@
 import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
-import { DevModelToken, NgModuleRef, getPort } from 'nger-core';
+import { DevModelToken, NgModuleRef, getPort, APP_ALLREADY } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
-import { Logger, APP_INITIALIZER, PlatformFactory, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst } from 'nger-core';
+import { Logger, createPlatformFactory, platformCore, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from 'nger-core';
 import { join } from 'path';
 import NgerPlatformAxios from 'nger-platform-axios'
 const compress = require('koa-compress');
@@ -13,8 +13,8 @@ const compress = require('koa-compress');
 import { WebpackService } from 'nger-module-webpack';
 import { TypeContext } from 'ims-decorator';
 import dev from 'webpack-dev-server';
-export default PlatformFactory.create('koa', [{
-    provide: APP_INITIALIZER,
+export default createPlatformFactory(platformCore, 'koa', [{
+    provide: APP_ALLREADY,
     useFactory: (logger: Logger, util: NgerUtil, ref: NgModuleRef<any>) => {
         return () => {
             new NgerPlatformKoa(logger, util).run(ref)
@@ -22,7 +22,7 @@ export default PlatformFactory.create('koa', [{
     },
     deps: [Logger, NgerUtil, NgModuleRef],
     multi: true
-}], NgerPlatformAxios)
+}])
 export class NgerPlatformKoa {
     public injector: Injector
     public app: Koa;
@@ -54,9 +54,12 @@ export class NgerPlatformKoa {
         });
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(declaration => {
-            const controllerRef = ref.createControllerRef(declaration.target)
-            const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
-            this.handler(declaration, router, controller, controllerRef);
+            // (declaration.target)
+            const controllerFactory = ref.componentFactoryResolver.resolveComponentFactory(declaration.target)
+            if (controllerFactory) {
+                const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
+                this.handler(declaration, router, controller, controllerFactory.create(this.injector).instance);
+            }
             // this.axios.handler(declaration, controllerRef.instance, controller)
         });
         this.attachWebpackCompiler(router);
@@ -73,13 +76,13 @@ export class NgerPlatformKoa {
         });
     }
 
-    handler(declaration: TypeContext, router: any, controller: any, controllerRef: any) {
+    handler(declaration: TypeContext, router: any, controller: any, instance: any) {
         const gets = declaration.getMethod(GetMetadataKey) as GetMethodAst[];
         gets.map(get => {
             this.logger.debug(`get ${controller.path}/${get.path}`)
             router.get(`${controller.path}/${get.path}`, async (ctx) => {
                 try {
-                    const data = await controllerRef.instance[get.ast.propertyKey]();
+                    const data = await instance[get.ast.propertyKey]();
                     ctx.body = data;
                 } catch (e) {
                     // this.catchError(e)
@@ -91,7 +94,7 @@ export class NgerPlatformKoa {
             this.logger.debug(`post ${controller.path}/${post.path}`)
             router.post(`${controller.path}/${post.path}`, async (ctx) => {
                 try {
-                    const data = await controllerRef.instance[post.ast.propertyKey]();
+                    const data = await instance[post.ast.propertyKey]();
                     ctx.body = data;
                 } catch (e) {
                     // this.catchError(e)

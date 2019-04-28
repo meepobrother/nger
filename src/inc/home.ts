@@ -41,10 +41,10 @@ export class HomeController {
     }
 
     @Post()
-    setUserInfo(username: string, age: number) {
+    login(username: string, password: number) {
         this.info = {
             username,
-            age
+            password
         }
     }
 }

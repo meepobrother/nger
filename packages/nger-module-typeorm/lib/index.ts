@@ -35,7 +35,7 @@ import { join } from 'path';
                     }, [], undefined));
                     try {
                         const options = await injector.get(TypeormOptionsToken) as ConnectionOptions;
-                        const typeorms = injector.get(TypeormToken) as Type<any>[];
+                        const typeorms = injector.get<Type<any>[]>(TypeormToken);
                         const { entities, subscribers, migrations } = createTypeormConfig(typeorms);
                         const connectionManager = getConnectionManager();
                         if (options.name) {

@@ -17,7 +17,6 @@ export interface NgModuleOptions {
     jit?: true;
 }
 export const NgModule = makeDecorator<NgModuleOptions>(NgModuleMetadataKey);
-export const APP_INITIALIZER = new InjectionToken<(() => void)[]>(`APP_INITIALIZER`);
 export const APP_ALLREADY = new InjectionToken<(() => void)[]>(`APP_ALLREADY`);
 export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
     declarations: TypeContext[] = [];

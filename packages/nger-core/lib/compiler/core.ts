@@ -38,16 +38,9 @@ export class BaseCore<T> {
 // 非单例
 export class DirectiveRef<T> extends BaseCore<T>{
     readonly key: string;
-    readonly injector: Injector;
-    constructor(public context: TypeContext, key?: string) {
+    constructor(public context: TypeContext, public injector: Injector, key?: string) {
         super(context.instance);
-        this.injector = context.injector;
         this.key = key || '';
-        // 注入当前实例
-        context.injector.setStatic([{
-            provide: context.target,
-            useValue: this.instance,
-        }]);
         // 更新属性
         this.updateProperty();
     }
@@ -110,7 +103,7 @@ export class UpdatePropertyError extends Error {
     }
 }
 export abstract class Resolver {
-    constructor(public context: TypeContext) { }
+    constructor(public context: TypeContext, public injector: Injector) { }
     abstract resolve<T>(type: Type<T>, ...args: any[]): any;
 }
 // 组件
@@ -118,20 +111,17 @@ export class ComponentRef<T> extends DirectiveRef<T>{ }
 export class ComponentResolver extends Resolver {
     map: Map<any, TypeContext> = new Map();
     components: Map<string, ComponentRef<any>> = new Map();
-    constructor(public context: TypeContext) {
-        super(context);
-    }
     resolve<T>(type: Type<T>, key: string): ComponentRef<T> | undefined {
         return this._resolve<T, ComponentRef<T>>(type, ComponentRef, key)
     }
     _resolve<T, O>(type: Type<T>, creator: Type<O>, ...args: any[]): O | undefined {
         const context = this.map.get(type)
         if (context) {
-            return new creator(context, ...args)
+            return new creator(context, this.injector, ...args)
         } else {
             const context = this.context.visitType(type);
             this.map.set(type, context);
-            return new creator(context, ...args)
+            return new creator(context, this.injector, ...args)
         }
     }
 }
@@ -210,7 +200,6 @@ export class NgModuleRef<T> extends BaseCore<T>{
 
     constructor(public context: TypeContext, public injector: Injector) {
         super(context.instance);
-        context.injector = injector;
         this.injector.setStatic([{
             provide: NgModuleRef,
             useValue: this
@@ -219,11 +208,11 @@ export class NgModuleRef<T> extends BaseCore<T>{
             useValue: this.instance,
         }]);
         this.updateProperty();
-        this.pipeResolver = new PipeResolver(context)
-        this.componentResolver = new ComponentResolver(context);
-        this.pageResolver = new PageResolver(context);
-        this.controllerResolver = new ControllerResolver(context);
-        this.commandResolver = new CommandResolver(context);
+        this.pipeResolver = new PipeResolver(context, injector)
+        this.componentResolver = new ComponentResolver(context, injector);
+        this.pageResolver = new PageResolver(context, injector);
+        this.controllerResolver = new ControllerResolver(context, injector);
+        this.commandResolver = new CommandResolver(context, injector);
         this.injector.setStatic([{
             provide: PipeResolver,
             useValue: this.pipeResolver

@@ -1,4 +1,4 @@
-import { NgModule, OnInit, Inject, OnError, DevModelToken, ErrorHandler } from 'nger-core';
+import { NgModule, OnInit, Inject, OnError, DevModelToken } from 'nger-core';
 import { HomeController, UserController, SmsController } from './inc';
 import { NgerModulePm2 } from 'nger-module-pm2';
 import { Logger } from 'nger-logger';
@@ -11,7 +11,7 @@ import { CounterEffects } from './store/counter.effects'
 
 import { EffectsModule } from 'nger-effects';
 import { Injector } from 'nger-di';
-import { NgerWebpackAdmin } from 'packages/nger-webpack-admin/lib';
+import { NgerWebpackAdmin } from 'nger-webpack-admin';
 /** api服务 */
 @NgModule({
     declarations: [
@@ -19,7 +19,7 @@ import { NgerWebpackAdmin } from 'packages/nger-webpack-admin/lib';
         UserController,
         SmsController
     ],
-    providers: [ErrorHandler, {
+    providers: [{
         provide: DevModelToken,
         useValue: true
     }],

@@ -172,42 +172,18 @@ import { ConsoleLogger, LogLevel } from 'nger-logger'
 export class TypeContext {
     parent: TypeContext;
     children: TypeContext[] = [];
-
     classes: ClassContext<any>[] = [];
     propertys: PropertyContext<any>[] = [];
     methods: MethodContext<any>[] = [];
     constructors: ConstructorContext<any>[] = [];
+    // 全局变量
+    global: Map<string, any> = new Map();
     /** 目标 */
     target: any;
-    logger: ConsoleLogger = new ConsoleLogger(LogLevel.debug)
     /** 实例 */
-    _instance: any;
-    get instance() {
-        if (this._instance) return this._instance;
-        this._instance = this.injector.get(this.target)
-        return this._instance;
-    }
-    global: Map<string, any> = new Map();
-
-    _injector: Injector;
-    get injector(): Injector {
-        if (this._injector) return this._injector;
-        return this.setInjector([]);
-    }
-    set injector(injector: Injector) {
-        this._injector = injector;
-    }
-    setInjector(records: StaticProvider[]) {
-        if (this._injector) {
-            return this._injector;
-        }
-        if (this.parent) {
-            this._injector = this.parent.injector.create(records, this.target.name)
-            return this._injector;
-        }
-        this._injector = new Injector(records, null, this.target.name)
-        return this._injector;
-    }
+    instance: any;
+    // 依赖注入操作
+    injector: Injector;
     setParent(parent: TypeContext) {
         this.parent = parent;
         parent.children.push(this);

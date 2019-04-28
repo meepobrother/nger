@@ -114,6 +114,9 @@
       ],
       "nger-platform-node": [
         "packages/nger-platform-node/lib/index.ts"
+      ],
+      "nger-webpack-admin": [
+        "packages/nger-webpack-admin/lib/index.ts"
       ]
     },
     "typeRoots": [

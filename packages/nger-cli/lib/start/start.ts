@@ -7,12 +7,13 @@ export class NgerCliStart {
     @Inject() logger: Logger;
     /** express */
     express<T>(type: Type<T>) {
-        ngerPlatformExpress.bootstrap([])(type);
+        ngerPlatformExpress().bootstrapModule(type, {})
+        // ngerPlatformExpress.bootstrap([])(type);
     }
     /** koa */
     koa<T>(type: Type<T>) {
         this.logger && this.logger.info(`koa is running`)
-        ngerPlatformKoa.bootstrap([])(type);
+        ngerPlatformKoa().bootstrapModule(type, {})
     }
     /** hapi */
     async hapi<T>(type: Type<T>) {

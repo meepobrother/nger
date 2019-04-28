@@ -13,5 +13,5 @@ if (!context) {
 
 if (context) {
     logger.info(`nger is running!`)
-    ngerPlatformCli.bootstrap([])(NgerCli);
+    ngerPlatformCli([]).bootstrapModule(NgerCli, {}).then(ref => { });
 }

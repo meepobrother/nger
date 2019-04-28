@@ -1,13 +1,13 @@
 import { TypeContext } from 'ims-decorator';
 import { NgerUtil } from 'nger-util';
-import { APP_INITIALIZER, PlatformFactory, NgModuleMetadataKey, NgModuleClassAst, Http, ControllerMetadataKey, ControllerClassAst, GetMethodAst, NgModuleRef, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst, PostPropertyAst } from 'nger-core';
+import { APP_ALLREADY, PlatformFactory, NgModuleMetadataKey, NgModuleClassAst, Http, ControllerMetadataKey, ControllerClassAst, GetMethodAst, NgModuleRef, GetMetadataKey, PostMetadataKey, Platform, GetPropertyAst, PostPropertyAst } from 'nger-core';
 import axios from 'axios'
 import ngerPlatformNode from 'nger-platform-node'
 export default PlatformFactory.create('axios',[{
     provide: Http,
     useValue: axios
 }, {
-    provide: APP_INITIALIZER,
+    provide: APP_ALLREADY,
     useFactory: (ref: NgModuleRef<any>, util: NgerUtil) => {
         return () => {
             ref.injector.setStatic([{

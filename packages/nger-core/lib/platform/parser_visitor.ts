@@ -1,16 +1,15 @@
-import { NullAstVisitor, Visitors, TypeContext } from 'ims-decorator'
-import { Inject } from '../decorators/inject';
-/** 扫描生成ast */
-export class Scanner extends NullAstVisitor { }
-/** 外观模式 提供统一的接口 用于负责多个scanner统一调用 */
-export class ScannerVisitor extends Visitors {
-    constructor(@Inject(Scanner) visitors: Scanner[]) {
-        super(visitors)
-    }
-}
+import { TypeContext } from 'ims-decorator'
+import { Inject } from '../decorators/inject'
+import { createTypeProvider } from './createStaticProvider'
 /** 解析器 */
 export abstract class Parser {
     abstract parse<T>(context: TypeContext): T | undefined;
+}
+export class DefaultParser extends Parser {
+    parse<T>(context: TypeContext): T {
+        const provider = createTypeProvider(context.target, context)
+        return context.injector.create([provider]).get(context.target)
+    }
 }
 /** 外观模式 提供统一接口 */
 export class ParserVisitor extends Parser {

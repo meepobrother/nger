@@ -2,26 +2,20 @@ import {
     CommandMetadataKey, CommandClassAst,
     OptionMetadataKey, OptionPropertyAst, OptionOptions
     , NgModuleClassAst, NgModuleMetadataKey,
-    NgModuleRef, PlatformFactory, APP_INITIALIZER, Logger
+    NgModuleRef, createPlatformFactory, platformCore, APP_INITIALIZER, Logger,
+    NgModuleBootstrap
 } from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
 import ngerPlatformNode from 'nger-platform-node'
 const pkg = require(join(__dirname, '../', 'package.json'))
-export default PlatformFactory.create('cli', [{
-    provide: APP_INITIALIZER,
-    useFactory: (logger: Logger, ref: NgModuleRef<any>) => {
-        return () => {
-            return new NgerPlatformCli(logger).run(ref)
-        }
-    },
-    deps: [Logger, NgModuleRef],
-    multi: true
-}], ngerPlatformNode)
-export class NgerPlatformCli {
-    constructor(public logger: Logger) { }
-    run<T>(ref: NgModuleRef<T>) {
+
+export class NgerPlatformCli extends NgModuleBootstrap {
+    constructor(public logger: Logger) {
+        super();
+    }
+    async run<T>(ref: NgModuleRef<T>) {
         let _yargs = yargs;
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         _yargs = _yargs
@@ -35,11 +29,13 @@ export class NgerPlatformCli {
             .epilog(`${chalk.green("power by ims")}`)
         _yargs.example(`ims -h`, `查看所有命令及使用详情`);
         _yargs.example(`ims -v`, `查看版本号`);
+        
         if (ngModule.declarations) {
             ngModule.declarations.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
-                const componentRef = ref.createCommandRef(context.target)
+                const componentFactory = ref.componentFactoryResolver.resolveComponentFactory(context.target)
                 const command = context.getClass(CommandMetadataKey) as CommandClassAst;
-                if (!!command && componentRef) {
+                if (!!command && componentFactory) {
+                    const componentRef = componentFactory.create(ref.injector)
                     const options = context.getProperty(OptionMetadataKey) as OptionPropertyAst[];
                     const def = command.ast.metadataDef;
                     _yargs = _yargs
@@ -83,3 +79,10 @@ export class NgerPlatformCli {
         _yargs.argv;
     }
 }
+
+export default createPlatformFactory(platformCore, 'cli', [{
+    provide: NgModuleBootstrap,
+    useClass: NgerPlatformCli,
+    deps: [Logger],
+    multi: true
+}])
