@@ -1,35 +1,30 @@
 import { createServer } from 'http';
 import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
-import { DevModelToken, NgModuleRef, getPort, APP_ALLREADY } from 'nger-core';
+import { DevModelToken, NgModuleRef, getPort } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
-import { Logger, createPlatformFactory, platformCore, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from 'nger-core';
+import { Logger, createPlatformFactory, NgModuleBootstrap, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from 'nger-core';
 import { join } from 'path';
 import NgerPlatformAxios from 'nger-platform-axios'
+import NgerPlatformNode from 'nger-platform-node'
+
 const compress = require('koa-compress');
 // import webpackKoa2Middleware from 'webpack-koa2-middleware'
 import { WebpackService } from 'nger-module-webpack';
 import { TypeContext } from 'ims-decorator';
 import dev from 'webpack-dev-server';
-export default createPlatformFactory(platformCore, 'koa', [{
-    provide: APP_ALLREADY,
-    useFactory: (logger: Logger, util: NgerUtil, ref: NgModuleRef<any>) => {
-        return () => {
-            new NgerPlatformKoa(logger, util).run(ref)
-        }
-    },
-    deps: [Logger, NgerUtil, NgModuleRef],
-    multi: true
-}])
-export class NgerPlatformKoa {
+
+export class NgerPlatformKoa extends NgModuleBootstrap {
     public injector: Injector
     public app: Koa;
     constructor(
         public logger: Logger,
         public util: NgerUtil,
-    ) { }
+    ) {
+        super();
+    }
     async run<T>(ref: NgModuleRef<T>) {
         const KoaPkg = await this.util.loadPkg<typeof Koa>('koa');
         const KoaRouter = await this.util.loadPkg<typeof Router>('koa-router')
@@ -60,9 +55,8 @@ export class NgerPlatformKoa {
                 const controller = declaration.getClass(ControllerMetadataKey) as ControllerClassAst;
                 this.handler(declaration, router, controller, controllerFactory.create(this.injector).instance);
             }
-            // this.axios.handler(declaration, controllerRef.instance, controller)
         });
-        this.attachWebpackCompiler(router);
+        this.attachWebpackCompiler(ref);
         this.app.use(compress({
             filter: function (content_type) {
                 return /text/i.test(content_type)
@@ -103,10 +97,11 @@ export class NgerPlatformKoa {
         });
     }
 
-    async attachWebpackCompiler(router: Router) {
-        const webpack = this.injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
+    async attachWebpackCompiler<T>(ref: NgModuleRef<T>) {
+        ref.injector.debug();
+        const webpack = ref.injector.get(WebpackService, undefined);
         const config = webpack.config;
-        const isDevModel = this.injector.get(DevModelToken, false);
+        const isDevModel = ref.injector.get(DevModelToken, false);
         if (isDevModel) {
             let publicPath = '/';
             if (config) {
@@ -119,32 +114,13 @@ export class NgerPlatformKoa {
                 inline: true,
                 publicPath
             }).listen(3001);
-            // const middleware = await koaWebpack({
-            //     config,
-            //     devMiddleware: {
-            //         logLevel: 'silent',
-            //         inline: true,
-            //         heartbeat: 2000,
-            //         index: 'index.html'
-            //     },
-            //     hotClient: {
-            //         logLevel: 'silent',
-            //         autoConfigure: false,
-            //     }
-            // });
-            // this.app.use(middleware);
         }
     }
 }
 
-function streamToString(stream) {
-    return new Promise((resolve, reject) => {
-        let data = ``
-        stream.on('data', (chunk) => {
-            data += chunk.toString('utf8');
-        })
-        stream.on('end', () => {
-            return resolve(`${data}`)
-        })
-    })
-}
+export default createPlatformFactory(NgerPlatformNode, 'koa', [{
+    provide: NgModuleBootstrap,
+    useClass: NgerPlatformKoa,
+    deps: [Logger, NgerUtil],
+    multi: true
+}])

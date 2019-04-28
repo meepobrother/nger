@@ -1,6 +1,7 @@
-import { PlatformFactory, CorePlatform } from 'nger-core'
+import { createPlatformFactory, platformCore } from 'nger-core'
 import { NgerUtil } from 'nger-util'
-export default PlatformFactory.create('node',[{
+import ngerPlatformAxios from 'nger-platform-axios'
+export default createPlatformFactory(ngerPlatformAxios, 'node', [{
     provide: NgerUtil,
     useClass: NgerUtil
-}], CorePlatform)
+}])

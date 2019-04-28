@@ -1,6 +1,7 @@
 import { StaticProvider, InjectionToken, Injector } from 'nger-di'
 import { PlatformRef } from './platform_ref'
 import { getPlatform, ALLOW_MULTIPLE_PLATFORMS, createPlatform } from './createPlatform'
+
 export function createPlatformFactory(
     parentPlatformFactory: ((extraProviders?: StaticProvider[]) => PlatformRef) | null,
     name: string,
@@ -14,7 +15,9 @@ export function createPlatformFactory(
         if (!platform || platform.injector.get(ALLOW_MULTIPLE_PLATFORMS, false)) {
             if (parentPlatformFactory) {
                 parentPlatformFactory(
-                    providers.concat(extraProviders).concat({ provide: marker, useValue: true }));
+                    providers.concat(extraProviders)
+                        .concat({ provide: marker, useValue: true })
+                );
             } else {
                 const injectedProviders: StaticProvider[] =
                     providers.concat(extraProviders).concat({ provide: marker, useValue: true });

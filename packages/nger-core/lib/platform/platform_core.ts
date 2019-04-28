@@ -5,11 +5,14 @@ import { Injector } from 'nger-di';
 import { Logger, ConsoleLogger, NgerConfig, LoggerLevel } from '../sdk'
 import { OrmVisitor } from '../orm'
 import { NgVisitor } from '../visitor'
-import { TypeContext } from 'ims-decorator'
 import { PlatformRef, CompilerFactory } from './platform_ref'
 import { ErrorHandler, DefaultErrorHandler } from './error_handler'
 import { APP_INITIALIZER, ApplicationInitStatus } from './application_init_status'
+import { ALLOW_MULTIPLE_PLATFORMS } from './createPlatform';
 export const platformCore = createPlatformFactory(null, 'core', [{
+    provide: ALLOW_MULTIPLE_PLATFORMS,
+    useValue: true
+}, {
     provide: APP_INITIALIZER,
     multi: true,
     useFactory: (app: ApplicationInitStatus) => {
@@ -40,14 +43,6 @@ export const platformCore = createPlatformFactory(null, 'core', [{
 }, {
     provide: Scanner,
     useValue: new OrmVisitor(),
-    multi: true
-}, {
-    provide: Parser,
-    useValue: {
-        parse(context: TypeContext) {
-            console.log(`parser parse:`, context.target.name)
-        }
-    },
     multi: true
 }, {
     provide: ParserVisitor,

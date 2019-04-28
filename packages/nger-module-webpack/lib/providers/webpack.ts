@@ -9,7 +9,6 @@ import { Store } from 'nger-store'
 @Injectable()
 export class WebpackService {
     serveSpinner: ora.Ora = ora(`Starting development server, please wait~`);
-
     constructor(
         @Inject() public injector: Injector,
         @Inject() public merge: WebpackMergeService,

@@ -1,9 +1,12 @@
 import { Type, Injector } from 'nger-di';
 import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
-import { TypeContext } from 'ims-decorator';
+import { TypeContext, } from 'ims-decorator';
 import { handlerTypeContextToParams } from './createStaticProvider'
-import { ChangeDetectorRef } from '@angular/core';
+import { ParserVisitor } from './parser_visitor'
+import { PageMetadataKey } from '../decorators/page';
+import { ControllerMetadataKey } from '../controller';
+
 export class ComponentFactory<C> {
     get selector(): string {
         return this._selector;
@@ -41,14 +44,25 @@ export class ComponentFactory<C> {
         ngModule?: NgModuleRef<any>
     ): ComponentRef<C> {
         const { target } = this._context;
-        this._context.injector = injector.create([{
-            provide: target,
-            useFactory: (...params: any[]) => new target(...params),
-            deps: handlerTypeContextToParams(this._context)
-        }]);
+        // 新建一个
+        // Component,Directive,Pipe每次取都要创建
+        // Page/Controller单例
+        let item = this._context.classes.find(cls => [PageMetadataKey, ControllerMetadataKey].includes(cls.ast.metadataKey as string))
+        if (item) {
+            this._context.injector = injector;
+        } else {
+            const tempInjector = injector.create([{
+                provide: target,
+                useFactory: (...params: any[]) => new target(...params),
+                deps: handlerTypeContextToParams(this._context)
+            }]);
+            this._context.injector = tempInjector;
+        }
         const instance = this._context.injector.get(target) as C;
         // 属性
-        
+        // 解析一些属性并赋值
+        const parserVisitor = injector.get(ParserVisitor);
+        parserVisitor.parse(instance, this._context);
         return new ComponentRef(injector, instance, target);
     }
 }

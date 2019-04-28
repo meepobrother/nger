@@ -131,3 +131,8 @@ export interface ModuleWithProviders<T = any> {
     ngModule: Type<T>;
     providers: Provider[];
 }
+
+export interface ModuleWithDeclarations<T = any> {
+    ngModule: Type<T>;
+    providers: Provider[];
+}

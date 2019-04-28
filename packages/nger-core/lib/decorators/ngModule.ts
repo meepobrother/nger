@@ -2,7 +2,7 @@ import { makeDecorator, ClassContext, ClassAst, TypeContext } from 'ims-decorato
 export const NgModuleMetadataKey = 'NgModuleMetadataKey';
 import {
     Provider, Type, ModuleWithProviders, SchemaMetadata,
-    InjectionToken,
+    InjectionToken
 } from 'nger-di';
 export interface NgModuleOptions {
     providers?: Provider[];

@@ -20,8 +20,8 @@ export function providerToStaticProvider(provider: Provider, context: TypeContex
     else if (isClassProvider(provider)) {
         const ctx = context.visitType(provider.useClass)
         return {
-            provide: provider,
-            useFactory: (...args: any[]) => new provider.useClass(...args),
+            // 修复
+            ...provider,
             deps: handlerTypeContextToParams(ctx)
         }
     }
@@ -40,7 +40,7 @@ export function clearCache() {
 export function getModules() {
     return [...set]
 }
-export function createTypeProvider(imp: Type<any>,context: TypeContext){
+export function createTypeProvider(imp: Type<any>, context: TypeContext) {
     return {
         provide: imp,
         useFactory: (...params: any[]) => new imp(...params),
@@ -68,11 +68,11 @@ export function createStaticProvider(context: TypeContext, providers: StaticProv
             let impContext = context.visitType(imp) as TypeContext;
             ngModule.declarations.push(impContext);
             // 这部分不加入依赖注入
-            // providers.push({
-            //     provide: imp,
-            //     useFactory: (...params: any[]) => new imp(...params),
-            //     deps: handlerTypeContextToParams(impContext)
-            // })
+            providers.push({
+                provide: imp,
+                useFactory: (...params: any[]) => new imp(...params),
+                deps: handlerTypeContextToParams(impContext)
+            });
         });
         // todo ngmodule 不应该在依赖注入里
         // providers.push({

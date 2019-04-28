@@ -5,13 +5,12 @@ import { createServer } from 'http';
 import { Logger, createPlatformFactory, Parser, platformCore, getPort } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import { Injector, InjectFlags } from 'nger-di';
-import { WebpackService } from 'nger-module-webpack';
 import ngerPlatformAxios from 'nger-platform-axios';
 import { TypeContext } from 'ims-decorator'
 export class GetParser extends Parser {
     // 这里新建instance
-    parse<T>(context: TypeContext): T | undefined {
-        return;
+    parse<T>(instance: T, context: TypeContext): T {
+        return instance;
     }
 }
 export default createPlatformFactory(platformCore, 'express', [{
@@ -28,16 +27,3 @@ export default createPlatformFactory(platformCore, 'express', [{
     },
     deps: [NgerUtil]
 }]);
-
-function createWebpackMiddle(injector: Injector) {
-    const webpack = injector.get(WebpackService, undefined, InjectFlags.Optional) as WebpackService;
-    const config = webpack.config;
-    let publicPath = '/';
-    if (config) {
-        if (config.output && config.output.publicPath) publicPath = config.output.publicPath
-    }
-    const middleWare = WebpackDevMiddleware(webpack.compiler, {
-        publicPath,
-    });
-    return middleWare;
-}

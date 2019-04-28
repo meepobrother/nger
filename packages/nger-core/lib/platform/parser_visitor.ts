@@ -1,14 +1,30 @@
 import { TypeContext } from 'ims-decorator'
-import { Inject } from '../decorators/inject'
+import { Inject, InjectMetadataKey, InjectPropertyAst } from '../decorators/inject'
 import { createTypeProvider } from './createStaticProvider'
+import { EntityRepositoryMetadataKey, EntityRepositoryPropertyAst } from '../orm/index';
+import { ConnectionToken } from '../tokens';
+import { Connection } from 'typeorm'
 /** 解析器 */
 export abstract class Parser {
-    abstract parse<T>(context: TypeContext): T | undefined;
+    abstract parse<T>(instance: T, context: TypeContext): T;
 }
 export class DefaultParser extends Parser {
-    parse<T>(context: TypeContext): T {
-        const provider = createTypeProvider(context.target, context)
-        return context.injector.create([provider]).get(context.target)
+    parse<T>(instance: T, context: TypeContext): T {
+        const injects = context.getProperty(InjectMetadataKey) as InjectPropertyAst[];
+        injects.map(inject => {
+            const { metadataDef, propertyKey, propertyType } = inject.ast;
+            instance[propertyKey] = context.injector.get(metadataDef.token || propertyType)
+        });
+        // entity
+        const entities = context.getProperty(EntityRepositoryMetadataKey) as EntityRepositoryPropertyAst[];
+        entities.map(entity => {
+            const { metadataDef, propertyKey } = entity.ast;
+            setTimeout(() => {
+                const connection = context.injector.get(ConnectionToken) as Connection;
+                instance[propertyKey] = connection.getRepository(metadataDef.entity);
+            }, 0);
+        });
+        return instance;
     }
 }
 /** 外观模式 提供统一接口 */
@@ -16,10 +32,10 @@ export class ParserVisitor extends Parser {
     constructor(@Inject(Parser) public allParser: Parser[]) {
         super()
     }
-    parse<T>(context: TypeContext): T | undefined {
+    parse<T>(instance: T, context: TypeContext): T {
         for (let item of this.allParser) {
-            let res = item.parse<T>(context);
-            if (res) return res;
+            item.parse<T>(instance, context);
         }
+        return instance
     }
 }
