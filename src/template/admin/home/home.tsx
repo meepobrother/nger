@@ -23,5 +23,4 @@ export class HomePage {
 
 export class HomeComponent {
 
-
 }

@@ -1,5 +1,5 @@
 import { createServer } from 'http';
-import { Injector, InjectFlags } from 'nger-di'
+import { Injector } from 'nger-di'
 import Koa from 'koa';
 import { DevModelToken, NgModuleRef, getPort } from 'nger-core';
 import { NgerUtil } from 'nger-util';
@@ -7,11 +7,8 @@ import Router from 'koa-router';
 import Static from 'koa-static';
 import { Logger, createPlatformFactory, NgModuleBootstrap, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from 'nger-core';
 import { join } from 'path';
-import NgerPlatformAxios from 'nger-platform-axios'
 import NgerPlatformNode from 'nger-platform-node'
-
 const compress = require('koa-compress');
-// import webpackKoa2Middleware from 'webpack-koa2-middleware'
 import { WebpackService } from 'nger-module-webpack';
 import { TypeContext } from 'ims-decorator';
 import dev from 'webpack-dev-server';

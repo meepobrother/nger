@@ -129,7 +129,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "plugins": [
+      {
+        "nger": "./packages/nger-plugin-ts"
+      }
+    ]
   },
   "include": [
     "packages",

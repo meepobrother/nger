@@ -8,9 +8,10 @@
 
 import {
   ApplicationRef, ComponentFactory, ComponentFactoryResolver,
-  ComponentRef, EventEmitter, Injector, OnChanges, SimpleChange,
+  ComponentRef, EventEmitter, OnChanges, SimpleChange,
   SimpleChanges, Type
-} from '@angular/core';
+} from 'nger-core';
+import { Injector } from 'nger-di'
 import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -148,18 +149,18 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
    */
   protected initializeComponent(element: HTMLElement) {
     const childInjector = Injector.create({ providers: [], parent: this.injector });
+    // 项目node elements
     const projectableNodes =
       extractProjectableNodes(element, this.componentFactory.ngContentSelectors);
-    this.componentRef = this.componentFactory.create(childInjector, projectableNodes, element);
-
+    // element
+    this.componentRef = this.componentFactory.create(childInjector);
+    // host view
+    
     this.implementsOnChanges =
       isFunction((this.componentRef.instance as any as OnChanges).ngOnChanges);
-
     this.initializeInputs();
     this.initializeOutputs();
-
     this.detectChanges();
-
     const applicationRef = this.injector.get<ApplicationRef>(ApplicationRef);
     applicationRef.attachView(this.componentRef.hostView);
   }
@@ -171,12 +172,9 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
       if (initialValue) {
         this.setInputValue(propName, initialValue);
       } else {
-        // Keep track of inputs that were not initialized in case we need to know this for
-        // calling ngOnChanges with SimpleChanges
         this.uninitializedInputs.add(propName);
       }
     });
-
     this.initialInputValues.clear();
   }
 
@@ -186,7 +184,6 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
       const emitter = (this.componentRef!.instance as any)[propName] as EventEmitter<any>;
       return emitter.pipe(map((value: any) => ({ name: templateName, value })));
     });
-
     this.events = merge(...eventEmitters);
   }
 
@@ -195,9 +192,6 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
     if (!this.implementsOnChanges || this.inputChanges === null) {
       return;
     }
-
-    // Cache the changes and set inputChanges to null to capture any changes that might occur
-    // during ngOnChanges.
     const inputChanges = this.inputChanges;
     this.inputChanges = null;
     (this.componentRef!.instance as any as OnChanges).ngOnChanges(inputChanges);
@@ -211,7 +205,6 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
     if (this.scheduledChangeDetectionFn) {
       return;
     }
-
     this.scheduledChangeDetectionFn = scheduler.scheduleBeforeRender(() => {
       this.scheduledChangeDetectionFn = null;
       this.detectChanges();

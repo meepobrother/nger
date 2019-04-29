@@ -34,7 +34,6 @@ export const scheduler = {
     // TODO(gkalpak): Implement a better way of accessing `requestAnimationFrame()`
     //                (e.g. accounting for vendor prefix, SSR-compatibility, etc).
     if (typeof window === 'undefined') {
-      // For SSR just schedule immediately.
       return scheduler.schedule(taskFn, 0);
     }
 

@@ -6,7 +6,7 @@ const options: MochaOptions = {};
 const _mocha = new mocha(options);
 
 @Command({
-    name: 'test <type>',
+    name: 'test [type]',
     description: '单元测试',
     example: {
         command: 'nger test',

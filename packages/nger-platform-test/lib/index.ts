@@ -1,24 +1,9 @@
-import { TypeContext } from 'ims-decorator';
 import { expect } from 'chai';
-import { NgModuleMetadataKey, NgModuleClassAst, ItMetadataKey, ItMethodAst, Platform } from 'nger-core';
-export class NgerPlatformTest extends Platform {
-    async bootstrap(context: TypeContext) {
-        if (process) {
-            process.on('uncaughtException', (err: Error) => {
-                return this.catchError(err)
-            });
-        }
-        try {
-            before(async () => {
-                await this.init(context);
-            });
-            await this.run(context);
-        } catch (e) {
-            this.catchError(e)
-        }
-    }
-    run(context: TypeContext) {
-        const ngModule = context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
+import { NgModuleMetadataKey, createPlatformFactory, NgModuleRef, NgModuleClassAst, ItMetadataKey, ItMethodAst, NgModuleBootstrap } from 'nger-core';
+import platformNode from 'nger-platform-node'
+export class NgerPlatformTest extends NgModuleBootstrap {
+    async run(ref: NgModuleRef<any>) {
+        const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         ngModule.declarations.map(provider => {
             describe(`${provider.target.name}`, () => {
                 const itMethods = provider.getMethod(ItMetadataKey) as ItMethodAst[];
@@ -32,3 +17,10 @@ export class NgerPlatformTest extends Platform {
         });
     }
 }
+
+export default createPlatformFactory(platformNode, 'test', [{
+    provide: NgModuleBootstrap,
+    useClass: NgerPlatformTest,
+    multi: true,
+    deps: []
+}])

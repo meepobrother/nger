@@ -16,3 +16,4 @@ export * from './parser_visitor';
 export * from './createPlatform';
 export * from './createPlatformFactory';
 export * from './platform_core';
+export * from './application_ref';
