@@ -6,7 +6,6 @@ const def = parser(app);
 import * as ast from './ast'
 export class TransformVisitor implements ast.MetadataVisitor {
     visitModuleMetadataAst(ast: ast.ModuleMetadataAst, context: any): any {
-        console.log(`visitModuleMetadataAst`)
         const { metadata } = ast;
         if (metadata) {
             Object.keys(metadata).map(key => {
@@ -19,7 +18,6 @@ export class TransformVisitor implements ast.MetadataVisitor {
     }
     visitClassMetadataAst(ast: ast.ClassMetadataAst, context: any): any {
         debugger;
-        console.log(`visitModuleMetadataAst`)
     }
     visitInterfaceMetadataAst(ast: ast.InterfaceMetadataAst, context: any): any { }
     visitFunctionMetadataAst(ast: ast.FunctionMetadataAst, context: any): any { }

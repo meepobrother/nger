@@ -10,7 +10,6 @@ export class WebpackEffects {
         .pipe(
             ofType(WebpackActionTypes.Increment),
             mergeMap(() => {
-                console.log(`Increment`)
                 return of({ type: WebpackActionTypes.Reset });
             })
         );
@@ -19,7 +18,6 @@ export class WebpackEffects {
         private actions$: Actions,
     ) {
         this.actions$.subscribe(res => {
-            console.log(`action`, res)
         });
     }
 }

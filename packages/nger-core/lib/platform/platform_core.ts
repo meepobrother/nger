@@ -1,7 +1,7 @@
 import { createPlatformFactory } from './createPlatformFactory';
 import { ParserVisitor, Parser, DefaultParser } from './parser_visitor'
 import { ScannerVisitor, Scanner } from './scanner_visitor'
-import { Injector } from 'nger-di';
+import { Injector, InjectFlags } from 'nger-di';
 import { Logger, ConsoleLogger, NgerConfig, LoggerLevel } from '../sdk'
 import { OrmVisitor } from '../orm'
 import { NgVisitor } from '../visitor'
@@ -9,18 +9,31 @@ import { PlatformRef, CompilerFactory } from './platform_ref'
 import { ErrorHandler, DefaultErrorHandler } from './error_handler'
 import { APP_INITIALIZER, ApplicationInitStatus } from './application_init_status'
 import { ALLOW_MULTIPLE_PLATFORMS } from './createPlatform';
+import { ChangeDetectorRef, DefaultChangeDetectorRef } from './change_detector_ref'
+import { ApplicationRef } from './application_ref'
+import { ComponentCreator } from './component_factory'
 export const platformCore = createPlatformFactory(null, 'core', [{
+    provide: ComponentCreator,
+    multi: true,
+    useValue: (val) => val,
+}, {
+    provide: ApplicationInitStatus,
+    useClass: ApplicationInitStatus,
+    deps: [
+        [InjectFlags.Optional, APP_INITIALIZER]
+    ]
+}, {
+    provide: ApplicationRef,
+    useClass: ApplicationRef,
+    deps: [Injector]
+}, {
+    provide: ChangeDetectorRef,
+    useClass: DefaultChangeDetectorRef,
+    deps: [],
+    multi: false
+}, {
     provide: ALLOW_MULTIPLE_PLATFORMS,
     useValue: true
-}, {
-    provide: APP_INITIALIZER,
-    multi: true,
-    useFactory: (app: ApplicationInitStatus) => {
-        return () => {
-            return app.runInitializers();
-        }
-    },
-    deps: [ApplicationInitStatus]
 }, {
     provide: ErrorHandler,
     useClass: DefaultErrorHandler,

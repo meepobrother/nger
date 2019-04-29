@@ -30,7 +30,8 @@ import { Injector } from 'nger-di'
                 entry: {
                     main: [join(root, 'src/admin.ts')]
                 },
-                devtool: dev ? 'inline-source-map' : 'none',
+                mode: dev ? 'development' : 'production',
+                devtool: dev ? 'source-map' : 'none',
                 watch: dev ? true : false,
                 resolve: {
                     plugins: [
@@ -45,7 +46,7 @@ import { Injector } from 'nger-di'
                         chunks: [
                             'manifest', 'vendors', 'main'
                         ],
-                        
+
                     }),
                     new webpack.WatchIgnorePlugin([
                         /\.js$/,

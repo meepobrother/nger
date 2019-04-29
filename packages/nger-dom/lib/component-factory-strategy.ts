@@ -47,32 +47,14 @@ export class ComponentNgElementStrategyFactory implements NgElementStrategyFacto
  * @publicApi
  */
 export class ComponentNgElementStrategy implements NgElementStrategy {
-  /** Merged stream of the component's output events. */
-  // TODO(issue/24571): remove '!'.
   events !: Observable<NgElementStrategyEvent>;
-
-  /** Reference to the component that was created on connect. */
-  // TODO(issue/24571): remove '!'.
   private componentRef !: ComponentRef<any> | null;
-
-  /** Changes that have been made to the component ref since the last time onChanges was called. */
   private inputChanges: SimpleChanges | null = null;
-
-  /** Whether the created component implements the onChanges function. */
   private implementsOnChanges = false;
-
-  /** Whether a change detection has been scheduled to run on the component. */
   private scheduledChangeDetectionFn: (() => void) | null = null;
-
-  /** Callback function that when called will cancel a scheduled destruction on the component. */
   private scheduledDestroyFn: (() => void) | null = null;
-
-  /** Initial input values that were set before the component was created. */
   private readonly initialInputValues = new Map<string, any>();
-
-  /** Set of inputs that were not initially set when the component was created. */
   private readonly uninitializedInputs = new Set<string>();
-
   constructor(private componentFactory: ComponentFactory<any>, private injector: Injector) { }
 
   /**
@@ -162,7 +144,7 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
     this.initializeOutputs();
     this.detectChanges();
     const applicationRef = this.injector.get<ApplicationRef>(ApplicationRef);
-    applicationRef.attachView(this.componentRef.hostView);
+    applicationRef.attachView(this.componentRef);
   }
 
   /** Set any stored initial inputs on the component's properties. */

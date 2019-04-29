@@ -14,4 +14,5 @@ export * from './authGuard';
 export * from './isDevMode';
 export * from './effect';
 export * from './sdk';
+export * from './validate/index';
 export * from './platform/index';

@@ -2,6 +2,8 @@ import { NgModuleRef } from './ng_module_ref'
 import { Injector, Type } from 'nger-di'
 import { NgModuleFactory } from './ng_module_factory'
 import { ErrorHandler } from './error_handler';
+import { remove, optionsReducer } from './lang'
+import { ApplicationInitStatus } from './application_init_status'
 export abstract class NgModuleBootstrap {
     abstract run<T>(moduleRef: NgModuleRef<T>): Promise<any>;
 }
@@ -38,6 +40,8 @@ export class PlatformRef {
             throw new Error('No ErrorHandler. Please Regist ErrorHandler');
         }
         moduleRef.onDestroy(() => remove(this._modules, moduleRef));
+        const initStatus: ApplicationInitStatus = moduleRef.injector.get(ApplicationInitStatus);
+        await initStatus.runInitializers();
         await this._moduleDoBootstrap(moduleRef)
         return moduleRef;
     }
@@ -66,21 +70,6 @@ export class PlatformRef {
     }
 }
 
-function optionsReducer<T extends Object>(dst: any, objs: T | T[]): T {
-    if (Array.isArray(objs)) {
-        dst = objs.reduce(optionsReducer, dst);
-    } else {
-        dst = { ...dst, ...(objs as any) };
-    }
-    return dst;
-}
-
-function remove<T>(list: T[], el: T): void {
-    const index = list.indexOf(el);
-    if (index > -1) {
-        list.splice(index, 1);
-    }
-}
 function compileNgModuleFactory<M>(
     injector: Injector,
     options: BootstrapOptions,

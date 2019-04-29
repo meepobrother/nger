@@ -1,26 +1,25 @@
-import { Page, Input } from 'nger-core'
-import { NgerUserInjectable } from '../../services';
-@Page({
-    path: 'admin/home',
+import { Input, Component, OnChanges } from 'nger-core'
+@Component({
+    selector: `app-root`,
     templateUrl: `./home.html`,
-    styleUrls: ['./home.scss']
+    styleUrls: ['./home.scss'],
+    sourceRoot: __dirname
 })
-export class HomePage {
-    constructor(public userService: NgerUserInjectable) { }
+export class HomePage implements OnChanges {
+    constructor() { }
 
     @Input()
-    style: string;
+    title: string = 'home page';
 
     render() {
         const props = {
             tt: true
         }
-        return <div>
-            <HomeComponent style={this.style} {...props} />
-        </div>
     }
-}
 
-export class HomeComponent {
+    ngOnInit() {
+    }
 
+    ngOnChanges(changes) {
+    }
 }

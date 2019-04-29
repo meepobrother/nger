@@ -10,7 +10,6 @@ export class CounterEffects {
         .pipe(
             ofType(ActionTypes.Increment),
             mergeMap(() => {
-                console.log(`Increment`)
                 return of({ type: ActionTypes.Reset });
             })
         );
@@ -19,7 +18,6 @@ export class CounterEffects {
         private actions$: Actions,
     ) {
         this.actions$.subscribe(res => {
-            console.log(`action`, res)
         });
     }
 }

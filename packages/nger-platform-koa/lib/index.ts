@@ -1,5 +1,5 @@
 import { createServer } from 'http';
-import { Injector } from 'nger-di'
+import { Injector, InjectFlags } from 'nger-di'
 import Koa from 'koa';
 import { DevModelToken, NgModuleRef, getPort } from 'nger-core';
 import { NgerUtil } from 'nger-util';
@@ -95,11 +95,10 @@ export class NgerPlatformKoa extends NgModuleBootstrap {
     }
 
     async attachWebpackCompiler<T>(ref: NgModuleRef<T>) {
-        ref.injector.debug();
-        const webpack = ref.injector.get(WebpackService, undefined);
-        const config = webpack.config;
+        const webpack = ref.injector.get(WebpackService, null, InjectFlags.Optional);
         const isDevModel = ref.injector.get(DevModelToken, false);
-        if (isDevModel) {
+        if (isDevModel && webpack) {
+            const config = webpack.config;
             let publicPath = '/';
             if (config) {
                 if (config.output && config.output.publicPath) publicPath = config.output.publicPath

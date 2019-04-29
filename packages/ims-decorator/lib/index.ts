@@ -456,11 +456,11 @@ export class ParserManager {
 
 const parserManager = new ParserManager();
 
-export interface DefaultOptions<T> {
+export interface DefaultOptions<T, O = any> {
     type: 'parameter' | 'property' | 'method' | 'constructor' | 'class';
     metadataDef: T;
     metadataKey: string;
-    target: any;
+    target: Type<O>;
     propertyKey?: PropertyKey;
     propertyType?: any;
     descriptor?: TypedPropertyDescriptor<any>;
@@ -486,7 +486,7 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
                     type: 'parameter',
                     metadataDef: metadataDef as T,
                     metadataKey,
-                    target,
+                    target: target as any,
                     propertyKey,
                     parameterIndex: descriptor,
                     parameterType: types[descriptor]
@@ -502,7 +502,7 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
                     type: 'property',
                     metadataDef: metadataDef as T,
                     metadataKey,
-                    target,
+                    target: target as any,
                     propertyKey,
                     propertyType
                 });
@@ -518,7 +518,7 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
                         type: 'method',
                         metadataDef: metadataDef as T,
                         metadataKey,
-                        target,
+                        target: target as any,
                         propertyKey,
                         paramTypes,
                         returnType
@@ -536,7 +536,7 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
                     type: 'constructor',
                     metadataDef: metadataDef as T,
                     metadataKey,
-                    target,
+                    target: target as any,
                     parameterType: types[descriptor],
                     parameterIndex: descriptor,
                 });
@@ -550,9 +550,9 @@ export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultO
                     type: 'class',
                     metadataDef: metadataDef as T,
                     metadataKey,
-                    target
+                    target: target as any
                 });
-                const ast = new ClassAst(target, metadataKey, metadataDef, types, types.length);
+                const ast = new ClassAst(target as any, metadataKey, metadataDef, types, types.length);
                 visitor.visitClass(ast, context);
                 return target;
             }

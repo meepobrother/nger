@@ -1,8 +1,6 @@
 import { NgModule, OnInit, Inject, OnError, DevModelToken, Logger } from 'nger-core';
 import { HomeController, UserController, SmsController } from './inc';
-import { NgerModulePm2 } from 'nger-module-pm2';
 import { NgerModuleTypeorm } from 'nger-module-typeorm'
-import { NgerModuleWebpack } from 'nger-module-webpack'
 import { NgerRunnerTypeorm } from './typeorm';
 import { StoreModule } from 'nger-store';
 import { counterReducer } from './store/counter.reducer'
@@ -10,7 +8,7 @@ import { CounterEffects } from './store/counter.effects'
 
 import { EffectsModule } from 'nger-effects';
 import { Injector } from 'nger-di';
-import { NgerWebpackAdmin } from 'nger-webpack-admin';
+import NgerAdmin from './admin'
 /** api服务 */
 @NgModule({
     declarations: [
@@ -23,9 +21,10 @@ import { NgerWebpackAdmin } from 'nger-webpack-admin';
         useValue: true
     }],
     imports: [
-        NgerModulePm2,
-        NgerModuleWebpack,
-        NgerWebpackAdmin,
+        // NgerModulePm2,
+        NgerAdmin,
+        // NgerModuleWebpack,
+        // NgerWebpackAdmin,
         NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
         StoreModule.forRoot({ count: counterReducer }),
         EffectsModule.forRoot([CounterEffects])

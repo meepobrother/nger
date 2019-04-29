@@ -386,19 +386,19 @@ export class Injector implements IInjector {
     }
     get<T>(token: IToken<T>, notFound?: T | null, flags: InjectFlags = InjectFlags.Default): T {
         const record = this._records.get(token);
-        try {
-            return tryResolveToken(
-                token,
-                record,
-                this._records,
-                this.parent,
-                notFound,
-                flags,
-                this
-            );
-        } catch (e) {
-            return catchInjectorError(e, token, `StaticInjectorError`, this.source);
-        }
+        // try {
+        return resolveToken(
+            token,
+            record,
+            this._records,
+            this.parent,
+            notFound,
+            flags,
+            this
+        );
+        // } catch (e) {
+        //     return catchInjectorError(e, token, `StaticInjectorError`, this.source);
+        // }
     }
 }
 function formatError(

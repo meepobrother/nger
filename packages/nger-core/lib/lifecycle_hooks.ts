@@ -1,12 +1,11 @@
-export interface SimpleChange {
-    previousValue: any;
-    currentValue: any;
-    firstChange: boolean;
-    isFirstChange(): boolean;
+export class SimpleChange {
+    constructor(public previousValue: any, public currentValue: any, public firstChange: boolean) { }
+    isFirstChange(): boolean { return this.firstChange; }
 }
 export interface SimpleChanges {
     [propName: string]: SimpleChange;
 }
+
 export interface OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
 }
