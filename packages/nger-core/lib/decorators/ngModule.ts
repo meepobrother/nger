@@ -22,6 +22,7 @@ export class NgModuleClassAst extends ClassContext<NgModuleOptions> {
     declarations: TypeContext[] = [];
     constructor(ast: any, context: any) {
         super(ast, context);
+        const def = this.ast.metadataDef;
     }
 }
 export function isNgModuleClassAst(ast: ClassAst): ast is ClassAst<NgModuleOptions> {

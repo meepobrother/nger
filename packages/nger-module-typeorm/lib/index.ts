@@ -1,6 +1,6 @@
 import { Logger,NgModule, APP_INITIALIZER, TypeormToken, TypeormOptionsToken, ConnectionToken, ConnectionManagerToken } from 'nger-core'
 import { NgerUtil } from 'nger-util';
-import { Injector, Type, setRecord, Record, ModuleWithProviders } from 'nger-di';
+import { Injector, Type, ModuleWithProviders } from 'nger-di';
 import { createTypeormConfig } from './createTypeormConfig';
 import { getConnectionManager, ConnectionOptions, getConnection } from 'typeorm';
 import { join } from 'path';
@@ -29,9 +29,10 @@ import { join } from 'path';
                 return async () => {
                     // typeorm 配置
                     const logger = injector.get(Logger) as Logger;
-                    setRecord(ConnectionManagerToken, new Record(() => {
-                        return getConnectionManager();
-                    }, [], undefined));
+                    injector.setStatic([{
+                        provide: ConnectionManagerToken,
+                        useValue: getConnectionManager()
+                    }]);
                     try {
                         const options = await injector.get(TypeormOptionsToken) as ConnectionOptions;
                         const typeorms = injector.get<Type<any>[]>(TypeormToken);
@@ -51,14 +52,15 @@ import { join } from 'path';
                             migrations
                         });
                         await connection.connect();
-                        setRecord(ConnectionToken, new Record(() => {
-                            return connection
-                        }, [], undefined));
+                        injector.setStatic([{
+                            provide: ConnectionToken,
+                            useValue: connection
+                        }]);
                     } catch (e) {
-                        setRecord(ConnectionToken, new Record(() => {
-                            return getConnection()
-                        }, [], undefined));
-                        logger.error(e.message);
+                        injector.setStatic([{
+                            provide: ConnectionToken,
+                            useValue: getConnection()
+                        }]);
                     }
                 }
             },

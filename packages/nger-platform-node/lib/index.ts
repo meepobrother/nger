@@ -8,10 +8,14 @@ export default createPlatformFactory(ngerPlatformAxios, 'node', [{
     useClass: NgerPlatformNode,
     deps: [
         FileSystem, Logger
-    ]
+    ],
+    multi: true
 }, {
     provide: NgerUtil,
-    useClass: NgerUtil
+    useClass: NgerUtil,
+    deps: [
+        Logger
+    ]
 }, {
     provide: FileSystem,
     useClass: NodeFs,

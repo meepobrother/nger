@@ -43,7 +43,7 @@ export default class NgerServer implements OnInit, OnError {
     }
     // server 端捕获错误
     ngOnError(err: Error) {
-        this.injector.debug();
+        // this.injector.debug();
         this.logger.error(`ngOnError`, err.message)
         this.logger.error(`ngOnError:detail ${err.stack}`)
     }

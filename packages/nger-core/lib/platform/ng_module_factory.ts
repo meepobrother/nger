@@ -10,12 +10,12 @@ export class NgModuleFactory<T> {
     }
     constructor(private _moduleType: Type<T>) { }
     create(parentInjector: Injector | null): NgModuleRef<T> {
-        let injector = parentInjector || new Injector([])
+        let injector = parentInjector || Injector.create([])
         const scannerVisitor = injector.get(ScannerVisitor) as ScannerVisitor;
         const context = scannerVisitor.visitType(this.moduleType);
         // 获取依赖参数
         const staticProviders = createStaticProvider(context);
-        injector.setStatic(staticProviders);
+        if (injector.setStatic) injector.setStatic(staticProviders);
         context.injector = injector;
         const _tempInjector = injector.create([{
             provide: context.target,

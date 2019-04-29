@@ -95,7 +95,7 @@ export class NgerPlatformKoa extends NgModuleBootstrap {
     }
 
     async attachWebpackCompiler<T>(ref: NgModuleRef<T>) {
-        const webpack = ref.injector.get(WebpackService, null, InjectFlags.Optional);
+        const webpack = ref.injector.get(WebpackService, null);
         const isDevModel = ref.injector.get(DevModelToken, false);
         if (isDevModel && webpack) {
             const config = webpack.config;

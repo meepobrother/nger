@@ -2,6 +2,7 @@
 import { isPromise } from './lang';
 import { Inject, Injectable, Optional } from 'nger-core';
 import { InjectionToken } from 'nger-di';
+// import { APP_INITIALIZER } from './application_tokens'
 export const APP_INITIALIZER = new InjectionToken<Array<() => void>>('Application Initializer');
 @Injectable()
 export class ApplicationInitStatus {

@@ -12,7 +12,18 @@ import { ALLOW_MULTIPLE_PLATFORMS } from './createPlatform';
 import { ChangeDetectorRef, DefaultChangeDetectorRef } from './change_detector_ref'
 import { ApplicationRef } from './application_ref'
 import { ComponentCreator } from './component_factory'
+import { PLATFORM_INITIALIZER } from './application_tokens'
 export const platformCore = createPlatformFactory(null, 'core', [{
+    provide: APP_INITIALIZER,
+    useValue: () => { },
+    deps: [],
+    multi: true
+}, {
+    provide: PLATFORM_INITIALIZER,
+    useValue: () => { },
+    deps: [],
+    multi: true
+}, {
     provide: ComponentCreator,
     multi: true,
     useValue: (val) => val,

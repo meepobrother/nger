@@ -84,7 +84,9 @@ export class ComponentFactory<C> {
         // 这里需要运行custom element
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)
-        this._context.injector = injector.create([]);
+        if (injector.create) {
+            this._context.injector = injector.create([]);
+        }
         const creators = injector.get(ComponentCreator);
         // 处理Component
         creators.map(creat => {

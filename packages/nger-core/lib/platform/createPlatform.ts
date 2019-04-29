@@ -1,4 +1,4 @@
-import { Injector, InjectionToken } from 'nger-di'
+import { Injector, InjectionToken,InjectFlags } from 'nger-di'
 import { PlatformRef } from './platform_ref'
 import { PLATFORM_INITIALIZER } from './application_tokens'
 let _platform: PlatformRef;
@@ -15,7 +15,7 @@ export function createPlatform(injector: Injector): PlatformRef {
             'There can be only one platform. Destroy the previous one to create a new one.');
     }
     _platform = injector.get(PlatformRef);
-    const inits = injector.get(PLATFORM_INITIALIZER, null) || [];
+    const inits = injector.get<Function[]>(PLATFORM_INITIALIZER, undefined,InjectFlags.Optional) || [];
     if (inits) inits.forEach((init: any) => init());
     return _platform;
 }
