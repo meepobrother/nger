@@ -3,7 +3,7 @@ import { Input, Component, OnChanges } from 'nger-core'
     selector: `app-root`,
     templateUrl: `./home.html`,
     styleUrls: ['./home.scss'],
-    sourceRoot: __dirname
+    fileName: __dirname
 })
 export class HomePage implements OnChanges {
     constructor() { }

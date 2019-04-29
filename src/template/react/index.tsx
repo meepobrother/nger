@@ -16,7 +16,7 @@ export class DemoReact implements Component {
 @Component()
 export class DemoReact2 {
     render() {
-        return <DemoReact handleChange={e => this.handleChange(e)} title={`title1`}></DemoReact >
+        // return <DemoReact handleChange={e => this.handleChange(e)} title={`title1`}></DemoReact >
     }
     handleChange(e) { }
 }

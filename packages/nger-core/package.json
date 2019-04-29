@@ -22,9 +22,15 @@
     "url": "git+https://github.com/meepobrother/nger.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "npm run clean && npm run prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist",
+    "prepack": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/meepobrother/nger/issues"
-  }
+  },
+  "devDependencies": {}
 }

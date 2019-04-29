@@ -1,4 +1,4 @@
-import { Injector, ITokenString, InjectFlags } from '../lib/index'
+import { Injector, InjectFlags, IToken } from '../lib/index'
 import { expect } from 'chai'
 describe(`ims di`, () => {
     it(`ConstructorProvider`, () => {
@@ -6,7 +6,7 @@ describe(`ims di`, () => {
         class User2 {
             constructor(public user1: User1) { }
         }
-        const injector = new Injector([{
+        const injector = Injector.create([{
             provide: User1
         }, {
             provide: User2,
@@ -22,7 +22,7 @@ describe(`ims di`, () => {
     it(`ExistingProvider`, () => {
         class User1 { }
         class User2 { }
-        const injector = new Injector([{
+        const injector = Injector.create([{
             provide: User1
         }, {
             provide: User2,
@@ -33,7 +33,7 @@ describe(`ims di`, () => {
 
     it(`ValueProvider`, () => {
         class User1 { }
-        const injector = new Injector([{
+        const injector = Injector.create([{
             provide: User1,
             useValue: `test`
         }])
@@ -44,8 +44,8 @@ describe(`ims di`, () => {
         class User1 {
             constructor(public id: number) { }
         }
-        const idToken = `idToken` as ITokenString<string>;
-        const injector = new Injector([{
+        const idToken = `idToken` as IToken<string>;
+        const injector = Injector.create([{
             provide: idToken,
             useValue: 1
         }, {
@@ -65,8 +65,8 @@ describe(`ims di`, () => {
             constructor(public id: number) { }
         }
         class User2 { }
-        const idToken = `idToken` as ITokenString<string>;
-        const injector = new Injector([{
+        const idToken = `idToken` as IToken<string>;
+        const injector = Injector.create([{
             provide: idToken,
             useValue: 1
         }, {

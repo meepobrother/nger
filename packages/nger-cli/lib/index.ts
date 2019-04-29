@@ -27,7 +27,7 @@ import { PackCommand } from './pack'
     ],
     providers: [
         NgerCliStart,
-        NgerCliBuild,
+        NgerCliBuild
     ]
 })
 export class NgerCli { }

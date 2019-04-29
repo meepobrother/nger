@@ -27,7 +27,7 @@ export class NgerPlatformNode extends NgModuleBootstrap {
             const metadata = this.typescript.getMetadata(fileName, options)
             this.fs.writeFileSync(join(rootPath, 'nger-app.json'), JSON.stringify(metadata, null, 2));
             // 解析NgModule装饰器
-            
+
         }
         ref.componentFactoryResolver.getComponents().map(async context => {
             this.logger.debug(context.target.name)
@@ -35,16 +35,18 @@ export class NgerPlatformNode extends NgModuleBootstrap {
             if (component) {
                 const def = component.ast.metadataDef;
                 let { fileName, templateUrl, template, styleUrls, styles, preserveWhitespaces } = def;
-                const sourceRoot = dirname(fileName)
-                const outputPath = relative(this.root, sourceRoot)
-                const tempPath = join(root, 'attachment/weapp', outputPath);
-                this.fs.ensureDirSync(tempPath)
-                if (sourceRoot) {
-                    await this.createJs(tempPath, fileName)
-                    await this.createJson(tempPath, {})
-                    // 处理模板
-                    await this.createWxml(tempPath, templateUrl, sourceRoot, template, !!preserveWhitespaces)
-                    await this.createWxss(tempPath, styles, styleUrls, sourceRoot)
+                if (fileName) {
+                    const sourceRoot = dirname(fileName)
+                    const outputPath = relative(this.root, sourceRoot)
+                    const tempPath = join(root, 'attachment/weapp', outputPath);
+                    this.fs.ensureDirSync(tempPath)
+                    if (sourceRoot) {
+                        await this.createJs(tempPath, fileName)
+                        await this.createJson(tempPath, {})
+                        // 处理模板
+                        await this.createWxml(tempPath, templateUrl, sourceRoot, template, !!preserveWhitespaces)
+                        await this.createWxss(tempPath, styles, styleUrls, sourceRoot)
+                    }
                 }
             }
         });

@@ -1,19 +1,7 @@
 import { Injectable } from 'nger-core';
-import { Actions, Effect, ofType } from 'nger-effects';
-import { EMPTY, Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-import { WebpackActionTypes } from './webpack.actions'
+import { Actions } from 'nger-effects';
 @Injectable()
 export class WebpackEffects {
-    @Effect()
-    loadMovies$ = this.actions$
-        .pipe(
-            ofType(WebpackActionTypes.Increment),
-            mergeMap(() => {
-                return of({ type: WebpackActionTypes.Reset });
-            })
-        );
-
     constructor(
         private actions$: Actions,
     ) {

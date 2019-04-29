@@ -1,4 +1,4 @@
-import { Directive, OnDestroy, OnInit, PageRef } from 'nger-core';
+import { Directive, OnDestroy, OnInit, ComponentRef } from 'nger-core';
 import { Store, select } from 'nger-store';
 @Directive({
     selector: `router-outlet`,
@@ -6,12 +6,12 @@ import { Store, select } from 'nger-store';
 })
 export class RouterOutlet implements OnDestroy, OnInit {
     // 当前激活的组件
-    private activated: PageRef<any> | null = null;
+    private activated: ComponentRef<any> | null = null;
     constructor(private store: Store<any>) {
         this.store.select(
             select('nger-router')
         ).subscribe(res => {
-            
+
         });
     }
     ngOnInit() {

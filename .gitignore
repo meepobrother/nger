@@ -5,3 +5,4 @@
 /template/
 /.temp
 /testing
+/**/node_modules

@@ -16,6 +16,9 @@ export class BuildCommand {
     @Inject() logger: Logger;
     @Inject() build: NgerCliBuild;
 
+    @Option()
+    name: string = 'nger-core'
+
     @Option({
         alias: 'w'
     })
@@ -62,7 +65,7 @@ export class BuildCommand {
                     this.build.admin(app);
                     break;
                 default:
-                    this.build.lib(app)
+                    this.build.lib(this.name)
                     break;
             }
         }

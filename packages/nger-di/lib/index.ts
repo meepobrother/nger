@@ -2,4 +2,4 @@
 export * from './util';
 export * from './injection_token';
 export * from './type';
-export { Injector, StaticInjector } from './injector_ng';
+export { Injector, StaticInjector,IToken } from './injector_ng';
