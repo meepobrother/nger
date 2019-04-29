@@ -4,7 +4,7 @@ import sass, { Options, SassError, Result } from 'node-sass';
 import { Bundler } from 'scss-bundle';
 @Injectable()
 export class NgerCompilerSass {
-    compile(content: string, config: Options): Promise<Buffer> {
+    compile(content: string, config: Options): Promise<string> {
         return new Promise(async (resolve, reject) => {
             let bundledContent = '';
             const { resource, projectDirectory } = config;
@@ -34,7 +34,7 @@ export class NgerCompilerSass {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(res.css);
+                    resolve(res.css.toString('utf8'));
                 }
             });
         });

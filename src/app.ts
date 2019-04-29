@@ -8,6 +8,7 @@ import { NgerUserInjectable } from './template/services/index'
     ],
     providers: [
         NgerUserInjectable
-    ]
+    ],
+    fileName: __filename
 })
 export default class NgerApp { }

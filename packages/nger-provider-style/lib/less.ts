@@ -3,20 +3,21 @@ import less from 'less';
 import fs from 'fs-extra'
 @Injectable()
 export class NgerCompilerLess {
-    compile(content: string, config: Less.Options): Promise<Buffer> {
+    compile(content: string, config: Less.Options): Promise<string> {
         return new Promise((resolve, reject) => {
-            less.render(content, config, async (error: Less.RenderError, output: Less.RenderOutput) => {
+            less.render(content || '', config, async (error: Less.RenderError, output: Less.RenderOutput) => {
                 const promises: any[] = [];
-                const res = Buffer.caller(0);
+                let result = ``
                 output.imports.map(imp => {
                     const code = fs.readFileSync(imp).toString('utf8');
-                    promises.push(this.compile(code, config).then(buf => res.concat(buf)));
+                    promises.push(this.compile(code, config).then(buf => result += buf));
                 });
                 await Promise.all(promises);
+                result += output.css;
                 if (error) {
                     reject(error);
                 } else {
-                    resolve(res.concat(Buffer.from(output.css)));
+                    resolve(result);
                 }
             });
         });

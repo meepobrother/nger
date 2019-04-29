@@ -15,6 +15,7 @@ export interface NgModuleOptions {
     schemas?: Array<SchemaMetadata>;
     id?: string;
     jit?: true;
+    fileName?: string;
 }
 export const NgModule = makeDecorator<NgModuleOptions>(NgModuleMetadataKey);
 export const APP_ALLREADY = new InjectionToken<(() => void)[]>(`APP_ALLREADY`);

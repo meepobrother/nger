@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "commonjs",
     "lib": [
       "dom",
@@ -85,14 +85,14 @@
       "nger-compiler-react": [
         "packages/nger-compiler-react/lib/index.ts"
       ],
-      "nger-compiler-style": [
-        "packages/nger-compiler-style/lib/index.ts"
+      "nger-provider-style": [
+        "packages/nger-provider-style/lib/index.ts"
       ],
       "nger-compiler-uglify": [
         "packages/nger-compiler-uglify/lib/index.ts"
       ],
-      "nger-compiler-typescript": [
-        "packages/nger-compiler-typescript/lib/index.ts"
+      "nger-provider-typescript": [
+        "packages/nger-provider-typescript/lib/index.ts"
       ],
       "nger-compiler-img": [
         "packages/nger-compiler-img/lib/index.ts"
@@ -114,6 +114,9 @@
       ],
       "nger-platform-node": [
         "packages/nger-platform-node/lib/index.ts"
+      ],
+      "nger-platform-style": [
+        "packages/nger-provider-style/lib/index.ts"
       ],
       "nger-platform-browser": [
         "packages/nger-platform-browser/lib/index.ts"
