@@ -1,4 +1,63 @@
 import * as cli from '@angular/compiler-cli'
+
+export function getNgModuleConfig(data: cli.ModuleMetadata) {
+    const { metadata } = data;
+    let result: any = {};
+    Object.keys(metadata).map(key => {
+        const meta = metadata[key];
+        if (cli.isClassMetadata(meta)) {
+            const decorator = findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
+                return meta.module === 'nger-core' && meta.name === 'NgModule'
+            }) as cli.MetadataSymbolicCallExpression;
+            const args = decorator.arguments;
+            args && args.map(arg => {
+                let val = transformMetadataValue(arg);
+                result = val;
+            });
+        }
+    });
+    return result;
+}
+
+export function getComponentConfig(data: cli.ModuleMetadata) {
+    const { metadata } = data;
+    let result: any = {};
+    Object.keys(metadata).map(key => {
+        const meta = metadata[key];
+        if (cli.isClassMetadata(meta)) {
+            const decorator = findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
+                return meta.module === 'nger-core' && meta.name === 'Component'
+            }) as cli.MetadataSymbolicCallExpression;
+            const args = decorator.arguments;
+            args && args.map(arg => {
+                let val = transformMetadataValue(arg);
+                result = val;
+            });
+        }
+    });
+    return result;
+}
+
+export function findDecorator(
+    decorators: (cli.MetadataSymbolicExpression | cli.MetadataError)[],
+    filter: (meta: cli.MetadataValue) => boolean
+): any {
+    return decorators.find(decorator => {
+        if (cli.isMetadataError(decorator)) {
+            return false;
+        } else {
+            if (cli.isMetadataSymbolicCallExpression(decorator)) {
+                if (filter(decorator.expression)) {
+                    return true;
+                }
+                return false;
+            } else {
+                return false;
+            }
+        }
+    })
+}
+
 export function transformModuleMetadata(data: cli.ModuleMetadata) {
     const { metadata } = data;
     const result: { [key: string]: any } = {};
@@ -41,14 +100,38 @@ export function transformMetadataValue(meta: cli.MetadataValue) {
         return transformMetadataSymbolicSpreadExpression(meta)
     } else if (cli.isMetadataSymbolicReferenceExpression(meta)) {
         return transformMetadataSymbolicReferenceExpression(meta)
-    } else {
+    } else if (cli.isMetadataSymbolicExpression(meta)) {
         debugger;
+    } else if (cli.isMetadataSymbolicReferenceExpression(meta)) {
+        debugger;
+    } else if (cli.isMetadataSymbolicBinaryExpression(meta)) {
+        debugger;
+    } else if (cli.isMetadataSymbolicIndexExpression(meta)) {
+        debugger;
+    } else if (cli.isMetadataSymbolicCallExpression(meta)) {
+        debugger;
+    } else if (cli.isMetadataSymbolicPrefixExpression(meta)) {
+        debugger;
+    } else if (cli.isMetadataSymbolicIfExpression(meta)) {
+        debugger;
+    } else {
+        if (Array.isArray(meta)) {
+            return meta.map(me => transformMetadataValue(me))
+        } else {
+            let res: { [key: string]: any } = {};
+            Object.keys(meta).map((key) => {
+                res[key] = transformMetadataValue(meta[key]);
+            })
+            return res;
+        }
     }
 }
 
 export function transformMetadataSymbolicReferenceExpression(meta: cli.MetadataSymbolicReferenceExpression) {
     if (cli.isMetadataImportedSymbolReferenceExpression(meta)) {
         return transformMetadataImportedSymbolReferenceExpression(meta)
+    } else if (cli.isMetadataGlobalReferenceExpression(meta)) {
+        return meta.name;
     } else {
         debugger;
     }
