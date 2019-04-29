@@ -54,7 +54,6 @@ function getEffectName({
   sourceName,
 }: EffectNotification) {
   const isMethod = typeof sourceInstance[propertyName] === 'function';
-
   return `"${sourceName}.${propertyName}${isMethod ? '()' : ''}"`;
 }
 

@@ -1,3 +1,7 @@
-<view *ngFor="let item of items;index as i;">
+<view *ngFor="let item of items;index as i;" [style.fontSize.px]="fontSize" [class.isActive]="isActive" [class]="mainClass">
+    <view *ngFor="let it of item.children"></view>
+    <input [(ngModel)]="item.value" />
     <view class="title">{{itme.title}}</view>
+    <view *ngIf="condiction;else elseBlock;"></view>
+    <ng-template #elseBlock></ng-template>
 </view>

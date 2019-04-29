@@ -83,7 +83,7 @@ function isNgerNgModule(meta: any): boolean {
 export function transformMetadataValue(meta: cli.MetadataValue) {
     // string | number | boolean | undefined | null 
     if (typeof meta === 'string') {
-        return `'${meta}'`;
+        return `${meta}`;
     } else if (typeof meta === 'number') {
         return meta;
     } else if (typeof meta === 'boolean') {

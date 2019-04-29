@@ -25,8 +25,8 @@ import { Injector } from 'nger-di';
         // NgerModuleWebpack,
         // NgerWebpackAdmin,
         NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
-        StoreModule.forRoot({ count: counterReducer }),
-        EffectsModule.forRoot([CounterEffects])
+        // StoreModule.forRoot({ count: counterReducer }),
+        // EffectsModule.forRoot([CounterEffects])
     ]
 })
 export default class NgerServer implements OnInit, OnError {

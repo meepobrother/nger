@@ -4,6 +4,7 @@ import { join, relative, dirname } from 'path';
 import { NgerPlatformStyle } from 'nger-provider-style'
 import { NgerCompilerTypescript } from 'nger-provider-typescript'
 import { getNgModuleConfig, getComponentConfig } from './transformNgModule'
+import { renderToString } from './renderToString'
 const root = process.cwd();
 const compilerOptions = require(join(root, 'tsconfig.json')).compilerOptions;
 export class NgerPlatformNode extends NgModuleBootstrap {
@@ -63,43 +64,38 @@ export class NgerPlatformNode extends NgModuleBootstrap {
 
     async createJs(declaration: any) {
         const { module, name } = declaration;
-
         const fileName = `${join(this.sourceRoot, module)}.ts`;
+        const destName = dirname(join(this.outputRoot, `${module}.js`));
         const code = this.fs.readFileSync(fileName).toString('utf8');
         const metadata = this.typescript.getMetadata(fileName, compilerOptions);
         const config = getComponentConfig(metadata as any);
-        await this.createWxml(config)
-        this.fs.ensureDirSync(dirname(join(this.outputRoot, `${module}.js`)));
+        await this.createWxml({ ...config, sourceRoot: dirname(fileName), destName: join(this.outputRoot, `${module}`) })
+        this.fs.ensureDirSync(destName);
         this.fs.writeFileSync(join(this.outputRoot, `${module}.metadata.json`), JSON.stringify(metadata, null, 2))
         this.fs.writeFileSync(join(this.outputRoot, `${module}.js`), this.typescript.compile(code, { compilerOptions }))
     }
 
     async createJson(tempPath: string, res: object) {
+
         this.fs.writeFileSync(join(tempPath, 'index.json'), JSON.stringify(res, null, 2))
     }
 
     async createWxml(config: any) {
-        // if (templateUrl) {
-        //     const templatePath = join(sourceRoot, templateUrl);
-        //     template = this.fs.readFileSync(templatePath).toString('utf8')
-        // }
-        // if (template) {
-        //     const res = parseTemplate(template, templateUrl || '', {
-        //         preserveWhitespaces: !!preserveWhitespaces
-        //     });
-        //     this.fs.writeFileSync(join(tempPath, 'nger_template.json'), JSON.stringify(res, null, 2));
-        //     this.fs.writeFileSync(join(tempPath, 'index.wxml'), this.transformWxml(res))
-        // }
+        if (config.templateUrl) {
+            const templatePath = join(config.sourceRoot, config.templateUrl);
+            config.template = this.fs.readFileSync(templatePath).toString('utf8')
+        }
+        if (config.template) {
+            const res = parseTemplate(config.template, config.templateUrl || '', {
+                preserveWhitespaces: !!config.preserveWhitespaces
+            });
+            this.fs.ensureDirSync(dirname(`${config.destName}.template.json`));
+            this.fs.writeFileSync(`${config.destName}.template.json`, JSON.stringify(res, null, 2));
+            this.fs.writeFileSync(`${config.destName}.wxml`, renderToString(res, ``))
+        }
     }
 
-    transformWxml(res: any) {
-        const { nodes } = res;
-        const result = ``;
-        nodes.map(node => {
 
-        })
-        return ``
-    }
 
     async createWxss(tempPath: string, styles: string[] | undefined, styleUrls: string[] | undefined, sourceRoot: string) {
         // 处理样式
