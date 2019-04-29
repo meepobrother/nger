@@ -26,7 +26,7 @@ export class NgerPlatformNode extends NgModuleBootstrap {
             const options = require(join(root, 'tsconfig.json')).compilerOptions;
             const metadata = this.typescript.getMetadata(fileName, options)
             this.fs.writeFileSync(join(rootPath, 'nger-app.json'), JSON.stringify(metadata, null, 2));
-            // 解析
+            // 解析NgModule装饰器
             
         }
         ref.componentFactoryResolver.getComponents().map(async context => {
