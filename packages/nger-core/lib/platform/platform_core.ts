@@ -94,7 +94,7 @@ export const platformCore = createPlatformFactory(null, 'core', [{
 }, {
     provide: Logger,
     useFactory: (config: NgerConfig) => {
-        return new ConsoleLogger(config.loggerLevel)
+        return new ConsoleLogger(config.loggerLevel || LoggerLevel.debug)
     },
     deps: [NgerConfig]
 }]);

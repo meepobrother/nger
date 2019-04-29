@@ -23,11 +23,9 @@ export class BuildCommand {
 
     getTypeContext() {
         if (this.type === 'admin') {
-            const AppSource = require(join(root, 'src/admin')).default;
-            return visitor.visitType(AppSource);
+            return require(join(root, 'src/admin')).default;
         } else {
-            const AppSource = require(join(root, 'src/app')).default;
-            return visitor.visitType(AppSource);
+            return require(join(root, 'src/app')).default;
         }
     }
     run() {
@@ -35,8 +33,6 @@ export class BuildCommand {
         this.logger.warn(`watching: ${!!this.watch}`);
         const app = this.getTypeContext();
         if (app) {
-            app.set('watch', this.watch);
-            app.set('platform', this.type);
             switch (this.type) {
                 case 'h5':
                     this.build.h5(app)

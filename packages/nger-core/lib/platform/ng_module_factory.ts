@@ -35,9 +35,9 @@ export class NgModuleFactory<T> {
         if (imports) {
             imports.map(imp => {
                 if (isType<any>(imp)) {
-                    new NgModuleFactory(imp).create(context.injector)
+                    // new NgModuleFactory(imp).create(context.injector)
                 } else {
-                    new NgModuleFactory(imp.ngModule).create(context.injector)
+                    // new NgModuleFactory(imp.ngModule).create(context.injector)
                 }
             })
         }

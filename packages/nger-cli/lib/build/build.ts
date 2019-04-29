@@ -1,13 +1,19 @@
-import { TypeContext } from 'ims-decorator';
+import { TypeContext, Type } from 'ims-decorator';
 import { Injectable } from 'nger-core';
+import ngerPlatformNode from 'nger-platform-node'
+
 @Injectable()
 export class NgerCliBuild {
     /** 构建h5应用 */
     h5(context: TypeContext) { }
     /** 微信公众号 */
-    wechat(context: TypeContext) { }
+    wechat(context: Type<any>) {
+        ngerPlatformNode().bootstrapModule(context)
+    }
     /** 微信小程序 */
-    weapp(context: TypeContext) { }
+    weapp(context: Type<any>) {
+        ngerPlatformNode().bootstrapModule(context)
+    }
     /** 支付宝小程序 */
     alipay(context: TypeContext) { }
     /** 百度智能 */

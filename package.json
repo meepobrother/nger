@@ -91,6 +91,7 @@
     "ts": "ts-node -r tsconfig-paths/register",
     "cli": "npm run ts packages/nger-cli/lib/bin.ts",
     "docker": "docker-compose up -d",
-    "start": "npm run cli start koa"
+    "start": "npm run cli start koa",
+    "build": "npm run cli build"
   }
 }

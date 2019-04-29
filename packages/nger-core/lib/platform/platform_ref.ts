@@ -48,8 +48,8 @@ export class PlatformRef {
 
     private async _moduleDoBootstrap(moduleRef: NgModuleRef<any>) {
         const bootstrap = this.injector.get<NgModuleBootstrap[]>(NgModuleBootstrap, []);
-        const allBoot = bootstrap.map((b: NgModuleBootstrap) => {
-            return b.run(moduleRef);
+        const allBoot = bootstrap.map(async (b: NgModuleBootstrap) => {
+            return await b.run(moduleRef);
         });
         return Promise.all(allBoot)
     }

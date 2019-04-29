@@ -8,7 +8,6 @@ import { CounterEffects } from './store/counter.effects'
 
 import { EffectsModule } from 'nger-effects';
 import { Injector } from 'nger-di';
-import NgerAdmin from './admin'
 /** api服务 */
 @NgModule({
     declarations: [
@@ -22,7 +21,7 @@ import NgerAdmin from './admin'
     }],
     imports: [
         // NgerModulePm2,
-        NgerAdmin,
+        // NgerAdmin,
         // NgerModuleWebpack,
         // NgerWebpackAdmin,
         NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
