@@ -4,14 +4,14 @@ const root = process.cwd();
 import { NgerCliBuild } from './build/public_api'
 @Command({
     name: 'build [type]',
-    description: 'build h5|wechat|weapp|alipay|swap|tt',
+    description: 'build h5|wechat|weapp|alipay|swap|tt|lib',
     example: {
         command: 'nger build weapp --watch',
         description: '构建微信小程序'
     }
 })
 export class BuildCommand {
-    type: 'h5' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin' = 'h5';
+    type: 'lib' | 'h5' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin' = 'h5';
 
     @Inject() logger: Logger;
     @Inject() build: NgerCliBuild;
@@ -62,6 +62,7 @@ export class BuildCommand {
                     this.build.admin(app);
                     break;
                 default:
+                    this.build.lib(app)
                     break;
             }
         }

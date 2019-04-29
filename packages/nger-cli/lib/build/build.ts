@@ -26,4 +26,8 @@ export class NgerCliBuild {
     ios(context: TypeContext) { }
     /** 后台 */
     admin(context: TypeContext) { }
+
+    lib(context: Type<any>) {
+
+    }
 }
