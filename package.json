@@ -22,6 +22,7 @@
     "@types/koa-router": "^7.0.40",
     "@types/koa-static": "^4.0.1",
     "@types/less": "^3.0.0",
+    "@types/lodash": "^4.14.123",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.13.6",
     "@types/node-sass": "^4.11.0",
