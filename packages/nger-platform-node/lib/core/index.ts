@@ -27,8 +27,7 @@ export class NgerPlatformNode extends NgModuleBootstrap {
         if (this.fileName) {
             this.sourceRoot = dirname(this.fileName);
             const metadata = this.typescript.getMetadata(this.fileName, compilerOptions)
-            this.fs.writeFileSync(join(this.outputRoot, 'nger-app.json'), JSON.stringify(metadata, null, 2));
-            this.createNgModuleJs();
+            this.createNgModuleJs(metadata);
             // 解析NgModule装饰器,寻找第三方包和页面及组件配置，并生成wxss,js,json,wxml,npm等目录,
             const config = getNgModuleConfig(metadata as any);
             const { declarations, providers, imports } = config;
@@ -62,12 +61,13 @@ export class NgerPlatformNode extends NgModuleBootstrap {
         // });
     }
 
-    async createNgModuleJs() {
+    async createNgModuleJs(metadata: any) {
         const fileName = this.fileName
         if (fileName) {
             const destName = dirname(join(this.outputRoot, 'nger.js'));
             const code = this.fs.readFileSync(fileName).toString('utf8');
             this.fs.ensureDirSync(destName);
+            this.fs.writeFileSync(join(this.outputRoot, 'nger.json'), JSON.stringify(metadata, null, 2));
             this.fs.writeFileSync(join(this.outputRoot, `nger.js`), this.typescript.compile(code, { compilerOptions }))
         }
     }

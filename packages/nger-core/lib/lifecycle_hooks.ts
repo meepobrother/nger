@@ -5,7 +5,9 @@ export class SimpleChange {
 export interface SimpleChanges {
     [propName: string]: SimpleChange;
 }
-
+export interface DoBootstrap {
+    ngDoBootstrap(changes: SimpleChanges): void;
+}
 export interface OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
 }

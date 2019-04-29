@@ -126,6 +126,18 @@
       ],
       "nger-webpack-admin": [
         "packages/nger-webpack-admin/lib/index.ts"
+      ],
+      "@babel/core": [
+        "node_modules/@types/babel__core"
+      ],
+      "@babel/generator": [
+        "node_modules/@types/babel__generator"
+      ],
+      "@babel/template": [
+        "node_modules/@types/babel__template"
+      ],
+      "@babel/traverse": [
+        "node_modules/@types/babel__traverse"
       ]
     },
     "typeRoots": [
