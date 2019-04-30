@@ -29,5 +29,6 @@
   },
   "dependencies": {
     "nger-logger": "*"
-  }
+  },
+  "gitHead": "77bef99af93d9b05288663c512b5a8bfdbd23599"
 }

@@ -24,17 +24,11 @@
     "type": "git",
     "url": "git+https://github.com/meepobrother/nger.git"
   },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "nger build lib -n nger-cli",
-    "prepare": "npm run build",
-    "test": "tsdx test"
-  },
+  "scripts": {},
   "bugs": {
     "url": "https://github.com/meepobrother/nger/issues"
   },
   "devDependencies": {
-    "@types/node": "^11.13.8",
-    "tsdx": "^0.4.1"
+    "@types/node": "^11.13.8"
   }
 }
