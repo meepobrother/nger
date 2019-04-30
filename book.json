@@ -6,7 +6,7 @@
     "root": "./docs",
     "links": {
         "sidebar": {
-            "Home": "https://meepo.com.cn"
+            "首页": "https://github.com/meepobrother/nger"
         }
     },
     "plugins": [
@@ -123,8 +123,8 @@
             "token": ""
         },
         "donate": {
-            "wechat": "",
-            "alipay": "",
+            "wechat": "./docs/WechatIMG95.jpeg",
+            "alipay": "./docs/WechatIMG95.jpeg",
             "title": "意思意思？",
             "button": "赏",
             "alipayText": "支付宝打赏",

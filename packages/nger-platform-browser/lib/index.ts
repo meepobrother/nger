@@ -1,17 +1,16 @@
-import { createPlatformFactory, ComponentRef, ApplicationRef, ElementRef, StyleRef, ComponentTemplateToken, ComponentStyleToken, ComponentPropToken, CustomElementRegistry, History, platformCore, NgModuleBootstrap, NgModuleRef, NgModuleMetadataKey, NgModuleClassAst, ComponentMetadataKey, ComponentClassAst } from 'nger-core'
+import { createPlatformFactory, ComponentRef, ComponentFactory, ApplicationRef, ElementRef, StyleRef, ComponentTemplateToken, ComponentStyleToken, ComponentPropToken, CustomElementRegistry, History, platformCore, NgModuleBootstrap, NgModuleRef, NgModuleMetadataKey, NgModuleClassAst, ComponentMetadataKey, ComponentClassAst } from 'nger-core'
 import { createCustomElement } from 'nger-dom'
 import { ComponentFactoryResolver } from 'nger-core';
-import { Injector, InjectFlags } from 'nger-di'
-import { } from 'preact';
+import { Injector, InjectFlags, Type } from 'nger-di'
 import 'document-register-element';
 import { createBrowserHistory, Location, Action } from 'history';
 
 // 当ngModule启动时运行
 export class NgerPlatformBrowser extends NgModuleBootstrap {
+    elements: Map<any, any> = new Map();
     constructor(public history: History, public customElements: CustomElementRegistry) {
         super();
-        this.history.listen((location: Location, action: Action) => {
-        })
+        this.history.listen((location: Location, action: Action) => {})
     }
     async run(ref: NgModuleRef<any>) {
         // 可以在此时生成小程序 
@@ -21,6 +20,7 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
             const element = createCustomElement(context.target, { injector: ref.injector })
             const component = context.getClass(ComponentMetadataKey) as ComponentClassAst;
             const def = component.ast.metadataDef;
+            this.elements.set(context.target, element)
             if (def.selector) {
                 this.customElements.define(def.selector, element)
                 return this.customElements.whenDefined(def.selector)
@@ -46,10 +46,19 @@ export class BrowserApplicationRef extends ApplicationRef {
     constructor(injector: Injector) {
         super(injector);
     }
+    bootstrap<C>(
+        componentOrFactory: ComponentFactory<C> | Type<C>,
+        rootSelectorOrNode?: string | any
+    ): ComponentRef<C> {
+        if (componentOrFactory instanceof ComponentFactory) {
+            return componentOrFactory.create(this.injector)
+        } else {
+            const componentFactoryResolver = this.injector.get(ComponentFactoryResolver)
+            return componentFactoryResolver.resolveComponentFactory(componentOrFactory).create(this.injector)
+        }
+    }
     attachView(view: ComponentRef<any>) {
-        const template = view.injector.get(ComponentTemplateToken, null);
         const style = view.injector.get(ComponentStyleToken, null);
-        const json = view.injector.get(ComponentPropToken, null);
         const parent = view.injector.get(ElementRef, null, InjectFlags.SkipSelf) || this.root;
         // parent.innerHTML = template;
         const elementRef = parent.firstChild;

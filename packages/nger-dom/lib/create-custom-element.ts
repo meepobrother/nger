@@ -45,6 +45,17 @@ export function createCustomElement<P>(
       super();
       this.ngElementStrategy = strategyFactory.create(injector || config.injector);
     }
+    // new
+    createdCallback() {
+      console.log(`createdCallback`)
+    }
+    attachedCallback() { 
+      console.log(`attachedCallback`)
+    }
+    detachedCallback(){
+      console.log(`detachedCallback`)
+    }
+    // 属性变动监控
     attributeChangedCallback(
       attrName: string,
       oldValue: string | null,
@@ -57,7 +68,7 @@ export function createCustomElement<P>(
       const propName = attributeToPropertyInputs[attrName]!;
       this.ngElementStrategy.setInputValue(propName, newValue);
     }
-
+    // 事件监控
     connectedCallback(): void {
       if (!this.ngElementStrategy) {
         this.ngElementStrategy = strategyFactory.create(config.injector);
@@ -68,7 +79,7 @@ export function createCustomElement<P>(
         this.dispatchEvent(customEvent);
       });
     }
-
+    // 销毁
     disconnectedCallback(): void {
       if (this.ngElementStrategy) {
         this.ngElementStrategy.disconnect();
