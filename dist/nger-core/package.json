@@ -1,6 +1,6 @@
 {
   "name": "nger-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "umd:main": "dist/nger-core.umd.production.js",
   "module": "dist/nger-core.es.production.js",
