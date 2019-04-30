@@ -11,7 +11,5 @@
   "scripts": {
     "build": "nger build lib -n nger-cli"
   },
-  "devDependencies": {
-    "tsdx": "^0.4.1"
-  }
+  "devDependencies": {}
 }
