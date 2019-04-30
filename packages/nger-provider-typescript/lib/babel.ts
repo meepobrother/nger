@@ -23,16 +23,29 @@ function getExistFile(path: string) {
     if (ext) return `${path}.${ext}`
     throw new Error(`file not found ${path}`)
 }
-import _template from './babel_template'
 
-const _cache = new Set();
+import _template from './babel_template'
+type From = string;
+type To = string;
+const resolveFrom = require('resolve-from');
 @Injectable()
 export class NgerBabel {
     tpl: typeof _template = _template;
-
-    app(platform: string) {
+    _cache: Map<From, To> = new Map();
+    getCache(key: string) {
+        const item = this._cache.get(key);
+        if (item) return item;
+        const ext = extname(key);
+        if (ext) {
+            let newKey = key.replace(ext, '')
+            return this.getCache(newKey)
+        }
+    }
+    app(platform: string, main: string) {
+        // 拷贝用到的包
         const ast = this.tpl.app({
-            PLATFORM: t.stringLiteral(platform)
+            PLATFORM: t.stringLiteral(platform),
+            MAIN: t.stringLiteral(main)
         });
         if (Array.isArray(ast)) {
             return ast.map(a => generator(a).code).join('\n')
@@ -56,31 +69,59 @@ export class NgerBabel {
         return generator(this.tpl.component(arg) as any).code
     }
     constructor(public ts: NgerCompilerTypescript) { }
-    copy(config: { from: string, to: string, base: string }) {
-        // 如果已经处理过了则忽略
-        if (_cache.has(config.from)) return;
-        // 检测文件后缀名
-        let from = config.from;
-        if (!fs.existsSync(from)) {
-            from = getExistFile(config.from);
+    // 拷贝单个文件到npm
+    copySignal(config: { from: string, base: string }) {
+        const id = createCid(config.from);
+        const libConfig = { ...config, to: join(config.base, 'npm', `${id}.js`) };
+        this.copy(libConfig)
+        // 后面会用到
+        return libConfig.to.replace(config.base, '');
+    }
+    // 拷贝某个类库到npm
+    copyPkg(config: { from: string, base: string }) {
+        config.from = require.resolve(config.from)
+        const id = createCid(config.from);
+        const libConfig = { ...config, to: join(config.base, 'npm', `${id}.js`) };
+        this.copy(libConfig)
+        // 后面会用到
+        return libConfig.to.replace(config.base, '');
+    }
+    options: any = require(join(root, 'tsconfig.json')).compilerOptions
+    resolveFile(path: string) {
+        // 是否存在
+        if (fs.existsSync(path)) {
+            const stats = fs.statSync(path);
+            if (stats.isFile()) {
+                return path;
+            }
+            if (stats.isDirectory()) {
+                return this.resolveFile(join(path, 'index'))
+            }
+        } else {
+            path = getExistFile(path);
+            return this.resolveFile(path)
         }
-        if (!fs.existsSync(from)) {
-            throw new Error(`file not exist! ${from}`)
-        }
-        // 拿到文件内容
-        let code = ``
-        try {
-            code = fs.readFileSync(from).toString('utf8')
-        } catch (e) {
-            // 这里还是不报错了吧
-            console.error(from)
-        }
-        // 先判断文件类型，如果是ts/tsx在先转化为js
-        if (from.endsWith('.ts') || from.endsWith('tsx')) {
+    }
+    getFileContent(path: string) {
+        // 如果文件或目录存在
+        let code = fs.readFileSync(path).toString('utf8')
+        if (path.endsWith('.ts') || path.endsWith('tsx')) {
             code = this.ts.compile(code, {
-                compilerOptions: require(join(root, 'tsconfig.json'))
+                compilerOptions: {
+                    ...this.options,
+                    allowjs: true
+                }
             })
         }
+        return code;
+    }
+    includeFiles: string[] = [];
+    copy(config: { from: string, to: string, base: string }) {
+        // 如果已经处理过了则忽略
+        if (this._cache.has(config.from)) return;
+        const from = this.resolveFile(config.from);
+        // 拿到文件内容
+        let code = this.getFileContent(from);
         // 解析
         const ast = parse(code, {});
         // 复制此文件到目标路径
@@ -89,11 +130,11 @@ export class NgerBabel {
         traverse(ast, {
             CallExpression(path: NodePath<t.CallExpression>) {
                 const calleePath = path.get('callee')
-                const args = path.get('arguments')
+                const args = path.get('arguments') || [];
                 if (calleePath.isIdentifier()) {
                     if (calleePath.node.name === 'require') {
                         // 复制 require('tslib')
-                        args && args.map(arg => {
+                        args.map(arg => {
                             if (arg.isStringLiteral()) {
                                 // 找到目标名
                                 const packName = arg.node.value;
@@ -106,28 +147,29 @@ export class NgerBabel {
                                     base: config.base
                                 }
                                 // 如果是nger就忽略
-                                if (packName.includes('__nger__')) {
-                                    return;
-                                } else if (packName.startsWith('.')) {
+                                // const __dir = resolveFrom(packName)
+                                // console.log(`${packName}`, __dir)
+                                if (packName.startsWith('.')) {
                                     // 相对路径
-                                    libConfig.from = join(dirname(config.from), packName)
-                                    const id = createCid(libConfig.from);
+                                    libConfig.from = join(dirname(from), packName)
+                                    const id = createCid(from);
                                     libConfig.to = join(config.base, 'npm', `${id}.js`);
                                     that.copy(libConfig)
-                                    _cache.add(libConfig.from)
-                                    // const relativePath = relative(dirname(config.to), libConfig.to);
-                                    // arg.replaceWith(t.stringLiteral(`npm/${id}.js`))
-                                    if (libConfig.to.startsWith('npm/')) {
-                                        arg.replaceWith(t.stringLiteral(`./${id}.js`))
-                                    } else {
-                                        arg.replaceWith(t.stringLiteral(`npm/${id}.js`))
-                                    }
-                                    // arg.replaceWith(t.stringLiteral(`./${id}.js`))
-                                    // const ext = extname(packName) || 'js'
-                                    // libConfig.to = join(dirname(config.to), `${packName}.${ext}`);
+                                    // 从哪里到哪里
+                                    that._cache.set(from, libConfig.to)
+                                    // 全部扔到npm里
+                                    arg.replaceWith(t.stringLiteral(`./${id}.js`))
                                 } else if (packName.startsWith('/')) {
                                     // 绝对路径 判断是否被base目录包含
-                                    throw new Error(`不支持绝对丼引用`)
+                                    // throw new Error(`不支持绝对丼引用`)
+                                    const id = createCid(packName);
+                                    const libConfig = {
+                                        from: packName,
+                                        to: join(config.base, 'npm', `${id}.js`),
+                                        base: config.base
+                                    }
+                                    that.copy(libConfig);
+                                    arg.replaceWith(t.stringLiteral(`./${id}.js`))
                                 } else {
                                     try {
                                         const path = require.resolve(packName);
@@ -136,17 +178,14 @@ export class NgerBabel {
                                         const id = createCid(libConfig.from);
                                         libConfig.to = join(config.base, 'npm', `${id}.js`);
                                         that.copy(libConfig)
-                                        _cache.add(libConfig.from)
                                         // const relativePath = relative(dirname(config.to), libConfig.to);
                                         // 替换模板
-                                        if (libConfig.to.startsWith('npm/')) {
-                                            arg.replaceWith(t.stringLiteral(`./${id}.js`))
-                                        } else {
-                                            arg.replaceWith(t.stringLiteral(`npm/${id}.js`))
-                                        }
+                                        arg.replaceWith(t.stringLiteral(`./${id}.js`))
                                     } catch (e) {
                                         // 这里不报错 有可能是二次处理
-                                        // throw new Error(`${e.message}\n\n${e.stack}`)
+                                        // 替换模板
+                                        // arg.replaceWith(t.stringLiteral(`./${id}.js`))
+                                        console.log(`${packName} ${e.message}\n\n${e.stack}\n${code}`)
                                     }
                                 }
                             }
@@ -159,5 +198,6 @@ export class NgerBabel {
         const dir = dirname(config.to);
         fs.ensureDirSync(dir)
         fs.writeFileSync(config.to, code)
+        that._cache.set(from, config.to)
     }
 }

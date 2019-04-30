@@ -5,4 +5,3 @@ export * from './PrimaryGeneratedColumn';
 export * from './UpdateDateColumn';
 export * from './VersionColumn';
 export * from './primaryColumn';
-

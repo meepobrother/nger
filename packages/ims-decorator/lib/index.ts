@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Injector, StaticProvider } from 'nger-di';
+import { Injector } from 'nger-di';
 export interface Type<T> extends Function {
     new(...args: any[]): T;
 }

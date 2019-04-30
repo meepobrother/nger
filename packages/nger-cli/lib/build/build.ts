@@ -35,10 +35,16 @@ export class NgerCliBuild {
     /** 后台 */
     admin(context: TypeContext) { }
 
-    async lib(name: string) {
+    async dev(name: string) {
         const output = 'dist'
         await _rimraf(join(root, output, name));
-        await packProject(name, output);
+        await packProject(name, output, 'packages');
+    }
+
+    async prod(name: string) {
+        const output = 'node_modules'
+        // await _rimraf(join(root, output, name));
+        await packProject(name, output, 'packages');
     }
 }
 
@@ -47,12 +53,12 @@ function _rimraf(dir: string) {
         rimraf(dir, () => resolve())
     });
 }
-
+const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 export async function packProject(
     name: string,
     output: string = 'dist',
-    srcRoot: string = 'packages'
+    srcRoot: string = 'packages',
 ) {
     const destPath = join(root, output, name);
     const srcPath = join(root, srcRoot, name);
@@ -62,9 +68,6 @@ export async function packProject(
     const taskTsc = done => {
         const task = gulp.src(`${srcPath}/**/*.{ts,tsx}`)
             .pipe(tsProject()).pipe(gulp.dest(destPath));
-        //.pipe(
-        // concat('dist/index.js')
-        // )
         // 创建 template inc
         // 创建完毕
         task.on('end', () => {

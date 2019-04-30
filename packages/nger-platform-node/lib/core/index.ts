@@ -52,21 +52,21 @@ export class NgerPlatformNode extends NgModuleBootstrap {
     async createAppJs(metadata: any) {
         const fileName = this.fileName
         if (fileName) {
-            const destName = dirname(join(this.outputRoot, 'nger.js'));
+            const destName = dirname(join(this.outputRoot, '__nger__.js'));
             this.fs.ensureDirSync(destName);
             this.fs.writeFileSync(join(this.outputRoot, 'nger.json'), JSON.stringify(metadata, null, 2));
-            this.babel.copy({
+            // 拷贝入口文件到npm
+            const main = this.babel.copySignal({
                 from: fileName,
-                to: join(this.outputRoot, `nger.js`),
+                base: this.outputRoot
+            });
+            // 拷贝用到的包
+            const toPkg = this.babel.copyPkg({
+                from: 'nger-platform-weapp',
                 base: this.outputRoot
             });
             const filePath = join(this.outputRoot, `app.js`)
-            this.fs.writeFileSync(filePath, this.babel.app('nger-platform-weapp'))
-            this.babel.copy({
-                from: filePath,
-                to: filePath,
-                base: this.outputRoot
-            });
+            this.fs.writeFileSync(filePath, this.babel.app(toPkg,main));
         }
     }
 
@@ -80,21 +80,18 @@ export class NgerPlatformNode extends NgModuleBootstrap {
         this.fs.ensureDirSync(destName);
         this.fs.writeFileSync(join(this.outputRoot, `${module}.metadata.json`), JSON.stringify(metadata, null, 2))
         await this.createWxml({ ...config, sourceRoot: dirname(fileName), destName: join(this.outputRoot, `${module}`) })
-        // 生成页面文件
-        const cfg = {
-            from: fileName,
-            to: join(this.outputRoot, `${module}.nger.js`),
-            base: this.outputRoot
-        }
-        this.babel.copy(cfg)
-        const relativePath = relative(dirname(cfg.to), cfg.to)
+        // 生成页面文件 这里已经生成过了
         // 生成页面模板文件
         // this.fs.writeFileSync(join(this.outputRoot, `${module}.nger.js`), this.typescript.compile(code, { compilerOptions }))
-        this.fs.writeFileSync(
-            join(this.outputRoot, `${module}.js`),
-            this.babel.page(`./${relativePath}`, name)
-        )
-        // 生成wxml
+        const to = this.babel.getCache(fileName)
+        if (to) {
+            this.fs.writeFileSync(
+                join(this.outputRoot, `${module}.js`),
+                this.babel.page(`${to.replace(this.outputRoot, '')}`, name)
+            )
+        } else {
+            // throw new Error(`can not found file ${fileName} from cache!`)
+        }
     }
 
     async createJson(tempPath: string, res: object) {

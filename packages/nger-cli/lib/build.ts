@@ -5,14 +5,14 @@ import { NgerCliBuild } from './build/public_api'
 import fs from 'fs-extra'
 @Command({
     name: 'build [type]',
-    description: 'build h5|wechat|weapp|alipay|swap|tt|lib',
+    description: 'build h5|wechat|weapp|alipay|swap|tt|lib|prod',
     example: {
         command: 'nger build weapp --watch',
         description: '构建微信小程序'
     }
 })
 export class BuildCommand {
-    type: 'lib' | 'h5' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin' = 'h5';
+    type: 'lib' | 'h5' | 'prod' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin' = 'h5';
 
     @Inject() logger: Logger;
     @Inject() build: NgerCliBuild;
@@ -62,12 +62,32 @@ export class BuildCommand {
                 case 'admin':
                     this.build.admin(app);
                     break;
+                case 'lib':
+                    const libPkgs = fs.readdirSync(join(root, 'packages'))
+                    for (let pkg of libPkgs) {
+                        if (pkg.startsWith('.')) { } else {
+                            this.logger.warn(`build.lib: ${pkg}`);
+                            await this.build.dev(pkg)
+                        }
+                    }
+                    break;
+                case 'prod':
+                    const amdPkgs = fs.readdirSync(join(root, 'packages'))
+                    for (let pkg of amdPkgs) {
+                        if (pkg.startsWith('.')) {
+
+                        } else {
+                            this.logger.warn(`build.prod: ${pkg}`);
+                            await this.build.prod(pkg)
+                        }
+                    }
+                    break;
                 default:
                     const allPkgs = fs.readdirSync(join(root, 'packages'))
                     for (let pkg of allPkgs) {
                         if (pkg.startsWith('.')) { } else {
-                            this.logger.warn(`build.lib: ${pkg}`);
-                            await this.build.lib(pkg)
+                            this.logger.warn(`build.dev: ${pkg}`);
+                            await this.build.dev(pkg)
                         }
                     }
                     break;

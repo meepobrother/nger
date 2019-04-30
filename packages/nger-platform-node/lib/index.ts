@@ -4,6 +4,8 @@ import ngerPlatformAxios from 'nger-platform-axios'
 import { NgerPlatformNode } from './core/index'
 import styleProviders, { NgerPlatformStyle } from 'nger-provider-style'
 import typescriptProviders, { NgerCompilerTypescript, NgerBabel } from 'nger-provider-typescript'
+import fs from 'fs-extra';
+import { dirname } from 'path'
 export default createPlatformFactory(ngerPlatformAxios, 'node', [
     ...styleProviders,
     ...typescriptProviders,
@@ -20,6 +22,16 @@ export default createPlatformFactory(ngerPlatformAxios, 'node', [
         ]
     }, {
         provide: FileSystem,
-        useValue: require('fs-extra')
+        useFactory: () => {
+            const writeFileSync = fs.writeFileSync;
+            const ensureDirSync = fs.ensureDirSync;
+            // 先确认文件夹
+            fs.writeFileSync = (path: fs.PathLike | number, data: any, options?: fs.WriteFileOptions) => {
+                ensureDirSync(dirname(path.toString()))
+                writeFileSync(path, data, options)
+            }
+            return fs;
+        },
+        deps: []
     }
 ]);

@@ -2,7 +2,7 @@ import template from '@babel/template';
 
 const appTpl = template(`
 const platform = require(PLATFORM).default;
-const app = require('./nger.js').default;
+const app = require(MAIN).default;
 platform().bootstrapModule(app).then(ref=>{
     const {instance} = ref;
     App({
