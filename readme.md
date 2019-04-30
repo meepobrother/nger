@@ -1,4 +1,4 @@
-<p align="center"><img width="120" src="./logo.png" alt="Vue logo"></p>
+<p align="center"><img width="120" src="./docs/logo.png" alt="Vue logo"></p>
 
 <h2 align="center">用ng自由组合开发小程序</h2>
 
@@ -16,7 +16,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 面向终端用户对开发者友好的框架
 
-<p align="center"><img style="width:100%;" src="./nger系统概述.png" alt="Vue logo"></p>
+<p align="center"><img style="width:100%;" src="./docs/nger系统概述.png" alt="Vue logo"></p>
 
 > 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
 > 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
@@ -405,4 +405,4 @@ Component({
 
 ## 资助
 
-<p><img width="220" src="./WechatIMG95.jpeg" alt="Vue logo"></p>
+<p><img width="220" src="./docs/WechatIMG95.jpeg" alt="Vue logo"></p>
