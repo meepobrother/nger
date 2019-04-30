@@ -1,8 +1,8 @@
-import { watch } from 'chokidar'
-export function watcher(path: string) {
+import { watch } from 'chokidar';
+export function watcher(path: string, callback?: (eventName: 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir', path: string) => void) {
     watch(path).on('all', (event, path) => {
-        console.log({ event, path })
         delete require.cache[path];
         require(path)
+        callback && callback(event, path)
     })
 }
