@@ -24,6 +24,7 @@ export class NullInjector implements Injector {
         }
         return notFoundValue;
     }
+    clearCache(token: any): void { }
     create(records: StaticProvider[], source?: string | null) {
         return new NullInjector() as Injector;
     }
@@ -52,6 +53,7 @@ export abstract class Injector {
     abstract get<T>(token: IToken<T>, notFoundValue?: T | undefined | null, flags?: InjectFlags): T;
     abstract create(records: StaticProvider[], source?: string | null): Injector;
     abstract setStatic(records: StaticProvider[]): void;
+    abstract clearCache(token: any): void;
     static create(providers: StaticProvider[], parent?: Injector): Injector;
     static create(options: { providers: StaticProvider[], parent?: Injector, name?: string }): Injector;
     static create(
@@ -127,6 +129,10 @@ export class StaticInjector implements Injector {
         records.set(
             INJECTOR, <Record>{ token: INJECTOR, fn: IDENT, deps: EMPTY, value: this, useNew: false });
         recursivelyProcessProviders(records, providers);
+    }
+    clearCache(token: any): void {
+        const record = this._records.get(token)
+        if (record) record.value = null;
     }
     debug() {
         this._records.forEach((item, key) => {

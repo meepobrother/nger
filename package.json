@@ -69,6 +69,7 @@
     "koa-webpack": "^5.2.2",
     "less": "^3.9.0",
     "lodash": "^4.17.11",
+    "memory-fs": "^0.4.1",
     "mocha": "^6.1.4",
     "multihashing": "^0.3.3",
     "multihashing-async": "^0.7.0",

@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { Injector } from 'nger-di';
 import { Store } from 'nger-store'
+const MemoryFileSystem = require("memory-fs");
 @Injectable()
 export class WebpackService {
     serveSpinner: ora.Ora = ora(`Starting development server, please wait~`);
@@ -17,7 +18,9 @@ export class WebpackService {
 
     configs: Configuration[];
     get compiler(): Compiler {
-        return webpack(this.config)
+        const compiler = webpack(this.config)
+        compiler.outputFileSystem = new MemoryFileSystem();
+        return compiler;
     }
     get config(): Configuration {
         this.configs = this.injector.get(WebpackConfigToken) as Configuration[];

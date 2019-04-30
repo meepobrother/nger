@@ -13,14 +13,14 @@ import { Injector } from 'nger-di'
         useFactory: (injector: Injector) => {
             const dev = injector.get(DevModelToken);
             let output = {
-                path: join(root, 'template'),
+                path: join(root, 'template/admin'),
                 publicPath: `/template/admin/`,
                 filename: '[name]_[hash].bound.js',
                 chunkFilename: '[name]_[hash].chunk.js'
             }
             if (dev) {
                 output = {
-                    path: join(root, 'template'),
+                    path: join(root, 'template/admin'),
                     publicPath: `/`,
                     filename: '[name]_[hash].bound.js',
                     chunkFilename: '[name]_[hash].chunk.js'
