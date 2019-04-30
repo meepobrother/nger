@@ -1,7 +1,8 @@
-import { Command, Option, visitor, Inject, Logger } from 'nger-core'
+import { Command, Option, Inject, Logger } from 'nger-core'
 import { join } from 'path';
 const root = process.cwd();
 import { NgerCliBuild } from './build/public_api'
+import fs from 'fs-extra'
 @Command({
     name: 'build [type]',
     description: 'build h5|wechat|weapp|alipay|swap|tt|lib',
@@ -16,9 +17,6 @@ export class BuildCommand {
     @Inject() logger: Logger;
     @Inject() build: NgerCliBuild;
 
-    @Option()
-    name: string = 'nger-core'
-
     @Option({
         alias: 'w'
     })
@@ -31,7 +29,7 @@ export class BuildCommand {
             return require(join(root, 'src/app')).default;
         }
     }
-    run() {
+    async run() {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`watching: ${!!this.watch}`);
         const app = this.getTypeContext();
@@ -65,7 +63,13 @@ export class BuildCommand {
                     this.build.admin(app);
                     break;
                 default:
-                    this.build.lib(this.name)
+                    const allPkgs = fs.readdirSync(join(root, 'packages'))
+                    for (let pkg of allPkgs) {
+                        if (pkg.startsWith('.')) { } else {
+                            this.logger.warn(`build.lib: ${pkg}`);
+                            await this.build.lib(pkg)
+                        }
+                    }
                     break;
             }
         }

@@ -11,5 +11,11 @@
         "database": "nger",
         "name": "nger",
         "synchronize": true
+    },
+    "weapp": {
+        "outputDir": "addons",
+        "sourceDir": "src",
+        "templateDir": ".temp",
+        "npmDir": "npm"
     }
 }

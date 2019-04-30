@@ -52,6 +52,7 @@ function _rimraf(dir: string) {
     });
 }
 
+const concat = require('gulp-concat');
 export async function packProject(
     name: string,
     output: string = 'dist',
@@ -64,7 +65,9 @@ export async function packProject(
     fs.ensureDirSync(libPath)
     const taskTsc = done => {
         const task = gulp.src(`${srcPath}/**/*.{ts,tsx}`)
-            .pipe(tsProject()).pipe(gulp.dest(destPath));
+            .pipe(tsProject()).pipe(
+                concat('dist/index.js')
+            ).pipe(gulp.dest(destPath));
         // 创建 template inc
         // 创建完毕
         task.on('end', () => {

@@ -1,9 +1,22 @@
 import { TypeContext, isType, Type, ConstructorContext, } from 'ims-decorator';
 import {
-    NgModuleMetadataKey, NgModuleClassAst, OptionalConstructorAst,
-    SelfConstructorAst, InjectConstructorAst, HostConstructorAst,
-    SkipSelfConstructorAst
-} from 'nger-core';
+    NgModuleMetadataKey, NgModuleClassAst,
+} from '../decorators/ngModule';
+import {
+    SelfConstructorAst,
+} from '../decorators/self';
+import {
+    InjectConstructorAst,
+} from '../decorators/inject';
+import {
+    HostConstructorAst,
+} from '../decorators/host';
+import {
+    SkipSelfConstructorAst,
+} from '../decorators/skip-self';
+import {
+    OptionalConstructorAst
+} from '../decorators/optional'
 import {
     ModuleWithProviders, Provider, InjectFlags, isTypeProvider, isClassProvider, StaticProvider
 } from 'nger-di';

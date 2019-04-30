@@ -2,13 +2,12 @@ import {
     CommandMetadataKey, CommandClassAst,
     OptionMetadataKey, OptionPropertyAst, OptionOptions
     , NgModuleClassAst, NgModuleMetadataKey,
-    NgModuleRef, createPlatformFactory, platformCore, APP_INITIALIZER, Logger,
+    NgModuleRef, createPlatformFactory, platformCore, Logger,
     NgModuleBootstrap
 } from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
-import ngerPlatformNode from 'nger-platform-node'
 const pkg = require(join(__dirname, '../', 'package.json'))
 
 export class NgerPlatformCli extends NgModuleBootstrap {
@@ -57,6 +56,7 @@ export class NgerPlatformCli extends NgModuleBootstrap {
                             return args
                         }, async (argv: Arguments<any>) => {
                             const { _, $0, ...props } = argv;
+                            console.log(props)
                             options.map(opt => {
                                 const def: OptionOptions = opt.ast.metadataDef;
                                 const key = opt.ast.propertyKey;
