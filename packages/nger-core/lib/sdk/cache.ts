@@ -1,6 +1,6 @@
 export abstract class Cache {
-    abstract get(key: string): Promise<string>;
-    abstract put(key: string, value: string): Promise<boolean>;
+    abstract get<T>(key: string): Promise<T>;
+    abstract put<T>(key: string, value: T): Promise<boolean>;
     abstract createKey(domain: string, ...args: any[]): string;
     abstract commit(): Promise<void>;
     abstract clear(): void;

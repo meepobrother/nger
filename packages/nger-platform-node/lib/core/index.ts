@@ -1,12 +1,13 @@
-import { NgModuleBootstrap, Logger, FileSystem, NgModuleRef, ComponentMetadataKey, ComponentClassAst, NgModuleMetadataKey, NgModuleClassAst } from 'nger-core';
+import { NgModuleBootstrap, Logger, FileSystem, NgModuleRef, NgModuleMetadataKey, NgModuleClassAst } from 'nger-core';
 import { parseTemplate } from '@angular/compiler';
-import { join, relative, dirname } from 'path';
+import { join, dirname, relative } from 'path';
 import { NgerPlatformStyle } from 'nger-provider-style'
 import { NgerCompilerTypescript } from 'nger-provider-typescript'
 import { getNgModuleConfig, getComponentConfig } from './transformNgModule'
 import { renderToString } from './renderToString'
 const root = process.cwd();
 const compilerOptions = require(join(root, 'tsconfig.json')).compilerOptions;
+import { NgerBabel } from 'nger-provider-typescript'
 export class NgerPlatformNode extends NgModuleBootstrap {
     root: string = join(process.cwd(), 'src/template/');
     fileName: string | undefined;
@@ -16,7 +17,8 @@ export class NgerPlatformNode extends NgModuleBootstrap {
         public fs: FileSystem,
         public logger: Logger,
         public style: NgerPlatformStyle,
-        public typescript: NgerCompilerTypescript
+        public typescript: NgerCompilerTypescript,
+        public babel: NgerBabel
     ) {
         super();
     }
@@ -27,63 +29,72 @@ export class NgerPlatformNode extends NgModuleBootstrap {
         if (this.fileName) {
             this.sourceRoot = dirname(this.fileName);
             const metadata = this.typescript.getMetadata(this.fileName, compilerOptions)
-            this.createNgModuleJs(metadata);
+            this.createAppJs(metadata);
             // 解析NgModule装饰器,寻找第三方包和页面及组件配置，并生成wxss,js,json,wxml,npm等目录,
             const config = getNgModuleConfig(metadata as any);
             const { declarations, providers, imports } = config;
             // 处理declarations
             if (Array.isArray(declarations)) {
+                // 处理页面
+                let _pages: string[] = [];
                 declarations.map(async declaration => {
-                    await this.createJs(declaration)
+                    const pagePath = declaration.module;
+                    _pages.push(pagePath.replace('./', ''))
+                    await this.createPageJs(declaration)
                 });
+                this.fs.writeFileSync(join(this.outputRoot, 'app.json'), JSON.stringify({
+                    pages: _pages
+                }, null, 2))
             }
         }
-        // ref.componentFactoryResolver.getComponents().map(async context => {
-        //     this.logger.debug(context.target.name)
-        //     const component = context.getClass(ComponentMetadataKey) as ComponentClassAst;
-        //     if (component) {
-        //         const def = component.ast.metadataDef;
-        //         let { fileName, templateUrl, template, styleUrls, styles, preserveWhitespaces } = def;
-        //         if (fileName) {
-        //             const sourceRoot = dirname(fileName)
-        //             const outputPath = relative(this.root, sourceRoot)
-        //             const tempPath = join(root, 'attachment/weapp', outputPath);
-        //             this.fs.ensureDirSync(tempPath)
-        //             if (sourceRoot) {
-        //                 await this.createJs(tempPath, fileName)
-        //                 await this.createJson(tempPath, {})
-        //                 // 处理模板
-        //                 await this.createWxml(tempPath, templateUrl, sourceRoot, template, !!preserveWhitespaces)
-        //                 await this.createWxss(tempPath, styles, styleUrls, sourceRoot)
-        //             }
-        //         }
-        //     }
-        // });
     }
 
-    async createNgModuleJs(metadata: any) {
+    async createAppJs(metadata: any) {
         const fileName = this.fileName
         if (fileName) {
             const destName = dirname(join(this.outputRoot, 'nger.js'));
-            const code = this.fs.readFileSync(fileName).toString('utf8');
             this.fs.ensureDirSync(destName);
             this.fs.writeFileSync(join(this.outputRoot, 'nger.json'), JSON.stringify(metadata, null, 2));
-            this.fs.writeFileSync(join(this.outputRoot, `nger.js`), this.typescript.compile(code, { compilerOptions }))
+            this.babel.copy({
+                from: fileName,
+                to: join(this.outputRoot, `nger.js`),
+                base: this.outputRoot
+            });
+            const filePath = join(this.outputRoot, `app.js`)
+            this.fs.writeFileSync(filePath, this.babel.app('nger-platform-weapp'))
+            this.babel.copy({
+                from: filePath,
+                to: filePath,
+                base: this.outputRoot
+            });
         }
     }
 
-    async createJs(declaration: any) {
+    async createPageJs(declaration: any) {
         const { module, name } = declaration;
         const fileName = `${join(this.sourceRoot, module)}.ts`;
         const destName = dirname(join(this.outputRoot, `${module}.js`));
-        const code = this.fs.readFileSync(fileName).toString('utf8');
+        // const code = this.fs.readFileSync(fileName).toString('utf8');
         const metadata = this.typescript.getMetadata(fileName, compilerOptions);
         const config = getComponentConfig(metadata as any);
-        await this.createWxml({ ...config, sourceRoot: dirname(fileName), destName: join(this.outputRoot, `${module}`) })
         this.fs.ensureDirSync(destName);
         this.fs.writeFileSync(join(this.outputRoot, `${module}.metadata.json`), JSON.stringify(metadata, null, 2))
-        this.fs.writeFileSync(join(this.outputRoot, `${module}.nger.js`), this.typescript.compile(code, { compilerOptions }))
-        this.fs.writeFileSync(join(this.outputRoot, `${module}.js`), `Page({})`)
+        await this.createWxml({ ...config, sourceRoot: dirname(fileName), destName: join(this.outputRoot, `${module}`) })
+        // 生成页面文件
+        const cfg = {
+            from: fileName,
+            to: join(this.outputRoot, `${module}.nger.js`),
+            base: this.outputRoot
+        }
+        this.babel.copy(cfg)
+        const relativePath = relative(dirname(cfg.to), cfg.to)
+        // 生成页面模板文件
+        // this.fs.writeFileSync(join(this.outputRoot, `${module}.nger.js`), this.typescript.compile(code, { compilerOptions }))
+        this.fs.writeFileSync(
+            join(this.outputRoot, `${module}.js`),
+            this.babel.page(`./${relativePath}`, name)
+        )
+        // 生成wxml
     }
 
     async createJson(tempPath: string, res: object) {
@@ -104,8 +115,6 @@ export class NgerPlatformNode extends NgModuleBootstrap {
             this.fs.writeFileSync(`${config.destName}.wxml`, renderToString(res.nodes, ``))
         }
     }
-
-
 
     async createWxss(tempPath: string, styles: string[] | undefined, styleUrls: string[] | undefined, sourceRoot: string) {
         // 处理样式

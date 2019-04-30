@@ -3,14 +3,14 @@ import { NgerUtil } from 'nger-util'
 import ngerPlatformAxios from 'nger-platform-axios'
 import { NgerPlatformNode } from './core/index'
 import styleProviders, { NgerPlatformStyle } from 'nger-provider-style'
-import typescriptProviders, { NgerCompilerTypescript } from 'nger-provider-typescript'
+import typescriptProviders, { NgerCompilerTypescript, NgerBabel } from 'nger-provider-typescript'
 export default createPlatformFactory(ngerPlatformAxios, 'node', [
     ...styleProviders,
     ...typescriptProviders,
     {
         provide: NgModuleBootstrap,
         useClass: NgerPlatformNode,
-        deps: [FileSystem, Logger, NgerPlatformStyle, NgerCompilerTypescript],
+        deps: [FileSystem, Logger, NgerPlatformStyle, NgerCompilerTypescript, NgerBabel],
         multi: true
     }, {
         provide: NgerUtil,

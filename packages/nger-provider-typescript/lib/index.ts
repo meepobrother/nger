@@ -1,9 +1,14 @@
 import { NgerCompilerTypescript } from './typescript';
 import { StaticProvider } from 'nger-di';
+import { NgerBabel } from './babel'
 const staticProvider: StaticProvider[] = [{
+    provide: NgerBabel,
+    useClass: NgerBabel,
+    deps: [NgerCompilerTypescript]
+}, {
     provide: NgerCompilerTypescript,
     useClass: NgerCompilerTypescript,
     deps: []
 }];
 export default staticProvider;
-export { NgerCompilerTypescript }
+export { NgerBabel, NgerCompilerTypescript }

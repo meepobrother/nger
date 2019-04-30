@@ -20,11 +20,7 @@ export class NgerCliBuild {
     }
     /** 微信小程序 */
     weapp(context: Type<any>) {
-        ngerPlatformNode().bootstrapModule(context).then(ref => {
-            class ImsDemo { }
-            const page = ref.componentFactoryResolver.resolveComponentFactory(ImsDemo)
-            const pageRef = page.create(ref.injector);
-        })
+        ngerPlatformNode().bootstrapModule(context).then(ref => { })
     }
     /** 支付宝小程序 */
     alipay(context: TypeContext) { }

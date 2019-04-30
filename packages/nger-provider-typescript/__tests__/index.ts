@@ -1,8 +1,11 @@
-import { NgerBabel} from '../lib/babel'
-const babel = new NgerBabel();
+import { NgerBabel } from '../lib/babel'
+import { NgerCompilerTypescript } from '../lib/typescript'
 
-const output = babel.compile(`
-const tslib_1 = require("tslib");
-`)
-
-debugger;
+const ts = new NgerCompilerTypescript()
+const babel = new NgerBabel(ts);
+import { join } from 'path'
+const output = babel.copy({
+    from: join(__dirname, 'test.ts'),
+    to: join(__dirname, 'temp/test.js'),
+    base: join(__dirname, 'temp')
+})

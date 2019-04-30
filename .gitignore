@@ -1,7 +1,7 @@
 /node_modules/
 /back/
 /data/
-/attachment/
+/attachment
 /template/
 /.temp
 /testing

@@ -1,13 +1,13 @@
 import template from '@babel/template';
 
 const appTpl = template(`
-const platform = require('PLATFORM').default;
+const platform = require(PLATFORM).default;
 const app = require('./nger.js').default;
 platform().bootstrapModule(app).then(ref=>{
     const {instance} = ref;
     App({
         ngModuleRef: ref,
-        onLaunch: (){
+        onLaunch (){
             instance.ngDoBootstrap && instance.ngDoBootstrap()
         },
         onError (){
@@ -26,8 +26,9 @@ platform().bootstrapModule(app).then(ref=>{
 const pageTpl = template(`
 const appInstance = getApp()
 const ngModuleRef = appInstance.ngModuleRef;
-const NAME = require('./PAGE').NAME;
+const {NAME} = require(PAGE);
 const pageFactory = ngModuleRef.componentFactoryResolver.resolveComponentFactory(NAME);
+const pageRef = pageFactory.create(ngModuleRef.injector)
 Page(pageRef.createWeapp())
 `)
 
