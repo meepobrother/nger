@@ -22,7 +22,7 @@ export class PlatformRef {
     ): Promise<NgModuleRef<M>> {
         const options = optionsReducer({}, compilerOptions);
         // 注册injector
-        return compileNgModuleFactory(this.injector, options, moduleType)
+        return compileNgModuleFactory<M>(this.injector, options, moduleType)
             .then(moduleFactory => {
                 return this.bootstrapModuleFactory(moduleFactory, options)
             });
