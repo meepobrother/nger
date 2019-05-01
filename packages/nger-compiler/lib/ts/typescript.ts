@@ -8,7 +8,6 @@ export class NgerCompilerTypescript {
         const output = ts.transpileModule(content, config)
         return output.outputText
     }
-
     getMetadata(file: string, compilerOptions: ts.CompilerOptions): ModuleMetadata | undefined {
         const collector = new MetadataCollector();
         const compilerHost = ts.createCompilerHost(compilerOptions);

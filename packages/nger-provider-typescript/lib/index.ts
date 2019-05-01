@@ -1,4 +1,4 @@
-import { NgerCompilerTypescript } from './typescript';
+import { NgerCompilerTypescript } from 'nger-compiler';
 import { StaticProvider } from 'nger-di';
 import { NgerBabel } from './babel'
 const staticProvider: StaticProvider[] = [{

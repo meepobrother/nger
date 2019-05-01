@@ -66,7 +66,9 @@ export class BrowserApplicationRef extends ApplicationRef {
     attachView(view: ComponentRef<any>) {
         const parent = view.injector.get(ElementRef, null, InjectFlags.SkipSelf) || this.root;
         //这里渲染preact
-        render(<div>i am a preact !</div>, (parent as any).firstElementChild);
+        const d = <div>i am a preact !</div>
+        console.log(d)
+        render(d, (parent as any).firstElementChild);
         super.attachView(view);
     }
 }

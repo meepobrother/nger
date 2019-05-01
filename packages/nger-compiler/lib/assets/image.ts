@@ -30,7 +30,7 @@ export interface NgerCompilerImgOptions {
 }
 
 @Injectable()
-export class NgerCompilerImg {
+export class NgerCompilerImage {
     compile(content: string, config: NgerCompilerImgOptions) {
         return new Promise((resolve, reject) => {
             imagemin([content], {

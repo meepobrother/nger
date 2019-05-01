@@ -9,7 +9,7 @@ import { join, dirname, relative, extname } from 'path'
 const root = process.cwd();
 import fs from 'fs-extra';
 import { Injectable } from 'nger-core';
-import { NgerCompilerTypescript } from './typescript';
+import { NgerCompilerTypescript } from 'nger-compiler';
 const CID = require('cids');
 const multihashing = require('multihashing')
 export function createCid(code: string) {
@@ -27,7 +27,7 @@ function getExistFile(path: string) {
 import _template from './babel_template'
 type From = string;
 type To = string;
-const resolveFrom = require('resolve-from');
+
 @Injectable()
 export class NgerBabel {
     tpl: typeof _template = _template;
