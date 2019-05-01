@@ -4,6 +4,7 @@
 
 > 项目名称意义，用ng的人！I am a nger! 
 
+## 每个nger人心中都有用ng编制世界的梦想!
 
 <font color="green">Warning!</font> <font color="green">Warning!</font> <font color="green">Warning!</font> 这不仅仅是一个前端项目。
 
