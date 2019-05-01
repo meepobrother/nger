@@ -3,6 +3,7 @@ import { createCustomElement } from 'nger-dom'
 import { ComponentFactoryResolver } from 'nger-core';
 import { Injector, InjectFlags, Type } from 'nger-di'
 import 'document-register-element';
+import { h, render, Component } from 'preact';
 import { createBrowserHistory, Location, Action } from 'history';
 
 // 当ngModule启动时运行
@@ -10,7 +11,7 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
     elements: Map<any, any> = new Map();
     constructor(public history: History, public customElements: CustomElementRegistry) {
         super();
-        this.history.listen((location: Location, action: Action) => {})
+        this.history.listen((location: Location, action: Action) => { })
     }
     async run(ref: NgModuleRef<any>) {
         // 可以在此时生成小程序 
@@ -28,14 +29,17 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
         }));
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         const bootstrap = ngModule.ast.metadataDef.bootstrap;
-        const resolver = ref.injector.get(ComponentFactoryResolver)
         const root = document.getElementById('app') as HTMLDivElement;
         if (bootstrap) {
             bootstrap.map(async boot => {
                 // 拿到component ref
-                root.innerHTML = `<app-root></app-root>`
-                const appRoot = document.getElementsByTagName('app-root')
-                console.dir(appRoot)
+                const resolve = ref.injector.get(ComponentFactoryResolver)
+                const factory = resolve.resolveComponentFactory(boot);
+                root.innerHTML = `<${factory.selector}/>`;
+                ref.injector.setStatic([{
+                    provide: ElementRef,
+                    useValue: root.firstElementChild
+                }])
             });
         }
     }
@@ -58,20 +62,9 @@ export class BrowserApplicationRef extends ApplicationRef {
         }
     }
     attachView(view: ComponentRef<any>) {
-        const style = view.injector.get(ComponentStyleToken, null);
         const parent = view.injector.get(ElementRef, null, InjectFlags.SkipSelf) || this.root;
-        // parent.innerHTML = template;
-        const elementRef = parent.firstChild;
-        const styleRef = document.createElement(`style`);
-        styleRef.innerHTML = style;
-        view.injector.setStatic([{
-            provide: ElementRef,
-            useValue: elementRef
-        }, {
-            provide: StyleRef,
-            useValue: styleRef
-        }]);
-        // document.head.append(styleRef)
+        //这里渲染preact
+        render(<div>i am a preact !</div>, (parent as any).firstElementChild);
         super.attachView(view);
     }
 }

@@ -2,10 +2,8 @@ import { Type, Injector, InjectionToken } from 'nger-di';
 import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
 import { TypeContext, } from 'ims-decorator';
-import { handlerTypeContextToParams } from './createStaticProvider'
 import { ParserVisitor } from './parser_visitor'
-import { PageMetadataKey, PageClassAst } from '../decorators/page';
-import { ControllerMetadataKey } from '../controller';
+import { PageMetadataKey } from '../decorators/page';
 import { ComponentClassAst, ComponentMetadataKey } from '../decorators/component';
 import { ChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
@@ -17,6 +15,7 @@ export const StyleRef = new InjectionToken<HTMLStyleElement>(`StyleRef`);
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }
+// 自定义Component处理器
 export const ComponentCreator = new InjectionToken<ComponentCreator[]>(`ComponentCreator`)
 export class ComponentFactory<C> {
     get selector(): string {
@@ -80,7 +79,7 @@ export class ComponentFactory<C> {
         // 新建一个
         // Component,Directive,Pipe每次取都要创建
         // Page/Controller单例
-        let item = this._context.classes.find(cls => [PageMetadataKey, ComponentMetadataKey].includes(cls.ast.metadataKey as string));
+        // let item = this._context.classes.find(cls => [PageMetadataKey, ComponentMetadataKey].includes(cls.ast.metadataKey as string));
         // 这里需要运行custom element
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)

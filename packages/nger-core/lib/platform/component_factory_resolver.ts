@@ -11,6 +11,7 @@ export class ComponentFactoryResolver {
         if (context) return new ComponentFactory<T>(context)
         throw new Error(`ComponentFactoryResolver: resolve component error`)
     }
+    // 获取所有的组件
     getComponents(): TypeContext[] {
         let arr: TypeContext[] = [];
         this.map.forEach((item, key) => arr.push(item))

@@ -6,7 +6,7 @@
       "dom",
       "esnext"
     ],
-    "jsx": "preserve",
+    "jsx": "react",
     "jsxFactory": "h",
     "importHelpers": true,
     "strict": false,
@@ -120,7 +120,7 @@
         "packages/nger-provider-style/lib/index.ts"
       ],
       "nger-platform-browser": [
-        "packages/nger-platform-browser/lib/index.ts"
+        "packages/nger-platform-browser/lib/index.tsx"
       ],
       "nger-dom": [
         "packages/nger-dom/lib/index.ts"
