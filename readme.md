@@ -1,6 +1,6 @@
 <p align="center"><img width="120" src="./docs/logo.png" alt="Vue logo"></p>
 
-<h2 align="center">用ng自由组合开发小程序</h2>
+<h2 align="center">用ng编制世界</h2>
 
 > 项目名称意义，用ng的人！I am a nger! 
 
