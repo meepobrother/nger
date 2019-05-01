@@ -1,6 +1,5 @@
 import { TypeContext } from 'ims-decorator'
 import { Inject, InjectMetadataKey, InjectPropertyAst } from '../decorators/inject'
-import { createTypeProvider } from './createStaticProvider'
 import { EntityRepositoryMetadataKey, EntityRepositoryPropertyAst } from '../orm/index';
 import { ConnectionToken } from '../tokens';
 import { Connection } from 'typeorm'

@@ -54,7 +54,7 @@ export const platformCore = createPlatformFactory(null, 'core', [{
     provide: Parser,
     useClass: DefaultParser,
     multi: true,
-    deps: []
+    deps: [Injector]
 }, {
     provide: PlatformRef,
     deps: [Injector]

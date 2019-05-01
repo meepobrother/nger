@@ -5,7 +5,7 @@ import { Injector, InjectFlags, Type } from 'nger-di'
 import 'document-register-element';
 import { h, render, Component } from 'preact';
 import { createBrowserHistory, Location, Action } from 'history';
-
+import platformAxios from 'nger-platform-axios'
 // 当ngModule启动时运行
 export class NgerPlatformBrowser extends NgModuleBootstrap {
     elements: Map<any, any> = new Map();
@@ -73,7 +73,7 @@ export class BrowserApplicationRef extends ApplicationRef {
         super.attachView(view);
     }
 }
-export default createPlatformFactory(platformCore, 'browser', [{
+export default createPlatformFactory(platformAxios, 'browser', [{
     provide: ApplicationRef,
     useClass: BrowserApplicationRef,
     deps: [Injector]

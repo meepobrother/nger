@@ -2,14 +2,14 @@ import {
     CommandMetadataKey, CommandClassAst,
     OptionMetadataKey, OptionPropertyAst, OptionOptions
     , NgModuleClassAst, NgModuleMetadataKey,
-    NgModuleRef, createPlatformFactory, platformCore, Logger,
+    NgModuleRef, createPlatformFactory, Logger,
     NgModuleBootstrap
 } from "nger-core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';
 const pkg = require(join(__dirname, '../', 'package.json'))
-
+import platformNode from 'nger-platform-node'
 export class NgerPlatformCli extends NgModuleBootstrap {
     constructor(public logger: Logger) {
         super();
@@ -80,7 +80,7 @@ export class NgerPlatformCli extends NgModuleBootstrap {
     }
 }
 
-export default createPlatformFactory(platformCore, 'cli', [{
+export default createPlatformFactory(platformNode, 'cli', [{
     provide: NgModuleBootstrap,
     useClass: NgerPlatformCli,
     deps: [Logger],
