@@ -3,7 +3,6 @@ import { HomePage } from './template/admin/home/home';
 import { StoreModule } from 'nger-store'
 import { EffectsModule } from 'nger-effects'
 import ngerPlatformBrowser from 'nger-platform-browser'
-import axios from 'nger-platform-axios'
 /** Pc端 */
 @NgModule({
     declarations: [
@@ -12,9 +11,7 @@ import axios from 'nger-platform-axios'
     bootstrap: [
         HomePage
     ],
-    providers: [
-        ...axios
-    ],
+    providers: [],
     imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([])
