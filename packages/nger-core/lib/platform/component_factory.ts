@@ -3,7 +3,6 @@ import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
 import { TypeContext, } from 'ims-decorator';
 import { ParserVisitor } from './parser_visitor'
-import { PageMetadataKey } from '../decorators/page';
 import { ComponentClassAst, ComponentMetadataKey } from '../decorators/component';
 import { ChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';

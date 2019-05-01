@@ -9,9 +9,7 @@ export interface NgElementConstructor<P> {
 }
 export abstract class NgElement extends HTMLElement {
   protected ngElementStrategy !: NgElementStrategy;
-  // 事件监听
   protected ngElementEventsSubscription: Subscription | null = null;
-  // 属性改变回调函数
   abstract attributeChangedCallback(
     attrName: string,
     oldValue: string | null,

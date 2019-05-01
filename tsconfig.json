@@ -155,7 +155,7 @@
     "emitDecoratorMetadata": true,
     "plugins": [
       {
-        "nger": "./packages/nger-plugin-ts"
+        "nger": "./dist/nger-language-service/lib/index.js"
       }
     ]
   },

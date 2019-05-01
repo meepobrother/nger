@@ -1,0 +1,1 @@
+import { ComponentFactory } from 'preact'

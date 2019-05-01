@@ -27,14 +27,12 @@ const DESTROY_DELAY = 10;
  *
  * @publicApi
  */
-export class ComponentNgElementStrategyFactory implements NgElementStrategyFactory {
-  componentFactory: ComponentFactory<any>;
-
-  constructor(private component: Type<any>, private injector: Injector) {
+export class ComponentNgElementStrategyFactory<T> implements NgElementStrategyFactory {
+  componentFactory: ComponentFactory<T>;
+  constructor(private component: Type<T>, private injector: Injector) {
     this.componentFactory =
-      injector.get(ComponentFactoryResolver).resolveComponentFactory(component);
+      injector.get(ComponentFactoryResolver).resolveComponentFactory<T>(component);
   }
-
   create(injector: Injector) {
     return new ComponentNgElementStrategy(this.componentFactory, injector);
   }
@@ -46,16 +44,16 @@ export class ComponentNgElementStrategyFactory implements NgElementStrategyFacto
  *
  * @publicApi
  */
-export class ComponentNgElementStrategy implements NgElementStrategy {
+export class ComponentNgElementStrategy<T> implements NgElementStrategy {
   events !: Observable<NgElementStrategyEvent>;
-  private componentRef !: ComponentRef<any> | null;
+  private componentRef !: ComponentRef<T> | null;
   private inputChanges: SimpleChanges | null = null;
   private implementsOnChanges = false;
   private scheduledChangeDetectionFn: (() => void) | null = null;
   private scheduledDestroyFn: (() => void) | null = null;
   private readonly initialInputValues = new Map<string, any>();
   private readonly uninitializedInputs = new Set<string>();
-  constructor(private componentFactory: ComponentFactory<any>, private injector: Injector) { }
+  constructor(private componentFactory: ComponentFactory<T>, private injector: Injector) { }
 
   /**
    * Initializes a new component if one has not yet been created and cancels any scheduled
@@ -68,7 +66,6 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
       this.scheduledDestroyFn = null;
       return;
     }
-
     if (!this.componentRef) {
       this.initializeComponent(element);
     }
@@ -83,7 +80,6 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
     if (!this.componentRef || this.scheduledDestroyFn !== null) {
       return;
     }
-
     // Schedule the component to be destroyed after a small timeout in case it is being
     // moved elsewhere in the DOM
     this.scheduledDestroyFn = scheduler.schedule(() => {
@@ -137,7 +133,7 @@ export class ComponentNgElementStrategy implements NgElementStrategy {
     // element
     this.componentRef = this.componentFactory.create(childInjector);
     // host view
-    
+
     this.implementsOnChanges =
       isFunction((this.componentRef.instance as any as OnChanges).ngOnChanges);
     this.initializeInputs();

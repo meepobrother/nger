@@ -475,89 +475,109 @@ export function makeDecorator2<T extends Array<any>, O>(metadataKey: string, pro
         return makeDecorator<O>(metadataKey)(opt)
     }
 }
-export function makeDecorator<T>(metadataKey: string, getDefault: (opt: DefaultOptions<T>) => T = opt => opt.metadataDef || {} as T) {
+// 这里需要改造一下，这里应该返回一个类，最好
+export interface TypeDecorator {
+    <T extends Type<any>>(type: T): T;
+    (target: Object, propertyKey?: string | symbol, parameterIndex?: number): void;
+}
+export function makeDecorator<T>(
+    metadataKey: string,
+    getDefault: (opt: DefaultOptions<T>) => T = opt => opt.metadataDef || {} as T,
+    parentClass?: any
+): {
+    new(...args: any[]): any;
+    (...args: any[]): any;
+    (...args: any[]): (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) => any;
+} {
     const visitor = parserManager.visitor;
-    return (metadataDef?: T) => (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) => {
-        if (propertyKey) {
-            if (typeof descriptor === 'number') {
-                const context = parserManager.getContext(target.constructor);
-                const types = getDesignParamTypes(target, propertyKey) || []
-                metadataDef = getDefault({
-                    type: 'parameter',
-                    metadataDef: metadataDef as T,
-                    metadataKey,
-                    target: target as any,
-                    propertyKey,
-                    parameterIndex: descriptor,
-                    parameterType: types[descriptor]
-                });
-                // parameter
-                const ast = new ParameterAst(target, metadataKey, metadataDef, propertyKey, types[descriptor], descriptor);
-                visitor.visitParameter(ast, context)
-            } else if (typeof descriptor === 'undefined') {
-                // property
-                const context = parserManager.getContext(target.constructor);
-                const propertyType = getDesignType(target, propertyKey)
-                metadataDef = getDefault({
-                    type: 'property',
-                    metadataDef: metadataDef as T,
-                    metadataKey,
-                    target: target as any,
-                    propertyKey,
-                    propertyType
-                });
-                const ast = new PropertyAst(target, metadataKey, metadataDef, propertyKey, propertyType);
-                visitor.visitProperty(ast, context)
-            } else {
-                // method
-                try {
-                    const returnType = getDesignReturnType(target, propertyKey)
-                    const paramTypes = getDesignParamTypes(target, propertyKey) || [];
+    function DecoratorFactory(metadataDef?: T) {
+        return function TypeDecorator(target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) {
+            if (propertyKey) {
+                if (typeof descriptor === 'number') {
                     const context = parserManager.getContext(target.constructor);
+                    const types = getDesignParamTypes(target, propertyKey) || []
                     metadataDef = getDefault({
-                        type: 'method',
+                        type: 'parameter',
                         metadataDef: metadataDef as T,
                         metadataKey,
                         target: target as any,
                         propertyKey,
-                        paramTypes,
-                        returnType
+                        parameterIndex: descriptor,
+                        parameterType: types[descriptor]
                     });
-                    const ast = new MethodAst(target, metadataKey, metadataDef, propertyKey, returnType, paramTypes, target[propertyKey].length, descriptor);
-                    visitor.visitMethod(ast, context);
-                } catch (e) { }
-            }
-        } else {
-            if (typeof descriptor === 'number') {
-                // constructor
-                const context = parserManager.getContext(target);
-                const types = getDesignTargetParams(target) || []
-                metadataDef = getDefault({
-                    type: 'constructor',
-                    metadataDef: metadataDef as T,
-                    metadataKey,
-                    target: target as any,
-                    parameterType: types[descriptor],
-                    parameterIndex: descriptor,
-                });
-                const ast = new ConstructorAst(target, metadataKey, metadataDef, types[descriptor], descriptor, types.length);
-                visitor.visitConstructor(ast, context)
+                    // parameter
+                    const ast = new ParameterAst(target, metadataKey, metadataDef, propertyKey, types[descriptor], descriptor);
+                    visitor.visitParameter(ast, context)
+                } else if (typeof descriptor === 'undefined') {
+                    // property
+                    const context = parserManager.getContext(target.constructor);
+                    const propertyType = getDesignType(target, propertyKey)
+                    metadataDef = getDefault({
+                        type: 'property',
+                        metadataDef: metadataDef as T,
+                        metadataKey,
+                        target: target as any,
+                        propertyKey,
+                        propertyType
+                    });
+                    const ast = new PropertyAst(target, metadataKey, metadataDef, propertyKey, propertyType);
+                    visitor.visitProperty(ast, context)
+                } else {
+                    // method
+                    try {
+                        const returnType = getDesignReturnType(target, propertyKey)
+                        const paramTypes = getDesignParamTypes(target, propertyKey) || [];
+                        const context = parserManager.getContext(target.constructor);
+                        metadataDef = getDefault({
+                            type: 'method',
+                            metadataDef: metadataDef as T,
+                            metadataKey,
+                            target: target as any,
+                            propertyKey,
+                            paramTypes,
+                            returnType
+                        });
+                        const ast = new MethodAst(target, metadataKey, metadataDef, propertyKey, returnType, paramTypes, target[propertyKey].length, descriptor);
+                        visitor.visitMethod(ast, context);
+                    } catch (e) { }
+                }
             } else {
-                // class
-                const context = parserManager.getContext(target);
-                const types = getDesignTargetParams(target) || []
-                metadataDef = getDefault({
-                    type: 'class',
-                    metadataDef: metadataDef as T,
-                    metadataKey,
-                    target: target as any
-                });
-                const ast = new ClassAst(target as any, metadataKey, metadataDef, types, types.length);
-                visitor.visitClass(ast, context);
-                return target;
+                if (typeof descriptor === 'number') {
+                    // constructor
+                    const context = parserManager.getContext(target);
+                    const types = getDesignTargetParams(target) || []
+                    metadataDef = getDefault({
+                        type: 'constructor',
+                        metadataDef: metadataDef as T,
+                        metadataKey,
+                        target: target as any,
+                        parameterType: types[descriptor],
+                        parameterIndex: descriptor,
+                    });
+                    const ast = new ConstructorAst(target, metadataKey, metadataDef, types[descriptor], descriptor, types.length);
+                    visitor.visitConstructor(ast, context)
+                } else {
+                    // class
+                    const context = parserManager.getContext(target);
+                    const types = getDesignTargetParams(target) || []
+                    metadataDef = getDefault({
+                        type: 'class',
+                        metadataDef: metadataDef as T,
+                        metadataKey,
+                        target: target as any
+                    });
+                    const ast = new ClassAst(target as any, metadataKey, metadataDef, types, types.length);
+                    visitor.visitClass(ast, context);
+                    return target;
+                }
             }
         }
     }
+    if (parentClass) {
+        DecoratorFactory.prototype = Object.create(parentClass.prototype);
+    }
+    DecoratorFactory.prototype.ngMetadataName = metadataKey;
+    return DecoratorFactory as any;
 }
 
 export interface Abstract<T> extends Function {

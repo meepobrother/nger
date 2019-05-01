@@ -19,7 +19,7 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
             // 此时解析模板和css
             // parseTemplate()
             // 在此之前生成完成编译操作
-            
+
             const element = createCustomElement(context.target, { injector: ref.injector })
             const component = context.getClass(ComponentMetadataKey) as ComponentClassAst;
             const def = component.ast.metadataDef;
@@ -38,6 +38,7 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
                 const resolve = ref.injector.get(ComponentFactoryResolver)
                 const factory = resolve.resolveComponentFactory(boot);
                 root.innerHTML = `<${factory.selector}/>`;
+                console.dir(root.firstElementChild)
                 ref.injector.setStatic([{
                     provide: ElementRef,
                     useValue: root.firstElementChild
@@ -66,8 +67,8 @@ export class BrowserApplicationRef extends ApplicationRef {
     attachView(view: ComponentRef<any>) {
         const parent = view.injector.get(ElementRef, null, InjectFlags.SkipSelf) || this.root;
         //这里渲染preact
-        const d = <div>i am a preact !</div>
-        console.log(d)
+        const Header = (children) => <div>{children}</div>
+        const d = <Header>i am a preact !</Header>
         render(d, (parent as any).firstElementChild);
         super.attachView(view);
     }

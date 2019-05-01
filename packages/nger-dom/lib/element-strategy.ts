@@ -25,7 +25,6 @@ export interface NgElementStrategyEvent {
  */
 export interface NgElementStrategy {
   events: Observable<NgElementStrategyEvent>;
-
   connect(element: HTMLElement): void;
   disconnect(): void;
   getInputValue(propName: string): any;
