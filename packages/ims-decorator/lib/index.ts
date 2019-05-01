@@ -469,11 +469,16 @@ export interface DefaultOptions<T, O = any> {
     paramTypes?: any[];
     returnType?: any;
 }
-export function makeDecorator2<T extends Array<any>, O>(metadataKey: string, pro: (...args: T) => O) {
-    return (...params: T) => {
-        const opt = pro(...params);
-        return makeDecorator<O>(metadataKey)(opt)
+export function makeDecorator2<T>(metadataKey: string, props: (...args: any) => T): {
+    new(...args: any[]): any;
+    (...args: any[]): any;
+    (...args: any[]): (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) => any;
+} {
+    function DecoratorFactory(...params: any[]){
+        const opt = props(...params);
+        return makeDecorator<T>(metadataKey)(opt)
     }
+    return DecoratorFactory as any;
 }
 // 这里需要改造一下，这里应该返回一个类，最好
 export interface TypeDecorator {

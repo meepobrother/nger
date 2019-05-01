@@ -1,15 +1,13 @@
-import { makeDecorator, ConstructorContext, ConstructorAst, PropertyContext, PropertyAst } from 'ims-decorator';
+import { makeDecorator2, ConstructorContext, ConstructorAst, PropertyContext, PropertyAst } from 'ims-decorator';
 export const InjectMetadataKey = 'InjectMetadataKey';
 export interface InjectOptions {
     token: any;
 }
-export interface Inject {
-    (token?: any): any;
-    new(token?: any): any;
+export interface InjectDecorator {
+    (token: any): any;
+    new(token: any): InjectOptions;
 }
-export function Inject(token?: any) {
-    return makeDecorator<InjectOptions>(InjectMetadataKey)({ token });
-}
+export const Inject: InjectDecorator = makeDecorator2<InjectOptions>(InjectMetadataKey, (token: any) => ({token}));
 export class InjectConstructorAst extends ConstructorContext<InjectOptions> { }
 export class InjectPropertyAst extends PropertyContext<InjectOptions> { }
 export function isInjectPropertyAst(ast: PropertyAst): ast is PropertyAst<InjectOptions> {

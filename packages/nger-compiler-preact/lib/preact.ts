@@ -21,10 +21,10 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
         super();
     }
     async run(ref: NgModuleRef<any>) {
-        const ngModule = ref.context.getClass(core.NgModuleMetadataKey) as core.NgModuleClassAst;
         // 拿到ngModule的文件名
         const platform = ref.injector.get(PLATFORM_ID);
         const fileName = this.config[platform];
+        console.log(`NgerCompilerPreact ${platform} ${fileName}`)
         if (fileName) {
             // 拿到ngModuleMetadata
             const metadata = this.metadata.getMetadata(fileName);
