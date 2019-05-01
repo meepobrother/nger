@@ -1,6 +1,6 @@
 import { NgModuleBootstrap, Logger, FileSystem, NgModuleRef, NgModuleMetadataKey, NgModuleClassAst } from 'nger-core';
 import { parseTemplate } from '@angular/compiler';
-import { join, dirname, relative } from 'path';
+import { join, dirname } from 'path';
 import { NgerPlatformStyle } from 'nger-provider-style'
 import { NgerCompilerTypescript } from 'nger-provider-typescript'
 import { getNgModuleConfig, getComponentConfig } from './transformNgModule'

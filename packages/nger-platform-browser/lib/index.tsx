@@ -18,6 +18,8 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
         await Promise.all(ref.componentFactoryResolver.getComponents().map(context => {
             // 此时解析模板和css
             // parseTemplate()
+            // 在此之前生成完成编译操作
+            
             const element = createCustomElement(context.target, { injector: ref.injector })
             const component = context.getClass(ComponentMetadataKey) as ComponentClassAst;
             const def = component.ast.metadataDef;

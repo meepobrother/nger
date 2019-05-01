@@ -7,11 +7,17 @@ import { PageMetadataKey } from '../decorators/page';
 import { ComponentClassAst, ComponentMetadataKey } from '../decorators/component';
 import { ChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
+// 这个是编译后的模板文件
 export const ComponentTemplateToken = new InjectionToken<string>(`ComponentTemplateToken`);
+// 这个是编译后的样式文件
 export const ComponentStyleToken = new InjectionToken<string>(`ComponentStyleToken`);
+// 这个是编译后的json文件
 export const ComponentPropToken = new InjectionToken<object>(`ComponentPropToken`);
+// 这个是当前dom对象，仅在浏览器环境下生效
 export const ElementRef = new InjectionToken<HTMLDivElement>(`ElementRef`);
+// 这个是样式挂载文件
 export const StyleRef = new InjectionToken<HTMLStyleElement>(`StyleRef`);
+
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }
