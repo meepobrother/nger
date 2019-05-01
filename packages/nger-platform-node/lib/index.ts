@@ -1,11 +1,16 @@
-import { createPlatformFactory, Logger, NgModuleBootstrap, FileSystem } from 'nger-core'
+import { createPlatformFactory, Logger, NgModuleBootstrap, FileSystem, Resolver } from 'nger-core'
 import { NgerUtil } from 'nger-util'
 import ngerPlatformAxios from 'nger-platform-axios'
 import { NgerPlatformNode } from './core/index'
 import styleProviders, { NgerPlatformStyle } from 'nger-provider-style'
 import typescriptProviders, { NgerCompilerTypescript, NgerBabel } from 'nger-provider-typescript'
 import fs from 'fs-extra';
-import { dirname } from 'path'
+import { dirname, join } from 'path'
+import {
+    NodeJsInputFileSystem,
+    CachedInputFileSystem,
+    ResolverFactory
+} from 'enhanced-resolve';
 export default createPlatformFactory(ngerPlatformAxios, 'node', [
     ...styleProviders,
     ...typescriptProviders,
@@ -31,6 +36,19 @@ export default createPlatformFactory(ngerPlatformAxios, 'node', [
                 writeFileSync(path, data, options)
             }
             return fs;
+        },
+        deps: []
+    }, {
+        provide: Resolver,
+        useFactory: () => {
+            const root = process.cwd();
+            return ResolverFactory.createResolver({
+                fileSystem: new CachedInputFileSystem(new NodeJsInputFileSystem(), 4000) as any,
+                extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                mainFields: ['main:h5', 'main', 'module'],
+                symlinks: true,
+                modules: [join(root, 'packages'), join(root, 'node_modules')]
+            })
         },
         deps: []
     }

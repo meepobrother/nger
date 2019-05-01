@@ -1,10 +1,17 @@
 import { Injectable } from 'nger-core'
 import ts from 'typescript'
 import { MetadataCollector, ModuleMetadata } from '@angular/compiler-cli'
+import { join } from 'path'
+const root = process.cwd();
+const options = require(join(root, 'tsconfig.json')).compilerOptions;
+import { CompilerOptions } from 'typescript'
 @Injectable()
 export class NgerCompilerTypescript {
+    options: CompilerOptions = options;
     constructor() { }
-    compile(content: string, config: ts.TranspileOptions): string {
+    compile(content: string, config: ts.TranspileOptions = {
+        compilerOptions: this.options
+    }): string {
         const output = ts.transpileModule(content, config)
         return output.outputText
     }
