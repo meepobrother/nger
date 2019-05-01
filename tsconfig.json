@@ -7,7 +7,7 @@
       "esnext"
     ],
     "jsx": "react",
-    "jsxFactory": "h",
+    "jsxFactory": "react.createElement",
     "importHelpers": true,
     "strict": false,
     "strictBindCallApply": false,

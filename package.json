@@ -86,6 +86,7 @@
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-uglify": "^6.0.2",
     "scss-bundle": "^2.5.1",
+    "stats-webpack-plugin": "^0.7.0",
     "stylelint-webpack-plugin": "^0.10.5",
     "stylus": "^0.54.5",
     "ts-loader": "^5.4.4",
@@ -116,6 +117,7 @@
     "gulp": "^4.0.1",
     "mysql": "^2.17.1",
     "pm2": "^3.5.0",
+    "react-dom": "^16.8.6",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.4.0",
     "shelljs": "^0.8.3",
@@ -125,9 +127,11 @@
   "scripts": {
     "test": "mocha -r ts-node/register -r tsconfig-paths/register ./**/__tests__/**/*.ts",
     "ts": "ts-node -r tsconfig-paths/register",
-    "cli": "npm run ts packages/nger-cli/lib/bin.ts",
+    "cli": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts",
     "docker": "docker-compose up -d",
     "start": "npm run cli start koa",
-    "build": "npm run cli build"
+    "build": "npm run cli build",
+    "admin:dev": "npm run cli build admin --watch",
+    "admin": "npm run cli build admin"
   }
 }

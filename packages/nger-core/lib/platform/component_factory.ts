@@ -3,9 +3,10 @@ import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
 import { TypeContext, } from 'ims-decorator';
 import { ParserVisitor } from './parser_visitor'
-import { ComponentClassAst, ComponentMetadataKey } from '../decorators/component';
+import { ComponentClassAst } from '../decorators/component';
 import { ChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
+import { VNode } from '../decorators/jsx'
 // 这个是编译后的模板文件
 export const ComponentTemplateToken = new InjectionToken<string>(`ComponentTemplateToken`);
 // 这个是编译后的样式文件
@@ -44,6 +45,10 @@ export class ComponentFactory<C> {
     get type(): string {
         return this._type;
     }
+    get template(): VNode {
+        return this._template;
+    }
+    private _template: VNode;
     private _selector: string;
     private _componentType: Type<any>;
     private _ngContentSelectors: string[];
@@ -90,11 +95,6 @@ export class ComponentFactory<C> {
         if (injector.create) {
             this._context.injector = injector.create([]);
         }
-        const creators = injector.get(ComponentCreator);
-        // 处理Component
-        creators.map(creat => {
-            creat(this._context)
-        });
         const instance = this._context.injector.get(target) as C;
         // 属性
         // 解析一些属性并赋值

@@ -1,6 +1,6 @@
 import {
     NgModule, NgModuleBootstrap, NgModuleRef,
-    DevModelToken, Logger, createPlatformFactory, platformCore
+    IS_DEV, Logger, createPlatformFactory, platformCore
 } from 'nger-core'
 import { NgerWebpackAdmin } from 'nger-webpack-admin'
 import ngerplatformNode from 'nger-platform-node'
@@ -13,9 +13,8 @@ export class NgerCliBuildAdminBuilderBootstrap extends NgModuleBootstrap {
         super();
     }
     async run(ref: NgModuleRef<any>) {
-        this.logger.info(`NgerCliBuildAdminBuilderBootstrap`)
         const webpack = ref.injector.get(WebpackService, null);
-        const isDevModel = ref.injector.get(DevModelToken, false);
+        const isDevModel = ref.injector.get(IS_DEV, false);
         this.logger.info(`building admin isDevModel:${isDevModel}`)
         if (isDevModel && webpack) {
             const config = webpack.config;
@@ -30,6 +29,10 @@ export class NgerCliBuildAdminBuilderBootstrap extends NgModuleBootstrap {
                 inline: true,
                 publicPath
             }).listen(3001);
+        } else {
+            if (webpack) {
+                webpack.build();
+            }
         }
     }
 }
@@ -41,10 +44,6 @@ export default createPlatformFactory(ngerplatformNode, 'buildAdmin', [
         useClass: NgerCliBuildAdminBuilderBootstrap,
         deps: [Logger],
         multi: true
-    },
-    {
-        provide: DevModelToken,
-        useValue: true
     }
 ])
 

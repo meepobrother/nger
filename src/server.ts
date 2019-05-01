@@ -1,4 +1,4 @@
-import { NgModule, OnInit, Inject, OnError, DevModelToken, Logger } from 'nger-core';
+import { NgModule, OnInit, Inject, OnError, IS_DEV, Logger } from 'nger-core';
 import { HomeController, UserController, SmsController } from './inc';
 import { NgerModuleTypeorm } from 'nger-module-typeorm'
 import { NgerRunnerTypeorm } from './typeorm';
@@ -14,10 +14,7 @@ import { Injector } from 'nger-di';
         UserController,
         SmsController
     ],
-    providers: [{
-        provide: DevModelToken,
-        useValue: true
-    }],
+    providers: [],
     imports: [
         NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
         StoreModule.forRoot({ count: counterReducer }),

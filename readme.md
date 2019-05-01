@@ -72,6 +72,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [ ] `yarn cli build`构建打包
   - [ ] 手机h5 `yarn cli build h5`
   - [ ] pc网站 `yarn cli build pc`
+  - [x] 后台管理 `yarn cli build admin [--watch]`
   - [ ] 微信公众号 `yarn cli build wechat`
   - [ ] 微信小程序 `yarn cli build weapp`
   - [ ] 支付宝小程序 `yarn cli build alipay`

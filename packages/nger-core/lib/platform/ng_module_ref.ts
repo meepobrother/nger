@@ -26,7 +26,7 @@ export class NgModuleRef<T> {
     ) {
         // 注册Component,Page,Controller,Pipe,Directive,Command
         const ngModule = this.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
-        this._componentFactoryResolver = new ComponentFactoryResolver(ngModule.declarations);
+        this._componentFactoryResolver = new ComponentFactoryResolver(ngModule.declarations, this._injector);
         this._injector.setStatic([{
             provide: NgModuleRef,
             useValue: this,

@@ -11,7 +11,7 @@ export const ConnectionToken = new InjectionToken<Connection>(`ConnectionToken`)
 export const ConnectionManagerToken = new InjectionToken<ConnectionManager>(`ConnectionManagerToken`)
 // 开发者模式
 export type DevModel = boolean;
-export const DevModelToken = new InjectionToken<DevModel>(`DevModelToken`);
+export const IS_DEV = new InjectionToken<DevModel>(`IS_DEV`);
 // 运行平台
 export const PlatformToken = new InjectionToken<DevModel>(`PlatformToken`);
 // 平台

@@ -4,6 +4,8 @@ import { WebpackMergeService } from './providers/merge';
 import { WebpackService } from './providers/webpack';
 import { Configuration } from 'webpack'
 import { join } from 'path';
+const StatsPlugin = require('stats-webpack-plugin');
+
 const root = process.cwd();
 
 @NgModule({
@@ -21,7 +23,13 @@ const root = process.cwd();
                     symlinks: true,
                     modules: [join(root, 'packages'), join(root, 'node_modules')]
                 },
-                plugins: []
+                profile: true,
+                recordsPath: join(root, 'data/webpack/admin.json'),
+                plugins: [
+                    new StatsPlugin('stats.json', {
+                        chunkModules: true
+                    })
+                ]
             } as Configuration,
             multi: true
         }]

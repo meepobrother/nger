@@ -1,4 +1,4 @@
-import { NgModule, DevModelToken } from 'nger-core'
+import { NgModule, IS_DEV } from 'nger-core'
 import { WebpackConfigToken } from 'nger-module-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack, { Configuration } from 'webpack'
@@ -11,7 +11,7 @@ import { Injector } from 'nger-di'
     providers: [{
         provide: WebpackConfigToken,
         useFactory: (injector: Injector) => {
-            const dev = injector.get(DevModelToken);
+            const dev = injector.get(IS_DEV);
             let output = {
                 path: join(root, 'template/admin'),
                 publicPath: `/template/admin/`,
@@ -46,7 +46,6 @@ import { Injector } from 'nger-di'
                         chunks: [
                             'manifest', 'vendors', 'main'
                         ],
-
                     }),
                     new webpack.WatchIgnorePlugin([
                         /\.js$/,

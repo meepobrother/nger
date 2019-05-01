@@ -27,7 +27,6 @@ export class NgerPlatformCli extends NgModuleBootstrap {
             .epilog(`${chalk.green("power by ims")}`)
         _yargs.example(`ims -h`, `查看所有命令及使用详情`);
         _yargs.example(`ims -v`, `查看版本号`);
-
         if (ngModule.declarations) {
             ngModule.declarations.filter(it => !!it.getClass(CommandMetadataKey)).map(context => {
                 const componentFactory = ref.componentFactoryResolver.resolveComponentFactory(context.target)
@@ -48,8 +47,7 @@ export class NgerPlatformCli extends NgModuleBootstrap {
                                     def.string = true;
                                 }
                                 args.option(option.ast.propertyKey as string, {
-                                    ...def,
-                                    default: componentRef.instance[option.ast.propertyKey]
+                                    ...def
                                 });
                             });
                             return args
@@ -75,6 +73,6 @@ export class NgerPlatformCli extends NgModuleBootstrap {
                 }
             })
         }
-        _yargs.argv;
+        const argv = _yargs.argv;
     }
 }

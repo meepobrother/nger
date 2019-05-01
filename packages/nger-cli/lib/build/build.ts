@@ -1,5 +1,5 @@
 import { TypeContext, Type } from 'ims-decorator';
-import { Injectable, PLATFORM_ID } from 'nger-core';
+import { Injectable, PLATFORM_ID, IS_DEV } from 'nger-core';
 import ngerPlatformNode from 'nger-platform-node'
 import gulp from 'gulp';
 import chalk from 'chalk';
@@ -33,10 +33,14 @@ export class NgerCliBuild {
     /** ios */
     ios(context: TypeContext) { }
     /** 后台 */
-    admin() {
+    async admin(isDev: boolean) {
+        await _rimraf(join(root, 'template/admin'));
         platformBuildAdmin([{
             provide: PLATFORM_ID,
             useValue: 'admin'
+        }, {
+            provide: IS_DEV,
+            useValue: isDev
         }]).bootstrapModule(NgerCliBuildAminBuilder).then(ref => { })
     }
 
