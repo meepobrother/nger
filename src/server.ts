@@ -5,9 +5,6 @@ import { NgerRunnerTypeorm } from './typeorm';
 import { StoreModule } from 'nger-store';
 import { counterReducer } from './store/counter.reducer'
 import { CounterEffects } from './store/counter.effects'
-import { NgerModuleWebpack } from 'nger-module-webpack'
-import { NgerWebpackAdmin } from 'nger-webpack-admin'
-
 import { EffectsModule } from 'nger-effects';
 import { Injector } from 'nger-di';
 /** api服务 */
@@ -22,10 +19,6 @@ import { Injector } from 'nger-di';
         useValue: true
     }],
     imports: [
-        // NgerModulePm2,
-        // NgerAdmin,
-        NgerModuleWebpack,
-        NgerWebpackAdmin,
         NgerModuleTypeorm.forRoot(NgerRunnerTypeorm),
         StoreModule.forRoot({ count: counterReducer }),
         EffectsModule.forRoot([CounterEffects])

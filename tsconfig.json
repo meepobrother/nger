@@ -83,8 +83,8 @@
       "nger-compiler": [
         "packages/nger-compiler/lib/index.ts"
       ],
-      "nger-compiler-react": [
-        "packages/nger-compiler-react/lib/index.ts"
+      "nger-compiler-preact": [
+        "packages/nger-compiler-preact/lib/index.ts"
       ],
       "nger-provider-style": [
         "packages/nger-provider-style/lib/index.ts"

@@ -7,11 +7,11 @@ import rimraf = require('rimraf');
 import { join } from 'path';
 import ts = require('gulp-typescript');
 import fs from 'fs-extra';
-
+import platformBuildAdmin from './builder/admin';
+import { NgerCliBuildAminBuilder } from './builder/admin';
 const root = process.cwd();
 @Injectable()
 export class NgerCliBuild {
-
     /** 构建h5应用 */
     h5(context: TypeContext) { }
     /** 微信公众号 */
@@ -33,7 +33,12 @@ export class NgerCliBuild {
     /** ios */
     ios(context: TypeContext) { }
     /** 后台 */
-    admin(context: TypeContext) { }
+    admin() {
+        console.log(`admin`)
+        platformBuildAdmin([]).bootstrapModule(NgerCliBuildAminBuilder).then(ref => {
+
+        })
+    }
 
     async dev(name: string) {
         const output = 'dist'
@@ -53,8 +58,6 @@ function _rimraf(dir: string) {
         rimraf(dir, () => resolve())
     });
 }
-const uglify = require('gulp-uglify');
-const concat = require('gulp-concat');
 export async function packProject(
     name: string,
     output: string = 'dist',

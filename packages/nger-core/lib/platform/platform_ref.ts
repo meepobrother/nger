@@ -46,12 +46,14 @@ export class PlatformRef {
         return moduleRef;
     }
 
-    private async _moduleDoBootstrap(moduleRef: NgModuleRef<any>) {
+    private _moduleDoBootstrap(moduleRef: NgModuleRef<any>) {
         const bootstrap = this.injector.get<NgModuleBootstrap[]>(NgModuleBootstrap, []);
-        const allBoot = bootstrap.map(async (b: NgModuleBootstrap) => {
-            return await b.run(moduleRef);
+        console.log(`总共有 ${bootstrap.length} 个启动项目`)
+        const tasks: any[] = [];
+        bootstrap.map((b: NgModuleBootstrap) => {
+            tasks.push(b.run(moduleRef));
         });
-        return Promise.all(allBoot)
+        return Promise.all(tasks)
     }
 
     // 注册销毁钩子

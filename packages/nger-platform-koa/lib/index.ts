@@ -1,7 +1,7 @@
 import { createServer } from 'http';
-import { Injector, InjectFlags } from 'nger-di'
+import { Injector } from 'nger-di'
 import Koa from 'koa';
-import { DevModelToken, NgModuleRef, getPort } from 'nger-core';
+import {  NgModuleRef, getPort } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
@@ -9,10 +9,7 @@ import { Logger, createPlatformFactory, NgModuleBootstrap, NgModuleMetadataKey, 
 import { join } from 'path';
 import NgerPlatformNode from 'nger-platform-node'
 const compress = require('koa-compress');
-import { WebpackService } from 'nger-module-webpack';
 import { TypeContext } from 'ims-decorator';
-import dev from 'webpack-dev-server';
-import fs from 'fs-extra'
 import { InjectionToken } from 'nger-di';
 export const AdminTemplateEntry = new InjectionToken<string>(`AdminTemplateEntry`)
 export class NgerPlatformKoa extends NgModuleBootstrap {
@@ -55,7 +52,6 @@ export class NgerPlatformKoa extends NgModuleBootstrap {
                 this.handler(declaration, router, controller, controllerFactory.create(this.injector).instance);
             }
         });
-        this.attachWebpackCompiler(ref);
         this.app.use(compress({
             filter: function (content_type) {
                 return /text/i.test(content_type)
@@ -68,7 +64,6 @@ export class NgerPlatformKoa extends NgModuleBootstrap {
             this.logger.info(`app start at http://localhost:${port}`)
         });
     }
-
     handler(declaration: TypeContext, router: any, controller: any, instance: any) {
         const gets = declaration.getMethod(GetMetadataKey) as GetMethodAst[];
         gets.map(get => {
@@ -94,25 +89,6 @@ export class NgerPlatformKoa extends NgModuleBootstrap {
                 }
             })
         });
-    }
-
-    attachWebpackCompiler<T>(ref: NgModuleRef<T>) {
-        const webpack = ref.injector.get(WebpackService, null);
-        const isDevModel = ref.injector.get(DevModelToken, false);
-        if (isDevModel && webpack) {
-            const config = webpack.config;
-            let publicPath = '/';
-            if (config) {
-                if (config.output && config.output.publicPath) publicPath = config.output.publicPath
-            }
-            return new dev(webpack.compiler, {
-                historyApiFallback: true,
-                hot: true,
-                open: true,
-                inline: true,
-                publicPath
-            }).listen(3001);
-        }
     }
 }
 

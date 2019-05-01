@@ -32,66 +32,66 @@ export class BuildCommand {
     async run() {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`watching: ${!!this.watch}`);
-        const app = this.getTypeContext();
-        if (app) {
-            switch (this.type) {
-                case 'h5':
-                    this.build.h5(app)
-                    break;
-                case 'wechat':
-                    this.build.wechat(app)
-                    break;
-                case 'weapp':
-                    this.build.weapp(app)
-                    break;
-                case 'alipay':
-                    this.build.alipay(app)
-                    break;
-                case 'swap':
-                    this.build.swap(app)
-                    break;
-                case 'tt':
-                    this.build.tt(app)
-                    break;
-                case 'android':
-                    this.build.android(app)
-                    break;
-                case 'ios':
-                    this.build.ios(app)
-                    break;
-                case 'admin':
-                    this.build.admin(app);
-                    break;
-                case 'lib':
-                    const libPkgs = fs.readdirSync(join(root, 'packages'))
-                    for (let pkg of libPkgs) {
-                        if (pkg.startsWith('.')) { } else {
-                            this.logger.warn(`build.lib: ${pkg}`);
-                            await this.build.dev(pkg)
-                        }
+        switch (this.type) {
+            case 'h5':
+                const h5App = this.getTypeContext();
+                this.build.h5(h5App)
+                break;
+            case 'wechat':
+                const wechatApp = this.getTypeContext();
+                this.build.wechat(wechatApp)
+                break;
+            case 'weapp':
+                const weappApp = this.getTypeContext();
+                this.build.weapp(weappApp)
+                break;
+            case 'alipay':
+                // this.build.alipay(app)
+                break;
+            case 'swap':
+                // this.build.swap(app)
+                break;
+            case 'tt':
+                // this.build.tt(app)
+                break;
+            case 'android':
+                // this.build.android(app)
+                break;
+            case 'ios':
+                // this.build.ios(app)
+                break;
+            case 'admin':
+                this.build.admin();
+                break;
+            case 'lib':
+                const libPkgs = fs.readdirSync(join(root, 'packages'))
+                for (let pkg of libPkgs) {
+                    if (pkg.startsWith('.')) { } else {
+                        this.logger.warn(`build.lib: ${pkg}`);
+                        await this.build.dev(pkg)
                     }
-                    break;
-                case 'prod':
-                    const amdPkgs = fs.readdirSync(join(root, 'packages'))
-                    for (let pkg of amdPkgs) {
-                        if (pkg.startsWith('.')) {
+                }
+                break;
+            case 'prod':
+                const amdPkgs = fs.readdirSync(join(root, 'packages'))
+                for (let pkg of amdPkgs) {
+                    if (pkg.startsWith('.')) {
 
-                        } else {
-                            this.logger.warn(`build.prod: ${pkg}`);
-                            await this.build.prod(pkg)
-                        }
+                    } else {
+                        this.logger.warn(`build.prod: ${pkg}`);
+                        await this.build.prod(pkg)
                     }
-                    break;
-                default:
-                    const allPkgs = fs.readdirSync(join(root, 'packages'))
-                    for (let pkg of allPkgs) {
-                        if (pkg.startsWith('.')) { } else {
-                            this.logger.warn(`build.dev: ${pkg}`);
-                            await this.build.dev(pkg)
-                        }
+                }
+                break;
+            default:
+                const allPkgs = fs.readdirSync(join(root, 'packages'))
+                for (let pkg of allPkgs) {
+                    if (pkg.startsWith('.')) { } else {
+                        this.logger.warn(`build.dev: ${pkg}`);
+                        await this.build.dev(pkg)
                     }
-                    break;
-            }
+                }
+                break;
         }
     }
 }
