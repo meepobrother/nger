@@ -4,8 +4,8 @@ export interface InjectOptions {
     token: any;
 }
 export interface InjectDecorator {
-    (token: any): TypeDecorator;
-    new(token: any): InjectOptions;
+    (token?: any): TypeDecorator;
+    new(token?: any): InjectOptions;
 }
 export const Inject: InjectDecorator = makeDecorator2<InjectOptions>(InjectMetadataKey, (token: any) => ({ token }));
 export class InjectConstructorAst extends ConstructorContext<InjectOptions> { }

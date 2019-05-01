@@ -483,7 +483,7 @@ export function makeDecorator2<T>(metadataKey: string, props: (...args: any) => 
 // 这里需要改造一下，这里应该返回一个类，最好
 export interface TypeDecorator {
     <T extends Type<any>>(type: T): T;
-    (target: Object, propertyKey?: string | symbol, parameterIndex?: number): void;
+    (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number): void;
 }
 export function makeDecorator<T>(
     metadataKey: string,
