@@ -1,4 +1,4 @@
-import { NgerCompilerWeapp } from './preact'
+import { NgerCompilerWeapp } from './weapp'
 import { NgerCompilerWeappHtml } from './html'
 import { NgerCompilerWeappStyle } from './style'
 import { NgerCompilerWeappTypescript } from './typescript'
