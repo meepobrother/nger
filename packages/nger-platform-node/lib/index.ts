@@ -44,7 +44,7 @@ export default createPlatformFactory(ngerPlatformAxios, 'node', [
             const root = process.cwd();
             return ResolverFactory.createResolver({
                 fileSystem: new CachedInputFileSystem(new NodeJsInputFileSystem(), 4000) as any,
-                extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
                 mainFields: ['main:h5', 'main', 'module'],
                 symlinks: true,
                 modules: [join(root, 'packages'), join(root, 'node_modules')]

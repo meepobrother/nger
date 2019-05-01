@@ -8,6 +8,8 @@ import { NgerCompilerTypescript } from './ts/typescript'
 import { NgerCompilerRollup } from './ts/rollup'
 import { NgerCompilerNgTemplate } from './html/ng'
 import { NgerCompilerCid } from './helper/cid'
+import { NgerCompilerNgMetadata } from './helper/ng_metadata'
+
 export {
     NgerCompilerImage,
     NgerCompilerUglify,
@@ -15,10 +17,16 @@ export {
     NgerCompilerTypescript,
     NgerCompilerRollup,
     NgerCompilerNgTemplate,
-    NgerCompilerCid
+    NgerCompilerCid,
+    NgerCompilerNgMetadata
 }
 const provides: StaticProvider[] = [
     ...styleProviders,
+    {
+        provide: NgerCompilerNgMetadata,
+        useClass: NgerCompilerNgMetadata,
+        deps: []
+    },
     {
         provide: NgerCompilerCid,
         useClass: NgerCompilerCid,
