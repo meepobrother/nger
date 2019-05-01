@@ -73,7 +73,6 @@ export class ComponentFactory<C> {
         const ast = cls.ast;
         const def = ast.metadataDef;
         if (def.selector) this._selector = def.selector;
-
     }
     // 创建
     create<C>(
