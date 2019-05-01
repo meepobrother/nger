@@ -1,4 +1,4 @@
-import { NgModuleBootstrap, NgModuleRef } from 'nger-core';
+import { NgModuleBootstrap, NgModuleRef, PLATFORM_ID, NgerConfig } from 'nger-core';
 // 将ng模板编译成preact可以执行的文件
 import { NgerCompilerPreactHtml } from './html'
 import { NgerCompilerPreactStyle } from './style'
@@ -15,14 +15,16 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
         public style: NgerCompilerPreactStyle,
         public assets: NgerCompilerPreactAssets,
         public ts: NgerCompilerPreactTypescript,
-        public metadata: NgerCompilerNgMetadata
+        public metadata: NgerCompilerNgMetadata,
+        public config: NgerConfig
     ) {
         super();
     }
     async run(ref: NgModuleRef<any>) {
         const ngModule = ref.context.getClass(core.NgModuleMetadataKey) as core.NgModuleClassAst;
         // 拿到ngModule的文件名
-        const fileName = ngModule.ast.metadataDef.fileName;
+        const platform = ref.injector.get(PLATFORM_ID);
+        const fileName = this.config[platform];
         if (fileName) {
             // 拿到ngModuleMetadata
             const metadata = this.metadata.getMetadata(fileName);

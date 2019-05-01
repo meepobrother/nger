@@ -14,3 +14,8 @@ export type DevModel = boolean;
 export const DevModelToken = new InjectionToken<DevModel>(`DevModelToken`);
 // 运行平台
 export const PlatformToken = new InjectionToken<DevModel>(`PlatformToken`);
+// 平台
+export type PlatformId = 'lib' | 'h5' | 'prod' | 'wechat' | 'weapp' | 'alipay' | 'swap' | 'tt' | 'android' | 'ios' | 'admin'
+export const PLATFORM_ID = new InjectionToken<PlatformId>(`PLATFORM_ID`)
+// webapck打包
+export const APP_ROOT = new InjectionToken<string>(`APP_ROOT`)

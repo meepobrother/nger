@@ -13,6 +13,7 @@ import { ChangeDetectorRef, DefaultChangeDetectorRef } from './change_detector_r
 import { ApplicationRef } from './application_ref'
 import { ComponentCreator } from './component_factory'
 import { PLATFORM_INITIALIZER } from './application_tokens'
+import { NGER_CONFIG, INgerConfig } from '../sdk/nger-config'
 export const platformCore = createPlatformFactory(null, 'core', [{
     provide: APP_INITIALIZER,
     useValue: () => { },
@@ -83,18 +84,19 @@ export const platformCore = createPlatformFactory(null, 'core', [{
     },
     deps: [Injector]
 }, {
-    provide: NgerConfig,
-    useFactory: () => {
-        const config = new NgerConfig();
-        config.watch = true;
-        config.loggerLevel = LoggerLevel.debug;
-    },
-    deps: [],
+    provide: NGER_CONFIG,
+    useValue: {},
     multi: true
+}, {
+    provide: NgerConfig,
+    useFactory: (config: INgerConfig[]) => {
+        return new NgerConfig(config || []);
+    },
+    deps: [NGER_CONFIG]
 }, {
     provide: Logger,
     useFactory: (config: NgerConfig) => {
-        return new ConsoleLogger(config.loggerLevel || LoggerLevel.debug)
+        return new ConsoleLogger(config.get('loggerLevel') as LoggerLevel || LoggerLevel.debug)
     },
     deps: [NgerConfig]
 }]);

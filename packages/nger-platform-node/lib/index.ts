@@ -1,4 +1,4 @@
-import { createPlatformFactory, Logger, FileSystem, Resolver } from 'nger-core'
+import { createPlatformFactory, Logger, FileSystem, Resolver, NgerConfig, APP_ROOT, NGER_CONFIG } from 'nger-core'
 import { NgerUtil } from 'nger-util'
 import ngerPlatformAxios from 'nger-platform-axios'
 import fs from 'fs-extra';
@@ -9,6 +9,18 @@ import {
     ResolverFactory
 } from 'enhanced-resolve';
 export default createPlatformFactory(ngerPlatformAxios, 'node', [
+    {
+        provide: APP_ROOT,
+        useValue: process.cwd()
+    },
+    {
+        provide: NGER_CONFIG,
+        useFactory: (root: string) => {
+            return require(join(root, 'config/config.json'))
+        },
+        deps: [APP_ROOT],
+        multi: true
+    },
     {
         provide: NgerUtil,
         useClass: NgerUtil,

@@ -6,7 +6,7 @@ export enum LoggerLevel {
     error,
 }
 import { ConnectionOptions } from 'typeorm';
-export class NgerConfig {
+export interface INgerConfig {
     // 是否监控文件变化
     watch: boolean;
     // 打印日志等级
@@ -20,4 +20,41 @@ export class NgerConfig {
     };
     // db
     db: ConnectionOptions;
+    admin: string;
+    h5: string;
+    pc: string;
+    weapp: string;
+    alipay: string;
+}
+import { InjectionToken } from 'nger-di';
+import { Inject } from '../decorators/inject';
+type INgerConfigKey = keyof INgerConfig;
+export const NGER_CONFIG = new InjectionToken<INgerConfig>(`NGER_CONFIG`)
+export class NgerConfig {
+    config: any = {}
+    constructor(@Inject(NGER_CONFIG) configs: INgerConfig[]) {
+        if (Array.isArray(configs)) {
+            configs.map(cfg => {
+                this.config = {
+                    ...this.config,
+                    ...cfg
+                }
+            })
+        } else {
+            console.log(configs)
+        }
+    }
+    
+    get(name: INgerConfigKey): INgerConfig[INgerConfigKey] {
+        const config: any = this.config[name];
+        if (config) {
+            return config
+        } else {
+            return config;
+        }
+    }
+
+    set(name: INgerConfigKey, value: INgerConfig[INgerConfigKey]) {
+        this.config[name] = value;
+    }
 }

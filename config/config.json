@@ -12,10 +12,9 @@
         "name": "nger",
         "synchronize": true
     },
-    "weapp": {
-        "outputDir": "addons",
-        "sourceDir": "src",
-        "templateDir": ".temp",
-        "npmDir": "npm"
-    }
+    "admin": "src/admin.ts",
+    "h5": "src/app.ts",
+    "pc": "src/pc.ts",
+    "weapp": "src/app.ts",
+    "alipay": "src/app.ts"
 }

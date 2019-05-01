@@ -1,23 +1,11 @@
 import { exec } from 'shelljs';
 import { execSync } from 'child_process';
 import { join } from 'path';
-import { existsSync } from 'fs';
 import { Logger, NgerConfig } from 'nger-core';
 import { CompilerOptions } from 'typescript'
 export class NgerUtil {
     root: string = process.cwd()
     constructor(public logger: Logger, public config: NgerConfig) { }
-    /** 加载配置文件 */
-    loadConfig(): NgerConfig {
-        const configPath = join(this.root, 'config/config.json');
-        if (this.config) {
-            return this.config;
-        }
-        if (existsSync(configPath)) {
-            this.config = require(join(this.root, 'config/config.json'));
-        }
-        return this.config;
-    }
 
     getCompilerOptions(): CompilerOptions {
         return require(join(this.root, 'tsconfig')).compilerOptions
@@ -42,20 +30,17 @@ export class NgerUtil {
     }
     /** 安装包 */
     addPkg(name: string) {
-        let cfg = this.loadConfig();
         let command: string = '';
-        if (!cfg) {
-            // cnpm 优先
-            cfg = cfg || { npm: 'yarn' } as any;
-            if (this.shouldUseYarn()) {
-                cfg.npm = 'yarn';
-            } else if (this.shouldUseCnpm()) {
-                cfg.npm = 'cnpm';
-            } else {
-                cfg.npm = 'npm';
-            }
+        // cnpm 优先
+        if (this.shouldUseYarn()) {
+            this.config.set('npm', 'yarn')
+        } else if (this.shouldUseCnpm()) {
+            this.config.set('npm', 'cnpm')
+        } else {
+            this.config.set('npm', 'npm')
         }
-        switch (cfg.npm) {
+        const npm = this.config.get('npm');
+        switch (npm) {
             case 'yarn':
                 command = `yarn add ${name}`
                 break;
