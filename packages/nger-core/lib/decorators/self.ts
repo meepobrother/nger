@@ -1,8 +1,8 @@
-import { makeDecorator, ConstructorContext, ConstructorAst } from 'ims-decorator';
+import { makeDecorator,TypeDecorator, ConstructorContext, ConstructorAst } from 'ims-decorator';
 export const SelfMetadataKey = 'SelfMetadataKey';
 export interface SelfOptions { }
 export interface SelfDecorator {
-    (): SelfOptions;
+    (): TypeDecorator;
     new(): SelfOptions;
 }
 export const Self: SelfDecorator = makeDecorator<SelfOptions>(SelfMetadataKey);

@@ -1,8 +1,8 @@
-import { makeDecorator, ConstructorContext, ConstructorAst } from 'ims-decorator';
+import { makeDecorator,TypeDecorator, ConstructorContext, ConstructorAst } from 'ims-decorator';
 export const HostMetadataKey = 'HostMetadataKey';
 export interface HostOptions { }
 export interface HostDecorator {
-    (): HostOptions;
+    (): TypeDecorator;
     new(): HostOptions;
 }
 export const Host: HostDecorator = makeDecorator<HostOptions>(HostMetadataKey);
