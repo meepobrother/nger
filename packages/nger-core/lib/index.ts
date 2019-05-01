@@ -37,3 +37,4 @@ export * from './platform/custom_elements';
 
 export * from './platform/component_factory';
 export * from './decorators/public_api'
+export * from './version'

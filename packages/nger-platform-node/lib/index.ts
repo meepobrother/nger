@@ -1,9 +1,6 @@
-import { createPlatformFactory, Logger, NgModuleBootstrap, FileSystem, Resolver } from 'nger-core'
+import { createPlatformFactory, Logger, FileSystem, Resolver } from 'nger-core'
 import { NgerUtil } from 'nger-util'
 import ngerPlatformAxios from 'nger-platform-axios'
-import { NgerPlatformNode } from './core/index'
-import styleProviders, { NgerPlatformStyle } from 'nger-provider-style'
-import typescriptProviders, { NgerCompilerTypescript, NgerBabel } from 'nger-provider-typescript'
 import fs from 'fs-extra';
 import { dirname, join } from 'path'
 import {
@@ -12,14 +9,7 @@ import {
     ResolverFactory
 } from 'enhanced-resolve';
 export default createPlatformFactory(ngerPlatformAxios, 'node', [
-    ...styleProviders,
-    ...typescriptProviders,
     {
-        provide: NgModuleBootstrap,
-        useClass: NgerPlatformNode,
-        deps: [FileSystem, Logger, NgerPlatformStyle, NgerCompilerTypescript, NgerBabel],
-        multi: true
-    }, {
         provide: NgerUtil,
         useClass: NgerUtil,
         deps: [
