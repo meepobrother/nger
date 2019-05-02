@@ -3,11 +3,8 @@ import { ChangeDetectorRef } from './change_detector_ref';
 import { Component, ComponentOptions } from '../decorators/component'
 // 这个是真实的组件 P代表react中的Props,S代表State
 // 这个是为了更好的融合react/preact才加上的
-import { BehaviorSubject } from 'rxjs'
+import { Subject } from 'rxjs'
 export class ComponentRef<C> {
-    get options(): any[] {
-        return this._options;
-    }
     get injector(): Injector {
         return this._injector;
     }
@@ -31,11 +28,9 @@ export class ComponentRef<C> {
     get changeDetectorRef(): ChangeDetectorRef {
         return this._changeDetectorRef;
     }
-    get props(): BehaviorSubject<any> {
+    get props(): Subject<any> {
         return this._props
     }
-    _options: any[];
-    _props: BehaviorSubject<any>;
     _location: any;
     _hostView: any;
     _component: Component;
@@ -45,10 +40,8 @@ export class ComponentRef<C> {
         // todo
         private _changeDetectorRef: ChangeDetectorRef,
         private _componentType: Type<C>,
-        _options: any[]
-    ) { 
-        this._options = _options;
-    }
+        private _props: Subject<any>
+    ) { }
     destroy(): void { }
     onDestroy(callback: Function): void { }
 }

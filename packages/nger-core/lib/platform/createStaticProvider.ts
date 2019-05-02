@@ -81,7 +81,7 @@ export function createStaticProvider(context: TypeContext, providers: StaticProv
             let impContext = context.visitType(imp) as TypeContext;
             // 是否要记录呢
             ngModule.declarations.push(impContext);
-            // 这部分不加入依赖注入
+            // 这部分不加入依赖注入,这个地方
             providers.push({
                 provide: imp,
                 useFactory: (...params: any[]) => new imp(...params),

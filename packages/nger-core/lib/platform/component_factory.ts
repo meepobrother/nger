@@ -5,9 +5,10 @@ import { TypeContext, } from 'ims-decorator';
 import { ParserVisitor } from './parser_visitor'
 import { ComponentClassAst, ComponentOptions } from '../decorators/component';
 
-import { ChangeDetectorRef } from './change_detector_ref';
+import { ChangeDetectorRef, DefaultChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
-import { VNode } from '../decorators/jsx'
+import { Subject } from 'rxjs';
+import { handlerTypeContextToParams } from './createStaticProvider'
 // 这个是编译后的模板文件
 export const ComponentTemplateToken = new InjectionToken<string>(`ComponentTemplateToken`);
 // 这个是编译后的样式文件
@@ -57,6 +58,7 @@ export class ComponentFactory<C> {
     constructor(
         private _context: TypeContext,
     ) {
+        this._componentType = this._context.target;
         this.context.classes.map(cls => {
             if (cls instanceof ComponentClassAst) {
                 this._def = cls.ast.metadataDef;
@@ -92,19 +94,27 @@ export class ComponentFactory<C> {
         // 这里需要运行custom element
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)
+        const props = new Subject();
+        const changeDetector = new DefaultChangeDetectorRef(props)
         const currentInjector = injector.create([{
+            provide: this.componentType,
+            useFactory: (...params: any[]) => new this.componentType(...params),
+            deps: handlerTypeContextToParams(this.context)
+        }, {
             provide: ComponentFactory,
-            useValue: this
-        }])
-        const instance = currentInjector.get(target) as C;
-        // 属性
+            useValue: this,
+            deps: []
+        }, {
+            provide: ChangeDetectorRef,
+            useValue: changeDetector,
+            deps: []
+        }], target.name);
+        let instance = currentInjector.get(target) as C;
         // 解析一些属性并赋值
         const parserVisitor = currentInjector.get(ParserVisitor);
         this._context.injector = currentInjector;
         parserVisitor.parse(instance, this._context);
-        const change = currentInjector.get(ChangeDetectorRef)
-        let def: any[] = [];
-        this._context.classes.map(cls => def.push(cls.ast.metadataDef))
-        return new ComponentRef(currentInjector, instance, change, target, def);
+        // 设置代理
+        return new ComponentRef(currentInjector, instance, changeDetector, target, props);
     }
 }

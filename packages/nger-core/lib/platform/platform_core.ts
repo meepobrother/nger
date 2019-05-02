@@ -14,6 +14,8 @@ import { ApplicationRef } from './application_ref'
 import { ComponentCreator } from './component_factory'
 import { PLATFORM_INITIALIZER } from './application_tokens'
 import { NGER_CONFIG, INgerConfig } from '../sdk/nger-config'
+import { Subject } from 'rxjs'
+export const topSubject = new Subject();
 export const platformCore = createPlatformFactory(null, 'core', [{
     provide: APP_INITIALIZER,
     useValue: () => { },
@@ -40,8 +42,7 @@ export const platformCore = createPlatformFactory(null, 'core', [{
     deps: [Injector]
 }, {
     provide: ChangeDetectorRef,
-    useClass: DefaultChangeDetectorRef,
-    deps: [],
+    useValue: new DefaultChangeDetectorRef(topSubject),
     multi: false
 }, {
     provide: ALLOW_MULTIPLE_PLATFORMS,

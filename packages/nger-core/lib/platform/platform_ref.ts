@@ -33,7 +33,7 @@ export class PlatformRef {
         options?: BootstrapOptions
     ): Promise<NgModuleRef<M>> {
         // todo 注入启动参数
-        const injector = this.injector.create([]);
+        const injector = this.injector.create([], moduleFactory.moduleType.name);
         const moduleRef = moduleFactory.create(injector);
         const exceptionHandler = moduleRef.injector.get(ErrorHandler, undefined) as ErrorHandler;
         if (!exceptionHandler) {

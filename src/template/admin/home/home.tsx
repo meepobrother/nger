@@ -1,5 +1,6 @@
-import { Input, Component, OnChanges } from 'nger-core'
+import { Input, Component, OnChanges, ChangeDetectorRef } from 'nger-core'
 import { h } from 'preact';
+import { Injector } from 'nger-di';
 @Component({
     selector: `app-root`,
     templateUrl: `./home.html`,
@@ -9,11 +10,15 @@ import { h } from 'preact';
     }
 })
 export class HomePage implements OnChanges {
-    constructor() {
+    constructor(public change: ChangeDetectorRef, public injector: Injector) {
         let i = 0;
+        console.log(injector)
+        const def = injector.get(ChangeDetectorRef)
         setInterval(() => {
             i = i + 1;
             this.title = `home page ${i}`
+            def.markForCheck();
+            console.log(this.title)
         }, 1000)
     }
 

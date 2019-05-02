@@ -4,7 +4,7 @@ import { ComponentFactory } from './component_factory'
 import { ComponentCreator } from './component_factory'
 export class ComponentFactoryResolver {
     private map: Map<Type<any>, TypeContext> = new Map();
-    constructor(contexts: TypeContext[], injector: Injector) {
+    constructor(contexts: TypeContext[], public injector: Injector) {
         contexts.map(ctx => {
             // 这个时候需要注册
             const creators = injector.get(ComponentCreator);

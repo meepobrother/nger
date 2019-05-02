@@ -61,11 +61,24 @@ export abstract class ViewContainerRef {
     abstract remove(index?: number): void;
     abstract detach(index?: number): ViewRef | null;
 }
-
+import { Subject } from 'rxjs'
 export class DefaultChangeDetectorRef extends ChangeDetectorRef {
-    markForCheck(): void { }
-    detach(): void { }
-    detectChanges(): void { }
-    checkNoChanges(): void { }
-    reattach(): void { }
+    constructor(public subject: Subject<any>) {
+        super();
+    }
+    markForCheck(): void {
+        this.subject.next();
+    }
+    detach(): void {
+        this.subject.next();
+    }
+    detectChanges(): void {
+        this.subject.next();
+    }
+    checkNoChanges(): void {
+        this.subject.next();
+    }
+    reattach(): void {
+        this.subject.next();
+    }
 }
