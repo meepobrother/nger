@@ -6,11 +6,9 @@ import { CompilerOptions } from 'typescript'
 export class NgerUtil {
     root: string = process.cwd()
     constructor(public logger: Logger, public config: NgerConfig) { }
-
     getCompilerOptions(): CompilerOptions {
         return require(join(this.root, 'tsconfig')).compilerOptions
     }
-
     /** 加载包 */
     async loadPkg<T = any>(name: string, attr?: string): Promise<T> {
         let target: any;
@@ -32,14 +30,15 @@ export class NgerUtil {
     addPkg(name: string) {
         let command: string = '';
         // cnpm 优先
-        if (this.shouldUseYarn()) {
-            this.config.set('npm', 'yarn')
-        } else if (this.shouldUseCnpm()) {
+        if (this.shouldUseCnpm()) {
             this.config.set('npm', 'cnpm')
+        }else if (this.shouldUseYarn()) {
+            this.config.set('npm', 'yarn')
         } else {
             this.config.set('npm', 'npm')
         }
         const npm = this.config.get('npm');
+        console.log(npm)
         switch (npm) {
             case 'yarn':
                 command = `yarn add ${name}`

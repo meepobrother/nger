@@ -1,4 +1,4 @@
-import { createPlatformFactory, Logger, FileSystem, Resolver, APP_ROOT, NGER_CONFIG } from 'nger-core'
+import { createPlatformFactory, Logger, NgerConfig, FileSystem, Resolver, APP_ROOT, NGER_CONFIG } from 'nger-core'
 import { NgerUtil } from 'nger-util'
 import ngerPlatformAxios from 'nger-platform-axios'
 import fs from 'fs-extra';
@@ -26,7 +26,8 @@ export default createPlatformFactory(ngerPlatformAxios, 'node', [
         provide: NgerUtil,
         useClass: NgerUtil,
         deps: [
-            Logger
+            Logger,
+            NgerConfig
         ]
     }, {
         provide: FileSystem,

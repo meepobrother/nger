@@ -21,19 +21,11 @@ const TerserPlugin = require('terser-webpack-plugin');
         provide: WebpackConfigToken,
         useFactory: (injector: Injector) => {
             const dev = injector.get(IS_DEV);
-            let output = {
+            const output = {
                 path: join(root, 'template/admin'),
-                publicPath: `/template/admin/`,
+                publicPath: dev? `/`: '/admin',
                 filename: '[name]_[hash].bound.js',
                 chunkFilename: '[name]_[hash].chunk.js'
-            }
-            if (dev) {
-                output = {
-                    path: join(root, 'template/admin'),
-                    publicPath: `/`,
-                    filename: '[name]_[hash].bound.js',
-                    chunkFilename: '[name]_[hash].chunk.js'
-                }
             }
             return {
                 entry: {
