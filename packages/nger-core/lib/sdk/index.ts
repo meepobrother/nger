@@ -5,3 +5,4 @@ export * from './history';
 export * from './file_system';
 export * from './resolver';
 export * from './traverse';
+export * from './router';
