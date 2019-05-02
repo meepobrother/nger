@@ -18,25 +18,22 @@ export class BrowserApplicationRef extends ApplicationRef {
             return componentFactoryResolver.resolveComponentFactory(componentOrFactory).create(this.injector)
         }
     }
-    attachView(view: Type<any>, injector: Injector) {
+    attachView(ref: ComponentRef<any>, injector: Injector) {
         try {
-            const resolver = injector.get(ComponentFactoryResolver)
-            const factory = resolver.resolveComponentFactory(view)
-            const ref = factory.create(injector)
+            const factory = ref.injector.get(ComponentFactory)
             const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
             //这里渲染preact
             const element = document.createElement(factory.selector);
             const tpl = factory.def.render;
             const res = tpl(ref.instance)
             render(res, parent.nativeElement)
-            parent.nativeElement.appendChild(element);
-            super.attachView(view, injector);
+            super.attachView(ref, injector);
             const nowTime = new Date().getTime();
             const totalTime = nowTime - (window as any).nger.startTime
             console.log(`总耗时:${totalTime}ms`);
         } catch (e) {
             console.log({
-                view, injector,
+                ref, injector,
                 e
             })
         }

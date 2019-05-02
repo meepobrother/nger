@@ -47,11 +47,7 @@ export class ComponentFactory<C> {
     get type(): string {
         return this._type;
     }
-    get template(): VNode {
-        return this._template;
-    }
     private _def: ComponentOptions;
-    private _template: VNode;
     private _selector: string;
     private _componentType: Type<any>;
     private _ngContentSelectors: string[];
@@ -107,6 +103,8 @@ export class ComponentFactory<C> {
         this._context.injector = currentInjector;
         parserVisitor.parse(instance, this._context);
         const change = currentInjector.get(ChangeDetectorRef)
-        return new ComponentRef(currentInjector, instance, change, target);
+        let def: any[] = [];
+        this._context.classes.map(cls => def.push(cls.ast.metadataDef))
+        return new ComponentRef(currentInjector, instance, change, target, def);
     }
 }

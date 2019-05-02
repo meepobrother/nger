@@ -1,11 +1,4 @@
 # `nger-platform-h5`
 
-> TODO: description
+> 先放在这里，后面会移动到nger-platform-browser
 
-## Usage
-
-```
-const ngerPlatformH5 = require('nger-platform-h5');
-
-// TODO: DEMONSTRATE API
-```

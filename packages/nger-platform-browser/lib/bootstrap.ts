@@ -34,16 +34,15 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
         if (bootstrap) {
             bootstrap.map(async boot => {
                 // 拿到component ref
-                // const resolve = ref.injector.get(ComponentFactoryResolver)
-                // const factory = resolve.resolveComponentFactory(boot);
-                // root.innerHTML = `<${factory.selector}/>`;
-                // console.dir(root.firstElementChild)
-                // const compRef = factory.create(ref.injector);
+                const resolve = ref.injector.get(ComponentFactoryResolver)
+                const factory = resolve.resolveComponentFactory(boot);
+                const compRef = factory.create(ref.injector);
                 ref.injector.setStatic([{
                     provide: ElementRef,
                     useValue: new ElementRef(root)
                 }])
-                application.attachView(boot, ref.injector)
+                // 启动应用
+                application.attachView(compRef, ref.injector)
             });
         }
     }

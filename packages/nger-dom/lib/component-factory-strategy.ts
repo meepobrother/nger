@@ -130,19 +130,16 @@ export class ComponentNgElementStrategy<T> implements NgElementStrategy {
     // 项目node elements
     const projectableNodes =
       extractProjectableNodes(element, this.componentFactory.ngContentSelectors);
-    console.log({
-      projectableNodes
-    });
     // element
     this.componentRef = this.componentFactory.create(childInjector);
     // host view
-
     this.implementsOnChanges =
       isFunction((this.componentRef.instance as any as OnChanges).ngOnChanges);
     this.initializeInputs();
     this.initializeOutputs();
     this.detectChanges();
     const applicationRef = this.injector.get<ApplicationRef>(ApplicationRef);
+    // 挂载页面
     applicationRef.attachView(this.componentRef, childInjector);
   }
 

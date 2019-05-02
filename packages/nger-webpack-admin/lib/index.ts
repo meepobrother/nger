@@ -62,7 +62,7 @@ const TerserPlugin = require('terser-webpack-plugin');
                         template: join(__dirname, 'index.html'),
                         filename: 'index.html',
                         chunks: [
-                            'manifest', 'vendors', 'main'
+                            'runtime', 'vendor', 'common', 'main'
                         ],
                     }),
                     new webpack.WatchIgnorePlugin([
