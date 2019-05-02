@@ -1,5 +1,8 @@
 import { makeDecorator, PropertyAst, PropertyContext } from 'ims-decorator';
-export type ValidateFN<T = any> = (val: any, that: T) => string;
+export type ValidateFN<T = any> = (val: any, that: T) => {
+    status: 0 | -1;
+    message?: string;
+};
 export interface ValidateOptions<T = any> {
     validateFn: ValidateFN<T>;
 }

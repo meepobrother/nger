@@ -11,6 +11,7 @@ import { NgModule } from 'nger-core';
 import { NgerCliBuild } from './build/build'
 import { NgerCliStart } from './start/start'
 import { PackCommand } from './pack'
+import { DevCommand } from './dev'
 
 @NgModule({
     imports: [],
@@ -20,7 +21,8 @@ import { PackCommand } from './pack'
         TestCommand,// 测试命令
         StartCommand,// 启动命令
         PublishCommand,// 发布命令
-        PackCommand// 打包命令
+        PackCommand,// 打包命令,
+        DevCommand
     ],
     providers: [
         NgerCliStart,

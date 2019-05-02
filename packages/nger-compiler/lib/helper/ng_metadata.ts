@@ -32,6 +32,25 @@ export class NgerCompilerNgMetadata {
         return result;
     }
 
+    getControllerConfig(data: cli.ModuleMetadata) {
+        const { metadata } = data;
+        let result: any = {};
+        Object.keys(metadata).map(key => {
+            const meta = metadata[key];
+            if (cli.isClassMetadata(meta)) {
+                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
+                    return meta.module === 'nger-core' && meta.name === 'Controller'
+                }) as cli.MetadataSymbolicCallExpression;
+                const args = decorator && decorator.arguments;
+                args && args.map(arg => {
+                    let val = h.transformMetadataValue(arg);
+                    result = val;
+                });
+            }
+        });
+        return result;
+    }
+
     getComponentConfig(data: cli.ModuleMetadata) {
         const { metadata } = data;
         let result: any = {};
@@ -41,7 +60,7 @@ export class NgerCompilerNgMetadata {
                 const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
                     return meta.module === 'nger-core' && meta.name === 'Component'
                 }) as cli.MetadataSymbolicCallExpression;
-                const args = decorator.arguments;
+                const args = decorator && decorator.arguments;
                 args && args.map(arg => {
                     let val = h.transformMetadataValue(arg);
                     result = val;

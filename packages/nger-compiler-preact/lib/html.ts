@@ -1,17 +1,11 @@
 // 将ng模板编译成preact可以执行的文件
-import { NgModuleConfig } from './types'
+import { NgerComponentConfig } from './types'
 import { Injector } from 'nger-di';
-import { ComponentFactoryResolver } from 'nger-core';
 
 // 需要将模板转换成preact
 export class NgerCompilerPreactHtml {
     constructor(public injector: Injector) { }
-    async run(config: NgModuleConfig) {
-        const { declarations } = config;
-        const resolver = this.injector.get(ComponentFactoryResolver)
-        declarations.map(comp => {
-            const factory = resolver.resolveComponentFactory(comp)
-            console.log(comp)
-        });
+    async run(config: NgerComponentConfig) {
+        
     }
 }

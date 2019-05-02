@@ -1,7 +1,9 @@
 // 将ng模板编译成preact可以执行的文件
-import { NgModuleConfig } from './types'
+import { NgerComponentConfig } from './types'
+import { NgerCompilerImage } from 'nger-compiler'
 export class NgerCompilerPreactAssets {
-    async run(config: NgModuleConfig) {
-
+    constructor(public image: NgerCompilerImage) { }
+    async run(config: NgerComponentConfig) {
+        
     }
 }

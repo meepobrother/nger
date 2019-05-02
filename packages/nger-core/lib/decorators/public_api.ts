@@ -19,4 +19,3 @@ export * from './content-children';
 export * from './output';
 export * from './page';
 export * from './types';
-export { VNode } from './jsx'

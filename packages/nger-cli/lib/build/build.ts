@@ -9,6 +9,7 @@ import ts = require('gulp-typescript');
 import fs from 'fs-extra';
 import platformBuildAdmin from './builder/admin';
 import { NgerCliBuildAminBuilder } from './builder/admin';
+import ngerPlatformPreact from 'nger-compiler-preact';
 const root = process.cwd();
 @Injectable()
 export class NgerCliBuild {
@@ -35,13 +36,14 @@ export class NgerCliBuild {
     /** 后台 */
     async admin(isDev: boolean) {
         await _rimraf(join(root, 'template/admin'));
+        const compilers = isDev ? ngerPlatformPreact : [];
         platformBuildAdmin([{
             provide: PLATFORM_ID,
             useValue: 'admin'
         }, {
             provide: IS_DEV,
             useValue: isDev
-        }]).bootstrapModule(NgerCliBuildAminBuilder).then(ref => { })
+        }, ...compilers]).bootstrapModule(NgerCliBuildAminBuilder).then(ref => { })
     }
 
     async dev(name: string) {

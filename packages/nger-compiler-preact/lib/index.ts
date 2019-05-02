@@ -6,7 +6,8 @@ import { NgerCompilerPreactAssets } from './assets'
 import { StaticProvider, Injector } from 'nger-di';
 import { NgerCompilerNgMetadata } from 'nger-compiler'
 import { NgModuleBootstrap, NgerConfig } from 'nger-core'
-const provider: StaticProvider[] = [{
+import ngerCompiler, { NgerPlatformStyle } from 'nger-compiler'
+const provider: StaticProvider[] = [...ngerCompiler, {
     provide: NgModuleBootstrap,
     useClass: NgerCompilerPreact,
     deps: [
@@ -25,7 +26,7 @@ const provider: StaticProvider[] = [{
 }, {
     provide: NgerCompilerPreactStyle,
     useClass: NgerCompilerPreactStyle,
-    deps: []
+    deps: [NgerPlatformStyle]
 }, {
     provide: NgerCompilerPreactTypescript,
     useClass: NgerCompilerPreactTypescript,

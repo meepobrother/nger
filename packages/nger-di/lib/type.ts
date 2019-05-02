@@ -1,5 +1,6 @@
 export interface Type<T> extends Function {
     new(...args: any[]): T;
+    defaultProps?: any;
 }
 export function isType<T>(val: any): val is Type<T> {
     return typeof val === 'function'

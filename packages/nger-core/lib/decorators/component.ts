@@ -3,7 +3,6 @@ export const ComponentMetadataKey = 'ComponentMetadataKey';
 import { DirectiveOptions } from './directive'
 import { ViewEncapsulation, ChangeDetectionStrategy } from './types'
 import { Provider, Type } from 'nger-di'
-import { VNode, FunctionalComponent } from './jsx'
 export interface ComponentOptions<T = any> extends DirectiveOptions {
     changeDetection?: ChangeDetectionStrategy;
     viewProviders?: Provider[];

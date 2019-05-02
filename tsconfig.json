@@ -41,6 +41,9 @@
       "nger-core": [
         "packages/nger-core/lib/index.ts"
       ],
+      "nger-watcher": [
+        "packages/nger-watcher/lib/index.ts"
+      ],
       "nger-module-pm2": [
         "packages/nger-module-pm2/lib/index.ts"
       ],

@@ -16,7 +16,18 @@ export class NgerPlatformStyle {
         public stylus: NgerCompilerStylus
     ) { }
 
+    async compileWeapp(code: string) {
+        return await this.postcss.compileWeapp(code, {});
+    }
+
     async compile(code: string, type: 'less' | 'sass' | 'scss' | 'stylus' | 'css') {
+        let result = await this.compileStyle(code, type)
+        result = await this.postcss.compile(result, {});
+        result = await this.csso.compile(result, {});
+        return code;
+    }
+
+    async compileStyle(code: string, type: 'less' | 'sass' | 'scss' | 'stylus' | 'css') {
         switch (type) {
             case 'less':
                 code = await this.less.compile(code, {});
@@ -31,8 +42,8 @@ export class NgerPlatformStyle {
             default:
                 break;
         }
-        code = await this.postcss.compile(code, {});
-        code = await this.csso.compile(code, {});
+
         return code;
     }
+
 }
