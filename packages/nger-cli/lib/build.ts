@@ -18,6 +18,11 @@ export class BuildCommand {
     @Inject() build: NgerCliBuild;
 
     @Option({
+        alias: 'n'
+    }) 
+    name: string;
+
+    @Option({
         alias: 'w'
     })
     watch: boolean = false;
@@ -65,10 +70,15 @@ export class BuildCommand {
                 break;
             case 'lib':
                 const libPkgs = fs.readdirSync(join(root, 'packages'))
-                for (let pkg of libPkgs) {
-                    if (pkg.startsWith('.')) { } else {
-                        this.logger.warn(`build.lib: ${pkg}`);
-                        await this.build.dev(pkg)
+                if(this.name){
+                    this.logger.warn(`build.lib: ${this.name}`);
+                    await this.build.dev(this.name)
+                }else{
+                    for (let pkg of libPkgs) {
+                        if (pkg.startsWith('.')) { } else {
+                            this.logger.warn(`build.lib: ${pkg}`);
+                            await this.build.dev(pkg)
+                        }
                     }
                 }
                 break;
