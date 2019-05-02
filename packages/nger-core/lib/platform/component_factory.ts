@@ -3,7 +3,8 @@ import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
 import { TypeContext, } from 'ims-decorator';
 import { ParserVisitor } from './parser_visitor'
-import { ComponentClassAst } from '../decorators/component';
+import { ComponentClassAst, ComponentOptions } from '../decorators/component';
+
 import { ChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
 import { VNode } from '../decorators/jsx'
@@ -13,8 +14,6 @@ export const ComponentTemplateToken = new InjectionToken<string>(`ComponentTempl
 export const ComponentStyleToken = new InjectionToken<string>(`ComponentStyleToken`);
 // 这个是编译后的json文件
 export const ComponentPropToken = new InjectionToken<object>(`ComponentPropToken`);
-// 这个是当前dom对象，仅在浏览器环境下生效
-export const ElementRef = new InjectionToken<HTMLDivElement>(`ElementRef`);
 // 这个是样式挂载文件
 export const StyleRef = new InjectionToken<HTMLStyleElement>(`StyleRef`);
 
@@ -42,12 +41,16 @@ export class ComponentFactory<C> {
     get context(): TypeContext {
         return this._context;
     }
+    get def(): ComponentOptions {
+        return this._def;
+    }
     get type(): string {
         return this._type;
     }
     get template(): VNode {
         return this._template;
     }
+    private _def: ComponentOptions;
     private _template: VNode;
     private _selector: string;
     private _componentType: Type<any>;
@@ -59,7 +62,8 @@ export class ComponentFactory<C> {
         private _context: TypeContext,
     ) {
         this.context.classes.map(cls => {
-            if (cls instanceof ComponentClassAst || cls instanceof ComponentClassAst) {
+            if (cls instanceof ComponentClassAst) {
+                this._def = cls.ast.metadataDef;
                 this.handlerComponent(cls)
             }
         });
@@ -92,15 +96,17 @@ export class ComponentFactory<C> {
         // 这里需要运行custom element
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)
-        if (injector.create) {
-            this._context.injector = injector.create([]);
-        }
-        const instance = this._context.injector.get(target) as C;
+        const currentInjector = injector.create([{
+            provide: ComponentFactory,
+            useValue: this
+        }])
+        const instance = currentInjector.get(target) as C;
         // 属性
         // 解析一些属性并赋值
-        const parserVisitor = this._context.injector.get(ParserVisitor);
+        const parserVisitor = currentInjector.get(ParserVisitor);
+        this._context.injector = currentInjector;
         parserVisitor.parse(instance, this._context);
-        const change = this._context.injector.get(ChangeDetectorRef)
-        return new ComponentRef(this._context.injector, instance, change, target);
+        const change = currentInjector.get(ChangeDetectorRef)
+        return new ComponentRef(currentInjector, instance, change, target);
     }
 }

@@ -67,20 +67,16 @@ export function transformMetadataImportedSymbolReferenceExpression(meta: cli.Met
 export function transformMetadataSymbolicSpreadExpression(meta: cli.MetadataSymbolicSpreadExpression) {
     const { expression } = meta;
     // todo
-    console.log(`todo`)
     return transformMetadataValue(expression)
 }
 export function transformMetadataSymbolicSelectExpression(meta: cli.MetadataSymbolicSelectExpression) {
     const { expression, member } = meta;
     // todo
-    console.log(`todo`)
     transformMetadataValue(expression)
 }
 export function transformFunctionMetadata(meta: cli.FunctionMetadata) {
-    console.log(meta)
 }
 export function transformInterfaceMetadata(meta: cli.InterfaceMetadata) {
-    console.log(meta)
 }
 export function transformClassMetadata(meta: cli.ClassMetadata) {
     const { decorators } = meta;

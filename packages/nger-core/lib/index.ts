@@ -12,11 +12,11 @@ export * from './authGuard';
 export * from './isDevMode';
 export * from './effect';
 export * from './sdk';
-
+export * from './platform/change_detector_ref';
+export * from './platform/component_factory';
 export * from './validate/index';
 /** platform */
 export * from './platform/application_init_status';
-export * from './platform/change_detector_ref';
 export * from './platform/component_factory_resolver';
 export * from './platform/component_ref';
 export * from './platform/error_handler';
@@ -34,7 +34,7 @@ export * from './platform/createPlatformFactory';
 export * from './platform/platform_core';
 export * from './platform/application_ref';
 export * from './platform/custom_elements';
+export * from './platform/render';
 
-export * from './platform/component_factory';
 export * from './decorators/public_api'
 export * from './version'

@@ -30,6 +30,7 @@ export class WebpackService {
     }
 
     /** 运行 */
+    startTime = new Date().getTime();
     build() {
         this.compiler.run((err) => {
             this.printBuildError(err);
@@ -57,7 +58,7 @@ export class WebpackService {
                 console.log((message || err) + '\n')
             }
         } else {
-            this.logger.info(`系统构建成功`)
+            this.logger.info(`系统构建成功${new Date().getTime() - this.startTime}ms`);
         }
     }
 }

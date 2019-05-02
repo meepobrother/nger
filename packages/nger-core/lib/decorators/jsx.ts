@@ -36,35 +36,8 @@ export interface Attributes {
 export type RenderableProps<P, RefType = any> = Readonly<
     P & Attributes & { children?: ComponentChildren; ref?: Ref<RefType> }
 >;
-export abstract class ReactComponent<P = any, S = any>{
-    constructor(props?: P, context?: any) { }
-    static displayName?: string;
-    static defaultProps?: any;
-    state: Readonly<S>;
-    props: RenderableProps<P>;
-    context: any;
-    base?: HTMLElement;
-    setState<K extends keyof S>(state: Pick<S, K>, callback?: () => void): void;
-    setState<K extends keyof S>(fn: (prevState: S, props: P) => Pick<S, K>, callback?: () => void): void;
-    setState<K extends keyof S>(...args: any[]) { }
-    forceUpdate(callback?: () => void): void { }
-    abstract render(props?: RenderableProps<P>, state?: Readonly<S>, context?: any): ComponentChild;
-}
-export interface NgerComponent<P> { }
-export interface NgerElementAttributesProperty {
-    props: this;
-}
+
 declare global {
-    function h(
-        node: string,
-        params: JSX.HTMLAttributes & JSX.SVGAttributes & Record<string, any> | null,
-        ...children: ComponentChildren[]
-    ): VNode<any>;
-    function h<P>(
-        node: IComponentFactory<P>,
-        params: Attributes & P | null,
-        ...children: ComponentChildren[]
-    ): VNode<P>;
     namespace JSX {
         // 这里要自动注册么？
         interface SVGAttributes { }
@@ -77,7 +50,7 @@ declare global {
         interface ElementClass { }
         interface HTMLAttributes { }
         // 定义props
-        interface ElementAttributesProperty extends NgerElementAttributesProperty { }
+        interface ElementAttributesProperty { }
         // 定义children
         interface ElementChildrenAttribute {
             children: any;

@@ -5,7 +5,6 @@ import { WebpackService } from './providers/webpack';
 import { Configuration } from 'webpack'
 import { join } from 'path';
 const StatsPlugin = require('stats-webpack-plugin');
-
 const root = process.cwd();
 
 @NgModule({

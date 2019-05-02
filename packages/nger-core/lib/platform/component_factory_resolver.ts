@@ -17,7 +17,10 @@ export class ComponentFactoryResolver {
     }
     resolveComponentFactory<T>(component: Type<T>): ComponentFactory<T> {
         const context = this.map.get(component);
-        if (context) return new ComponentFactory<T>(context)
+        if (context) {
+            const factory = new ComponentFactory<T>(context)
+            return factory;
+        }
         throw new Error(`ComponentFactoryResolver: resolve component error`)
     }
     // 获取所有的组件

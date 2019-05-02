@@ -3,7 +3,7 @@ export const ComponentMetadataKey = 'ComponentMetadataKey';
 import { DirectiveOptions } from './directive'
 import { ViewEncapsulation, ChangeDetectionStrategy } from './types'
 import { Provider, Type } from 'nger-di'
-import { ReactComponent, VNode, FunctionalComponent } from './jsx'
+import { VNode, FunctionalComponent } from './jsx'
 export interface ComponentOptions<T = any> extends DirectiveOptions {
     changeDetection?: ChangeDetectionStrategy;
     viewProviders?: Provider[];
@@ -17,7 +17,7 @@ export interface ComponentOptions<T = any> extends DirectiveOptions {
     interpolation?: [string, string];
     entryComponents?: Array<Type<any> | any[]>;
     preserveWhitespaces?: boolean;
-    render?: VNode<T> | FunctionalComponent<any>;
+    render?: any;
 }
 // P 是props
 // S 是state

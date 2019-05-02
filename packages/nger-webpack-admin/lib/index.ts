@@ -79,12 +79,23 @@ import { Injector } from 'nger-di'
                         name: 'manifest'
                     },
                     splitChunks: {
+                        chunks: 'async',
+                        minSize: 30000,
+                        minChunks: 1,
+                        maxAsyncRequests: 5,
+                        maxInitialRequests: 3,
+                        name: true,
                         cacheGroups: {
                             vendor: {
                                 test: /[\\/]node_modules[\\/]/,
                                 name: "vendors",
                                 priority: -20,
                                 chunks: "all"
+                            },
+                            default: {
+                                minChunks: 2,
+                                priority: -20,
+                                reuseExistingChunk: true
                             }
                         }
                     }

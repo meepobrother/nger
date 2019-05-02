@@ -24,7 +24,7 @@ export class ApplicationRef {
             return componentFactoryResolver.resolveComponentFactory(componentOrFactory).create(this.injector)
         }
     }
-    attachView(view: any) {
+    attachView(view: any, injector: Injector) {
         this._views.push(view);
     }
     detachView(view: any) {

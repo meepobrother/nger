@@ -41,7 +41,6 @@ export class NgerConfig {
                 }
             })
         } else {
-            console.log(configs)
         }
     }
     

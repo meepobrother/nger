@@ -3,6 +3,7 @@ import { ChangeDetectorRef } from './change_detector_ref';
 import { Component } from '../decorators/component'
 // 这个是真实的组件 P代表react中的Props,S代表State
 // 这个是为了更好的融合react/preact才加上的
+import { BehaviorSubject } from 'rxjs'
 export class ComponentRef<C> {
     get injector(): Injector {
         return this._injector;
@@ -27,6 +28,11 @@ export class ComponentRef<C> {
     get changeDetectorRef(): ChangeDetectorRef {
         return this._changeDetectorRef;
     }
+
+    get props(): BehaviorSubject<any> {
+        return this._props
+    }
+    _props: BehaviorSubject<any>;
     _location: any;
     _hostView: any;
     _component: Component;

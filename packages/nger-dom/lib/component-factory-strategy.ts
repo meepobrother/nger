@@ -130,6 +130,9 @@ export class ComponentNgElementStrategy<T> implements NgElementStrategy {
     // 项目node elements
     const projectableNodes =
       extractProjectableNodes(element, this.componentFactory.ngContentSelectors);
+    console.log({
+      projectableNodes
+    });
     // element
     this.componentRef = this.componentFactory.create(childInjector);
     // host view
@@ -140,7 +143,7 @@ export class ComponentNgElementStrategy<T> implements NgElementStrategy {
     this.initializeOutputs();
     this.detectChanges();
     const applicationRef = this.injector.get<ApplicationRef>(ApplicationRef);
-    applicationRef.attachView(this.componentRef);
+    applicationRef.attachView(this.componentRef, childInjector);
   }
 
   /** Set any stored initial inputs on the component's properties. */

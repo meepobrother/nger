@@ -2,7 +2,7 @@
 import {
     NgModuleBootstrap, History, NgModuleRef, ComponentMetadataKey,
     NgModuleMetadataKey, ComponentClassAst, NgModuleClassAst,
-    ComponentFactoryResolver, ElementRef
+    ComponentFactoryResolver, ElementRef, ApplicationRef
 } from 'nger-core'
 import { Location, Action } from 'history'
 import { createCustomElement } from 'nger-dom'
@@ -18,7 +18,6 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
             // 此时解析模板和css
             // parseTemplate()
             // 在此之前生成完成编译操作
-
             const element = createCustomElement(context.target, { injector: ref.injector })
             const component = context.getClass(ComponentMetadataKey) as ComponentClassAst;
             const def = component.ast.metadataDef;
@@ -31,17 +30,20 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;
         const bootstrap = ngModule.ast.metadataDef.bootstrap;
         const root = document.getElementById('app') as HTMLDivElement;
+        const application = ref.injector.get(ApplicationRef)
         if (bootstrap) {
             bootstrap.map(async boot => {
                 // 拿到component ref
-                const resolve = ref.injector.get(ComponentFactoryResolver)
-                const factory = resolve.resolveComponentFactory(boot);
-                root.innerHTML = `<${factory.selector}/>`;
-                console.dir(root.firstElementChild)
+                // const resolve = ref.injector.get(ComponentFactoryResolver)
+                // const factory = resolve.resolveComponentFactory(boot);
+                // root.innerHTML = `<${factory.selector}/>`;
+                // console.dir(root.firstElementChild)
+                // const compRef = factory.create(ref.injector);
                 ref.injector.setStatic([{
                     provide: ElementRef,
-                    useValue: root.firstElementChild
+                    useValue: new ElementRef(root)
                 }])
+                application.attachView(boot, ref.injector)
             });
         }
     }

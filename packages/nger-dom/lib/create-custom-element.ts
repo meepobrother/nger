@@ -45,13 +45,10 @@ export function createCustomElement<P>(
     }
     // new
     createdCallback() {
-      console.log(`createdCallback`)
     }
     attachedCallback() { 
-      console.log(`attachedCallback`)
     }
     detachedCallback(){
-      console.log(`detachedCallback`)
     }
     // 属性变动监控
     attributeChangedCallback(

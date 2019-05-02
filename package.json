@@ -43,6 +43,7 @@
     "@types/shelljs": "^0.8.5",
     "@types/stylus": "^0.48.31",
     "@types/uglify-js": "^3.0.4",
+    "@types/virtual-dom": "^2.1.0",
     "@types/webpack": "^4.4.27",
     "@types/webpack-dev-middleware": "^2.0.2",
     "@types/yargs": "^13.0.0",
@@ -98,10 +99,12 @@
     "tslib": "^1.9.3",
     "typescript": "^3.4.4",
     "uglify-js": "^3.5.8",
+    "virtual-dom": "^2.1.1",
     "vscode": "^1.1.33",
     "vscode-jsonrpc": "^4.0.0",
     "vscode-languageserver": "^5.2.1",
     "webpack": "^4.30.0",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-dev-server": "^3.3.1",
     "webpack-hot-client": "^4.1.1",
@@ -131,7 +134,8 @@
     "docker": "docker-compose up -d",
     "start": "npm run cli start koa",
     "build": "npm run cli build",
-    "admin:dev": "npm run cli build admin --watch",
-    "admin": "npm run cli build admin"
+    "admin:build": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build admin",
+    "admin:dev": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build admin --watch",
+    "admin:stats": "webpack-bundle-analyzer template/admin/stats.json"
   }
 }

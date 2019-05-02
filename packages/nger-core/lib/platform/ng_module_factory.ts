@@ -44,3 +44,6 @@ export class NgModuleFactory<T> {
         }
     }
 }
+export interface InternalNgModuleRef<T> extends NgModuleRef<T> {
+    _bootstrapComponents: Type<any>[];
+}
