@@ -98,7 +98,22 @@ export class ComponentFactory<C> {
         const changeDetector = new DefaultChangeDetectorRef(props)
         const currentInjector = injector.create([{
             provide: this.componentType,
-            useFactory: (...params: any[]) => new this.componentType(...params),
+            useFactory: (...params: any[]) => {
+                const instance = new this.componentType(...params);
+                const that = this;
+                const proxy = new Proxy(instance as any, {
+                    set(target: any, p: PropertyKey, value: any, receiver: any) {
+                        target[p] = value;
+                        // 判断是否是@Input 
+                        const input = that.inputs.map(it => it.propName === p);
+                        if (input) {
+                            changeDetector.markForCheck();
+                        }
+                        return true;
+                    }
+                });
+                return proxy;
+            },
             deps: handlerTypeContextToParams(this.context)
         }, {
             provide: ComponentFactory,

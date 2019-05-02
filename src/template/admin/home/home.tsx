@@ -6,20 +6,18 @@ import { Injector } from 'nger-di';
     templateUrl: `./home.html`,
     styleUrls: ['./home.scss'],
     render: (that: HomePage) => {
-        return <div>{that.title}</div>
+        return <div>
+            <h2 className="title">{that.title}</h2>
+            <input type="text" onChange={(e) => that.setTitle(e.target.value)} />
+        </div>
     }
 })
 export class HomePage implements OnChanges {
-    constructor(public change: ChangeDetectorRef, public injector: Injector) {
-        let i = 0;
-        console.log(injector)
-        const def = injector.get(ChangeDetectorRef)
-        setInterval(() => {
-            i = i + 1;
-            this.title = `home page ${i}`
-            def.markForCheck();
-            console.log(this.title)
-        }, 1000)
+
+    constructor(public change: ChangeDetectorRef, public injector: Injector) { }
+
+    setTitle(e: any) {
+        this.title = e;
     }
 
     @Input()
