@@ -65,6 +65,15 @@
       "nger-components": [
         "packages/nger-components/lib/index.ts"
       ],
+      "nger-platform-native": [
+        "packages/nger-platform-native/lib/index.ts"
+      ],
+      "nger-platform-ios": [
+        "packages/nger-platform-ios/lib/index.ts"
+      ],
+      "nger-platform-android": [
+        "packages/nger-platform-android/lib/index.ts"
+      ],
       "nger-platform-cli": [
         "packages/nger-platform-cli/lib/index.ts"
       ],
@@ -109,6 +118,9 @@
       ],
       "nger-util": [
         "packages/nger-util/lib/index.ts"
+      ],
+      "nger-ui": [
+        "packages/nger-ui/lib/index.ts"
       ],
       "nger-effects": [
         "packages/nger-effects/lib/index.ts"
@@ -164,6 +176,7 @@
   },
   "include": [
     "packages",
+    "addon",
     "src",
     "typings/*.d.ts",
     "src/global.d.ts"

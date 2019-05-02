@@ -40,6 +40,7 @@ export * from './textarea'
 export * from './video'
 export * from './view'
 export * from './web-view'
+export * from './table'
 
 
 

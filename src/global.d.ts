@@ -2,6 +2,9 @@ declare global {
     function h(): any;
     namespace JSX {
         interface Element { }
+        interface ElementClass {
+            render(): any;
+        }
         interface IntrinsicElements {
             text: any;
             RichText: any;
@@ -9,6 +12,7 @@ declare global {
             icon: any;
             CoverImage: any;
             CoverView: any;
+
         }
     }
 }

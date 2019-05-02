@@ -474,7 +474,7 @@ export function makeDecorator2<T>(metadataKey: string, props: (...args: any) => 
     (...args: any[]): any;
     (...args: any[]): (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) => any;
 } {
-    function DecoratorFactory(...params: any[]){
+    function DecoratorFactory(...params: any[]) {
         const opt = props(...params);
         return makeDecorator<T>(metadataKey)(opt)
     }
@@ -490,9 +490,9 @@ export function makeDecorator<T>(
     getDefault: (opt: DefaultOptions<T>) => T = opt => opt.metadataDef || {} as T,
     parentClass?: any
 ): {
-    new(...args: any[]): any;
-    (...args: any[]): any;
-    (...args: any[]): (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) => any;
+    new(opt?: T): any;
+    (opt?: T): any;
+    (opt?: T): (target: any, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<any> | number) => any;
 } {
     const visitor = parserManager.visitor;
     function DecoratorFactory(metadataDef?: T) {
