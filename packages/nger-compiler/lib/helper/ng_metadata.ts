@@ -15,7 +15,7 @@ export class NgerCompilerNgMetadata {
     }
     getNgModuleConfig(data: cli.ModuleMetadata) {
         const { metadata } = data;
-        let result: any = {};
+        let result: any;
         Object.keys(metadata).map(key => {
             const meta = metadata[key];
             if (cli.isClassMetadata(meta)) {
@@ -34,7 +34,7 @@ export class NgerCompilerNgMetadata {
 
     getControllerConfig(data: cli.ModuleMetadata) {
         const { metadata } = data;
-        let result: any = {};
+        let result: any;
         Object.keys(metadata).map(key => {
             const meta = metadata[key];
             if (cli.isClassMetadata(meta)) {

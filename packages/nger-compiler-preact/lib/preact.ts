@@ -5,7 +5,9 @@ import { NgerCompilerPreactStyle } from './style'
 import { NgerCompilerPreactAssets } from './assets'
 import { NgerCompilerPreactTypescript } from './typescript'
 import { NgerCompilerNgMetadata } from 'nger-compiler'
-import { NgerComponentConfig } from './types'
+import { NgerComponentConfig, NgerControllerConfig } from './types'
+import { NgerCompilerPreactController } from './controller'
+
 import { join } from 'path';
 import { watcher } from 'nger-watcher';
 const root = process.cwd();
@@ -17,6 +19,7 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
         public assets: NgerCompilerPreactAssets,
         public ts: NgerCompilerPreactTypescript,
         public metadata: NgerCompilerNgMetadata,
+        public controller: NgerCompilerPreactController,
         public config: NgerConfig
     ) {
         super();
@@ -25,7 +28,7 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
         // 拿到ngModule的文件名
         const dir = join(root, 'src');
         watcher(dir, async (opt, fileName) => {
-            if (fileName) {
+            if (fileName && (opt === 'add' || opt === 'change')) {
                 // 拿到ngModuleMetadata
                 const metadata = this.metadata.getMetadata(fileName);
                 if (metadata) {
@@ -41,9 +44,11 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
                         ]);
                     }
                     // 处理Controller
-                    const controller = this.metadata.getControllerConfig(metadata);
+                    const controller: NgerControllerConfig = this.metadata.getControllerConfig(metadata);
                     if (controller) {
                         // console.log(controller);
+                        controller.sourceRoot = fileName;
+                        this.controller.run(controller)
                     }
                 }
             }

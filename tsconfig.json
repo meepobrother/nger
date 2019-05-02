@@ -165,7 +165,8 @@
   "include": [
     "packages",
     "src",
-    "typings/*.d.ts"
+    "typings/*.d.ts",
+    "src/global.d.ts"
   ],
   "exclude": [
     "node_modules"

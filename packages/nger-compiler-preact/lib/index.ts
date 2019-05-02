@@ -3,6 +3,8 @@ import { NgerCompilerPreactHtml } from './html'
 import { NgerCompilerPreactStyle } from './style'
 import { NgerCompilerPreactTypescript } from './typescript'
 import { NgerCompilerPreactAssets } from './assets'
+import { NgerCompilerPreactController } from './controller'
+
 import { StaticProvider, Injector } from 'nger-di';
 import { NgerCompilerNgMetadata } from 'nger-compiler'
 import { NgModuleBootstrap, NgerConfig } from 'nger-core'
@@ -16,9 +18,14 @@ const provider: StaticProvider[] = [...ngerCompiler, {
         NgerCompilerPreactAssets,
         NgerCompilerPreactTypescript,
         NgerCompilerNgMetadata,
+        NgerCompilerPreactController,
         NgerConfig
     ],
     multi: true
+}, {
+    provide: NgerCompilerPreactController,
+    useClass: NgerCompilerPreactController,
+    deps: []
 }, {
     provide: NgerCompilerPreactHtml,
     useClass: NgerCompilerPreactHtml,

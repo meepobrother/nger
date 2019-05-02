@@ -15,7 +15,6 @@ export interface DirectiveOptions {
         [key: string]: string;
     };
     jit?: true;
-    fileName?: string;
 }
 export const Directive = makeDecorator<DirectiveOptions>(DirectiveMetadataKey);
 export class DirectiveClassAst extends ClassContext<DirectiveOptions> { }

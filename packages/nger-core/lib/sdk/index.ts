@@ -7,3 +7,4 @@ export * from './resolver';
 export * from './traverse';
 export * from './router';
 export * from './cache';
+export * from './h';

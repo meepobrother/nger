@@ -13,6 +13,6 @@ export interface NgerComponentConfig {
     styles: string[];
     sourceRoot: string;
 }
-export type NgerControllerConfig = string | {
+export type NgerControllerConfig = (string | {
     path: string;
-}
+}) & { sourceRoot: string }
