@@ -27,7 +27,7 @@ export class BrowserApplicationRef extends ApplicationRef {
             const res = tpl(ref.instance)
             render(res, parent.nativeElement)
             // 更新试图,后面有可能会自己实现
-            ref.props && ref.props.subscribe(() => {
+            ref.$ngOnChange && ref.$ngOnChange.subscribe(() => {
                 const res = tpl(ref.instance)
                 render(res, parent.nativeElement, parent.nativeElement.lastElementChild)
             });

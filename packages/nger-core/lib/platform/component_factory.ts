@@ -94,8 +94,9 @@ export class ComponentFactory<C> {
         // 这里需要运行custom element
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)
-        const props = new Subject();
-        const changeDetector = new DefaultChangeDetectorRef(props)
+        // 这个是数据监控器
+        const $ngOnChange = new Subject();
+        const changeDetector = new DefaultChangeDetectorRef($ngOnChange)
         const currentInjector = injector.create([{
             provide: this.componentType,
             useFactory: (...params: any[]) => {
@@ -107,6 +108,7 @@ export class ComponentFactory<C> {
                         // 判断是否是@Input 
                         const input = that.inputs.map(it => it.propName === p);
                         if (input) {
+                            // 这里应该有数据拦截之类的东西，先todo吧
                             changeDetector.markForCheck();
                         }
                         return true;
@@ -130,6 +132,6 @@ export class ComponentFactory<C> {
         this._context.injector = currentInjector;
         parserVisitor.parse(instance, this._context);
         // 设置代理
-        return new ComponentRef(currentInjector, instance, changeDetector, target, props);
+        return new ComponentRef(currentInjector, instance, changeDetector, target, $ngOnChange);
     }
 }

@@ -28,7 +28,7 @@ export class ComponentRef<C> {
     get changeDetectorRef(): ChangeDetectorRef {
         return this._changeDetectorRef;
     }
-    get props(): Subject<any> {
+    get $ngOnChange(): Subject<any> {
         return this._props
     }
     _location: any;

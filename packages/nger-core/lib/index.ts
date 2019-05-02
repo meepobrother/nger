@@ -34,7 +34,6 @@ export * from './platform/createPlatformFactory';
 export * from './platform/platform_core';
 export * from './platform/application_ref';
 export * from './platform/custom_elements';
-export * from './platform/render';
 
 export * from './decorators/public_api'
 export * from './version'
