@@ -1,6 +1,5 @@
 import { Controller, Inject, Get, Optional, Logger } from 'nger-core';
 import { HomeController } from './home'
-import { NgerPm2Service } from 'nger-module-pm2';
 
 @Controller('/user')
 export class UserController {
@@ -9,7 +8,6 @@ export class UserController {
 
     constructor(
         @Inject() public home: HomeController,
-        @Inject() @Optional() public pm2: NgerPm2Service
     ) { }
 
     @Get()
