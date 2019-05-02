@@ -7,6 +7,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const root = process.cwd();
 import assets from './assets';
 import { Injector } from 'nger-di'
+import webpackRxjsExternals from 'webpack-rxjs-externals';
 @NgModule({
     providers: [{
         provide: WebpackConfigToken,
@@ -33,6 +34,9 @@ import { Injector } from 'nger-di'
                 mode: dev ? 'development' : 'production',
                 devtool: dev ? 'source-map' : 'none',
                 watch: dev ? true : false,
+                externals: [
+                    webpackRxjsExternals()
+                ],
                 resolve: {
                     plugins: [
                         new TsconfigPathsPlugin({ configFile: 'tsconfig.json' }),
