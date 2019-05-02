@@ -1,11 +1,5 @@
 # `nger-platform-browser`
 
-> TODO: description
+> 浏览器核心平台
 
-## Usage
-
-```
-const ngerPlatformBrowser = require('nger-platform-browser');
-
-// TODO: DEMONSTRATE API
-```
+h5/pc/admin均依赖于此

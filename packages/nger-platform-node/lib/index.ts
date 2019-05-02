@@ -1,14 +1,14 @@
-import { createPlatformFactory, Logger, NgerConfig, FileSystem, Resolver, APP_ROOT, NGER_CONFIG } from 'nger-core'
+import { createPlatformFactory, Logger, Http, NgerConfig, FileSystem, Resolver, APP_ROOT, NGER_CONFIG, platformCore } from 'nger-core'
 import { NgerUtil } from 'nger-util'
-import ngerPlatformAxios from 'nger-platform-axios'
 import fs from 'fs-extra';
 import { dirname, join } from 'path'
+import axios from 'axios';
 import {
     NodeJsInputFileSystem,
     CachedInputFileSystem,
     ResolverFactory
 } from 'enhanced-resolve';
-export default createPlatformFactory(ngerPlatformAxios, 'node', [
+export default createPlatformFactory(platformCore, 'node', [
     {
         provide: APP_ROOT,
         useValue: process.cwd()
@@ -55,5 +55,9 @@ export default createPlatformFactory(ngerPlatformAxios, 'node', [
             })
         },
         deps: []
+    },
+    {
+        provide: Http,
+        useValue: axios
     }
 ]);
