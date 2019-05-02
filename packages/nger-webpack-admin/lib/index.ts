@@ -7,7 +7,15 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const root = process.cwd();
 import assets from './assets';
 import { Injector } from 'nger-di'
-import webpackRxjsExternals from 'webpack-rxjs-externals';
+import ts from 'typescript';
+import { isDifferentialLoadingNeeded, findAllNodeModules } from './util'
+const target: string = require(join(root, 'tsconfig.json')).compilerOptions.target;
+const tsTarget = ts.ScriptTarget[target.toUpperCase()]
+const supportES2015 = isDifferentialLoadingNeeded(root, tsTarget)
+const rxjsPathMapping = supportES2015
+    ? require('rxjs/_esm2015/path-mapping')()
+    : require('rxjs/_esm5/path-mapping')();
+const TerserPlugin = require('terser-webpack-plugin');
 @NgModule({
     providers: [{
         provide: WebpackConfigToken,
@@ -34,13 +42,19 @@ import webpackRxjsExternals from 'webpack-rxjs-externals';
                 mode: dev ? 'development' : 'production',
                 devtool: dev ? 'source-map' : 'none',
                 watch: dev ? true : false,
-                externals: [
-                    webpackRxjsExternals()
-                ],
+                externals: [],
+                target: 'web',
                 resolve: {
+                    mainFields: [
+                        ...(supportES2015 ? ['es2015'] : []),
+                        'browser', 'module', 'main',
+                    ],
                     plugins: [
                         new TsconfigPathsPlugin({ configFile: 'tsconfig.json' }),
-                    ]
+                    ],
+                    alias: {
+                        ...rxjsPathMapping as any
+                    }
                 },
                 plugins: [
                     new HtmlWebpackPlugin({
@@ -79,29 +93,55 @@ import webpackRxjsExternals from 'webpack-rxjs-externals';
                     maxAssetSize: 1700000
                 },
                 optimization: {
-                    runtimeChunk: {
-                        name: 'manifest'
-                    },
-                    splitChunks: {
-                        chunks: 'async',
-                        minSize: 30000,
-                        minChunks: 1,
-                        maxAsyncRequests: 5,
-                        maxInitialRequests: 3,
-                        name: true,
-                        cacheGroups: {
-                            vendor: {
-                                test: /[\\/]node_modules[\\/]/,
-                                name: "vendors",
-                                priority: -20,
-                                chunks: "all"
-                            },
-                            default: {
-                                minChunks: 2,
-                                priority: -20,
-                                reuseExistingChunk: true
+                    runtimeChunk: 'single',
+                    minimizer: [
+                        new TerserPlugin({
+                            sourceMap: true,
+                            parallel: true,
+                            cache: true,
+                            terserOptions: {
+                                ecma: supportES2015 ? 6 : 5,
+                                safari10: true,
+                                output: {
+                                    ascii_only: true,
+                                    comments: false,
+                                    webkit: true,
+                                },
+                                compress: {
+                                    pure_getters: true,
+                                    passes: 3
+                                }
                             }
-                        }
+
+                        })
+                    ],
+                    splitChunks: {
+                        maxAsyncRequests: Infinity,
+                        cacheGroups: {
+                            default: {
+                                chunks: 'async',
+                                minChunks: 2,
+                                priority: 10,
+                            },
+                            common: {
+                                name: 'common',
+                                chunks: 'async',
+                                minChunks: 2,
+                                enforce: true,
+                                priority: 5,
+                            },
+                            vendors: false,
+                            vendor: {
+                                name: 'vendor',
+                                chunks: 'initial',
+                                enforce: true,
+                                test: (module: { nameForCondition?: Function }, chunks: Array<{ name: string }>) => {
+                                    const moduleName = module.nameForCondition ? module.nameForCondition() : '';
+                                    return /[\\/]node_modules[\\/]/.test(moduleName)
+                                        && !chunks.some(({ name }) => name === 'polyfills' || name === 'polyfills-es5');
+                                },
+                            },
+                        },
                     }
                 }
             } as Configuration

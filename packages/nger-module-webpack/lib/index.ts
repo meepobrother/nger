@@ -28,7 +28,10 @@ const root = process.cwd();
                     new StatsPlugin('stats.json', {
                         chunkModules: true
                     })
-                ]
+                ],
+                optimization: {
+                    minimizer: []
+                }
             } as Configuration,
             multi: true
         }]
