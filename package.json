@@ -172,6 +172,7 @@
     "docker": "docker-compose up -d",
     "start": "npm run cli start koa",
     "build": "npm run cli build",
+    "dev": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts dev",
     "admin:build": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build admin",
     "admin:dev": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build admin --watch",
     "admin:stats": "webpack-bundle-analyzer template/admin/stats.json",

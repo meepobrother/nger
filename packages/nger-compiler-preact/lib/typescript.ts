@@ -3,5 +3,6 @@ import { NgerComponentConfig } from './types'
 
 export class NgerCompilerPreactTypescript {
     async run(config: NgerComponentConfig) {
+        
     }
 }

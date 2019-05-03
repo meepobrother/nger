@@ -1,4 +1,5 @@
 import { NgModule } from 'nger-core';
-
-@NgModule()
+@NgModule({
+    imports: []
+})
 export class NgerServerModule { }

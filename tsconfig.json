@@ -184,10 +184,11 @@
   },
   "include": [
     "packages",
+    "framework",
     "addon",
-    "src",
+    "framework",
     "typings/*.d.ts",
-    "src/global.d.ts",
+    "framework/global.d.ts",
     "app"
   ],
   "exclude": [

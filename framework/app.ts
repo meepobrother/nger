@@ -1,4 +1,3 @@
 import { NgModule } from 'nger-core';
-
 @NgModule()
-export class NgerAdminModule { }
+export class NgerAppModule { }
