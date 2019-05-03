@@ -1,5 +1,5 @@
 import { Http } from 'nger-core'
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 // todo
 declare const wx: any;
 export class NgerWeappHttp extends Http {
