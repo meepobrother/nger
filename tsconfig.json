@@ -10,10 +10,10 @@
         "jsx": "react",
         "jsxFactory": "h",
         "importHelpers": true,
-        "strict": false,
-        "strictBindCallApply": false,
-        "strictFunctionTypes": false,
+        "strict": true,
+        "strictBindCallApply": true,
         "stripInternal": false,
+        "strictFunctionTypes": true,
         "moduleResolution": "node",
         "noUnusedLocals": false,
         "noUnusedParameters": false,
@@ -33,7 +33,6 @@
         "noFallthroughCasesInSwitch": true,
         "noEmitOnError": true,
         "noErrorTruncation": true,
-        "noImplicitUseStrict": true,
         "emitBOM": false,
         "paths": {
             "ims-decorator": [

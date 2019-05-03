@@ -178,6 +178,7 @@
     "preview:android": "tns preview",
     "platform:native": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-native",
     "platform:ios": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-ios",
-    "platform:android": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-android"
+    "platform:android": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-android",
+    "build:lib": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts lib"
   }
 }
