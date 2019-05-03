@@ -1,4 +1,4 @@
-import { NgModuleBootstrap, NgModuleRef, PLATFORM_ID, NgerConfig } from 'nger-core';
+import { NgModuleBootstrap, NgModuleRef, Logger, PLATFORM_ID, NgerConfig } from 'nger-core';
 // 将ng模板编译成preact可以执行的文件
 import { NgerCompilerPreactHtml } from './html'
 import { NgerCompilerPreactStyle } from './style'
@@ -7,9 +7,9 @@ import { NgerCompilerPreactTypescript } from './typescript'
 import { NgerCompilerNgMetadata } from 'nger-compiler'
 import { NgerComponentConfig, NgerControllerConfig } from './types'
 import { NgerCompilerPreactController } from './controller'
-
+import chokidar from 'chokidar';
+import { Stats } from 'fs-extra'
 import { join } from 'path';
-import { watcher } from 'nger-watcher';
 const root = process.cwd();
 // 提供统一的外观
 export class NgerCompilerPreact extends NgModuleBootstrap {
@@ -20,7 +20,8 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
         public ts: NgerCompilerPreactTypescript,
         public metadata: NgerCompilerNgMetadata,
         public controller: NgerCompilerPreactController,
-        public config: NgerConfig
+        public config: NgerConfig,
+        public logger: Logger
     ) {
         super();
     }
@@ -29,8 +30,9 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
             // 拿到ngModule的文件名
             const framework = join(root, 'framework');
             const addon = join(root, 'addon');
-            watcher([addon, framework], async (opt, fileName) => {
-                if (fileName && (opt === 'add' || opt === 'change')) {
+            const handlerFile = async (opt: string, fileName: string, stats: Stats) => {
+                this.logger.info(`${opt}:${fileName}@${stats.atime}`)
+                if (fileName && stats.isFile() && (opt === 'add' || opt === 'change')) {
                     // 拿到ngModuleMetadata
                     const metadata = this.metadata.getMetadata(fileName);
                     if (metadata) {
@@ -54,7 +56,12 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
                         }
                     }
                 }
-            })
+            }
+            chokidar.watch([addon, framework])
+                .on('add', (opt, file, stats) => handlerFile(opt, file, stats))
+                .on('change', (opt, file, stats) => handlerFile(opt, file, stats))
+                .on('error', () => { });
+
         } catch (e) { }
     }
 }
