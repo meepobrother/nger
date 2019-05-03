@@ -1,7 +1,8 @@
 import { Page } from 'nger-core';
+
 @Page({
     path: 'task/edit',
-    type: 'admin',
+    type: ['admin'],
     title: '编辑',
     styleUrls: ['./index.scss']
 })

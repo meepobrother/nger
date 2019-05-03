@@ -4,7 +4,8 @@
     "module": "commonjs",
     "lib": [
       "dom",
-      "esnext"
+      "esnext",
+      "es6"
     ],
     "jsx": "react",
     "jsxFactory": "h",
@@ -19,7 +20,7 @@
     "allowUnusedLabels": true,
     "noImplicitReturns": false,
     "suppressImplicitAnyIndexErrors": false,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "outDir": "./dist",
     "rootDir": "./",
     "strictPropertyInitialization": false,
@@ -154,6 +155,13 @@
       ],
       "@babel/traverse": [
         "node_modules/@types/babel__traverse"
+      ],
+      "*": [
+        "./node_modules/*",
+        "packages/*"
+      ],
+      "~/*": [
+        "app/*"
       ]
     },
     "typeRoots": [
@@ -179,9 +187,13 @@
     "addon",
     "src",
     "typings/*.d.ts",
-    "src/global.d.ts"
+    "src/global.d.ts",
+    "app"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "platforms",
+    "typings",
+    "**/*.aot.ts"
   ]
 }

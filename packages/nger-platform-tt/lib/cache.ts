@@ -1,7 +1,13 @@
 import { Cache } from 'nger-core'
 export class NgerTtCache extends Cache {
-    get<T>(key: string): Promise<T> { }
-    put<T>(key: string, value: T): Promise<boolean> { }
-    remove<T>(key: string): Promise<boolean> { }
+    async get<T>(key: string): Promise<T> {
+        return new Promise(() => { })
+    }
+    async put<T>(key: string, value: T): Promise<boolean> { 
+        return new Promise(() => { })
+    }
+    async remove<T>(key: string): Promise<boolean> { 
+        return new Promise(() => { })
+    }
     clear(): void { }
 }

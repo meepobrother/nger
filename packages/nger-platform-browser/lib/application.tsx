@@ -23,18 +23,20 @@ export class BrowserApplicationRef extends ApplicationRef {
             const factory = ref.injector.get(ComponentFactory)
             const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
             //这里渲染preact
-            const tpl = factory.def.render;
-            const res = tpl(ref.instance)
-            render(res, parent.nativeElement)
-            // 更新试图,后面有可能会自己实现
-            ref.$ngOnChange && ref.$ngOnChange.subscribe(() => {
+            if (ref.instance.render) {
+                const tpl = ref.instance.render();
                 const res = tpl(ref.instance)
-                render(res, parent.nativeElement, parent.nativeElement.lastElementChild)
-            });
-            super.attachView(ref, injector);
-            const nowTime = new Date().getTime();
-            const totalTime = nowTime - (window as any).nger.startTime
-            console.log(`总耗时:${totalTime}ms`);
+                render(res, parent.nativeElement)
+                // 更新试图,后面有可能会自己实现
+                ref.$ngOnChange && ref.$ngOnChange.subscribe(() => {
+                    const res = tpl(ref.instance)
+                    render(res, parent.nativeElement, parent.nativeElement.lastElementChild)
+                });
+                super.attachView(ref, injector);
+                const nowTime = new Date().getTime();
+                const totalTime = nowTime - (window as any).nger.startTime
+                console.log(`总耗时:${totalTime}ms`);
+            }
         } catch (e) {
             console.log({
                 ref, injector,

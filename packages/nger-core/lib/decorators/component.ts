@@ -17,7 +17,7 @@ export interface ComponentOptions<T = any> extends DirectiveOptions {
     interpolation?: [string, string];
     entryComponents?: Array<Type<any> | any[]>;
     preserveWhitespaces?: boolean;
-    type: ComponentType[];
+    type?: ComponentType[];
 }
 // P 是props
 // S 是state

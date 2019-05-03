@@ -8,3 +8,4 @@ export default createPlatformFactory(ngerPlatformNative, 'native', [
         deps: []
     }
 ])
+export { NATIVE_CONFIG } from './bootstrap'

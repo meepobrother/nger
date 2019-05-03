@@ -3,3 +3,4 @@ import platformProviders from './platform-providers'
 export default createPlatformFactory(platformCore,'native',[
     ...platformProviders
 ])
+export * from './platform-providers'

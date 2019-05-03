@@ -3,7 +3,5 @@ import { Component } from 'nger-core'
     selector: 'nger-admin-footer'
 })
 export class NgerAdminFooter {
-    render() {
-        return <CoverImage></CoverImage>
-    }
+    render() { }
 }
