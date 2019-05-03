@@ -27,8 +27,9 @@ export class NgerCompilerPreact extends NgModuleBootstrap {
     async run(ref: NgModuleRef<any>) {
         try {
             // 拿到ngModule的文件名
-            const dir = join(root, 'src');
-            watcher(dir, async (opt, fileName) => {
+            const framework = join(root, 'framework');
+            const addon = join(root, 'addon');
+            watcher([addon, framework], async (opt, fileName) => {
                 if (fileName && (opt === 'add' || opt === 'change')) {
                     // 拿到ngModuleMetadata
                     const metadata = this.metadata.getMetadata(fileName);

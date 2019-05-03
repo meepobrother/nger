@@ -1,7 +1,7 @@
 // 负责挂载到dom 如果是小程序 可设为空
 import { ApplicationRef, ComponentFactory, ComponentRef, ElementRef, ComponentFactoryResolver, ComponentMetadataKey } from 'nger-core'
 import { Injector, Type, InjectFlags } from 'nger-di'
-import { render } from 'preact';
+const { render } = require('./preact');
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
     constructor(injector: Injector) {
