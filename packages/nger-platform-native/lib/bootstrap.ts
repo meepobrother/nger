@@ -46,6 +46,10 @@ export class NgerPlatformNativeBootstrap extends NgModuleBootstrap {
             })
         const exitCallback = profile(
             "nativescript-angular/platform-common.exitCallback", (args: ApplicationEventData) => {
+                const androidActivity = args.android;
+                if (androidActivity && !androidActivity.isFinishing()) {
+                    return;
+                }
                 console.log(`exitCallback`)
             })
         on(launchEvent, launchCallback);
