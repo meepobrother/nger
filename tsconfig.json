@@ -25,7 +25,7 @@
     "rootDir": "./",
     "strictPropertyInitialization": false,
     "noImplicitThis": false,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "skipDefaultLibCheck": true,
     "declaration": true,
     "skipLibCheck": true,
