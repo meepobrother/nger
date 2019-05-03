@@ -34,11 +34,12 @@ export default createPlatformFactory(platformCore, 'node', [
         useFactory: () => {
             const writeFileSync = fs.writeFileSync;
             const ensureDirSync = fs.ensureDirSync;
-            // 先确认文件夹
-            fs.writeFileSync = (path: fs.PathLike | number, data: any, options?: fs.WriteFileOptions) => {
+            const newWriteFileSync: any = (path: fs.PathLike | number, data: any, options?: fs.WriteFileOptions) => {
                 ensureDirSync(dirname(path.toString()))
                 writeFileSync(path, data, options)
             }
+            // 先确认文件夹
+            fs.writeFileSync = newWriteFileSync
             return fs;
         },
         deps: []

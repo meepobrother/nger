@@ -4,13 +4,13 @@ import { parse } from '@babel/parser';
 import { Resolver } from 'nger-core'
 import fs from 'fs-extra';
 import { Injectable } from 'nger-core';
-import { NgerCompilerTypescript } from 'nger-compiler';
+import { NgerCompilerController } from './controller';
 import { mergeVisitors } from './util'
 @Injectable()
-export class NgerCompilerBabel {
+export class NgerCompilerBabelController {
     visitor: Visitor;
     constructor(
-        public ts: NgerCompilerTypescript,
+        public ts: NgerCompilerController,
         public visitors: Visitor[],
         public resolver: Resolver
     ) {

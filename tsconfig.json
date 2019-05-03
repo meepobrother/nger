@@ -95,6 +95,12 @@
             "nger-compiler": [
                 "packages/nger-compiler/lib/index.ts"
             ],
+            "nger-compiler-client": [
+                "packages/nger-compiler-client/lib/index.ts"
+            ],
+            "nger-compiler-server": [
+                "packages/nger-compiler-server/lib/index.ts"
+            ],
             "nger-compiler-preact": [
                 "packages/nger-compiler-preact/lib/index.ts"
             ],
@@ -183,12 +189,12 @@
     },
     "include": [
         "packages",
-        "framework",
+        "cloud",
         "addon",
-        "framework",
+        "cloud",
         "typings/*.d.ts",
-        "framework/global.d.ts",
-        "app"
+        "app",
+        "cloud"
     ],
     "exclude": [
         "node_modules",

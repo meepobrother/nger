@@ -19,8 +19,10 @@ export class NgerCompilerNgMetadata {
         Object.keys(metadata).map(key => {
             const meta = metadata[key];
             if (cli.isClassMetadata(meta)) {
-                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
-                    return meta.module === 'nger-core' && meta.name === 'NgModule'
+                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataValue) => {
+                    if (cli.isMetadataImportedSymbolReferenceExpression(meta)) {
+                        return meta.module === 'nger-core' && meta.name === 'NgModule'
+                    }
                 }) as cli.MetadataSymbolicCallExpression;
                 const args = decorator.arguments;
                 args && args.map(arg => {
@@ -38,8 +40,10 @@ export class NgerCompilerNgMetadata {
         Object.keys(metadata).map(key => {
             const meta = metadata[key];
             if (cli.isClassMetadata(meta)) {
-                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
-                    return meta.module === 'nger-core' && meta.name === 'Controller'
+                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataValue) => {
+                    if (cli.isMetadataImportedSymbolReferenceExpression(meta)) {
+                        return meta.module === 'nger-core' && meta.name === 'Controller'
+                    }
                 }) as cli.MetadataSymbolicCallExpression;
                 const args = decorator && decorator.arguments;
                 args && args.map(arg => {
@@ -57,8 +61,10 @@ export class NgerCompilerNgMetadata {
         Object.keys(metadata).map(key => {
             const meta = metadata[key];
             if (cli.isClassMetadata(meta)) {
-                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataImportedSymbolReferenceExpression) => {
-                    return meta.module === 'nger-core' && meta.name === 'Component'
+                const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataValue) => {
+                    if (cli.isMetadataImportedSymbolReferenceExpression(meta)) {
+                        return meta.module === 'nger-core' && meta.name === 'Component'
+                    }
                 }) as cli.MetadataSymbolicCallExpression;
                 const args = decorator && decorator.arguments;
                 args && args.map(arg => {
