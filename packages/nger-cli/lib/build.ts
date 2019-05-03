@@ -37,6 +37,7 @@ export class BuildCommand {
     async run() {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`watching: ${!!this.watch}`);
+        this.logger.warn(`package: ${this.name}`);
         switch (this.type) {
             case 'h5':
                 const h5App = this.getTypeContext();

@@ -142,6 +142,9 @@
     "build": "npm run cli build",
     "admin:build": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build admin",
     "admin:dev": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build admin --watch",
-    "admin:stats": "webpack-bundle-analyzer template/admin/stats.json"
+    "admin:stats": "webpack-bundle-analyzer template/admin/stats.json",
+    "platform:native": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-native",
+    "platform:ios": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-ios",
+    "platform:android": "ts-node -r tsconfig-paths/register packages/nger-cli/lib/bin.ts build lib -n nger-platform-android"
   }
 }

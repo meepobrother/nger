@@ -1,4 +1,10 @@
-/// <reference path="typings/ios.d.ts" />
 import ngerPlatformNative from 'nger-platform-native'
-import {createPlatformFactory} from 'nger-core'
-export default createPlatformFactory(ngerPlatformNative,'native',[])
+import { createPlatformFactory, NgModuleBootstrap } from 'nger-core'
+import { NgerPlatformIosBootstrap } from './bootstrap'
+export default createPlatformFactory(ngerPlatformNative, 'native', [
+    {
+        provide: NgModuleBootstrap,
+        useClass: NgerPlatformIosBootstrap,
+        deps: []
+    }
+])

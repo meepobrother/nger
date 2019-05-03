@@ -1,2 +1,5 @@
 import {platformCore,createPlatformFactory} from 'nger-core'
-export default createPlatformFactory(platformCore,'native',[])
+import platformProviders from './platform-providers'
+export default createPlatformFactory(platformCore,'native',[
+    ...platformProviders
+])
