@@ -13,7 +13,7 @@ import { Injector, InjectionToken } from 'nger-di'
 import { AppHostView } from './app-host-view'
 import { setRootPage } from 'nger-platform-native'
 export const NATIVE_CONFIG = new InjectionToken(`NATIVE_CONFIG`)
-export class NgerPlatformIosBootstrap extends NgModuleBootstrap {
+export class NgerPlatformNativeBootstrap extends NgModuleBootstrap {
     injector: Injector;
     async run(ref: NgModuleRef<any>) {
         this.injector = ref.injector;

@@ -1,6 +1,13 @@
-import {platformCore,createPlatformFactory} from 'nger-core'
+import { platformCore, createPlatformFactory, NgModuleBootstrap } from 'nger-core'
 import platformProviders from './platform-providers'
-export default createPlatformFactory(platformCore,'native',[
-    ...platformProviders
+import { NgerPlatformNativeBootstrap } from './bootstrap'
+export default createPlatformFactory(platformCore, 'native', [
+    ...platformProviders,
+    {
+        provide: NgModuleBootstrap,
+        useClass: NgerPlatformNativeBootstrap,
+        deps: []
+    }
 ])
 export * from './platform-providers'
+export * from './bootstrap'
