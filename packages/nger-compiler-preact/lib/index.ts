@@ -7,7 +7,7 @@ import { NgerCompilerPreactController } from './controller'
 
 import { StaticProvider, Injector } from 'nger-di';
 import { NgerCompilerNgMetadata } from 'nger-compiler'
-import { NgModuleBootstrap, NgerConfig } from 'nger-core'
+import { NgModuleBootstrap, NgerConfig, Logger } from 'nger-core'
 import ngerCompiler, { NgerPlatformStyle } from 'nger-compiler'
 const provider: StaticProvider[] = [...ngerCompiler, {
     provide: NgModuleBootstrap,
@@ -19,7 +19,8 @@ const provider: StaticProvider[] = [...ngerCompiler, {
         NgerCompilerPreactTypescript,
         NgerCompilerNgMetadata,
         NgerCompilerPreactController,
-        NgerConfig
+        NgerConfig,
+        Logger
     ],
     multi: true
 }, {

@@ -3,7 +3,7 @@ import { StaticProvider } from 'nger-di'
 import { NgerCompilerImage } from './assets/image'
 import { NgerCompilerUglify } from './ts/uglify'
 import { NgerCompilerBabel } from './ts/babel'
-import { TraverVisitor, Resolver } from 'nger-core'
+import { TraverVisitor, Resolver, NgModuleBootstrap, FileSystem,Logger } from 'nger-core'
 import { NgerCompilerTypescript } from './ts/typescript'
 import { NgerCompilerRollup } from './ts/rollup'
 import { NgerCompilerNgTemplate } from './html/ng'
@@ -18,10 +18,29 @@ export {
     NgerCompilerRollup,
     NgerCompilerNgTemplate,
     NgerCompilerCid,
-    NgerCompilerNgMetadata
+    NgerCompilerNgMetadata,
+    NgerCompilerBootstrap
 }
+import { NgerCompilerBootstrap } from './compiler'
+import { NgerUtil } from 'nger-util'
+import { controllerVisitor } from './visitors/controller'
 const provides: StaticProvider[] = [
     ...styleProviders,
+    {
+        provide: TraverVisitor,
+        useValue: controllerVisitor,
+        multi: true
+    },
+    {
+        provide: NgModuleBootstrap,
+        useExisting: NgerCompilerBootstrap,
+        multi: true
+    },
+    {
+        provide: NgerCompilerBootstrap,
+        useClass: NgerCompilerBootstrap,
+        deps: [NgerCompilerNgMetadata, FileSystem, NgerUtil, NgerCompilerBabel,Logger],
+    },
     {
         provide: NgerCompilerNgMetadata,
         useClass: NgerCompilerNgMetadata,

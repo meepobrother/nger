@@ -3,9 +3,16 @@ import { execSync } from 'child_process';
 import { join } from 'path';
 import { Logger, NgerConfig } from 'nger-core';
 import { CompilerOptions } from 'typescript'
+import rimraf = require('rimraf');
+
 export class NgerUtil {
     root: string = process.cwd()
     constructor(public logger: Logger, public config: NgerConfig) { }
+    rimraf(dir: string) {
+        return new Promise((resolve, reject) => {
+            rimraf(dir, () => resolve())
+        });
+    }
     getCompilerOptions(): CompilerOptions {
         return require(join(this.root, 'tsconfig')).compilerOptions
     }
@@ -32,7 +39,7 @@ export class NgerUtil {
         // cnpm 优先
         if (this.shouldUseCnpm()) {
             this.config.set('npm', 'cnpm')
-        }else if (this.shouldUseYarn()) {
+        } else if (this.shouldUseYarn()) {
             this.config.set('npm', 'yarn')
         } else {
             this.config.set('npm', 'npm')

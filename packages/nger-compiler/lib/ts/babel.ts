@@ -6,7 +6,6 @@ import fs from 'fs-extra';
 import { Injectable } from 'nger-core';
 import { NgerCompilerTypescript } from 'nger-compiler';
 
-
 function mergeVisitors(visitors: Visitor[], that: NgerCompilerBabel): Visitor {
     if (visitors && visitors.length > 0) {
         if (visitors.length === 1) {
@@ -55,14 +54,14 @@ export class NgerCompilerBabel {
         }
         return code;
     }
-    copy(from: string) {
+    compile(from: string) {
         // 如果已经处理过了则忽略
         // 拿到文件内容
         let code = this.getFileContent(from);
         // 解析
         const ast = parse(code, {});
         // 替换处理
-        traverse(ast, this.visitor);
+        traverse(ast, this.visitor || {});
         code = generator(ast).code;
         return code;
     }
