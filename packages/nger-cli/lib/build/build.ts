@@ -1,46 +1,20 @@
-import { TypeContext, Type } from 'ims-decorator';
-import { Injectable, PLATFORM_ID } from 'nger-core';
-import ngerPlatformNode from 'nger-platform-node'
+import { Injectable } from 'nger-core';
 import gulp from 'gulp';
 import chalk from 'chalk';
 import rimraf = require('rimraf');
 import { join } from 'path';
 import ts = require('gulp-typescript');
 import fs from 'fs-extra';
-import ngerPlatformPreact from 'nger-compiler-preact';
 const root = process.cwd();
 @Injectable()
 export class NgerCliBuild {
-    /** 构建h5应用 */
-    h5(context: TypeContext) { }
-    /** 微信公众号 */
-    wechat(context: Type<any>) {
-        ngerPlatformNode().bootstrapModule(context)
-    }
-    /** 微信小程序 */
-    weapp(context: Type<any>) {
-        ngerPlatformNode().bootstrapModule(context).then(ref => { })
-    }
-    /** 支付宝小程序 */
-    alipay(context: TypeContext) { }
-    /** 百度智能 */
-    swap(context: TypeContext) { }
-    /** 字节跳动 */
-    tt(context: TypeContext) { }
-    /** 安卓 */
-    android(context: TypeContext) { }
-    /** ios */
-    ios(context: TypeContext) { }
-
     async dev(name: string) {
         const output = 'dist'
         await _rimraf(join(root, output, name));
         await packProject(name, output, 'packages');
     }
-
     async prod(name: string) {
         const output = 'node_modules'
-        // await _rimraf(join(root, output, name));
         await packProject(name, output, 'packages');
     }
 }
@@ -79,8 +53,13 @@ export async function packProject(
             done()
         });
     }
-    const taskFn = gulp.series(taskTsc, taskCopy);
-    return new Promise((resolve) => {
-        gulp.series(taskFn)(() => resolve())
+    return new Promise((resolve, reject) => {
+        taskTsc((err) => {
+            if (err) return reject(err)
+            taskCopy((err) => {
+                if (err) return reject(err)
+                resolve()
+            })
+        });
     })
 }

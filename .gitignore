@@ -3,7 +3,6 @@
 /data/
 /attachment
 /template
-/dist/
 /.temp
 /testing
 /**/.rts2_cache_cjs

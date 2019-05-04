@@ -1,0 +1,16 @@
+import { NgerPlatformStyle } from './style';
+import { StaticProvider } from 'nger-di';
+import { NgerCompilerImage } from './assets/image';
+import { NgerCompilerUglify } from './ts/uglify';
+import { NgerCompilerBabel } from './ts/babel';
+import { NgerCompilerTypescript } from './ts/typescript';
+import { NgerCompilerRollup } from './ts/rollup';
+import { NgerCompilerNgTemplate } from './html/ng';
+import { NgerCompilerCid } from './helper/cid';
+import { NgerCompilerNgMetadata } from './helper/ng_metadata';
+import { controllerPropertyTransformerFactory, hasPropertyMetadata } from './transformer_factorys/controller';
+import { WATCH_TASK, Task } from './tokens/watch_task';
+import { metadataCache, hasHandlerFileCache, templateCache } from './bootstrap';
+export { NgerCompilerImage, NgerCompilerUglify, NgerPlatformStyle, NgerCompilerTypescript, NgerCompilerRollup, NgerCompilerNgTemplate, NgerCompilerCid, NgerCompilerNgMetadata, NgerCompilerBabel, controllerPropertyTransformerFactory, WATCH_TASK, Task, hasPropertyMetadata, metadataCache, hasHandlerFileCache, templateCache };
+declare const provides: StaticProvider[];
+export default provides;
