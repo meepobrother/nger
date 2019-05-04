@@ -13,11 +13,11 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
 
-<h2 align="center">依赖环境(如果自己有nginx/mysql/cache服务器的话可忽略2,3)</h2>
+<h2 align="center">依赖环境</h2>
 
 1. [nodejs](https://nodejs.org/en/download/)
-2. [docker](https://www.docker.com/products/docker-desktop)
-3. [docker-compose](https://docs.docker.com/compose/install/)
+2. [docker](https://www.docker.com/products/docker-desktop) 如果已有nginx/mysql等服务的话可忽略
+3. [docker-compose](https://docs.docker.com/compose/install/) 如果已有nginx/mysql等服务的话可忽略
 
 <h2 align="center">功能描述</h2>
 
