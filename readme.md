@@ -18,8 +18,6 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 1. [nodejs](https://nodejs.org/en/download/)
 2. [docker](https://www.docker.com/products/docker-desktop)
 3. [docker-compose](https://docs.docker.com/compose/install/)
-5. docker-compose up -d
-6. nger start [插件名称(可选)]
 
 <h2 align="center">功能描述</h2>
 
@@ -52,7 +50,6 @@ nger start [-p 4200]
 // http://localhost:4200/install
 // 按照提示填写表单，挑选合适的模块，开启运营吸金之旅
 ```
-
 
 <h2 align="center">目录规范</h2>
 
