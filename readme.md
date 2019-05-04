@@ -51,75 +51,7 @@ nger start [-p 4200]
 // 按照提示填写表单，挑选合适的模块，开启运营吸金之旅
 ```
 
-## 目录规范
-
-#### 源码
-- [x] `addon`
-  - [x] `ims-demo`
-    - [x] `inc` 控制器，服务端
-    - [x] `template` 模板
-    - [x] `typeorm` 数据库
-    - [x] `index.ts` 导出模块
-    - [x] `server.ts` 服务端
-    - [x] `pc.ts` pc端
-    - [x] `app.ts` app端
-    - [x] `admin` 管理端
-    - [x] `package.json` 模块详情
-      - [x] `name`: 模块名,
-      - [x] `description`: 模块描述
-      - [x] `version`: 模块版本号,
-      - [x] `author` 模块作者
-        - [x] `email`: 作者邮箱,
-        - [x] `name`: 作者名称
-      - [x] nger: 入口信息
-        - [x] `server`: 制定服务端入口,
-        - [x] `admin`: 制定管理端入口,
-        - [x] `app`: 制定移动端入口,
-        - [x] `pc`: 制定pc端入口
-      - [x] icon: 模块图标
-
-#### 编译后
-- [x] `addon`
-  - [x] `ims-demo`
-    - [x] `pc` pc网站
-      - [x] index.html
-      - [x] **.js
-      - [x] assets
-    - [x] `admin` 管理
-      - [x] index.html
-      - [x] **.js
-      - [x] assets
-    - [x] `ttapp` 字节跳动
-      - [x] assets
-      - [x] pages
-      - [x] nger
-      - [x] app.js
-      - [x] app.json
-    - [x] `aliapp` 支付宝
-      - [x] assets
-      - [x] pages
-      - [x] nger
-      - [x] app.js
-      - [x] app.json
-    - [x] `weapp` 微信小程序
-      - [x] assets
-      - [x] pages
-      - [x] nger
-      - [x] app.js
-      - [x] app.json
-    - [x] `wechat` 微信浏览器
-      - [x] index.html
-      - [x] **.js
-      - [x] assets
-    - [x] `h5` 手机网站
-      - [x] index.html
-      - [x] **.js
-      - [x] assets
-    - [x] `ios` ios端
-    - [x] `android` 安卓端
-    - [x] `index.js` // 入口
-    - [x] `server.js` // 可独立运行，nger start addon/ims-install/server.js -p 4200
-    - [x] `package.json` // 插件描述
+## 开发进度
 
 ## 资助
 <p><img width="220" src="./docs/WechatIMG95.jpeg" alt="Vue logo"></p>
