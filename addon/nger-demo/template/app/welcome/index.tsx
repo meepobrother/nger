@@ -7,7 +7,9 @@ import { View } from 'nger-ui';
     ]
 })
 export class NgerDemoAppWelcomePage {
-    render() {
-        return <View className="nger-demo"></View>
+    render(h: any) {
+        return <View className="nger-demo">
+            <div></div>
+        </View>
     }
 }

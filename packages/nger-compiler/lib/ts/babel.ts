@@ -26,17 +26,16 @@ export class NgerCompilerBabel {
         return code;
     }
     compile(from: string, config: ts.TranspileOptions = {}) {
-        // 如果已经处理过了则忽略
-        // 拿到文件内容
-        let code = this.getFileContent(from, config);
-        // 解析
-        const ast = parse(code, {
-            sourceType: 'module',
-            plugins:['estree']
-        });
-        // 替换处理
-        traverse(ast, this.visitor || {});
-        code = generator(ast).code;
-        return code;
+        try{
+            // 如果已经处理过了则忽略
+            // 拿到文件内容
+            let code = this.getFileContent(from, config);
+            // 解析
+            const ast = parse(code, {});
+            // 替换处理
+            traverse(ast, this.visitor || {});
+            code = generator(ast).code;
+            return code;
+        }catch(e){}
     }
 }

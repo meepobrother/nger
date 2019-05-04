@@ -37,10 +37,6 @@ export class NgerWebpackManager {
                 console.log((message || err) + '\n')
             }
         } else {
-            if(stats.hasErrors()){
-                const errors = stats.toJson().errors;
-                console.log(errors)
-            }
             this.logger.info(`系统构建成功${new Date().getTime() - this.startTime}ms`);
         }
     }

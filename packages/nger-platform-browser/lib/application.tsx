@@ -2,7 +2,34 @@
 import { ApplicationRef, ComponentFactory, ComponentRef, ElementRef, ComponentFactoryResolver, ComponentMetadataKey } from 'nger-core'
 import { Injector, Type, InjectFlags } from 'nger-di'
 const { render, h } = require('preact');
-(window as any).h = h;
+export function ngerRender(injector: Injector) {
+    return (vnode: any, parent: any, replaceNode?: any) => {
+
+    }
+}
+export function ngerCreateElement(injector: Injector) {
+    return (tag: any, attr: any, ...children) => {
+        if (tag === 'string') {
+            return {
+                tag,
+                attr,
+                children,
+                injector
+            }
+        } else {
+            const resolver = injector.get(ComponentFactoryResolver)
+            const factory = resolver.resolveComponentFactory(tag)
+            const ref = factory.create(injector);
+            if (ref) { }
+        }
+    }
+}
+(window as any).h = (injector: Injector) => (tag, attr, ...children) => {
+    if (typeof tag === 'string') {
+    } else {
+
+    }
+};
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
     constructor(injector: Injector) {
@@ -39,7 +66,7 @@ export class BrowserApplicationRef extends ApplicationRef {
             }
         } catch (e) {
             console.error({
-                ref, 
+                ref,
                 injector,
                 e
             })

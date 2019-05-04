@@ -59,8 +59,7 @@ nger start [-p 4200]
 - [ ] nger start 启动框架
 - [ ] nger publish nger-demo 发布模块
 
-## 联系or资助
+## 合作洽谈-聊天交友-技术交流
 <p>
-<img height="320" src="./docs/WechatIMG95.jpeg">
 <img height="320" style="margin-left:30px;" src="./wechat.png">
 </p>

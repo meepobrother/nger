@@ -209,6 +209,7 @@
         "node_modules",
         "platforms",
         "typings",
-        "**/*.aot.ts"
+        "**/*.aot.ts",
+        "node_modules/preact/dist/preact.d.ts"
     ]
 }
