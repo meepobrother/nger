@@ -61,6 +61,6 @@ nger start [-p 4200]
 
 ## 联系or资助
 <p>
-<img width="220" src="./docs/WechatIMG95.jpeg">
-<img width="220" src="./wechat.png">
+<img height="220" src="./docs/WechatIMG95.jpeg">
+<img height="220" src="./wechat.png">
 </p>
