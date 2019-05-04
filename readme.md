@@ -13,18 +13,34 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
 
-<h2 align="center">系统架构</h2>
+<h2 align="center">平台功能</h2>
 
-面向终端用户对开发者友好的框架
-
-<p align="center"><img style="width:100%;" src="./docs/nger系统概述.png" alt="Vue logo"></p>
-
-> 用装饰器实现应用跨平台，如Controller装饰器，在前端就是发送http请求，在后端就是响应http请求
-> 主要目标nger-compiler根据平台需求,选择性的去除或修改代码,nger-platform-*提供装饰器解析器。
-> 将ng中的ngIf、ngFor通过编译器，拓展到其他运行环境，如小程序等。
+### 对于普通用户
+对于普通用户，他是您的服务器管家
+```ts
+// 安装
+npm install -g nger-cli
+// 启动
+nger start [-p 4200]
+// 首次安装 会自动跳转到安装配置页面
+// http://localhost:4200/install
+// 按照提示填写表单，挑选合适的模块，开启运营吸金之旅
+```
+### 对于开发者
+您可以把他看做一个工具，可以帮您快速开发部署您的项目
+```ts
+npm install -g nger-cli
+// 初始化
+nger init ims-demo
+// 开发中
+nger start ims-demo --watch
+// 运营
+nger start ims-demo
+// 发布赚外快
+nger publish ims-demo
+```
 
 <h2 align="center">依赖环境</h2>
-
 1. [安装nodejs](https://nodejs.org/en/download/)
 2. [安装docker](https://www.docker.com/products/docker-desktop)
 3. [安装docker-compose](https://docs.docker.com/compose/install/)
