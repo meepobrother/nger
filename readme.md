@@ -54,7 +54,7 @@ nger start [-p 4200]
 5. docker-compose up -d
 6. npm start
 
-## 目录规范
+<h2 align="center">目录规范</h2>
 
 #### 源码
 - [x] `addon`
@@ -124,5 +124,6 @@ nger start [-p 4200]
     - [x] `server.js` // 可独立运行，nger start addon/ims-install/server.js -p 4200
     - [x] `package.json` // 插件描述
 
-## 资助
+<h2 align="center">资助</h2>
+
 <p><img width="220" src="./docs/WechatIMG95.jpeg" alt="Vue logo"></p>
