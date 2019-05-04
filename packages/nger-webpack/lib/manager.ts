@@ -1,4 +1,4 @@
-import webpack, { Configuration } from 'webpack'
+import webpack, { Configuration,Stats } from 'webpack'
 import { Logger } from 'nger-core'
 import chalk from 'chalk';
 export class NgerWebpackManager {
@@ -8,15 +8,15 @@ export class NgerWebpackManager {
         return webpack(this.options)
     }
     build() {
-        this.compiler.run((err) => this.printBuildError(err));
+        this.compiler.run((err,stats) => this.printBuildError(err,stats));
     }
     watch() {
-        this.compiler.watch({}, (err) => {
-            this.printBuildError(err)
+        this.compiler.watch({}, (err,stats) => {
+            this.printBuildError(err,stats)
         })
     }
     startTime: number = new Date().getTime();
-    printBuildError(err: Error): void {
+    printBuildError(err: Error,stats: Stats): void {
         if (err) {
             const message = err.message
             const stack = err.stack
@@ -37,6 +37,10 @@ export class NgerWebpackManager {
                 console.log((message || err) + '\n')
             }
         } else {
+            if(stats.hasErrors()){
+                const errors = stats.toJson().errors;
+                console.log(errors)
+            }
             this.logger.info(`系统构建成功${new Date().getTime() - this.startTime}ms`);
         }
     }

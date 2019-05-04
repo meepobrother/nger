@@ -52,7 +52,7 @@ export const componentTransformerFactory = async (file: string, injector: Inject
                     undefined,
                     undefined,
                     undefined,
-                    ts.createStringLiteral(styleUrl)
+                    ts.createStringLiteral(`./${styleUrl}`)
                 );
                 node = ts.updateSourceFileNode(
                     node,

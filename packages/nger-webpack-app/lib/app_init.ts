@@ -5,7 +5,7 @@ const root = process.cwd();
 import { join } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack, { Configuration } from 'webpack'
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const StatsPlugin = require('stats-webpack-plugin');
 
 export function init(injector: Injector) {
     const manager = injector.get(NgerWebpackManager)
@@ -22,28 +22,33 @@ export function init(injector: Injector) {
         if (!name) {
             throw new Error(`当前开发项目不纯在`)
         }
+        const chunks = dev ? ['main'] : ['runtime', 'vendor', 'common', 'main']
         manager.options.push({
             entry: {
                 main: [join(root, `.temp/addon/${name}/app.js`)]
             },
+            resolve: {
+                extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                mainFields: ['main:h5', 'main', 'module'],
+                symlinks: true,
+                modules: [join(root, 'node_modules'), join(root, 'packages')]
+            },
+            profile: true,
+            recordsPath: join(root, 'data/webpack/app.json'),
             mode: dev ? 'development' : 'production',
             devtool: dev ? 'source-map' : 'none',
             watch: dev ? true : false,
             externals: [],
             target: 'web',
-            resolve: {
-                plugins: [
-                    new TsconfigPathsPlugin({ configFile: 'tsconfig.json' }),
-                ]
-            },
             plugins: [
+                new StatsPlugin('stats.json', {
+                    chunkModules: true
+                }),
                 new HtmlWebpackPlugin({
                     cache: false,
                     template: join(__dirname, 'index.html'),
                     filename: 'index.html',
-                    chunks: [
-                        'runtime', 'vendor', 'common', 'main'
-                    ],
+                    chunks: chunks,
                 }),
                 new webpack.WatchIgnorePlugin([
                     /\.d\.ts$/
@@ -74,5 +79,4 @@ export function init(injector: Injector) {
             ...optimi
         } as Configuration)
     }
-
 }

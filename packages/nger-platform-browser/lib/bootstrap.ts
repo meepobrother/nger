@@ -20,11 +20,13 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
             // 在此之前生成完成编译操作
             const element = createCustomElement(context.target, { injector: ref.injector })
             const component = context.getClass(ComponentMetadataKey) as ComponentClassAst;
-            const def = component.ast.metadataDef;
-            this.elements.set(context.target, element)
-            if (def.selector) {
-                this.customElements.define(def.selector, element)
-                return this.customElements.whenDefined(def.selector)
+            if(component){
+                const def = component.ast.metadataDef;
+                this.elements.set(context.target, element)
+                if (def.selector) {
+                    this.customElements.define(def.selector, element)
+                    return this.customElements.whenDefined(def.selector)
+                }
             }
         }));
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;

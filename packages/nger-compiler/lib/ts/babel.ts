@@ -30,7 +30,10 @@ export class NgerCompilerBabel {
         // 拿到文件内容
         let code = this.getFileContent(from, config);
         // 解析
-        const ast = parse(code, {});
+        const ast = parse(code, {
+            sourceType: 'module',
+            plugins:['estree']
+        });
         // 替换处理
         traverse(ast, this.visitor || {});
         code = generator(ast).code;

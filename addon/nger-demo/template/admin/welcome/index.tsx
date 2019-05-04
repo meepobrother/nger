@@ -7,6 +7,6 @@ import { Page } from 'nger-core';
 })
 export class NgerDemoAdminWelcomePage {
     render() {
-        return <div></div>
+        return <div>NgerDemoAdminWelcomePage</div>
     }
 }
