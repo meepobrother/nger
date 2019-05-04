@@ -1,5 +1,5 @@
 // 负责挂载到dom 如果是小程序 可设为空
-import { ApplicationRef, ComponentFactory, ComponentRef, ElementRef, ComponentFactoryResolver, ComponentMetadataKey } from 'nger-core'
+import { ApplicationRef, ComponentFactory, ComponentRef, RENDER,ElementRef, ComponentFactoryResolver, ComponentMetadataKey } from 'nger-core'
 import { Injector, Type, InjectFlags } from 'nger-di'
 const { render, h } = require('preact');
 export function ngerRender(injector: Injector) {
@@ -20,16 +20,15 @@ export function ngerCreateElement(injector: Injector) {
             const resolver = injector.get(ComponentFactoryResolver)
             const factory = resolver.resolveComponentFactory(tag)
             const ref = factory.create(injector);
-            if (ref) { }
+            if (ref) { 
+                (ref.instance as any).render(ngerCreateElement(ref.injector))
+            }
         }
     }
 }
-(window as any).h = (injector: Injector) => (tag, attr, ...children) => {
-    if (typeof tag === 'string') {
-    } else {
 
-    }
-};
+(window as any).h = h;
+
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
     constructor(injector: Injector) {
@@ -52,13 +51,9 @@ export class BrowserApplicationRef extends ApplicationRef {
             //这里渲染preact
             if (ref.instance.render) {
                 const tpl = ref.instance.render.bind(ref.instance);
-                const res = tpl()
-                render(res, parent.nativeElement)
-                // 更新试图,后面有可能会自己实现
-                ref.$ngOnChange && ref.$ngOnChange.subscribe(() => {
-                    const res = tpl()
-                    render(res, parent.nativeElement, parent.nativeElement.lastElementChild)
-                });
+                const h = ref.injector.get(RENDER)
+                const element = tpl(h(ref.injector));
+                parent.nativeElement.appendChild(element)
                 super.attachView(ref, injector);
                 const nowTime = new Date().getTime();
                 const totalTime = nowTime - (window as any).nger.startTime

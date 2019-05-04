@@ -14,7 +14,7 @@ export const controllerPropertyTransformerFactory = (context: TransformationCont
                         node.heritageClauses,
                         node.members.map(member => {
                             if (ts.isMethodDeclaration(member)) {
-                                const needReplace = hasPropertyMetadata(member.decorators);
+                                const needReplace = hasMetadata(member.decorators);
                                 if (needReplace) {
                                     return ts.createProperty(
                                         member.decorators,
@@ -26,7 +26,7 @@ export const controllerPropertyTransformerFactory = (context: TransformationCont
                                     )
                                 }
                             } else if (ts.isPropertyDeclaration(member)) {
-                                const needReplace = hasPropertyMetadata(member.decorators);
+                                const needReplace = hasMetadata(member.decorators);
                                 if (needReplace) return member;
                             } else if (ts.isConstructorDeclaration(member)) { }
                         }).filter(node => !!node)
@@ -39,7 +39,7 @@ export const controllerPropertyTransformerFactory = (context: TransformationCont
         return node;
     }
 }
-export function hasPropertyMetadata(nodes: ts.NodeArray<ts.Decorator>, decorators: string[] = ['Get', 'Post']) {
+export function hasMetadata(nodes: ts.NodeArray<ts.Decorator>, decorators: string[] = ['Get', 'Post']) {
     const item = nodes && nodes.find(node => {
         if (ts.isDecorator(node)) {
             if (ts.isCallExpression(node.expression)) {

@@ -7,17 +7,10 @@ import { ComponentClassAst, ComponentOptions } from '../decorators/component';
 
 import { ChangeDetectorRef, DefaultChangeDetectorRef } from './change_detector_ref';
 import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { handlerTypeContextToParams } from './createStaticProvider'
-// 这个是编译后的模板文件
-export const ComponentTemplateToken = new InjectionToken<string>(`ComponentTemplateToken`);
-// 这个是编译后的样式文件
-export const ComponentStyleToken = new InjectionToken<string>(`ComponentStyleToken`);
-// 这个是编译后的json文件
-export const ComponentPropToken = new InjectionToken<object>(`ComponentPropToken`);
-// 这个是样式挂载文件
-export const StyleRef = new InjectionToken<HTMLStyleElement>(`StyleRef`);
-
+export type Render = (injector: Injector) => <T>(type: any, props: any, ...children: any[]) => T;
+export const RENDER = new InjectionToken<Render>(`RENDER`)
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }
@@ -86,7 +79,6 @@ export class ComponentFactory<C> {
         injector: Injector,
         ngModule?: NgModuleRef<any>
     ): ComponentRef<C> {
-        const { target } = this._context;
         // 新建一个
         // Component,Directive,Pipe每次取都要创建
         // Page/Controller单例
@@ -95,7 +87,7 @@ export class ComponentFactory<C> {
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)
         // 这个是数据监控器
-        const $ngOnChange = new Subject();
+        const $ngOnChange = new BehaviorSubject({});
         const changeDetector = new DefaultChangeDetectorRef($ngOnChange)
         const currentInjector = injector.create([{
             provide: this.componentType,
@@ -104,13 +96,15 @@ export class ComponentFactory<C> {
                 const that = this;
                 const proxy = new Proxy(instance as any, {
                     set(target: any, p: PropertyKey, value: any, receiver: any) {
-                        target[p] = value;
                         // 判断是否是@Input 
                         const input = that.inputs.map(it => it.propName === p);
                         if (input) {
                             // 这里应该有数据拦截之类的东西，先todo吧
-                            changeDetector.markForCheck();
+                            $ngOnChange.next({
+                                [`${p as string}`]: value
+                            });
                         }
+                        target[p] = value;
                         return true;
                     }
                 });
@@ -125,13 +119,24 @@ export class ComponentFactory<C> {
             provide: ChangeDetectorRef,
             useValue: changeDetector,
             deps: []
-        }], target.name);
-        let instance = currentInjector.get(target) as C;
+        }], this.componentType.name);
+        // 是一个proxy 外部赋值会触发更新，内部赋值需要手动更新
+        let instance = currentInjector.get(this.componentType) as C;
+        const init = {};
+        this.inputs.map(input=>{
+            init[input.templateName] = instance[input.propName]
+        });
+        $ngOnChange.next(init);
         // 解析一些属性并赋值
         const parserVisitor = currentInjector.get(ParserVisitor);
         this._context.injector = currentInjector;
         parserVisitor.parse(instance, this._context);
         // 设置代理
-        return new ComponentRef(currentInjector, instance, changeDetector, target, $ngOnChange);
+        const ref = new ComponentRef(currentInjector, instance, changeDetector, this.componentType as any, $ngOnChange);
+        ref.injector.setStatic([{
+            provide: ComponentRef,
+            useValue: ref
+        }])
+        return ref;
     }
 }

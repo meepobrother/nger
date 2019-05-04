@@ -3,7 +3,8 @@ import {
     NgerCompilerBabel,
     NgerCompilerNgMetadata,
     metadataCache,
-    hasHandlerFileCache
+    hasHandlerFileCache,
+    componentRenderTransformerFactory
 } from 'nger-compiler'
 import { Injector } from 'nger-di'
 import { relative, extname, join } from 'path';
@@ -26,7 +27,8 @@ export const preactTask: Task = async (file: string, opt: string, injector: Inje
                     const code = babel.compile(file, {
                         transformers: {
                             before: [
-                                await componentTransformerFactory(file, injector)
+                                await componentTransformerFactory(file, injector),
+                                componentRenderTransformerFactory
                             ]
                         }
                     });

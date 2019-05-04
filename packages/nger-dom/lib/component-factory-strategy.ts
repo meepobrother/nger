@@ -223,6 +223,6 @@ export class ComponentNgElementStrategy<T> implements NgElementStrategy {
       return;
     }
     this.callNgOnChanges();
-    this.componentRef!.changeDetectorRef.detectChanges();
+    // this.componentRef!.changeDetectorRef.detectChanges();
   }
 }

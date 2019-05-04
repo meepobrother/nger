@@ -1,6 +1,6 @@
 import { Injector, Type } from 'nger-di'
 import { ChangeDetectorRef } from './change_detector_ref';
-import { Component, ComponentOptions } from '../decorators/component'
+import { Component } from '../decorators/component'
 // 这个是真实的组件 P代表react中的Props,S代表State
 // 这个是为了更好的融合react/preact才加上的
 import { Subject } from 'rxjs'

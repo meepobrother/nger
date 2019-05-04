@@ -14,8 +14,8 @@ import { ApplicationRef } from './application_ref'
 import { ComponentCreator } from './component_factory'
 import { PLATFORM_INITIALIZER } from './application_tokens'
 import { NGER_CONFIG, INgerConfig } from '../sdk/nger-config'
-import { Subject } from 'rxjs'
-export const topSubject = new Subject();
+import { BehaviorSubject } from 'rxjs'
+export const topSubject = new BehaviorSubject({});
 export const platformCore = createPlatformFactory(null, 'core', [{
     provide: APP_INITIALIZER,
     useValue: () => { },

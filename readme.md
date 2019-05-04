@@ -1,5 +1,8 @@
 <p align="center"><img width="120" src="./docs/logo.png" alt="Vue logo"></p>
 
+
+项目开发中，api频繁变动中!
+
 ## Nger
 > nger, 用ng的人！I am a nger! 
 

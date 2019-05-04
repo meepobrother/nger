@@ -9,7 +9,9 @@ import { NgerCompilerRollup } from './ts/rollup'
 import { NgerCompilerNgTemplate } from './html/ng'
 import { NgerCompilerCid } from './helper/cid'
 import { NgerCompilerNgMetadata } from './helper/ng_metadata'
-import { controllerPropertyTransformerFactory, hasPropertyMetadata } from './transformer_factorys/controller'
+import { controllerPropertyTransformerFactory, hasMetadata } from './transformer_factorys/controller'
+import { componentRenderTransformerFactory } from './transformer_factorys/component'
+
 import { WATCH_TASK, Task } from './tokens/watch_task'
 import { NgerCompilerBootstrap, metadataCache, hasHandlerFileCache, templateCache } from './bootstrap'
 import { NgModuleBootstrap } from 'nger-core'
@@ -27,10 +29,11 @@ export {
     controllerPropertyTransformerFactory,
     WATCH_TASK,
     Task,
-    hasPropertyMetadata,
+    hasMetadata,
     metadataCache,
     hasHandlerFileCache,
-    templateCache
+    templateCache,
+    componentRenderTransformerFactory
 }
 const provides: StaticProvider[] = [
     ...styleProviders,
