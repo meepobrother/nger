@@ -1,4 +1,4 @@
-import { createPlatformFactory, Logger, Http, NgerConfig, FileSystem, Resolver, APP_ROOT, NGER_CONFIG, platformCore } from 'nger-core'
+import { createPlatformFactory, Logger, Http, NgerConfig, FILE_SYSTEM, Resolver, APP_ROOT, NGER_CONFIG, platformCore } from 'nger-core'
 import { NgerUtil } from 'nger-util'
 import fs from 'fs-extra';
 import { dirname, join } from 'path'
@@ -30,7 +30,7 @@ export default createPlatformFactory(platformCore, 'node', [
             NgerConfig
         ]
     }, {
-        provide: FileSystem,
+        provide: FILE_SYSTEM,
         useFactory: () => {
             const writeFileSync = fs.writeFileSync;
             const ensureDirSync = fs.ensureDirSync;

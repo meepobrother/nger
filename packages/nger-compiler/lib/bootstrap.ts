@@ -1,4 +1,4 @@
-import { NgModuleBootstrap, NgModuleRef, FileSystem } from 'nger-core';
+import { NgModuleBootstrap, NgModuleRef, FILE_SYSTEM } from 'nger-core';
 import chokidar from 'chokidar';
 import { join } from 'path'
 const root = process.cwd();
@@ -42,7 +42,7 @@ export class NgerCompilerBootstrap extends NgModuleBootstrap {
     }
 
     runTask(injector: Injector, path: string, opt: string) {
-        const fs = injector.get(FileSystem)
+        const fs = injector.get(FILE_SYSTEM)
         const stats = fs.statSync(path)
         const isTsFile = path.endsWith('.ts') || path.endsWith('.tsx')
         if (stats.isFile() && isTsFile && stats.size > 0) {

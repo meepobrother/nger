@@ -8,12 +8,12 @@ import {
 import { Injector } from 'nger-di'
 import { relative, extname, join } from 'path';
 const root = process.cwd();
-import { FileSystem } from 'nger-core'
+import { FILE_SYSTEM } from 'nger-core'
 import { componentTransformerFactory } from './transformer_factorys/component'
 export const preactTask: Task = async (file: string, opt: string, injector: Injector) => {
     if (file.endsWith('.ts') || file.endsWith('.tsx')) {
         const metadata = metadataCache.get(file);
-        const fs = injector.get(FileSystem)
+        const fs = injector.get(FILE_SYSTEM)
         const babel = injector.get(NgerCompilerBabel)
         const ngMetadata = injector.get(NgerCompilerNgMetadata)
         const relativePath = relative(root, file)

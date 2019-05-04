@@ -1,7 +1,7 @@
 import ts, { TransformationContext, Transformer } from 'typescript';
 import { metadataCache, NgerCompilerNgMetadata, NgerPlatformStyle } from 'nger-compiler';
 import { Injector } from 'nger-di';
-import { FileSystem } from 'nger-core';
+import { FILE_SYSTEM } from 'nger-core';
 import { extname, relative, join, dirname } from 'path';
 const root = process.cwd();
 export const componentTransformerFactory = async (file: string, injector: Injector) => {
@@ -9,7 +9,7 @@ export const componentTransformerFactory = async (file: string, injector: Inject
     const ext = extname(relativePath);
     const noExtPath = relativePath.replace(ext, '')
     const metadata = metadataCache.get(file)
-    const fs = injector.get(FileSystem);
+    const fs = injector.get(FILE_SYSTEM);
     const ng = injector.get(NgerCompilerNgMetadata);
     const style = injector.get(NgerPlatformStyle);
     let styleFile: string = ``;

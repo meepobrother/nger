@@ -116,7 +116,7 @@ export class ComponentFactory<C> {
                 });
                 return proxy;
             },
-            deps: handlerTypeContextToParams(this.context)
+            deps: handlerTypeContextToParams(this._context)
         }, {
             provide: ComponentFactory,
             useValue: this,

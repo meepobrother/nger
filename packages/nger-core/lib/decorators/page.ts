@@ -4,7 +4,7 @@ import { ComponentOptions } from './component'
 
 export interface PageOptions extends ComponentOptions {
     path: string;
-    title: string;
+    title?: string;
 }
 export const Page = makeDecorator<PageOptions>(PageMetadataKey);
 export class PageClassAst extends ClassContext<PageOptions> {

@@ -15,8 +15,8 @@
                 "-r",
                 "tsconfig-paths/register",
                 "${relativeFile}",
-                "start",
-                "koa"
+                "init",
+                "ims-demo"
             ],
             "cwd": "${workspaceRoot}"
         }

@@ -23,9 +23,7 @@ export class NgerUtil {
             target = require(name)
         } catch (e) {
             this.logger.debug(`package ${name} not found , now installing.., please wait`)
-            await this.addPkg(name).catch(e => {
-                this.logger.error(e.message)
-            });
+            await this.addPkg(name).catch(e => {});
             target = require(name);
         }
         if (!!attr) {
@@ -45,7 +43,6 @@ export class NgerUtil {
             this.config.set('npm', 'npm')
         }
         const npm = this.config.get('npm');
-        console.log(npm)
         switch (npm) {
             case 'yarn':
                 command = `yarn add ${name}`

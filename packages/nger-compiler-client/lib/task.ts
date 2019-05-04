@@ -8,10 +8,10 @@ import {
 import { Injector } from 'nger-di'
 import { relative, extname, join } from 'path';
 const root = process.cwd();
-import { FileSystem } from 'nger-core'
+import { FILE_SYSTEM } from 'nger-core'
 export const clientTask: Task = (file: string, opt: string, injector: Injector) => {
     if (file.endsWith('.ts')) {
-        const fs = injector.get(FileSystem)
+        const fs = injector.get(FILE_SYSTEM)
         const babel = injector.get(NgerCompilerBabel)
         const ngMetadata = injector.get(NgerCompilerNgMetadata)
         const metadata = ngMetadata.getMetadata(file);
