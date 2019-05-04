@@ -41,9 +41,10 @@ nger publish ims-demo
 ```
 
 <h2 align="center">依赖环境</h2>
-1. [安装nodejs](https://nodejs.org/en/download/)
-2. [安装docker](https://www.docker.com/products/docker-desktop)
-3. [安装docker-compose](https://docs.docker.com/compose/install/)
+
+1. [nodejs](https://nodejs.org/en/download/)
+2. [docker](https://www.docker.com/products/docker-desktop)
+3. [docker-compose](https://docs.docker.com/compose/install/)
 4. npm install
 5. docker-compose up -d
 6. npm start
