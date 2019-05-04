@@ -30,11 +30,11 @@ nger start [-p 4200]
 您可以把他看做一个工具，可以帮您快速开发部署您的项目
 ```ts
 npm install -g nger-cli
-// 初始化
+// 初始化模块
 nger init ims-demo
-// 开发中
+// 开发模块
 nger start ims-demo --watch
-// 运营
+// 运营启动模块
 nger start ims-demo
 // 发布赚外快
 nger publish ims-demo
