@@ -6,7 +6,6 @@ import { join } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack, { Configuration } from 'webpack'
 const StatsPlugin = require('stats-webpack-plugin');
-
 export function init(injector: Injector) {
     const manager = injector.get(NgerWebpackManager)
     return () => {
@@ -17,18 +16,16 @@ export function init(injector: Injector) {
             filename: '[name]_[hash].bound.js',
             chunkFilename: '[name]_[hash].chunk.js'
         }
-        const optimi = dev ? {} : optimization;
         const name = getCurrentDev();
         if (!name) {
             throw new Error(`当前开发项目不纯在`)
         }
-        const chunks = dev ? ['main'] : ['runtime', 'vendor', 'common', 'main']
         manager.options.push({
             entry: {
                 main: [join(root, `.temp/addon/${name}/app.js`)]
             },
             resolve: {
-                extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                extensions: ['.js', '.jsx'],
                 mainFields: ['main:h5', 'main', 'module'],
                 symlinks: true,
                 modules: [join(root, 'node_modules'), join(root, 'packages')]
@@ -48,7 +45,7 @@ export function init(injector: Injector) {
                     cache: false,
                     template: join(__dirname, 'index.html'),
                     filename: 'index.html',
-                    chunks: chunks,
+                    chunks: ['runtime', 'vendor', 'common', 'main'],
                 }),
                 new webpack.WatchIgnorePlugin([
                     /\.d\.ts$/
@@ -76,7 +73,7 @@ export function init(injector: Injector) {
                 maxEntrypointSize: 1700000,
                 maxAssetSize: 1700000
             },
-            ...optimi
+            ...optimization
         } as Configuration)
     }
 }

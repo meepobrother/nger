@@ -3,7 +3,7 @@ import { StaticProvider } from 'nger-di'
 import { NgerCompilerImage } from './assets/image'
 import { NgerCompilerUglify } from './ts/uglify'
 import { NgerCompilerBabel } from './ts/babel'
-import { TraverVisitor, Resolver } from 'nger-core'
+import { Resolver } from 'nger-core'
 import { NgerCompilerTypescript } from './ts/typescript'
 import { NgerCompilerRollup } from './ts/rollup'
 import { NgerCompilerNgTemplate } from './html/ng'
@@ -12,7 +12,6 @@ import { NgerCompilerNgMetadata } from './helper/ng_metadata'
 import { controllerPropertyTransformerFactory, hasPropertyMetadata } from './transformer_factorys/controller'
 import { WATCH_TASK, Task } from './tokens/watch_task'
 import { NgerCompilerBootstrap, metadataCache, hasHandlerFileCache, templateCache } from './bootstrap'
-import { controllerVisitor } from './visitors/controller'
 import { NgModuleBootstrap } from 'nger-core'
 import { NgerUtil } from 'nger-util'
 export {
@@ -39,11 +38,6 @@ const provides: StaticProvider[] = [
         provide: NgModuleBootstrap,
         useClass: NgerCompilerBootstrap,
         deps: [NgerUtil],
-        multi: true
-    },
-    {
-        provide: TraverVisitor,
-        useValue: controllerVisitor,
         multi: true
     },
     {
@@ -82,7 +76,6 @@ const provides: StaticProvider[] = [
         useClass: NgerCompilerBabel,
         deps: [
             NgerCompilerTypescript,
-            TraverVisitor,
             Resolver
         ]
     }

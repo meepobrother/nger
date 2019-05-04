@@ -1,11 +1,8 @@
 import * as t from '@babel/types';
-import template from '@babel/template';
-import core from '@babel/core';
 import traverse, { NodePath } from '@babel/traverse';
 import generator from '@babel/generator';
 import { parse } from '@babel/parser';
-import tpl from './babel_template';
-import { join, dirname, relative, extname } from 'path'
+import { join, dirname, extname } from 'path'
 const root = process.cwd();
 import fs from 'fs-extra';
 import { Injectable } from 'nger-core';

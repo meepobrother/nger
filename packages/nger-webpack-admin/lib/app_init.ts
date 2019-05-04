@@ -6,7 +6,6 @@ import { join } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack, { Configuration } from 'webpack'
 const StatsPlugin = require('stats-webpack-plugin');
-
 export function init(injector: Injector) {
     const manager = injector.get(NgerWebpackManager)
     return () => {
@@ -28,7 +27,7 @@ export function init(injector: Injector) {
                 main: [join(root, `.temp/addon/${name}/admin.js`)]
             },
             resolve: {
-                extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                extensions: ['.js', '.jsx'],
                 mainFields: ['main:h5', 'main', 'module'],
                 symlinks: true,
                 modules: [join(root, 'node_modules'), join(root, 'packages')]
@@ -53,19 +52,7 @@ export function init(injector: Injector) {
             ],
             output: output,
             module: {
-                rules: [{
-                    test: /\.tsx?$/,
-                    enforce: 'pre',
-                    use: [
-                        {
-                            loader: 'ts-loader',
-                            options: {
-                                transpileOnly: true,
-                                configFile: 'tsconfig.json'
-                            }
-                        }
-                    ]
-                }, ...assetsRules]
+                rules: [...assetsRules]
             },
             performance: {
                 hints: 'warning',

@@ -7,4 +7,4 @@ export default [{
     useFactory: init,
     deps: [Injector],
     multi: true
-}]
+}];
