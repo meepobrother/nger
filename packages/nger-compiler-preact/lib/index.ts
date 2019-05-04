@@ -1,7 +1,5 @@
-import { NgerCompilerPreact } from './preact'
 import { StaticProvider } from 'nger-di';
-import { NgerCompilerNgMetadata, WATCH_TASK } from 'nger-compiler'
-import { NgModuleBootstrap, NgerConfig, Logger } from 'nger-core'
+import { WATCH_TASK } from 'nger-compiler'
 import ngerCompilerClient from 'nger-compiler-client'
 import { preactTask } from './task'
 const provider: StaticProvider[] = [
@@ -9,16 +7,6 @@ const provider: StaticProvider[] = [
     {
         provide: WATCH_TASK,
         useValue: preactTask,
-        multi: true
-    },
-    {
-        provide: NgModuleBootstrap,
-        useClass: NgerCompilerPreact,
-        deps: [
-            NgerCompilerNgMetadata,
-            NgerConfig,
-            Logger
-        ],
         multi: true
     }
 ];

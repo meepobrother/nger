@@ -13,7 +13,7 @@ export function init(injector: Injector) {
         const dev = isDevMode();
         const output = {
             path: join(root, 'template/admin'),
-            publicPath: dev ? `/` : '/admin',
+            publicPath: '/admin',
             filename: '[name]_[hash].bound.js',
             chunkFilename: '[name]_[hash].chunk.js'
         }

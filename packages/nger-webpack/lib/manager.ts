@@ -7,8 +7,13 @@ export class NgerWebpackManager {
     get compiler(): webpack.MultiCompiler {
         return webpack(this.options)
     }
-    build(options: Configuration[]) {
+    build() {
         this.compiler.run((err) => this.printBuildError(err));
+    }
+    watch() {
+        this.compiler.watch({}, (err) => {
+            this.printBuildError(err)
+        })
     }
     startTime: number = new Date().getTime();
     printBuildError(err: Error): void {
