@@ -1,5 +1,5 @@
 import ts, { TransformationContext, Transformer } from 'typescript';
-import { metadataCache, NgerCompilerNgMetadata, NgerPlatformStyle } from 'nger-compiler';
+import { metadataCache, NgerCompilerNgMetadata, NgerPlatformStyle, NgerCompilerNgTemplate } from 'nger-compiler';
 import { Injector } from 'nger-di';
 import { FILE_SYSTEM } from 'nger-core';
 import { extname, relative, join, dirname } from 'path';
@@ -12,11 +12,13 @@ export const componentTransformerFactory = async (file: string, injector: Inject
     const fs = injector.get(FILE_SYSTEM);
     const ng = injector.get(NgerCompilerNgMetadata);
     const style = injector.get(NgerPlatformStyle);
+    const ngTemplate = injector.get(NgerCompilerNgTemplate)
     let styleFile: string = ``;
     if (metadata) {
         const component = ng.getComponentConfig(metadata);
-        let { styles, styleUrls } = component;
+        let { styles, styleUrls, template, templateUrl, preserveWhitespaces } = component;
         styles = styles || ``;
+        template = template || ``;
         let type: 'less' | 'sass' | 'scss' | 'stylus' | 'css' = 'css'
         if (styleUrls && styleUrls.length > 0) {
             styleUrls.map(url => {
@@ -32,6 +34,15 @@ export const componentTransformerFactory = async (file: string, injector: Inject
             styleFile = relative(dirname(styleFile), styleFile);
             // 生成d.ts
         }
+        if (templateUrl) {
+            const path = join(dirname(file), templateUrl);
+            template += fs.readFileSync(path).toString('utf8')
+        }
+        template = ngTemplate.parse(template, templateUrl || '', {
+            preserveWhitespaces: !!preserveWhitespaces
+        });
+        // 写入json
+        
     }
     return (context: TransformationContext): Transformer<ts.SourceFile> => {
         return (node: ts.SourceFile): ts.SourceFile => {

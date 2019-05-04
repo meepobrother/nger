@@ -11,7 +11,7 @@ import { NgerCompilerCid } from './helper/cid'
 import { NgerCompilerNgMetadata } from './helper/ng_metadata'
 import { controllerPropertyTransformerFactory, hasPropertyMetadata } from './transformer_factorys/controller'
 import { WATCH_TASK, Task } from './tokens/watch_task'
-import { NgerCompilerBootstrap, metadataCache, hasHandlerFileCache } from './bootstrap'
+import { NgerCompilerBootstrap, metadataCache, hasHandlerFileCache, templateCache } from './bootstrap'
 import { controllerVisitor } from './visitors/controller'
 import { NgModuleBootstrap } from 'nger-core'
 import { NgerUtil } from 'nger-util'
@@ -30,7 +30,8 @@ export {
     Task,
     hasPropertyMetadata,
     metadataCache,
-    hasHandlerFileCache
+    hasHandlerFileCache,
+    templateCache
 }
 const provides: StaticProvider[] = [
     ...styleProviders,

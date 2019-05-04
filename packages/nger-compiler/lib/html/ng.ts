@@ -1,5 +1,6 @@
 import { parseTemplate } from '@angular/compiler'
 import { Injectable } from 'nger-core'
+import { Node } from '@angular/compiler/src/render3/r3_ast'
 export interface ParseTemplateOptions {
     preserveWhitespaces?: boolean;
     interpolationConfig?: InterpolationConfig;
@@ -12,7 +13,10 @@ export declare class InterpolationConfig {
 }
 @Injectable()
 export class NgerCompilerNgTemplate {
-    parse(template: string, templateUrl: string, options?: ParseTemplateOptions) {
-        return parseTemplate(template, templateUrl, options)
+    parse(template: string, templateUrl: string, options?: ParseTemplateOptions): Node[] {
+        const nodes = parseTemplate(template, templateUrl, options).nodes
+        return nodes;
     }
 }
+
+export { Node }
