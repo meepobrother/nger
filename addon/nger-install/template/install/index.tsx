@@ -3,13 +3,16 @@ import { Page } from 'nger-core';
 @Page({
     path: '/install',
     title: 'nger系统安装',
+    styleUrls: [
+        "./index.scss"
+    ],
     type: ['pc']
 })
 export class NgerInstallPage {
-
+    title: string;
     render() {
         return <div>
-            <h2 className="title">欢迎使用Nger平台</h2>
+            <h2 className="title">{this.title || '欢迎使用Nger平台'}</h2>
             <div className="step1">
                 <h4 className="title">管理员</h4>
                 <input type="text" placeholder="站长用户名" />

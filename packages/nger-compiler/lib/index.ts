@@ -3,14 +3,18 @@ import { StaticProvider } from 'nger-di'
 import { NgerCompilerImage } from './assets/image'
 import { NgerCompilerUglify } from './ts/uglify'
 import { NgerCompilerBabel } from './ts/babel'
-import { TraverVisitor, Resolver, FileSystem, Logger } from 'nger-core'
+import { TraverVisitor, Resolver } from 'nger-core'
 import { NgerCompilerTypescript } from './ts/typescript'
-import { NgerCompilerController } from './ts/controller'
 import { NgerCompilerRollup } from './ts/rollup'
 import { NgerCompilerNgTemplate } from './html/ng'
 import { NgerCompilerCid } from './helper/cid'
 import { NgerCompilerNgMetadata } from './helper/ng_metadata'
-import { NgerCompilerBabelController } from './ts/controllerBabel'
+import { controllerPropertyTransformerFactory, hasPropertyMetadata } from './transformer_factorys/controller'
+import { WATCH_TASK, Task } from './tokens/watch_task'
+import { NgerCompilerBootstrap, metadataCache, hasHandlerFileCache } from './bootstrap'
+import { controllerVisitor } from './visitors/controller'
+import { NgModuleBootstrap } from 'nger-core'
+import { NgerUtil } from 'nger-util'
 export {
     NgerCompilerImage,
     NgerCompilerUglify,
@@ -21,25 +25,20 @@ export {
     NgerCompilerCid,
     NgerCompilerNgMetadata,
     NgerCompilerBabel,
-    NgerCompilerBabelController
+    controllerPropertyTransformerFactory,
+    WATCH_TASK,
+    Task,
+    hasPropertyMetadata,
+    metadataCache,
+    hasHandlerFileCache
 }
-import { NgerUtil } from 'nger-util'
-import { controllerVisitor } from './visitors/controller'
 const provides: StaticProvider[] = [
     ...styleProviders,
     {
-        provide: NgerCompilerBabelController,
-        useClass: NgerCompilerBabelController,
-        deps: [
-            NgerCompilerController,
-            TraverVisitor,
-            Resolver
-        ]
-    },
-    {
-        provide: NgerCompilerController,
-        useClass: NgerCompilerController,
-        deps: []
+        provide: NgModuleBootstrap,
+        useClass: NgerCompilerBootstrap,
+        deps: [NgerUtil],
+        multi: true
     },
     {
         provide: TraverVisitor,

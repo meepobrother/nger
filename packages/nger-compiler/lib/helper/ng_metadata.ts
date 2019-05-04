@@ -57,13 +57,13 @@ export class NgerCompilerNgMetadata {
 
     getComponentConfig(data: cli.ModuleMetadata) {
         const { metadata } = data;
-        let result: any = {};
+        let result: any;
         Object.keys(metadata).map(key => {
             const meta = metadata[key];
             if (cli.isClassMetadata(meta)) {
                 const decorator = this.findDecorator(meta.decorators || [], (meta: cli.MetadataValue) => {
                     if (cli.isMetadataImportedSymbolReferenceExpression(meta)) {
-                        return meta.module === 'nger-core' && meta.name === 'Component'
+                        return meta.module === 'nger-core' && (meta.name === 'Component' || meta.name === 'Page')
                     }
                 }) as cli.MetadataSymbolicCallExpression;
                 const args = decorator && decorator.arguments;

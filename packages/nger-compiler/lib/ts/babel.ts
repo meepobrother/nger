@@ -6,6 +6,7 @@ import fs from 'fs-extra';
 import { Injectable } from 'nger-core';
 import { NgerCompilerTypescript } from 'nger-compiler';
 import { mergeVisitors } from './util'
+import ts from 'typescript';
 @Injectable()
 export class NgerCompilerBabel {
     visitor: Visitor;
@@ -16,18 +17,18 @@ export class NgerCompilerBabel {
     ) {
         this.visitor = mergeVisitors(this.visitors, this)
     }
-    getFileContent(path: string) {
+    getFileContent(path: string, config: ts.TranspileOptions = {}) {
         // 如果文件或目录存在
         let code = fs.readFileSync(path).toString('utf8')
         if (path.endsWith('.ts') || path.endsWith('tsx')) {
-            code = this.ts.compile(code)
+            code = this.ts.compile(code, config)
         }
         return code;
     }
-    compile(from: string) {
+    compile(from: string, config: ts.TranspileOptions = {}) {
         // 如果已经处理过了则忽略
         // 拿到文件内容
-        let code = this.getFileContent(from);
+        let code = this.getFileContent(from, config);
         // 解析
         const ast = parse(code, {});
         // 替换处理

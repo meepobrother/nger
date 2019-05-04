@@ -1,5 +1,5 @@
 import { Component } from 'nger-core'
 @Component({
-    selector: 'nger-video'
+    selector: 'video'
 })
 export class Video { }

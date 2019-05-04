@@ -1,5 +1,11 @@
-import { Component } from 'nger-core'
+import { Component, Input } from 'nger-core'
+import { Element } from '../base'
 @Component({
-    selector: 'nger-view'
+    selector: 'view'
 })
-export class View { }
+export class View extends Element {
+    @Input() hoverClass?: string;
+    @Input() hoverStopPropagation?: boolean;
+    @Input() hoverStartTime?: number;
+    @Input() hoverStayTime?: number;
+}

@@ -14,8 +14,7 @@ export interface Hyperscript {
     (sel: any, data: VNodeData, children: Array<VNode | undefined | null>): VNode;
     (sel: any, data: VNodeData, children: VNode): VNode;
 }
-interface NgerComponent<T> {
-}
+interface NgerComponent<T> { }
 declare global {
     export var h: Hyperscript;
     namespace JSX {
@@ -24,10 +23,8 @@ declare global {
         interface IntrinsicElements {
             [elemName: string]: any;
         }
-        interface ElementClass { }
+        interface ElementClass {}
         interface ElementAttributesProperty extends NgerComponent<any> { }
-        interface ElementChildrenAttribute {
-            children: any;
-        }
+        interface ElementChildrenAttribute { }
     }
 }

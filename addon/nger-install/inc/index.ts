@@ -1,3 +1,5 @@
+import { NgerInstallController } from './install'
 
-
-export default [];
+export default [
+    NgerInstallController
+];

@@ -1,16 +1,13 @@
-import { NgModuleBootstrap, FileSystem, Logger } from 'nger-core'
-import compilerProviders, { NgerCompilerNgMetadata, NgerCompilerBabel, NgerCompilerBabelController } from 'nger-compiler'
-import { NgerCompilerClientBootstrap } from './bootstrap'
-import { NgerUtil } from 'nger-util'
+import compilerProviders from 'nger-compiler'
+import { clientTask } from './task';
+import {
+    WATCH_TASK
+} from 'nger-compiler'
 export default [
     ...compilerProviders,
     {
-        provide: NgModuleBootstrap,
-        useClass: NgerCompilerClientBootstrap,
-        multi: true,
-        deps: [
-            NgerCompilerNgMetadata, FileSystem, NgerUtil,
-            NgerCompilerBabel, Logger, NgerCompilerBabelController
-        ]
-    },
+        provide: WATCH_TASK,
+        useValue: clientTask,
+        multi: true
+    }
 ]

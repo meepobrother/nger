@@ -1,3 +1,16 @@
 {
-    "name": "nger-install"
+    "name": "nger-install",
+    "description": "系统安装",
+    "version": "1.0",
+    "author": {
+        "email": "1037483576@qq.com",
+        "name": "nger"
+    },
+    "nger": {
+        "server": "./server",
+        "admin": "./admin",
+        "app": "./app",
+        "pc": "./pc"
+    },
+    "icon": "./icon.png"
 }
