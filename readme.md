@@ -14,6 +14,7 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
 
 <h2 align="center">平台功能</h2>
+
 ### 对于开发者
 
 您可以把他看做一个工具，可以帮您快速开发部署您的项目
