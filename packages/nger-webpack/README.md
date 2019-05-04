@@ -1,11 +1,4 @@
 # `nger-webpack`
 
-> TODO: description
+> 多任务webpack
 
-## Usage
-
-```
-const ngerWebpack = require('nger-webpack');
-
-// TODO: DEMONSTRATE API
-```

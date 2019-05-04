@@ -1,15 +1,13 @@
 <p align="center"><img width="120" src="./docs/logo.png" alt="Vue logo"></p>
 
-<h2 align="center">用ng编制世界</h2>
+## Nger
+> nger, 用ng的人！I am a nger! 
 
-> 项目名称意义，用ng的人！I am a nger! 
+## 简介
+每个nger人心中都有用ng编制世界的梦想!
+Nger是一套以依赖注入、装饰器为核心的 <b>多端开发</b> 解决方案。现如今市面上端的形态多种多样，Web、Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。
 
-## 每个nger人心中都有用ng编制世界的梦想!
-
-<font color="green">Warning!</font> <font color="green">Warning!</font> <font color="green">Warning!</font> 这不仅仅是一个前端项目。
-
-vue、react相继都有了小程序的开发框架，作为一个nger，也该为社区做点事情了!
-很遗憾，由于ng和小程序的差异性，我们暂时没打算直接把ng项目转换成小程序，而是用ng的一套思想（`依赖注入`、`装饰器`等）来规范开发小程序!以达到一套代码多平台运行。
+使用 Nger，我们可以只书写一套代码，再通过 Nger 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动小程序、H5、微信公众号、Native 等）运行的代码。
 
 技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
 
