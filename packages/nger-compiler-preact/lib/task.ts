@@ -11,7 +11,7 @@ const root = process.cwd();
 import { FILE_SYSTEM } from 'nger-core'
 import { componentTransformerFactory } from './transformer_factorys/component'
 export const preactTask: Task = async (file: string, opt: string, injector: Injector) => {
-    if (file.endsWith('.ts') || file.endsWith('.tsx')) {
+    if (file.endsWith('.ts') || file.endsWith('.tsx') || file.endsWith('.html')) {
         const metadata = metadataCache.get(file);
         const fs = injector.get(FILE_SYSTEM)
         const babel = injector.get(NgerCompilerBabel)
@@ -36,7 +36,7 @@ export const preactTask: Task = async (file: string, opt: string, injector: Inje
                 }
             }
         }
-        if (hasHandlerFileCache.has(file)) {} else {
+        if (hasHandlerFileCache.has(file)) { } else {
             const code = babel.compile(file, {});
             const controllerPath = join(root, '.temp', `${noExtPath}.js`);
             fs.writeFileSync(controllerPath, code)
