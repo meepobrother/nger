@@ -53,5 +53,10 @@ nger start [-p 4200]
 
 ## 开发进度
 
+- [x] nger init nger-demo 初始化模块
+- [ ] nger start nger-demo --watch 开发环境启动模块
+- [ ] nger start nger-demo 运营环境启动模块
+- [ ] nger publish nger-demo 发布模块
+
 ## 资助
 <p><img width="220" src="./docs/WechatIMG95.jpeg" alt="Vue logo"></p>
