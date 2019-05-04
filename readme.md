@@ -13,13 +13,13 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 
 技术栈说明：Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webpack/Less/Sass/Gulp...
 
-<h2 align="center">依赖环境</h2>
+## 依赖环境
 
 1. [nodejs](https://nodejs.org/en/download/)
 2. [docker](https://www.docker.com/products/docker-desktop) 如果已有nginx/mysql等服务的话可忽略
 3. [docker-compose](https://docs.docker.com/compose/install/) 如果已有nginx/mysql等服务的话可忽略
 
-<h2 align="center">功能描述</h2>
+## 功能描述
 
 ### 对于开发者
 
@@ -121,6 +121,5 @@ nger start [-p 4200]
     - [x] `server.js` // 可独立运行，nger start addon/ims-install/server.js -p 4200
     - [x] `package.json` // 插件描述
 
-<h2 align="center">资助</h2>
-
+## 资助
 <p><img width="220" src="./docs/WechatIMG95.jpeg" alt="Vue logo"></p>
