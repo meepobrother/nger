@@ -1,5 +1,5 @@
 import { TypeContext, Type } from 'ims-decorator';
-import { Injectable, PLATFORM_ID, IS_DEV } from 'nger-core';
+import { Injectable, PLATFORM_ID } from 'nger-core';
 import ngerPlatformNode from 'nger-platform-node'
 import gulp from 'gulp';
 import chalk from 'chalk';
@@ -7,8 +7,6 @@ import rimraf = require('rimraf');
 import { join } from 'path';
 import ts = require('gulp-typescript');
 import fs from 'fs-extra';
-import platformBuildAdmin from './builder/admin';
-import { NgerCliBuildAminBuilder } from './builder/admin';
 import ngerPlatformPreact from 'nger-compiler-preact';
 const root = process.cwd();
 @Injectable()
@@ -33,18 +31,6 @@ export class NgerCliBuild {
     android(context: TypeContext) { }
     /** ios */
     ios(context: TypeContext) { }
-    /** 后台 */
-    async admin(isDev: boolean) {
-        await _rimraf(join(root, 'template/admin'));
-        const compilers = isDev ? ngerPlatformPreact : [];
-        platformBuildAdmin([{
-            provide: PLATFORM_ID,
-            useValue: 'admin'
-        }, {
-            provide: IS_DEV,
-            useValue: isDev
-        }, ...compilers]).bootstrapModule(NgerCliBuildAminBuilder).then(ref => { })
-    }
 
     async dev(name: string) {
         const output = 'dist'

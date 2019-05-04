@@ -1,5 +1,5 @@
 import ngerPlatformKoa from 'nger-platform-koa'
-import { Injectable, Inject, Type, Logger, APP_INITIALIZER, setDevMode } from 'nger-core';
+import { Injectable, Inject, Type, Logger } from 'nger-core';
 @Injectable()
 export class NgerCliStart {
     @Inject() logger: Logger;

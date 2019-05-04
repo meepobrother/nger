@@ -66,9 +66,6 @@ export class BuildCommand {
             case 'ios':
                 // this.build.ios(app)
                 break;
-            case 'admin':
-                this.build.admin(this.watch);
-                break;
             case 'lib':
                 const libPkgs = fs.readdirSync(join(root, 'packages'))
                 if(this.name){
