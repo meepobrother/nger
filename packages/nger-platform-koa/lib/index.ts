@@ -1,7 +1,7 @@
 import { createServer } from 'http';
-import { Injector } from 'nger-di'
+import { Injector, StaticProvider } from 'nger-di'
 import Koa from 'koa';
-import {  NgModuleRef, getPort } from 'nger-core';
+import { NgModuleRef, getPort, isDevMode, setDevMode, APP_INITIALIZER } from 'nger-core';
 import { NgerUtil } from 'nger-util';
 import Router from 'koa-router';
 import Static from 'koa-static';
@@ -92,7 +92,25 @@ export class NgerPlatformKoa extends NgModuleBootstrap {
     }
 }
 
+import preactProviders from 'nger-compiler-preact'
+
 export default createPlatformFactory(NgerPlatformNode, 'koa', [{
+    provide: APP_INITIALIZER,
+    useFactory: (injector: Injector) => {
+        return () => {
+            let providers: StaticProvider[] = [];
+            if (isDevMode()) {
+                providers = [
+                    ...providers,
+                    ...preactProviders
+                ]
+            }
+            injector.setStatic(providers)
+        }
+    },
+    deps: [Injector],
+    multi: true
+}, {
     provide: NgModuleBootstrap,
     useClass: NgerPlatformKoa,
     deps: [Logger, NgerUtil],
