@@ -64,15 +64,42 @@ vue、react相继都有了小程序的开发框架，作为一个nger，也该�
 - [x] `addon`
   - [x] `ims-install`
     - [x] `pc` pc网站
+      - [x] index.html
+      - [x] **.js
+      - [x] assets
     - [x] `admin` 管理
+      - [x] index.html
+      - [x] **.js
+      - [x] assets
     - [x] `ttapp` 字节跳动
+      - [x] assets
+      - [x] pages
+      - [x] nger
+      - [x] app.js
+      - [x] app.json
     - [x] `aliapp` 支付宝
+      - [x] assets
+      - [x] pages
+      - [x] nger
+      - [x] app.js
+      - [x] app.json
     - [x] `weapp` 微信小程序
+      - [x] assets
+      - [x] pages
+      - [x] nger
+      - [x] app.js
+      - [x] app.json
     - [x] `wechat` 微信浏览器
+      - [x] index.html
+      - [x] **.js
+      - [x] assets
     - [x] `h5` 手机网站
+      - [x] index.html
+      - [x] **.js
+      - [x] assets
     - [x] `ios` ios端
     - [x] `android` 安卓端
-    - [x] `index.js` // 插件，可安装卸载更新
+    - [x] `index.js` // 入口
     - [x] `server.js` // 可独立运行，nger start addon/ims-install/server.js -p 4200
     - [x] `package.json` // 插件描述
 
