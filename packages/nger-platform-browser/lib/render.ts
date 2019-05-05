@@ -1,19 +1,22 @@
 import { Injector } from 'nger-di'
-import { ComponentFactoryResolver, ComponentRef, ComponentFactory, NgerRender } from 'nger-core';
+import { ComponentFactoryResolver, ComponentRef, ComponentFactory, NgerRender, NgModuleRef } from 'nger-core';
 import { pluck, distinctUntilChanged } from 'rxjs/operators'
 export class BrowserRender extends NgerRender {
-    create(injector: Injector) {
+    constructor(public ngModuleRef: NgModuleRef<any>) {
+        super();
+    }
+    getComponentByTag(tag: string) {
+
+    }
+    create(ref: ComponentRef<any>) {
         // 文字
         this.text = str => document.createTextNode(str) as any;
         // jsx元素
-        this.h = render(injector) as any;
+        this.h = render(ref.injector) as any;
+        // 元素
         this.element = (tag: string, attr: any, ...children: any[]) => {
-            console.log(`element`, ({
-                tag,
-                attr,
-                children
-            }))
-            return undefined;
+            const ele = document.getElementById(tag)
+            return ele;
         }
         this.textAttribute = (attr) => {
             console.log(`textAttribute`, attr)
@@ -21,13 +24,19 @@ export class BrowserRender extends NgerRender {
         }
         this.boundAttribute = (cfg) => {
             console.log(`boundAttribute`, cfg)
-            return undefined;
+            return input => {
+                if (cfg.type === '2') {
+                    // class
+                }
+                return undefined;
+            }
         }
         this.boundEvent = (cfg) => {
             console.log(`boundEvent`, cfg)
             return undefined;
         }
         this.boundText = (str) => {
+            console.log(`boundText`, str)
             return (input: any) => {
                 return document.createTextNode(input[str]);
             }
@@ -43,7 +52,7 @@ export class BrowserRender extends NgerRender {
             console.log(`content`, art)
             return undefined;
         }
-        return super.create(injector);
+        return super.create(ref);
     }
 }
 

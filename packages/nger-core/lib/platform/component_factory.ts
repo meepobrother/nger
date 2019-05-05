@@ -33,8 +33,9 @@ export class NgerRender {
     boundText: (attr: string) => any;
     icu: (arg: any) => any;
     constructor() { }
-    create(injector: Injector) {
-        return [
+    create(ref: ComponentRef<any>) {
+        const tpl = ref.instance.render.bind(ref.instance);
+        return tpl(...[
             this.h,
             this.element,
             this.template,
@@ -45,7 +46,7 @@ export class NgerRender {
             this.text,
             this.boundText,
             this.icu
-        ]
+        ])
     }
 }
 export interface ComponentCreator {

@@ -26,11 +26,8 @@ export class BrowserApplicationRef extends ApplicationRef {
         const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
         //这里渲染preact
         if (ref.instance.render) {
-            const tpl = ref.instance.render.bind(ref.instance);
             const renderFactory = ref.injector.get(NgerRender);
-            let element = tpl(
-                ...renderFactory.create(injector)
-            );
+            let element = renderFactory.create(ref)
             // 有待优化
             if (element) {
                 deepFlattenFn(element).map(ele => {

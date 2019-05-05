@@ -1,4 +1,4 @@
-import { createPlatformFactory, NgerRender, ApplicationRef, Http, platformCore, CustomElementRegistry, History, NgModuleBootstrap } from 'nger-core'
+import { createPlatformFactory, NgerRender, NgModuleRef, ApplicationRef, Http, platformCore, CustomElementRegistry, History, NgModuleBootstrap } from 'nger-core'
 import { Injector } from 'nger-di'
 import 'document-register-element';
 import { createBrowserHistory } from 'history';
@@ -9,7 +9,9 @@ import { BrowserRender } from './render'
 export default createPlatformFactory(platformCore, 'browser', [{
     provide: NgerRender,
     useClass: BrowserRender,
-    deps: []
+    deps: [
+        NgModuleRef
+    ]
 }, {
     provide: Http,
     useValue: axios
