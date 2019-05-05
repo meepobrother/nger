@@ -4,4 +4,3 @@ import providers from '../lib'
 @NgModule()
 export class NgerCompilerTestModule { }
 createPlatformFactory(ngerPlatformNode, 'test', providers)([]).bootstrapModule(NgerCompilerTestModule)
-

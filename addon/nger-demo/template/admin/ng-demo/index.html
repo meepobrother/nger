@@ -1,9 +1,55 @@
-<div *ngFor="let item of items;">
-    {{item.title}}
-</div>
-<div *ngFor="let item of items;">
-    {{item.title}}
-</div>
-<div *ngFor="let item of items;">
-    {{item.title}}
-</div>
+<div *ngFor="let item of items;" [class.active]="true">{{item.title}}</div>
+
+
+<ng-template ngDir ngFor [ngForOf]="items" let-item="item" #userInfo></ng-template>
+<ng-container *ngTemplateOutlet="inputTemplate?inputTemplate:userInfo"></ng-container>
+<div (click)="onClick"></div>
+
+定义每个元素
+
+tag 是处理这个元素的函数
+props 是参数
+    children 是子级
+
+
+<!-- 
+    
+function div(props){
+    const children = [];
+    for(let item of props.items){
+        props.children(child=>{
+            children.push(child.tag(child.props))
+        })
+    }
+    return children;
+}
+
+-->
+<!-- 
+==分解==>
+
+metadata: {
+    inputs: {
+        ngFor: "",
+        ngForOf: items
+    },
+    variables: [{
+        item: $implicit
+    }]
+}
+
+==创建函数==>
+
+function(h){
+    return getValue(metadata.inputs.ngForOf).map(function()=>{
+
+    })
+}
+
+==转化为==>
+
+function (h) {
+    return this.items.map(function (it) {
+        return h("div", null, it.title);
+    });
+}; -->

@@ -1,5 +1,6 @@
 import ts, { TransformationContext, Transformer } from 'typescript'
-import {hasMetadata} from './controller';
+import { hasMetadata } from './controller';
+import { handlerBlock } from './statements'
 export const componentRenderTransformerFactory = (context: TransformationContext): Transformer<ts.SourceFile> => {
     return (node: ts.SourceFile): ts.SourceFile => {
         node.statements = ts.createNodeArray(
@@ -7,7 +8,7 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                 if (ts.isImportDeclaration(node)) {
                     return node;
                 } else if (ts.isClassDeclaration(node)) {
-                    if(hasMetadata(node.decorators,['Page','Component'])){
+                    if (hasMetadata(node.decorators, ['Page', 'Component'])) {
                         return ts.createClassDeclaration(
                             node.decorators,
                             node.modifiers,
@@ -16,10 +17,10 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                             node.heritageClauses,
                             node.members.map(member => {
                                 if (ts.isMethodDeclaration(member)) {
-                                    if(ts.isIdentifier(member.name)){
-                                        if(member.name.text === 'render'){
-                                            if(member.parameters.length===0){
-                                                 return ts.createMethod(
+                                    if (ts.isIdentifier(member.name)) {
+                                        if (member.name.text === 'render') {
+                                            if (member.parameters.length === 0) {
+                                                return ts.createMethod(
                                                     member.decorators,
                                                     member.modifiers,
                                                     member.asteriskToken,
@@ -27,10 +28,11 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                                                     member.questionToken,
                                                     member.typeParameters,
                                                     ts.createNodeArray([
-                                                        ts.createParameter(undefined,undefined,undefined,'h')
+                                                        ts.createParameter(undefined, undefined, undefined, 'h')
                                                     ]),
                                                     member.type,
-                                                    member.body
+                                                    // 这里的body要处理一下
+                                                    handlerBlock(member.body)
                                                 )
                                             }
                                         }
@@ -50,6 +52,6 @@ export const componentRenderTransformerFactory = (context: TransformationContext
     }
 }
 
-function needReplaceRender(){
+function needReplaceRender() {
 
 }

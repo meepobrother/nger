@@ -24,17 +24,21 @@ export const preactTask: Task = async (file: string, opt: string, injector: Inje
             if (metadata) {
                 const component = ngMetadata.getComponentConfig(metadata);
                 if (component) {
-                    const code = babel.compile(file, {
-                        transformers: {
-                            before: [
-                                await componentTransformerFactory(file, injector),
-                                componentRenderTransformerFactory
-                            ]
-                        }
-                    });
-                    const controllerPath = join(root, '.temp', `${noExtPath}.js`);
-                    fs.writeFileSync(controllerPath, code)
-                    hasHandlerFileCache.add(file)
+                    try {
+                        const code = babel.compile(file, {
+                            transformers: {
+                                before: [
+                                    await componentTransformerFactory(file, injector),
+                                    componentRenderTransformerFactory
+                                ]
+                            }
+                        });
+                        const controllerPath = join(root, '.temp', `${noExtPath}.js`);
+                        fs.writeFileSync(controllerPath, code)
+                        hasHandlerFileCache.add(file)
+                    } catch (e) {
+                        throw e;
+                    }
                 }
             }
         }

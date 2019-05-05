@@ -6,7 +6,7 @@ import { NgerCompilerBabel } from './ts/babel'
 import { Resolver } from 'nger-core'
 import { NgerCompilerTypescript } from './ts/typescript'
 import { NgerCompilerRollup } from './ts/rollup'
-import { NgerCompilerNgTemplate } from './html/ng'
+import { NgerCompilerNgTemplate,Visitor,Node } from './html/ng'
 import { NgerCompilerCid } from './helper/cid'
 import { NgerCompilerNgMetadata } from './helper/ng_metadata'
 import { controllerPropertyTransformerFactory, hasMetadata } from './transformer_factorys/controller'
@@ -33,7 +33,8 @@ export {
     metadataCache,
     hasHandlerFileCache,
     templateCache,
-    componentRenderTransformerFactory
+    componentRenderTransformerFactory,
+    Visitor,Node
 }
 const provides: StaticProvider[] = [
     ...styleProviders,

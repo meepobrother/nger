@@ -3,6 +3,7 @@ import { metadataCache, NgerCompilerNgMetadata, NgerPlatformStyle, NgerCompilerN
 import { Injector } from 'nger-di';
 import { FILE_SYSTEM } from 'nger-core';
 import { extname, relative, join, dirname } from 'path';
+import { ComponentVisitor } from './visitor';
 const root = process.cwd();
 export const componentTransformerFactory = async (file: string, injector: Injector) => {
     const relativePath = relative(root, file)
@@ -14,6 +15,7 @@ export const componentTransformerFactory = async (file: string, injector: Inject
     const style = injector.get(NgerPlatformStyle);
     const ngTemplate = injector.get(NgerCompilerNgTemplate)
     let styleFile: string = ``;
+    let htmNodes = [];
     if (metadata) {
         const component = ng.getComponentConfig(metadata);
         let { styles, styleUrls, template, templateUrl, preserveWhitespaces } = component;
@@ -38,11 +40,16 @@ export const componentTransformerFactory = async (file: string, injector: Inject
             const path = join(dirname(file), templateUrl);
             template += fs.readFileSync(path).toString('utf8')
         }
-        template = ngTemplate.parse(template, templateUrl || '', {
-            preserveWhitespaces: !!preserveWhitespaces
-        });
-        // 写入json
-        
+        if (template.length > 0) {
+            const metadata = ngTemplate.parse(template, templateUrl || '', {
+                preserveWhitespaces: !!preserveWhitespaces
+            });
+            // 解析微信if/for
+            const visitor = new ComponentVisitor();
+            htmNodes = metadata.map(node => {
+                return node.visit<ts.Node>(visitor)
+            });
+        }
     }
     return (context: TransformationContext): Transformer<ts.SourceFile> => {
         return (node: ts.SourceFile): ts.SourceFile => {
@@ -58,7 +65,8 @@ export const componentTransformerFactory = async (file: string, injector: Inject
                     node,
                     [
                         importStyle,
-                        ...node.statements
+                        ...node.statements,
+                        ...htmNodes.filter(it => !!it)
                     ],
                     node.isDeclarationFile,
                     node.referencedFiles,
