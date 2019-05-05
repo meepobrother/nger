@@ -19,6 +19,11 @@ export class BuildCommand {
         alias: 'n'
     })
     name: string;
+
+    @Option({
+        alias: 'w'
+    })
+    watch: boolean;
     async run() {
         this.logger.warn(`building ${this.type}`);
         this.logger.warn(`package: ${this.name || 'all'}`);
@@ -27,12 +32,12 @@ export class BuildCommand {
                 const libPkgs = fs.readdirSync(join(root, 'packages'))
                 if (this.name) {
                     this.logger.warn(`build.lib: ${this.name}`);
-                    await this.build.dev(this.name)
+                    await this.build.dev(this.name, !!this.watch)
                 } else {
                     for (let pkg of libPkgs) {
                         if (pkg.startsWith('.')) { } else {
                             this.logger.warn(`build.lib: ${pkg}`);
-                            await this.build.dev(pkg)
+                            await this.build.dev(pkg, false)
                         }
                     }
                 }
@@ -41,12 +46,12 @@ export class BuildCommand {
                 const amdPkgs = fs.readdirSync(join(root, 'packages'))
                 if (this.name) {
                     this.logger.warn(`build.prod: ${this.name}`);
-                    await this.build.prod(this.name)
+                    await this.build.prod(this.name, !!this.watch)
                 } else {
                     for (let pkg of amdPkgs) {
                         if (pkg.startsWith('.')) { } else {
                             this.logger.warn(`build.prod: ${pkg}`);
-                            await this.build.prod(pkg)
+                            await this.build.prod(pkg, false)
                         }
                     }
                 }

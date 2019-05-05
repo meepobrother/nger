@@ -4,6 +4,7 @@ import {
     NgerRender,
     ElementRef, ComponentFactoryResolver
 } from 'nger-core'
+import { deepFlattenFn } from './util'
 import { Injector, Type, InjectFlags } from 'nger-di'
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
@@ -22,33 +23,36 @@ export class BrowserApplicationRef extends ApplicationRef {
         }
     }
     attachView(ref: ComponentRef<any>, injector: Injector) {
-        try {
-            const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
-            //这里渲染preact
-            if (ref.instance.render) {
-                const tpl = ref.instance.render.bind(ref.instance);
-                const renderFactory = ref.injector.get(NgerRender);
-                const element = tpl(
-                    ...renderFactory.create(injector)
-                );
-                if (element) {
-                    if (Array.isArray(element)) {
-                        element.map(ele => ele && parent.nativeElement.appendChild(ele))
-                    } else {
-                        element && parent.nativeElement.appendChild(element)
+        const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
+        //这里渲染preact
+        if (ref.instance.render) {
+            const tpl = ref.instance.render.bind(ref.instance);
+            const renderFactory = ref.injector.get(NgerRender);
+            let element = tpl(
+                ...renderFactory.create(injector)
+            );
+            // 有待优化
+            if (element) {
+                deepFlattenFn(element).map(ele => {
+                    if (typeof ele === 'function') {
+                        // template
+                        return ele(ref.instance);
                     }
-                }
-                super.attachView(ref, injector);
-                const nowTime = new Date().getTime();
-                const totalTime = nowTime - (window as any).nger.startTime
-                console.log(`总耗时:${totalTime}ms`);
+                    return ele;
+                }).map(ele => {
+                    try {
+                        deepFlattenFn(ele).map(e => {
+                            e && parent.nativeElement.appendChild(e)
+                        })
+                    } catch (e) {
+                        console.log(ele)
+                    }
+                })
             }
-        } catch (e) {
-            console.error({
-                ref,
-                injector,
-                e
-            })
+            super.attachView(ref, injector);
+            const nowTime = new Date().getTime();
+            const totalTime = nowTime - (window as any).nger.startTime
+            console.log(`总耗时:${totalTime}ms`);
         }
     }
 }

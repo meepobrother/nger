@@ -141,7 +141,7 @@ export class ComponentVisitor implements Visitor<ts.Node>{
             ts.createPropertyAssignment(`type`, ts.createStringLiteral(`${type}`)),
             ts.createPropertyAssignment(`target`, ts.createNumericLiteral(`${target}`)),
             ts.createPropertyAssignment(`phase`, ts.createStringLiteral(phase || '')),
-            ts.createPropertyAssignment(`handler`, this.expression.createNodeStringLiteral(handler.visit(this.expression)))
+            ts.createPropertyAssignment(`handler`, handler.visit(this.expression))
         ])
         return ts.createCall(
             ts.createIdentifier('boundEvent'),

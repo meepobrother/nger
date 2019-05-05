@@ -3,28 +3,45 @@ import { ComponentFactoryResolver, ComponentRef, ComponentFactory, NgerRender } 
 import { pluck, distinctUntilChanged } from 'rxjs/operators'
 export class BrowserRender extends NgerRender {
     create(injector: Injector) {
+        // 文字
         this.text = str => document.createTextNode(str) as any;
+        // jsx元素
         this.h = render(injector) as any;
         this.element = (tag: string, attr: any, ...children: any[]) => {
-            return document.createElement(tag) as any;
+            console.log(`element`, ({
+                tag,
+                attr,
+                children
+            }))
+            return undefined;
         }
         this.textAttribute = (attr) => {
-            return document.createAttribute(attr.name) as any;
+            console.log(`textAttribute`, attr)
+            return undefined;
         }
         this.boundAttribute = (cfg) => {
-            return cfg as any;
+            console.log(`boundAttribute`, cfg)
+            return undefined;
         }
         this.boundEvent = (cfg) => {
-            return cfg as any;
+            console.log(`boundEvent`, cfg)
+            return undefined;
         }
         this.boundText = (str) => {
-            return str as any;
+            return (input: any) => {
+                return document.createTextNode(input[str]);
+            }
         }
         this.template = (arg: any, ...children: any[]) => {
-            return arg as any;
+            console.log(`template`, {
+                arg,
+                children
+            })
+            return undefined;
         }
         this.content = (art) => {
-            return art as any;
+            console.log(`content`, art)
+            return undefined;
         }
         return super.create(injector);
     }

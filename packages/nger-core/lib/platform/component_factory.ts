@@ -22,16 +22,16 @@ export interface NgerContent {
     attributes: any[];
 }
 export class NgerRender {
-    h: <T>(type: any, props: any, ...children: any[]) => T;
-    element: <T>(name: string, attribute: any, ...children: any[]) => T;
-    template: <T>(tpl: NgerTemplate, ...children: any[]) => T;
-    content: <T>(cfg: NgerContent) => T;
-    textAttribute: <T>(cfg: any) => T;
-    boundAttribute: <T>(cfg: any) => T;
-    boundEvent: <T>(cfg: any) => T;
-    text: <T = any>(txt: string) => T;
-    boundText: <T>(attr: string) => T;
-    icu: <T>(arg: any) => T;
+    h: (type: any, props: any, ...children: any[]) => any;
+    element: (name: string, attribute: any, ...children: any[]) => any;
+    template: (tpl: NgerTemplate, ...children: any[]) => any;
+    content: (cfg: NgerContent) => any;
+    textAttribute: (cfg: any) => any;
+    boundAttribute: (cfg: any) => any;
+    boundEvent: (cfg: any) => any;
+    text: (txt: string) => any;
+    boundText: (attr: string) => any;
+    icu: (arg: any) => any;
     constructor() { }
     create(injector: Injector) {
         return [

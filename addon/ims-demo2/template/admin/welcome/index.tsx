@@ -6,4 +6,7 @@ import { Page } from 'nger-core';
     ],
     templateUrl: './index.html'
 })
-export class ImsDemo2AdminWelcomePage {}
+export class ImsDemo2AdminWelcomePage {
+
+    items: any[] = [{}, {}, {}]
+}
