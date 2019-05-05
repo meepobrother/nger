@@ -4,49 +4,60 @@ import { pluck, distinctUntilChanged } from 'rxjs/operators'
 export function render(injector: Injector) {
     return (tag: any, props: any, ...children: any[]) => {
         if (typeof tag === 'string') {
-            const factory = injector.get(ComponentFactory)
-            const ref = injector.get(ComponentRef)
-            const element = document.createElement(tag)
-            const onChange = ref.$ngOnChange;
-            if (props) {
-                Object.keys(props).map(key => {
-                    const attribute = document.createAttribute(key);
-                    const val = props[key];
-                    console.log({ key, val })
-                    // 检查是否在 input里
-                    let input = factory.inputs.find(input => input.propName === val)
-                    if (input) {
-                        // 在input里
-                        if (onChange) {
-                            onChange.pipe(
-                                pluck(val),
-                                distinctUntilChanged()
-                            ).subscribe(res => attribute.value = res)
+            // 从factory里找到selector为tag的元素
+            const resolver = injector.get(ComponentFactoryResolver)
+            const component = resolver.getComponents().find(component => {
+                const factory = resolver.resolveComponentFactory(component.target)
+                return factory.selector === tag;
+            })
+            if (!!component) {
+
+            } else {
+                const factory = injector.get(ComponentFactory)
+                const ref = injector.get(ComponentRef)
+                const element = document.createElement(tag)
+                const onChange = ref.$ngOnChange;
+                if (props) {
+                    Object.keys(props).map(key => {
+                        const attribute = document.createAttribute(key);
+                        const val = props[key];
+                        console.log({ key, val })
+                        // 检查是否在 input里
+                        let input = factory.inputs.find(input => input.propName === val)
+                        if (input) {
+                            // 在input里
+                            if (onChange) {
+                                onChange.pipe(
+                                    pluck(val),
+                                    distinctUntilChanged()
+                                ).subscribe(res => attribute.value = res)
+                            }
+                        } else {
+                            attribute.value = val;
                         }
-                    } else {
-                        attribute.value = val;
-                    }
-                    element.setAttributeNode(attribute)
-                })
+                        element.setAttributeNode(attribute)
+                    })
+                }
+                if (children) {
+                    children.map((child) => {
+                        if (typeof child === 'string') {
+                            console.log(child)
+                            const childElement = document.createTextNode(child)
+                            element.append(childElement)
+                        } else {
+                            element.append(child)
+                        }
+                    })
+                }
+                if (onChange) onChange.subscribe(res => console.log(res))
+                return element;
             }
-            if (children) {
-                children.map((child) => {
-                    if (typeof child === 'string') {
-                        console.log(child)
-                        const childElement = document.createTextNode(child)
-                        element.append(childElement)
-                    } else {
-                        element.append(child)
-                    }
-                })
-            }
-            if(onChange) onChange.subscribe(res=>console.log(res))
-            return element;
         } else {
             const resolver = injector.get(ComponentFactoryResolver)
             const factory = resolver.resolveComponentFactory(tag);
             const ref = factory.create(injector);
-            (ref.instance as any).render(render(ref.injector))
+            const h = render(ref.injector);
+            (ref.instance as any).render(h);
         }
     }
 }

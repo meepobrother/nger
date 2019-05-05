@@ -9,7 +9,8 @@ import {
 } from '@angular/compiler/src/expression_parser/ast'
 export { AstMemoryEfficientTransformer, BindingType }
 import ts from 'typescript';
-
+const printer = ts.createPrinter()
+const sourceFile = ts.createSourceFile(``, ``, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
 function createBinaryOperator(operation: string): ts.BinaryOperatorToken {
     switch (operation) {
         case '=':
@@ -20,6 +21,12 @@ function createBinaryOperator(operation: string): ts.BinaryOperatorToken {
 }
 
 export class ExpressionVisitor implements AstVisitor {
+
+    createNodeStringLiteral(node: any) {
+        const code = printer.printList(ts.ListFormat.NoSpaceIfEmpty, ts.createNodeArray([node]), sourceFile)
+        return ts.createStringLiteral(code);
+    }
+
     visitBinary(ast: Binary, context: any): any {
         debugger;
         return ts.createBinary(
@@ -32,7 +39,17 @@ export class ExpressionVisitor implements AstVisitor {
         debugger;
     }
     visitConditional(ast: Conditional, context: any): any {
-        debugger;
+        const { condition, trueExp, falseExp } = ast;
+        let item = {
+            condition: this.createNodeStringLiteral(condition.visit(this)),
+            trueExp: this.createNodeStringLiteral(trueExp.visit(this)),
+            falseExp: this.createNodeStringLiteral(falseExp.visit(this))
+        }
+        return ts.createObjectLiteral([
+            ts.createPropertyAssignment('condition', item.condition),
+            ts.createPropertyAssignment('trueExp', item.trueExp),
+            ts.createPropertyAssignment('falseExp', item.falseExp),
+        ])
     }
     visitFunctionCall(ast: FunctionCall, context: any): any {
         debugger;
@@ -41,8 +58,12 @@ export class ExpressionVisitor implements AstVisitor {
     visitImplicitReceiver(ast: ImplicitReceiver, context: any): any {
         return undefined;
     }
-    visitInterpolation(ast: Interpolation, context: any): any {
-        debugger;
+    // 插值  返回字符串 合适么
+    visitInterpolation(ast: Interpolation, context: any) {
+        const { strings, expressions } = ast;
+        const exps = expressions.map(exp => exp.visit(this, context))
+        const code = printer.printList(ts.ListFormat.NoSpaceIfEmpty, ts.createNodeArray(exps), sourceFile)
+        return ts.createStringLiteral(code);
     }
     visitKeyedRead(ast: KeyedRead, context: any): any {
         debugger;
@@ -74,13 +95,24 @@ export class ExpressionVisitor implements AstVisitor {
         const { name, args, receiver } = ast;
         const receive = receiver.visit(this, context);
         if (!receive) {
-            return ts.createCall(
-                ts.createIdentifier(name),
-                undefined,
-                args.map(arg => arg.visit(this, context) as any)
-            )
+            return ts.createObjectLiteral([
+                ts.createPropertyAssignment(`call`, ts.createStringLiteral(name)),
+                ts.createPropertyAssignment(`args`, ts.createArrayLiteral(
+                    args.map(arg => this.createNodeStringLiteral(arg.visit(this)))
+                ))
+            ]);
         } else {
-            debugger;
+            const rec = ts.createPropertyAccess(
+                receive,
+                name
+            );
+            const code = printer.printList(ts.ListFormat.NoSpaceIfEmpty, ts.createNodeArray([rec]), sourceFile)
+            return ts.createObjectLiteral([
+                ts.createPropertyAssignment(`call`, ts.createStringLiteral(code)),
+                ts.createPropertyAssignment(`args`, ts.createArrayLiteral(
+                    args.map(arg => this.createNodeStringLiteral(arg.visit(this)))
+                ))
+            ]);
         }
     }
     visitPipe(ast: BindingPipe, context: any): any {
@@ -96,15 +128,17 @@ export class ExpressionVisitor implements AstVisitor {
         const { name, receiver } = ast;
         const rec = receiver.visit(this, context)
         if (!rec) {
-            return ts.createStringLiteral(name)
+            return ts.createIdentifier(name)
         } else {
-            debugger;
+            return ts.createPropertyAccess(
+                rec,
+                name
+            );
         }
     }
     visitPropertyWrite(ast: PropertyWrite, context: any): any {
         debugger;
     }
-
     visitQuote(ast: Quote, context: any): any {
         debugger;
     }
@@ -112,7 +146,16 @@ export class ExpressionVisitor implements AstVisitor {
         debugger;
     }
     visitSafePropertyRead(ast: SafePropertyRead, context: any): any {
-        debugger;
+        const { name, receiver } = ast;
+        const rec = receiver.visit(this, context)
+        if (!rec) {
+            return ts.createIdentifier(name)
+        } else {
+            return ts.createPropertyAccess(
+                rec,
+                name
+            );
+        }
     }
     visit(ast: AST, context?: any): any {
         return ast.visit(this, context)

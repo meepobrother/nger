@@ -7,6 +7,6 @@ import { Page } from 'nger-core';
 })
 export class ImsDemo2PcWelcomePage {
     render() {
-        return <div></div>
+        return <div>pc</div>
     }
 }

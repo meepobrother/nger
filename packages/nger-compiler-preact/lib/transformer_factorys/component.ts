@@ -68,54 +68,91 @@ export const componentTransformerFactory = async (file: string, injector: Inject
                         ...node.statements.map(node => {
                             if (ts.isClassDeclaration(node)) {
                                 if (htmNodes && hasMetadata(node.decorators, ['Page', 'Component'])) {
-                                    const classDeclaration = ts.createClassDeclaration(
+                                    let hasRender: number = node.members.findIndex((member) => {
+                                        if (ts.isMethodDeclaration(member)) {
+                                            if (ts.isIdentifier(member.name)) {
+                                                if (member.name.text === 'render') {
+                                                    return true;
+                                                }
+                                            }
+                                        }
+                                        return false;
+                                    });
+                                    console.log(`hasRender ${hasRender}`)
+                                    let members = node.members;
+                                    if (hasRender === -1) {
+                                        members = ts.createNodeArray([
+                                            ...members,
+                                            ts.createMethod(
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                `render`,
+                                                undefined,
+                                                undefined,
+                                                ts.createNodeArray([
+                                                    ts.createParameter(undefined, undefined, undefined, 'h'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'element'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'template'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'content'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'textAttribute'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'boundAttribute'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'boundEvent'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'text'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'boundText'),
+                                                    ts.createParameter(undefined, undefined, undefined, 'icu'),
+                                                ]),
+                                                undefined,
+                                                // 这里的body要处理一下
+                                                ts.createBlock([
+                                                    ts.createReturn(
+                                                        ts.createArrayLiteral([
+                                                            ...htmNodes.filter(it => !!it)
+                                                        ])
+                                                    )
+                                                ])
+                                            )
+                                        ])
+                                    } else {
+                                        // 更新
+                                        members = ts.createNodeArray([...members].splice(hasRender, 1, ts.createMethod(
+                                            undefined,
+                                            undefined,
+                                            undefined,
+                                            `render`,
+                                            undefined,
+                                            undefined,
+                                            ts.createNodeArray([
+                                                ts.createParameter(undefined, undefined, undefined, 'h'),
+                                                ts.createParameter(undefined, undefined, undefined, 'element'),
+                                                ts.createParameter(undefined, undefined, undefined, 'template'),
+                                                ts.createParameter(undefined, undefined, undefined, 'content'),
+                                                ts.createParameter(undefined, undefined, undefined, 'textAttribute'),
+                                                ts.createParameter(undefined, undefined, undefined, 'boundAttribute'),
+                                                ts.createParameter(undefined, undefined, undefined, 'boundEvent'),
+                                                ts.createParameter(undefined, undefined, undefined, 'text'),
+                                                ts.createParameter(undefined, undefined, undefined, 'boundText'),
+                                                ts.createParameter(undefined, undefined, undefined, 'icu'),
+                                            ]),
+                                            undefined,
+                                            // 这里的body要处理一下
+                                            ts.createBlock([
+                                                ts.createReturn(
+                                                    ts.createArrayLiteral([
+                                                        ...htmNodes.filter(it => !!it)
+                                                    ])
+                                                )
+                                            ])
+                                        )))
+                                    }
+                                    return ts.createClassDeclaration(
                                         node.decorators,
                                         node.modifiers,
                                         node.name,
                                         node.typeParameters,
                                         node.heritageClauses,
-                                        node.members.map(member => {
-                                            if (ts.isMethodDeclaration(member)) {
-                                                if (ts.isIdentifier(member.name)) {
-                                                    if (member.name.text === 'render') {
-                                                        if (member.parameters.length === 0) {
-                                                            return ts.createMethod(
-                                                                member.decorators,
-                                                                member.modifiers,
-                                                                member.asteriskToken,
-                                                                member.name,
-                                                                member.questionToken,
-                                                                member.typeParameters,
-                                                                ts.createNodeArray([
-                                                                    ts.createParameter(undefined, undefined, undefined, 'h'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'element'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'template'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'content'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'textAttribute'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'boundAttribute'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'boundEvent'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'text'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'boundText'),
-                                                                    ts.createParameter(undefined, undefined, undefined, 'icu'),
-                                                                ]),
-                                                                member.type,
-                                                                // 这里的body要处理一下
-                                                                ts.createBlock([
-                                                                    ts.createReturn(
-                                                                        ts.createArrayLiteral([
-                                                                            ...htmNodes.filter(it => !!it)
-                                                                        ])
-                                                                    )
-                                                                ])
-                                                            )
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            return member;
-                                        }).filter(node => !!node)
-                                    );
-                                    return classDeclaration;
+                                        members
+                                    )
                                 }
                             }
                             return node

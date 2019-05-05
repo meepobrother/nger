@@ -10,7 +10,42 @@ import { InputMetadataKey, InputPropertyAst } from '../decorators/input';
 import { BehaviorSubject } from 'rxjs';
 import { handlerTypeContextToParams } from './createStaticProvider'
 export type Render = (injector: Injector) => <T>(type: any, props: any, ...children: any[]) => T;
+export interface NgerTemplate {
+    references: any[];
+    attributes: any[];
+    inputs: any[];
+    outputs: any[];
+    variables: any[];
+}
+export class NgerRender {
+    h: <T>(type: any, props: any, ...children: any[]) => T;
+    element: <T>(name: string, attribute: any, ...children: any[]) => T;
+    template: <T>(tpl: NgerTemplate, ...children: any[]) => T;
+    content: any;
+    textAttribute: any;
+    boundAttribute: any;
+    boundEvent: any;
+    text: any;
+    boundText: any;
+    icu: any;
+    constructor(public injector: Injector) { }
+    create() {
+        return [
+            this.h,
+            this.element,
+            this.template,
+            this.content,
+            this.textAttribute,
+            this.boundAttribute,
+            this.boundEvent,
+            this.text,
+            this.boundText,
+            this.icu
+        ]
+    }
+}
 export const RENDER = new InjectionToken<Render>(`RENDER`)
+export const TEXT_ATTRIBUTE = new InjectionToken<Render>(`TEXT_ATTRIBUTE`);
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }
@@ -123,7 +158,7 @@ export class ComponentFactory<C> {
         // 是一个proxy 外部赋值会触发更新，内部赋值需要手动更新
         let instance = currentInjector.get(this.componentType) as C;
         const init = {};
-        this.inputs.map(input=>{
+        this.inputs.map(input => {
             init[input.templateName] = instance[input.propName]
         });
         $ngOnChange.next(init);

@@ -1,6 +1,7 @@
 import { NgModule } from 'nger-core';
 import pages, { ImsDemo2AppWelcomePage } from './template/app';
 import incs from './inc';
+import browser from 'nger-platform-browser'
 @NgModule({
     declarations: [
         ...pages,
@@ -14,3 +15,4 @@ import incs from './inc';
     imports: []
 })
 export default class ImsDemo2AppModule { }
+browser().bootstrapModule(ImsDemo2AppModule)

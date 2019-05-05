@@ -1,6 +1,5 @@
 import ts, { TransformationContext, Transformer } from 'typescript'
 import { hasMetadata } from './controller';
-import { handlerBlock } from './statements'
 export const componentRenderTransformerFactory = (context: TransformationContext): Transformer<ts.SourceFile> => {
     return (node: ts.SourceFile): ts.SourceFile => {
         node.statements = ts.createNodeArray(
@@ -41,7 +40,7 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                                                     ]),
                                                     member.type,
                                                     // 这里的body要处理一下
-                                                    handlerBlock(member.body)
+                                                    member.body
                                                 )
                                             }
                                         }
