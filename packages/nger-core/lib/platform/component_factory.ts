@@ -17,19 +17,23 @@ export interface NgerTemplate {
     outputs: any[];
     variables: any[];
 }
+export interface NgerContent {
+    selector: string,
+    attributes: any[];
+}
 export class NgerRender {
     h: <T>(type: any, props: any, ...children: any[]) => T;
     element: <T>(name: string, attribute: any, ...children: any[]) => T;
     template: <T>(tpl: NgerTemplate, ...children: any[]) => T;
-    content: any;
-    textAttribute: any;
-    boundAttribute: any;
-    boundEvent: any;
-    text: any;
-    boundText: any;
-    icu: any;
-    constructor(public injector: Injector) { }
-    create() {
+    content: <T>(cfg: NgerContent) => T;
+    textAttribute: <T>(cfg: any) => T;
+    boundAttribute: <T>(cfg: any) => T;
+    boundEvent: <T>(cfg: any) => T;
+    text: <T = any>(txt: string) => T;
+    boundText: <T>(attr: string) => T;
+    icu: <T>(arg: any) => T;
+    constructor() { }
+    create(injector: Injector) {
         return [
             this.h,
             this.element,
@@ -44,8 +48,6 @@ export class NgerRender {
         ]
     }
 }
-export const RENDER = new InjectionToken<Render>(`RENDER`)
-export const TEXT_ATTRIBUTE = new InjectionToken<Render>(`TEXT_ATTRIBUTE`);
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }

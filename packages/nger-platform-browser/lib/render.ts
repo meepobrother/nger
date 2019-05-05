@@ -1,6 +1,35 @@
 import { Injector } from 'nger-di'
-import { ComponentFactoryResolver, ComponentRef, ComponentFactory } from 'nger-core';
+import { ComponentFactoryResolver, ComponentRef, ComponentFactory, NgerRender } from 'nger-core';
 import { pluck, distinctUntilChanged } from 'rxjs/operators'
+export class BrowserRender extends NgerRender {
+    create(injector: Injector) {
+        this.text = str => document.createTextNode(str) as any;
+        this.h = render(injector) as any;
+        this.element = (tag: string, attr: any, ...children: any[]) => {
+            return document.createElement(tag) as any;
+        }
+        this.textAttribute = (attr) => {
+            return document.createAttribute(attr.name) as any;
+        }
+        this.boundAttribute = (cfg) => {
+            return cfg as any;
+        }
+        this.boundEvent = (cfg) => {
+            return cfg as any;
+        }
+        this.boundText = (str) => {
+            return str as any;
+        }
+        this.template = (arg: any, ...children: any[]) => {
+            return arg as any;
+        }
+        this.content = (art) => {
+            return art as any;
+        }
+        return super.create(injector);
+    }
+}
+
 export function render(injector: Injector) {
     return (tag: any, props: any, ...children: any[]) => {
         if (typeof tag === 'string') {
