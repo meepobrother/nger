@@ -3,10 +3,7 @@ import { Page } from 'nger-core';
     path: '/admin/welcome',
     styleUrls: [
         "./index.scss"
-    ]
+    ],
+    templateUrl: './index.html'
 })
-export class ImsDemo2AdminWelcomePage {
-    render() {
-        return <div></div>
-    }
-}
+export class ImsDemo2AdminWelcomePage {}
