@@ -1,15 +1,22 @@
 <div *ngFor="let item of items;" [class.active]="true">{{item.title}}</div>
-
-
 <ng-template ngDir ngFor [ngForOf]="items" let-item="item" #userInfo></ng-template>
 <ng-container *ngTemplateOutlet="inputTemplate?inputTemplate:userInfo"></ng-container>
-<div (click)="onClick"></div>
+<div (click)="onClick($event)"></div>
+<ng-content name="id"></ng-content>
+<ng-container *ngFor="let item of items"></ng-container>
+
+<div [ngSwitch]="hero?.emotion">
+    <app-happy-hero *ngSwitchCase="'happy'" [hero]="hero"></app-happy-hero>
+    <app-sad-hero *ngSwitchCase="'sad'" [hero]="hero"></app-sad-hero>
+    <app-confused-hero *ngSwitchCase="'app-confused'" [hero]="hero"></app-confused-hero>
+    <app-unknown-hero *ngSwitchDefault [hero]="hero"></app-unknown-hero>
+</div>
 
 定义每个元素
 
 tag 是处理这个元素的函数
 props 是参数
-    children 是子级
+children 是子级
 
 
 <!-- 

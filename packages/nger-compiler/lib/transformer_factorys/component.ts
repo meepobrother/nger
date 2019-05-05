@@ -9,7 +9,7 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                     return node;
                 } else if (ts.isClassDeclaration(node)) {
                     if (hasMetadata(node.decorators, ['Page', 'Component'])) {
-                        return ts.createClassDeclaration(
+                        const classDeclaration = ts.createClassDeclaration(
                             node.decorators,
                             node.modifiers,
                             node.name,
@@ -28,7 +28,16 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                                                     member.questionToken,
                                                     member.typeParameters,
                                                     ts.createNodeArray([
-                                                        ts.createParameter(undefined, undefined, undefined, 'h')
+                                                        ts.createParameter(undefined, undefined, undefined, 'h'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'element'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'template'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'content'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'textAttribute'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'boundAttribute'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'boundEvent'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'text'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'boundText'),
+                                                        ts.createParameter(undefined, undefined, undefined, 'icu'),
                                                     ]),
                                                     member.type,
                                                     // 这里的body要处理一下
@@ -40,7 +49,8 @@ export const componentRenderTransformerFactory = (context: TransformationContext
                                 }
                                 return member;
                             }).filter(node => !!node)
-                        )
+                        );
+                        return classDeclaration;
                     }
                     return node;
                 } else {
