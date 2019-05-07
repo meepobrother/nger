@@ -48,7 +48,7 @@ class PlatformRef {
         console.log(`总共有 ${bootstrap.length} 个启动项目`);
         const tasks = [];
         bootstrap.map((b) => {
-            tasks.push(b.run(moduleRef));
+            tasks.push(b.run && b.run(moduleRef));
         });
         return Promise.all(tasks);
     }

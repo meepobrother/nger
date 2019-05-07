@@ -78,7 +78,7 @@ export class BrowserRender extends NgerRender {
         }
         this.boundText = (str) => {
             console.log(`boundText`, str)
-            return { str }
+            return this.instance[str]
         }
         this.template = (arg: any, ...children: any[]) => {
             const { attributes, inputs, outputs, references, variables } = arg;

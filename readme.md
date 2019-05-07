@@ -54,6 +54,15 @@ nger start [-p 4200]
 // 按照提示填写表单，挑选合适的模块，开启运营吸金之旅
 ```
 
+## 开发文档
+### 模板语法
+- [x] [attr.id]="attrId" 属性绑定
+- [x] [disabled]="disabled" 属性绑定
+- [x] [class.active]="isActive" 样式类绑定
+- [x] [data.id]="dataId" data-*绑定
+- [x] [style.backgroundColor]="bgColor" 样式绑定
+- [x] {{demo}} 插值表达式
+
 ## 开发进度
 
 - [x] nger init nger-demo 初始化模块

@@ -16,5 +16,7 @@ export class ImsDemo2AdminWelcomePage {
     divClass: string = `div-class`;
     isActive: boolean = true;
     bgColor: string = `red`;
+
+    demo: string = `demo content`
     constructor(public demo: ImsDemo2Controller) { }
 }
