@@ -42,7 +42,7 @@ export class NgerPlatformBrowser extends NgModuleBootstrap {
                 ref.injector.setStatic([{
                     provide: ElementRef,
                     useValue: new ElementRef(root)
-                }])
+                }]);
                 // 启动应用
                 application.attachView(compRef, ref.injector)
             });

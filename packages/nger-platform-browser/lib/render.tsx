@@ -56,7 +56,7 @@ export class BrowserRender extends NgerRender {
             })
             const vnode = h(tag, {
                 ...res,
-                clasName: classNames(className, _class)
+                className: classNames(className, _class)
             }, ...children);
             console.log({ attr, vnode });
             return vnode;

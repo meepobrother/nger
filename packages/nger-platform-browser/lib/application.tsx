@@ -1,18 +1,19 @@
 // 负责挂载到dom 如果是小程序 可设为空
 import {
     ApplicationRef, ComponentFactory, ComponentRef,
-    NgerRender,
     ElementRef, ComponentFactoryResolver,
     NgerRenderFactory
-} from 'nger-core'
-import { deepFlattenFn } from './util'
-import { Injector, Type, InjectFlags } from 'nger-di'
-import { render } from 'preact'
+} from 'nger-core';
+
+import { Injector, Type, InjectFlags } from 'nger-di';
+import { render } from 'preact';
+
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
     constructor(injector: Injector) {
         super(injector);
     }
+
     bootstrap<C>(
         componentOrFactory: ComponentFactory<C> | Type<C>,
         rootSelectorOrNode?: string | any
@@ -24,6 +25,7 @@ export class BrowserApplicationRef extends ApplicationRef {
             return componentFactoryResolver.resolveComponentFactory(componentOrFactory).create(this.injector)
         }
     }
+
     attachView(ref: ComponentRef<any>, injector: Injector) {
         const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
         //这里渲染preact

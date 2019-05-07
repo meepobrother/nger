@@ -16,4 +16,3 @@ import browser from 'nger-platform-browser'
 })
 export default class ImsDemo2AdminModule { }
 browser().bootstrapModule(ImsDemo2AdminModule)
-
