@@ -43,6 +43,7 @@
     "chokidar": "^3.0.0",
     "cids": "^0.6.0",
     "class-validator": "^0.9.1",
+    "classnames": "^2.2.6",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
     "csso": "^3.5.1",

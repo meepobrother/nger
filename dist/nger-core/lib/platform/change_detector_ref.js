@@ -29,20 +29,8 @@ class DefaultChangeDetectorRef extends ChangeDetectorRef {
         super();
         this.subject = subject;
     }
-    markForCheck() {
-        this.subject.next();
-    }
-    detach() {
-        this.subject.next();
-    }
-    detectChanges() {
-        this.subject.next();
-    }
-    checkNoChanges() {
-        this.subject.next();
-    }
-    reattach() {
-        this.subject.next();
+    next(that) {
+        this.subject.next(that);
     }
 }
 exports.DefaultChangeDetectorRef = DefaultChangeDetectorRef;

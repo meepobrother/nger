@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // 负责挂载到dom 如果是小程序 可设为空
 const nger_core_1 = require("nger-core");
 const nger_di_1 = require("nger-di");
-const { render } = require('./preact');
+const preact_1 = require("preact");
 class BrowserApplicationRef extends nger_core_1.ApplicationRef {
     constructor(injector) {
         super(injector);
@@ -19,30 +19,22 @@ class BrowserApplicationRef extends nger_core_1.ApplicationRef {
         }
     }
     attachView(ref, injector) {
-        try {
-            const factory = ref.injector.get(nger_core_1.ComponentFactory);
-            const parent = ref.injector.get(nger_core_1.ElementRef, null, nger_di_1.InjectFlags.SkipSelf) || new nger_core_1.ElementRef(this.root);
-            //这里渲染preact
-            if (ref.instance.render) {
-                const tpl = ref.instance.render();
-                const res = tpl(ref.instance);
-                render(res, parent.nativeElement);
-                // 更新试图,后面有可能会自己实现
-                ref.$ngOnChange && ref.$ngOnChange.subscribe(() => {
-                    const res = tpl(ref.instance);
-                    render(res, parent.nativeElement, parent.nativeElement.lastElementChild);
-                });
-                super.attachView(ref, injector);
-                const nowTime = new Date().getTime();
-                const totalTime = nowTime - window.nger.startTime;
-                console.log(`总耗时:${totalTime}ms`);
+        const parent = ref.injector.get(nger_core_1.ElementRef, null, nger_di_1.InjectFlags.SkipSelf) || new nger_core_1.ElementRef(this.root);
+        //这里渲染preact
+        if (ref.instance.render) {
+            const renderFactory = ref.injector.get(nger_core_1.NgerRenderFactory);
+            let factory = renderFactory.create(ref.instance);
+            const element = factory.create(ref);
+            // 有待优化
+            if (element) {
+                if (Array.isArray(element)) {
+                    element.map(ele => preact_1.render(ele, parent.nativeElement));
+                }
             }
-        }
-        catch (e) {
-            console.log({
-                ref, injector,
-                e
-            });
+            super.attachView(ref, injector);
+            const nowTime = new Date().getTime();
+            const totalTime = nowTime - window.nger.startTime;
+            console.log(`总耗时:${totalTime}ms`);
         }
     }
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const ng_module_ref_1 = require("./ng_module_ref");
 const ng_module_factory_1 = require("./ng_module_factory");
 const error_handler_1 = require("./error_handler");
 const lang_1 = require("./lang");
@@ -33,6 +34,10 @@ class PlatformRef {
             throw new Error('No ErrorHandler. Please Regist ErrorHandler');
         }
         moduleRef.onDestroy(() => lang_1.remove(this._modules, moduleRef));
+        moduleRef.injector.setStatic([{
+                provide: ng_module_ref_1.NgModuleRef,
+                useValue: moduleRef
+            }]);
         const initStatus = moduleRef.injector.get(application_init_status_1.ApplicationInitStatus);
         await initStatus.runInitializers();
         await this._moduleDoBootstrap(moduleRef);

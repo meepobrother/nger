@@ -12,7 +12,10 @@ let NgerCompilerTypescript = class NgerCompilerTypescript {
     }
     compile(content, config = {}) {
         config = {
-            compilerOptions: this.options,
+            compilerOptions: {
+                ...this.options,
+                target: typescript_1.default.ScriptTarget.ES5
+            },
             ...config,
         };
         const output = typescript_1.default.transpileModule(content, config);

@@ -22,14 +22,15 @@ const ng_metadata_1 = require("./helper/ng_metadata");
 exports.NgerCompilerNgMetadata = ng_metadata_1.NgerCompilerNgMetadata;
 const controller_1 = require("./transformer_factorys/controller");
 exports.controllerPropertyTransformerFactory = controller_1.controllerPropertyTransformerFactory;
-exports.hasPropertyMetadata = controller_1.hasPropertyMetadata;
+exports.hasMetadata = controller_1.hasMetadata;
+const component_1 = require("./transformer_factorys/component");
+exports.componentRenderTransformerFactory = component_1.componentRenderTransformerFactory;
 const watch_task_1 = require("./tokens/watch_task");
 exports.WATCH_TASK = watch_task_1.WATCH_TASK;
 const bootstrap_1 = require("./bootstrap");
 exports.metadataCache = bootstrap_1.metadataCache;
 exports.hasHandlerFileCache = bootstrap_1.hasHandlerFileCache;
 exports.templateCache = bootstrap_1.templateCache;
-const controller_2 = require("./visitors/controller");
 const nger_core_2 = require("nger-core");
 const nger_util_1 = require("nger-util");
 const provides = [
@@ -38,11 +39,6 @@ const provides = [
         provide: nger_core_2.NgModuleBootstrap,
         useClass: bootstrap_1.NgerCompilerBootstrap,
         deps: [nger_util_1.NgerUtil],
-        multi: true
-    },
-    {
-        provide: nger_core_1.TraverVisitor,
-        useValue: controller_2.controllerVisitor,
         multi: true
     },
     {
@@ -81,7 +77,6 @@ const provides = [
         useClass: babel_1.NgerCompilerBabel,
         deps: [
             typescript_1.NgerCompilerTypescript,
-            nger_core_1.TraverVisitor,
             nger_core_1.Resolver
         ]
     }

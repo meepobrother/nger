@@ -7,7 +7,5 @@ import { View } from 'nger-ui';
     ]
 })
 export class ImsDemo2AppWelcomePage {
-    render() {
-        return <View className="ims-demo2"></View>
-    }
+    render() { }
 }

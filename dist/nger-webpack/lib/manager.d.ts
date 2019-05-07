@@ -1,4 +1,4 @@
-import webpack, { Configuration } from 'webpack';
+import webpack, { Configuration, Stats } from 'webpack';
 import { Logger } from 'nger-core';
 export declare class NgerWebpackManager {
     logger: Logger;
@@ -8,5 +8,5 @@ export declare class NgerWebpackManager {
     build(): void;
     watch(): void;
     startTime: number;
-    printBuildError(err: Error): void;
+    printBuildError(err: Error, stats: Stats): void;
 }

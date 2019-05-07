@@ -110,7 +110,8 @@ export class ComponentVisitor implements Visitor<ts.Node>{
     // finish
     visitTextAttribute(attribute: TextAttribute) {
         const ast = ts.createObjectLiteral([
-            ts.createPropertyAssignment(attribute.name, ts.createStringLiteral(attribute.value))
+            ts.createPropertyAssignment(`name`, ts.createStringLiteral(attribute.name)),
+            ts.createPropertyAssignment(`value`, ts.createStringLiteral(attribute.value))
         ]);
         return ts.createCall(
             ts.createIdentifier('textAttribute'),

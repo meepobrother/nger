@@ -1,15 +1,6 @@
 declare const _default: ({
     test: RegExp;
-    use: ({
-        loader: string;
-        options?: undefined;
-    } | {
-        loader: string;
-        options: {
-            ident: string;
-            plugins: import("postcss").Transformer[];
-        };
-    })[];
+    use: string[];
 } | {
     test: RegExp;
     use: {

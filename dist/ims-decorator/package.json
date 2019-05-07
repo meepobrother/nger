@@ -1,6 +1,6 @@
 {
   "name": "ims-decorator",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "http://meepo.com.cn",
@@ -16,7 +16,7 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "gitHead": "43930ede349458980043b3d73e5e2bb6348dff9e",
+  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
     "reflect-metadata": "*"
   }

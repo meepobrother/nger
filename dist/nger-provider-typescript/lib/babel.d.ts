@@ -8,9 +8,9 @@ export declare class NgerBabel {
     tpl: typeof _template;
     _cache: Map<From, To>;
     getCache(key: string): any;
-    app(platform: string, main: string): string;
-    page(page: string, name: string): string;
-    component(arg: any): string;
+    app(platform: string, main: string): any;
+    page(page: string, name: string): any;
+    component(arg: any): any;
     constructor(ts: NgerCompilerTypescript);
     copySignal(config: {
         from: string;

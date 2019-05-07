@@ -11,13 +11,13 @@ exports.controllerPropertyTransformerFactory = (context) => {
             else if (typescript_1.default.isClassDeclaration(node)) {
                 return typescript_1.default.createClassDeclaration(node.decorators, node.modifiers, node.name, node.typeParameters, node.heritageClauses, node.members.map(member => {
                     if (typescript_1.default.isMethodDeclaration(member)) {
-                        const needReplace = hasPropertyMetadata(member.decorators);
+                        const needReplace = hasMetadata(member.decorators);
                         if (needReplace) {
                             return typescript_1.default.createProperty(member.decorators, member.modifiers, member.name, undefined, undefined, undefined);
                         }
                     }
                     else if (typescript_1.default.isPropertyDeclaration(member)) {
-                        const needReplace = hasPropertyMetadata(member.decorators);
+                        const needReplace = hasMetadata(member.decorators);
                         if (needReplace)
                             return member;
                     }
@@ -31,7 +31,7 @@ exports.controllerPropertyTransformerFactory = (context) => {
         return node;
     };
 };
-function hasPropertyMetadata(nodes, decorators = ['Get', 'Post']) {
+function hasMetadata(nodes, decorators = ['Get', 'Post']) {
     const item = nodes && nodes.find(node => {
         if (typescript_1.default.isDecorator(node)) {
             if (typescript_1.default.isCallExpression(node.expression)) {
@@ -45,4 +45,4 @@ function hasPropertyMetadata(nodes, decorators = ['Get', 'Post']) {
     });
     return !!item;
 }
-exports.hasPropertyMetadata = hasPropertyMetadata;
+exports.hasMetadata = hasMetadata;

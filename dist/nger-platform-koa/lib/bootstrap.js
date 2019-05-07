@@ -16,12 +16,6 @@ class NgerPlatformKoa extends nger_core_2.NgModuleBootstrap {
     }
     async run(ref) {
         const webpack = ref.injector.get(nger_webpack_1.NgerWebpackManager);
-        if (!nger_core_1.isDevMode()) {
-            webpack.build();
-        }
-        else {
-            webpack.watch();
-        }
         const KoaPkg = await this.util.loadPkg('koa');
         const KoaRouter = await this.util.loadPkg('koa-router');
         const KoaStatic = await this.util.loadPkg('koa-static');
@@ -62,6 +56,12 @@ class NgerPlatformKoa extends nger_core_2.NgModuleBootstrap {
         this.app.use(router.routes()).use(router.allowedMethods());
         server.listen(port, () => {
             this.logger.info(`app start at http://localhost:${port}`);
+            if (!nger_core_1.isDevMode()) {
+                webpack.build();
+            }
+            else {
+                webpack.watch();
+            }
         });
     }
     handler(declaration, router, controller, instance) {

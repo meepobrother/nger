@@ -40,6 +40,10 @@ export class PlatformRef {
             throw new Error('No ErrorHandler. Please Regist ErrorHandler');
         }
         moduleRef.onDestroy(() => remove(this._modules, moduleRef));
+        moduleRef.injector.setStatic([{
+            provide: NgModuleRef,
+            useValue: moduleRef
+        }]);
         const initStatus: ApplicationInitStatus = moduleRef.injector.get(ApplicationInitStatus);
         await initStatus.runInitializers();
         await this._moduleDoBootstrap(moduleRef)

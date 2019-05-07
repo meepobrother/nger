@@ -39,3 +39,4 @@ tslib_1.__exportStar(require("./platform/application_ref"), exports);
 tslib_1.__exportStar(require("./platform/custom_elements"), exports);
 tslib_1.__exportStar(require("./decorators/public_api"), exports);
 tslib_1.__exportStar(require("./version"), exports);
+tslib_1.__exportStar(require("./access"), exports);

@@ -1,4 +1,4 @@
-import { Node } from '@angular/compiler/src/render3/r3_ast';
+import { Node, Visitor } from '@angular/compiler/src/render3/r3_ast';
 export interface ParseTemplateOptions {
     preserveWhitespaces?: boolean;
     interpolationConfig?: InterpolationConfig;
@@ -12,4 +12,4 @@ export declare class InterpolationConfig {
 export declare class NgerCompilerNgTemplate {
     parse(template: string, templateUrl: string, options?: ParseTemplateOptions): Node[];
 }
-export { Node };
+export { Node, Visitor };

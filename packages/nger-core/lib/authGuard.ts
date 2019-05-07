@@ -12,7 +12,6 @@ export interface AuthGuardOptions {
     // 代表权限的字符串或者一个函数或者一个类
     allows: AuthGuardRight | AuthGuardMethod | AuthGuardAbs;
 }
-
 export function isAuthGuardAbs(val: any): val is AuthGuardAbs {
     return val && !!val.canActive
 }

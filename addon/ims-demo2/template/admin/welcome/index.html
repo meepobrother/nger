@@ -1,16 +1,7 @@
-<div>
+<div class="demo"
+ [data.id]="dataId" [attr.id]="id" 
+ [disabled]="disabled" [class]="divClass" 
+ [class.active]="isActive" 
+ [style.backgroundColor]="bgColor">
     demo
 </div>
-
-<div *ngFor="let item of items;" [class.active]="true" (click)="props.doClick($event)">
-    {{item.title}}
-</div>
-
-<ng-template>
-    demo
-</ng-template>
-
-<ng-content>
-
-
-</ng-content>

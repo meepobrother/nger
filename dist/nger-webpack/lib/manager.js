@@ -13,14 +13,14 @@ class NgerWebpackManager {
         return webpack_1.default(this.options);
     }
     build() {
-        this.compiler.run((err) => this.printBuildError(err));
+        this.compiler.run((err, stats) => this.printBuildError(err, stats));
     }
     watch() {
-        this.compiler.watch({}, (err) => {
-            this.printBuildError(err);
+        this.compiler.watch({}, (err, stats) => {
+            this.printBuildError(err, stats);
         });
     }
-    printBuildError(err) {
+    printBuildError(err, stats) {
         if (err) {
             const message = err.message;
             const stack = err.stack;

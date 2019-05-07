@@ -18,16 +18,22 @@ exports.preactTask = async (file, opt, injector) => {
             if (metadata) {
                 const component = ngMetadata.getComponentConfig(metadata);
                 if (component) {
-                    const code = babel.compile(file, {
-                        transformers: {
-                            before: [
-                                await component_1.componentTransformerFactory(file, injector)
-                            ]
-                        }
-                    });
-                    const controllerPath = path_1.join(root, '.temp', `${noExtPath}.js`);
-                    fs.writeFileSync(controllerPath, code);
-                    nger_compiler_1.hasHandlerFileCache.add(file);
+                    try {
+                        const code = babel.compile(file, {
+                            transformers: {
+                                before: [
+                                    await component_1.componentTransformerFactory(file, injector),
+                                    nger_compiler_1.componentRenderTransformerFactory
+                                ]
+                            }
+                        });
+                        const controllerPath = path_1.join(root, '.temp', `${noExtPath}.js`);
+                        fs.writeFileSync(controllerPath, code);
+                        nger_compiler_1.hasHandlerFileCache.add(file);
+                    }
+                    catch (e) {
+                        throw e;
+                    }
                 }
             }
         }

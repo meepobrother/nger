@@ -5,5 +5,6 @@ export declare class BuildCommand {
     logger: Logger;
     build: NgerCliBuild;
     name: string;
+    watch: boolean;
     run(): Promise<void>;
 }

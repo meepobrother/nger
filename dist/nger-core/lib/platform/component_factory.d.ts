@@ -3,10 +3,35 @@ import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
 import { TypeContext } from 'ims-decorator';
 import { ComponentClassAst, ComponentOptions } from '../decorators/component';
-export declare const ComponentTemplateToken: InjectionToken<string>;
-export declare const ComponentStyleToken: InjectionToken<string>;
-export declare const ComponentPropToken: InjectionToken<object>;
-export declare const StyleRef: InjectionToken<HTMLStyleElement>;
+export declare type Render = (injector: Injector) => <T>(type: any, props: any, ...children: any[]) => T;
+export interface NgerTemplate {
+    references: any[];
+    attributes: any[];
+    inputs: any[];
+    outputs: any[];
+    variables: any[];
+}
+export interface NgerContent {
+    selector: string;
+    attributes: any[];
+}
+export declare class NgerRender {
+    h: (type: any, props: any, ...children: any[]) => any;
+    element: (name: string, attribute: any, ...children: any[]) => any;
+    template: (tpl: NgerTemplate, ...children: any[]) => any;
+    content: (cfg: NgerContent) => any;
+    textAttribute: (cfg: any) => any;
+    boundAttribute: (cfg: any) => any;
+    boundEvent: (cfg: any) => any;
+    text: (txt: string) => any;
+    boundText: (attr: string) => any;
+    icu: (arg: any) => any;
+    constructor();
+    create(ref: ComponentRef<any>): any;
+}
+export declare abstract class NgerRenderFactory {
+    abstract create(instance: any): NgerRender;
+}
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }

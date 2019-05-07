@@ -19,11 +19,13 @@ class NgerPlatformBrowser extends nger_core_1.NgModuleBootstrap {
             // 在此之前生成完成编译操作
             const element = nger_dom_1.createCustomElement(context.target, { injector: ref.injector });
             const component = context.getClass(nger_core_1.ComponentMetadataKey);
-            const def = component.ast.metadataDef;
-            this.elements.set(context.target, element);
-            if (def.selector) {
-                this.customElements.define(def.selector, element);
-                return this.customElements.whenDefined(def.selector);
+            if (component) {
+                const def = component.ast.metadataDef;
+                this.elements.set(context.target, element);
+                if (def.selector) {
+                    this.customElements.define(def.selector, element);
+                    return this.customElements.whenDefined(def.selector);
+                }
             }
         }));
         const ngModule = ref.context.getClass(nger_core_1.NgModuleMetadataKey);

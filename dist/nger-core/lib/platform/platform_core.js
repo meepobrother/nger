@@ -17,7 +17,7 @@ const component_factory_1 = require("./component_factory");
 const application_tokens_1 = require("./application_tokens");
 const nger_config_1 = require("../sdk/nger-config");
 const rxjs_1 = require("rxjs");
-exports.topSubject = new rxjs_1.Subject();
+exports.topSubject = new rxjs_1.BehaviorSubject({});
 exports.platformCore = createPlatformFactory_1.createPlatformFactory(null, 'core', [{
         provide: application_init_status_1.APP_INITIALIZER,
         useValue: () => { },

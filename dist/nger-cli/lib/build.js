@@ -18,14 +18,14 @@ let BuildCommand = class BuildCommand {
                 const libPkgs = fs_extra_1.default.readdirSync(path_1.join(root, 'packages'));
                 if (this.name) {
                     this.logger.warn(`build.lib: ${this.name}`);
-                    await this.build.dev(this.name);
+                    await this.build.dev(this.name, !!this.watch);
                 }
                 else {
                     for (let pkg of libPkgs) {
                         if (pkg.startsWith('.')) { }
                         else {
                             this.logger.warn(`build.lib: ${pkg}`);
-                            await this.build.dev(pkg);
+                            await this.build.dev(pkg, false);
                         }
                     }
                 }
@@ -34,14 +34,14 @@ let BuildCommand = class BuildCommand {
                 const amdPkgs = fs_extra_1.default.readdirSync(path_1.join(root, 'packages'));
                 if (this.name) {
                     this.logger.warn(`build.prod: ${this.name}`);
-                    await this.build.prod(this.name);
+                    await this.build.prod(this.name, !!this.watch);
                 }
                 else {
                     for (let pkg of amdPkgs) {
                         if (pkg.startsWith('.')) { }
                         else {
                             this.logger.warn(`build.prod: ${pkg}`);
-                            await this.build.prod(pkg);
+                            await this.build.prod(pkg, false);
                         }
                     }
                 }
@@ -65,6 +65,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", String)
 ], BuildCommand.prototype, "name", void 0);
+tslib_1.__decorate([
+    nger_core_1.Option({
+        alias: 'w'
+    }),
+    tslib_1.__metadata("design:type", Boolean)
+], BuildCommand.prototype, "watch", void 0);
 BuildCommand = tslib_1.__decorate([
     nger_core_1.Command({
         name: 'build [type]',

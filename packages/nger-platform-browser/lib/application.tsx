@@ -2,10 +2,12 @@
 import {
     ApplicationRef, ComponentFactory, ComponentRef,
     NgerRender,
-    ElementRef, ComponentFactoryResolver
+    ElementRef, ComponentFactoryResolver,
+    NgerRenderFactory
 } from 'nger-core'
 import { deepFlattenFn } from './util'
 import { Injector, Type, InjectFlags } from 'nger-di'
+import { render } from 'preact'
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
     constructor(injector: Injector) {
@@ -26,25 +28,14 @@ export class BrowserApplicationRef extends ApplicationRef {
         const parent = ref.injector.get(ElementRef, null, InjectFlags.SkipSelf) || new ElementRef(this.root);
         //这里渲染preact
         if (ref.instance.render) {
-            const renderFactory = ref.injector.get(NgerRender);
-            let element = renderFactory.create(ref)
+            const renderFactory = ref.injector.get(NgerRenderFactory);
+            let factory = renderFactory.create(ref.instance);
+            const element = factory.create(ref)
             // 有待优化
             if (element) {
-                deepFlattenFn(element).map(ele => {
-                    if (typeof ele === 'function') {
-                        // template
-                        return ele(ref.instance);
-                    }
-                    return ele;
-                }).map(ele => {
-                    try {
-                        deepFlattenFn(ele).map(e => {
-                            e && parent.nativeElement.appendChild(e)
-                        })
-                    } catch (e) {
-                        console.log(ele)
-                    }
-                })
+                if (Array.isArray(element)) {
+                    element.map(ele => render(ele, parent.nativeElement))
+                }
             }
             super.attachView(ref, injector);
             const nowTime = new Date().getTime();

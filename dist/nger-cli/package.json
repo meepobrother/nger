@@ -1,6 +1,6 @@
 {
   "name": "nger-cli",
-  "version": "0.0.1",
+  "version": "1.0.6",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
@@ -30,5 +30,6 @@
   },
   "devDependencies": {
     "@types/node": "^11.13.8"
-  }
+  },
+  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7"
 }

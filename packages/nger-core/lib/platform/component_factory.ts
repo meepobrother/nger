@@ -49,6 +49,9 @@ export class NgerRender {
         ])
     }
 }
+export abstract class NgerRenderFactory {
+    abstract create(instance): NgerRender;
+}
 export interface ComponentCreator {
     (_context: TypeContext): any;
 }

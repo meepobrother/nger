@@ -1,29 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const autoprefixer = require("autoprefixer");
-const postCssPlugins = [
-    autoprefixer({
-        browsers: [
-            'Android >= 4',
-            'iOS >= 6'
-        ],
-        flexbox: 'no-2009'
-    })
-];
 exports.default = [
     {
         test: /\.css$/,
-        use: [{
-                loader: 'style-loader'
-            }, {
-                loader: 'css-loader'
-            }, {
-                loader: 'postcss-loader',
-                options: {
-                    ident: 'postcss',
-                    plugins: postCssPlugins
-                }
-            }]
+        use: ['style-loader', 'css-loader']
     }, {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         use: [{

@@ -7,7 +7,7 @@ const root = process.cwd();
 const path_1 = require("path");
 const html_webpack_plugin_1 = tslib_1.__importDefault(require("html-webpack-plugin"));
 const webpack_1 = tslib_1.__importDefault(require("webpack"));
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const StatsPlugin = require('stats-webpack-plugin');
 function init(injector) {
     const manager = injector.get(nger_webpack_1.NgerWebpackManager);
     return () => {
@@ -18,7 +18,6 @@ function init(injector) {
             filename: '[name]_[hash].bound.js',
             chunkFilename: '[name]_[hash].chunk.js'
         };
-        const optimi = dev ? {} : nger_webpack_1.optimization;
         const name = nger_core_1.getCurrentDev();
         if (!name) {
             throw new Error(`当前开发项目不纯在`);
@@ -27,24 +26,28 @@ function init(injector) {
             entry: {
                 main: [path_1.join(root, `.temp/addon/${name}/app.js`)]
             },
+            resolve: {
+                extensions: ['.js', '.jsx'],
+                mainFields: ['main:h5', 'main', 'module'],
+                symlinks: true,
+                modules: [path_1.join(root, 'node_modules'), path_1.join(root, 'packages')]
+            },
+            profile: true,
+            recordsPath: path_1.join(root, 'data/webpack/app.json'),
             mode: dev ? 'development' : 'production',
             devtool: dev ? 'source-map' : 'none',
             watch: dev ? true : false,
             externals: [],
             target: 'web',
-            resolve: {
-                plugins: [
-                    new TsconfigPathsPlugin({ configFile: 'tsconfig.json' }),
-                ]
-            },
             plugins: [
+                new StatsPlugin('stats.json', {
+                    chunkModules: true
+                }),
                 new html_webpack_plugin_1.default({
                     cache: false,
                     template: path_1.join(__dirname, 'index.html'),
                     filename: 'index.html',
-                    chunks: [
-                        'runtime', 'vendor', 'common', 'main'
-                    ],
+                    chunks: ['runtime', 'vendor', 'common', 'main'],
                 }),
                 new webpack_1.default.WatchIgnorePlugin([
                     /\.d\.ts$/
@@ -72,7 +75,7 @@ function init(injector) {
                 maxEntrypointSize: 1700000,
                 maxAssetSize: 1700000
             },
-            ...optimi
+            ...nger_webpack_1.optimization
         });
     };
 }

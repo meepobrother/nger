@@ -8,14 +8,28 @@ const change_detector_ref_1 = require("./change_detector_ref");
 const input_1 = require("../decorators/input");
 const rxjs_1 = require("rxjs");
 const createStaticProvider_1 = require("./createStaticProvider");
-// 这个是编译后的模板文件
-exports.ComponentTemplateToken = new nger_di_1.InjectionToken(`ComponentTemplateToken`);
-// 这个是编译后的样式文件
-exports.ComponentStyleToken = new nger_di_1.InjectionToken(`ComponentStyleToken`);
-// 这个是编译后的json文件
-exports.ComponentPropToken = new nger_di_1.InjectionToken(`ComponentPropToken`);
-// 这个是样式挂载文件
-exports.StyleRef = new nger_di_1.InjectionToken(`StyleRef`);
+class NgerRender {
+    constructor() { }
+    create(ref) {
+        const tpl = ref.instance.render.bind(ref.instance);
+        return tpl(...[
+            this.h,
+            this.element,
+            this.template,
+            this.content,
+            this.textAttribute,
+            this.boundAttribute,
+            this.boundEvent,
+            this.text,
+            this.boundText,
+            this.icu
+        ]);
+    }
+}
+exports.NgerRender = NgerRender;
+class NgerRenderFactory {
+}
+exports.NgerRenderFactory = NgerRenderFactory;
 // 自定义Component处理器
 exports.ComponentCreator = new nger_di_1.InjectionToken(`ComponentCreator`);
 class ComponentFactory {
@@ -73,7 +87,6 @@ class ComponentFactory {
     }
     // 创建
     create(injector, ngModule) {
-        const { target } = this._context;
         // 新建一个
         // Component,Directive,Pipe每次取都要创建
         // Page/Controller单例
@@ -82,7 +95,7 @@ class ComponentFactory {
         // const customElementRegistry = injector.get(CustomElementRegistry);
         // customElementRegistry.define(this)
         // 这个是数据监控器
-        const $ngOnChange = new rxjs_1.Subject();
+        const $ngOnChange = new rxjs_1.BehaviorSubject({});
         const changeDetector = new change_detector_ref_1.DefaultChangeDetectorRef($ngOnChange);
         const currentInjector = injector.create([{
                 provide: this.componentType,
@@ -91,13 +104,15 @@ class ComponentFactory {
                     const that = this;
                     const proxy = new Proxy(instance, {
                         set(target, p, value, receiver) {
-                            target[p] = value;
                             // 判断是否是@Input 
                             const input = that.inputs.map(it => it.propName === p);
                             if (input) {
                                 // 这里应该有数据拦截之类的东西，先todo吧
-                                changeDetector.markForCheck();
+                                $ngOnChange.next({
+                                    [`${p}`]: value
+                                });
                             }
+                            target[p] = value;
                             return true;
                         }
                     });
@@ -112,14 +127,25 @@ class ComponentFactory {
                 provide: change_detector_ref_1.ChangeDetectorRef,
                 useValue: changeDetector,
                 deps: []
-            }], target.name);
-        let instance = currentInjector.get(target);
+            }], this.componentType.name);
+        // 是一个proxy 外部赋值会触发更新，内部赋值需要手动更新
+        let instance = currentInjector.get(this.componentType);
+        const init = {};
+        this.inputs.map(input => {
+            init[input.templateName] = instance[input.propName];
+        });
+        $ngOnChange.next(init);
         // 解析一些属性并赋值
         const parserVisitor = currentInjector.get(parser_visitor_1.ParserVisitor);
         this._context.injector = currentInjector;
         parserVisitor.parse(instance, this._context);
         // 设置代理
-        return new component_ref_1.ComponentRef(currentInjector, instance, changeDetector, target, $ngOnChange);
+        const ref = new component_ref_1.ComponentRef(currentInjector, instance, changeDetector, this.componentType, $ngOnChange);
+        ref.injector.setStatic([{
+                provide: component_ref_1.ComponentRef,
+                useValue: ref
+            }]);
+        return ref;
     }
 }
 exports.ComponentFactory = ComponentFactory;

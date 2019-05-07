@@ -201,7 +201,7 @@ class ComponentNgElementStrategy {
             return;
         }
         this.callNgOnChanges();
-        this.componentRef.changeDetectorRef.detectChanges();
+        // this.componentRef!.changeDetectorRef.detectChanges();
     }
 }
 exports.ComponentNgElementStrategy = ComponentNgElementStrategy;

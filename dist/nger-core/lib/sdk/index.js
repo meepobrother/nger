@@ -7,7 +7,6 @@ tslib_1.__exportStar(require("./nger-config"), exports);
 tslib_1.__exportStar(require("./history"), exports);
 tslib_1.__exportStar(require("./file_system"), exports);
 tslib_1.__exportStar(require("./resolver"), exports);
-tslib_1.__exportStar(require("./traverse"), exports);
 tslib_1.__exportStar(require("./router"), exports);
 tslib_1.__exportStar(require("./cache"), exports);
 tslib_1.__exportStar(require("./h"), exports);

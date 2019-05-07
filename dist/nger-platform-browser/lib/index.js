@@ -8,7 +8,12 @@ const history_1 = require("history");
 const application_1 = require("./application");
 const bootstrap_1 = require("./bootstrap");
 const axios_1 = tslib_1.__importDefault(require("axios"));
+const render_factory_1 = require("./render_factory");
 exports.default = nger_core_1.createPlatformFactory(nger_core_1.platformCore, 'browser', [{
+        provide: nger_core_1.NgerRenderFactory,
+        useClass: render_factory_1.NgerBrowserRenderFactory,
+        deps: []
+    }, {
         provide: nger_core_1.Http,
         useValue: axios_1.default
     }, {

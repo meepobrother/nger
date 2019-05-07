@@ -3,12 +3,8 @@ import { Injector } from 'nger-di';
 import { NgModuleRef } from './ng_module_ref';
 import { ComponentRef } from './component_ref';
 import { ComponentFactory } from './component_factory';
-export declare abstract class ChangeDetectorRef {
-    abstract markForCheck(): void;
-    abstract detach(): void;
-    abstract detectChanges(): void;
-    abstract checkNoChanges(): void;
-    abstract reattach(): void;
+export declare abstract class ChangeDetectorRef<T = any> {
+    abstract next(that: Partial<T>): void;
 }
 export declare abstract class ViewRef extends ChangeDetectorRef {
     abstract destroy(): void;
@@ -50,13 +46,9 @@ export declare abstract class ViewContainerRef {
     abstract remove(index?: number): void;
     abstract detach(index?: number): ViewRef | null;
 }
-import { Subject } from 'rxjs';
-export declare class DefaultChangeDetectorRef extends ChangeDetectorRef {
-    subject: Subject<any>;
-    constructor(subject: Subject<any>);
-    markForCheck(): void;
-    detach(): void;
-    detectChanges(): void;
-    checkNoChanges(): void;
-    reattach(): void;
+import { BehaviorSubject } from 'rxjs';
+export declare class DefaultChangeDetectorRef<T = any> extends ChangeDetectorRef<T> {
+    subject: BehaviorSubject<any>;
+    constructor(subject: BehaviorSubject<any>);
+    next(that: Partial<T>): void;
 }
