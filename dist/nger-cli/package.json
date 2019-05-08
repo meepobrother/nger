@@ -37,7 +37,7 @@
     "mocha": "^6.1.4",
     "nger-compiler-preact": "^1.0.8",
     "nger-core": "^1.0.8",
-    "nger-platform-cli": "*",
-    "nger-platform-node": "*"
+    "nger-platform-cli": "^1.0.8",
+    "nger-platform-node": "^1.0.8"
   }
 }
