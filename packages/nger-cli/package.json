@@ -1,6 +1,6 @@
 {
   "name": "nger-cli",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
@@ -35,8 +35,8 @@
   "dependencies": {
     "fs-extra": "^7.0.1",
     "mocha": "^6.1.4",
-    "nger-compiler-preact": "^1.0.8",
-    "nger-core": "^1.0.8",
+    "nger-compiler-preact": "^1.0.9",
+    "nger-core": "^1.0.9",
     "nger-platform-cli": "*",
     "nger-platform-node": "*"
   }
