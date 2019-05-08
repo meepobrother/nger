@@ -1,0 +1,16 @@
+{
+        "name": "ims-demo2",
+        "description": "",
+        "version": "1.0",
+        "author": {
+            "email": "",
+            "name": ""
+        },
+        "nger": {
+            "server": "./server",
+            "admin": "./admin",
+            "app": "./app",
+            "pc": "./pc"
+        },
+        "icon": ""
+    }

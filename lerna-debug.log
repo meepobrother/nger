@@ -1,19 +1,7 @@
-0 silly argv { _: [ 'create' ],
-0 silly argv   lernaVersion: '3.13.1',
-0 silly argv   '$0': 'lerna',
-0 silly argv   name: 'nger-compiler-client' }
-1 notice cli v3.13.1
-2 verbose rootPath /Volumes/imeepos/nger
-3 error Error: canceled
-3 error     at Interface.<anonymous> (/usr/local/lib/node_modules/lerna/node_modules/read/lib/read.js:66:13)
-3 error     at Interface.emit (events.js:189:13)
-3 error     at Interface._ttyWrite (readline.js:783:16)
-3 error     at ReadStream.onkeypress (readline.js:168:10)
-3 error     at ReadStream.emit (events.js:189:13)
-3 error     at emitKeys (internal/readline.js:424:14)
-3 error     at emitKeys.next (<anonymous>)
-3 error     at ReadStream.onData (readline.js:1022:36)
-3 error     at ReadStream.emit (events.js:189:13)
-3 error     at addChunk (_stream_readable.js:284:12)
-3 error     at readableAddChunk (_stream_readable.js:265:11)
-3 error     at ReadStream.Readable.push (_stream_readable.js:220:10)
+190 error Error: Command failed: git add -- packages/nger-webpack-admin/package.json packages/nger-prisma/package.json packages/nger-platform-koa/package.json packages/nger-webpack/package.json packages/nger-webpack-app/package.json packages/nger-provider-typescript/package.json packages/nger-di/package.json packages/nger-webpack-pc/package.json packages/ims-decorator/package.json packages/nger-core/package.json packages/nger-platform-browser/package.json packages/nger-compiler/package.json packages/nger-module-typeorm/package.json packages/nger-platform-alipay/package.json packages/nger-dom/package.json packages/nger-store/package.json packages/nger-compiler-client/package.json packages/nger-compiler-native/package.json packages/nger-effects/package.json packages/nger-compiler-preact/package.json packages/nger-compiler-weapp/package.json packages/nger-cli/package.json lerna.json
+190 error The following paths are ignored by one of your .gitignore files:
+190 error packages/nger-prisma/package.json
+190 error Use -f if you really want to add them.
+190 error
+190 error     at makeError (/usr/local/lib/node_modules/lerna/node_modules/execa/index.js:174:9)
+190 error     at Promise.all.then.arr (/usr/local/lib/node_modules/lerna/node_modules/execa/index.js:278:16)
