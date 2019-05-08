@@ -18,6 +18,7 @@
   },
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
-    "reflect-metadata": "*"
+    "nger-di": "*",
+    "reflect-metadata": "^0.1.13"
   }
 }

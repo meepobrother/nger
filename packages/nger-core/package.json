@@ -28,5 +28,9 @@
   "devDependencies": {
     "@types/node": "^11.13.8"
   },
-  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7"
+  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
+  "dependencies": {
+    "ims-decorator": "*",
+    "ims-di": "*"
+  }
 }

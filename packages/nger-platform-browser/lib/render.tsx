@@ -7,6 +7,10 @@ export class BrowserRender extends NgerRender {
         super();
     }
     create(ref: ComponentRef<any>) {
+        ref.injector.setStatic([{
+            provide: NgerRender,
+            useValue: this
+        }]);
         // 文字
         this.text = str => str;
         // jsx元素
@@ -80,12 +84,14 @@ export class BrowserRender extends NgerRender {
             console.log(`boundText`, str)
             return this.instance[str]
         }
+        // 自定义指令
         this.template = (arg: any, ...children: any[]) => {
             const { attributes, inputs, outputs, references, variables } = arg;
+            // 找到自定义指令对应的函数 执行run(instance,ref)
             console.log(`template`, {
                 arg,
                 children
-            })
+            });
             return <ng-template>{children}</ng-template>;
         }
         this.content = (art) => {

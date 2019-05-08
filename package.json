@@ -51,6 +51,7 @@
     "enhanced-resolve": "^4.1.0",
     "eventsource-polyfill": "^0.9.6",
     "file-loader": "^3.0.1",
+    "graphql": "^14.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-typescript": "^5.0.1",
     "gulp-uglify": "^3.0.2",

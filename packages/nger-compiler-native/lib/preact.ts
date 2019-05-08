@@ -5,11 +5,7 @@ import { NgerCompilerPreactStyle } from './style'
 import { NgerCompilerPreactAssets } from './assets'
 import { NgerCompilerPreactTypescript } from './typescript'
 import { NgerCompilerNgMetadata } from 'nger-compiler'
-import { NgerComponentConfig, NgerControllerConfig } from './types'
 import { NgerCompilerPreactController } from './controller'
-
-import { join } from 'path';
-const root = process.cwd();
 // 提供统一的外观
 export class NgerCompilerPreact extends NgModuleBootstrap {
     constructor(

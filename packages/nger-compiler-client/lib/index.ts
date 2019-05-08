@@ -1,8 +1,5 @@
-import compilerProviders from 'nger-compiler'
+import compilerProviders, { WATCH_TASK } from 'nger-compiler'
 import { clientTask } from './task';
-import {
-    WATCH_TASK
-} from 'nger-compiler'
 export default [
     ...compilerProviders,
     {

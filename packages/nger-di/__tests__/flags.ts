@@ -28,7 +28,6 @@ describe(`flags`, () => {
     it(`CheckParent 当CheckSelf和Optional为0，其余不为0`, () => {
         expect(OptionFlags.CheckSelf & OptionFlags.CheckParent).to.eq(0)
         expect(OptionFlags.Optional & OptionFlags.CheckParent).to.eq(0)
-
         expect(OptionFlags.CheckParent & OptionFlags.CheckParent).to.not.eq(0)
         expect(OptionFlags.Default & OptionFlags.CheckParent).to.not.eq(0)
     })

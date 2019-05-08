@@ -1,6 +1,4 @@
 import { Command, Inject, Logger } from 'nger-core'
-import { join } from 'path';
-const root = process.cwd();
 @Command({
     name: 'install <name>',
     description: '安装脚本',

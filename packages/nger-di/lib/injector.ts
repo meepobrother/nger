@@ -26,6 +26,7 @@ export class Record {
         public value: any = EMPTY
     ) { }
 }
+
 export interface DependencyRecord {
     token: any;
     options: number;

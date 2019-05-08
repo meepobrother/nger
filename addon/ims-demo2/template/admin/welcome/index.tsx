@@ -1,5 +1,4 @@
 import { Page } from 'nger-core';
-import { ImsDemo2Controller } from '../../../inc/welcome'
 
 @Page({
     path: '/admin/welcome',
@@ -18,5 +17,5 @@ export class ImsDemo2AdminWelcomePage {
     bgColor: string = `red`;
 
     demo: string = `demo content`
-    constructor(public demo: ImsDemo2Controller) { }
+    constructor() { }
 }

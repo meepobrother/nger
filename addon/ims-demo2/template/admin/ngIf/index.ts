@@ -1,4 +1,4 @@
-import { Directive, Input } from 'nger-core';
+import { Directive, Input, NgerRender } from 'nger-core';
 
 /**
  * *ngIf="
@@ -24,5 +24,7 @@ export class NgerNgIf {
 
     @Input()
     ngIfThen: boolean;
+
+    constructor(public render: NgerRender) { }
 
 }
