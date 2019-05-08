@@ -33,6 +33,7 @@
   },
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
+    "gulp": "^4.0.1",
     "fs-extra": "^7.0.1",
     "ims-decorator": "^1.0.15",
     "mocha": "^6.1.4",
