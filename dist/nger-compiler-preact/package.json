@@ -1,6 +1,6 @@
 {
   "name": "nger-compiler-preact",
-  "version": "1.0.14",
+  "version": "1.0.9",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
@@ -29,9 +29,9 @@
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
     "@angular/compiler": "^7.2.13",
-    "nger-compiler": "^1.0.14",
-    "nger-core": "^1.0.14",
-    "nger-di": "^1.0.14",
+    "nger-compiler": "^1.0.9",
+    "nger-core": "^1.0.9",
+    "nger-di": "^1.0.9",
     "typescript": "^3.3"
   }
 }

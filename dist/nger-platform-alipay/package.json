@@ -1,6 +1,6 @@
 {
   "name": "nger-platform-alipay",
-  "version": "1.0.14",
+  "version": "1.0.9",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
@@ -28,6 +28,6 @@
   },
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
-    "nger-core": "^1.0.14"
+    "nger-core": "^1.0.9"
   }
 }

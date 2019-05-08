@@ -12,7 +12,7 @@
     "test": "__tests__"
   },
   "files": [
-    "dist"
+    "lib"
   ],
   "publishConfig": {
     "registry": "http://registry.npmjs.org/"
