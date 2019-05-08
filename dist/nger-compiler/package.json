@@ -1,6 +1,6 @@
 {
   "name": "nger-compiler",
-  "version": "1.0.9",
+  "version": "1.0.15",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
@@ -42,8 +42,8 @@
     "imagemin-svgo": "^7.0.0",
     "less": "^3.9.0",
     "multihashing": "^0.3.3",
-    "nger-core": "^1.0.9",
-    "nger-di": "^1.0.9",
+    "nger-core": "^1.0.15",
+    "nger-di": "^1.0.15",
     "nger-util": "*",
     "node-sass": "^4.11.0",
     "postcss": "^7.0.14",
