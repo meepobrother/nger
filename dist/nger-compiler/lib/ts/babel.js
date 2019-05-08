@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const nger_core_1 = require("nger-core");
 const fs_extra_1 = tslib_1.__importDefault(require("fs-extra"));
-const nger_core_2 = require("nger-core");
-const nger_compiler_1 = require("nger-compiler");
+const typescript_1 = require("./typescript");
 const { transformSync } = require('@babel/core');
 let NgerCompilerBabel = class NgerCompilerBabel {
     constructor(ts, resolver) {
@@ -35,7 +34,7 @@ let NgerCompilerBabel = class NgerCompilerBabel {
     }
 };
 NgerCompilerBabel = tslib_1.__decorate([
-    nger_core_2.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [nger_compiler_1.NgerCompilerTypescript, Object])
+    nger_core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [typescript_1.NgerCompilerTypescript, Object])
 ], NgerCompilerBabel);
 exports.NgerCompilerBabel = NgerCompilerBabel;

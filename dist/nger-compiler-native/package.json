@@ -26,5 +26,11 @@
   "bugs": {
     "url": "https://github.com/meepobrother/nger/issues"
   },
-  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7"
+  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "nger-compiler": "*",
+    "nger-di": "*",
+    "nger-core": "*"
+  }
 }

@@ -1,5 +1,5 @@
 import { Resolver } from 'nger-core';
-import { NgerCompilerTypescript } from 'nger-compiler';
+import { NgerCompilerTypescript } from './typescript';
 import ts from 'typescript';
 export declare class NgerCompilerBabel {
     ts: NgerCompilerTypescript;

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const nger_core_1 = require("nger-core");
-const root = process.cwd();
 // 提供统一的外观
 class NgerCompilerPreact extends nger_core_1.NgModuleBootstrap {
     constructor(html, style, assets, ts, metadata, controller, config) {

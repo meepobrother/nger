@@ -26,5 +26,13 @@
   "bugs": {
     "url": "https://github.com/meepobrother/nger/issues"
   },
-  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7"
+  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
+  "dependencies": {
+    "typescript": "^3.4.4",
+    "@angular/compiler": "^7.2.13",
+
+    "nger-compiler": "*",
+    "nger-di": "*",
+    "nger-core": "*"
+  }
 }

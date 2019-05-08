@@ -10,6 +10,10 @@ class BrowserRender extends nger_core_1.NgerRender {
         this.instance = instance;
     }
     create(ref) {
+        ref.injector.setStatic([{
+                provide: nger_core_1.NgerRender,
+                useValue: this
+            }]);
         // 文字
         this.text = str => str;
         // jsx元素
@@ -59,7 +63,7 @@ class BrowserRender extends nger_core_1.NgerRender {
             });
             const vnode = preact_1.h(tag, {
                 ...res,
-                clasName: classnames_1.default(className, _class)
+                className: classnames_1.default(className, _class)
             }, ...children);
             console.log({ attr, vnode });
             return vnode;
@@ -81,10 +85,12 @@ class BrowserRender extends nger_core_1.NgerRender {
         };
         this.boundText = (str) => {
             console.log(`boundText`, str);
-            return { str };
+            return this.instance[str];
         };
+        // 自定义指令
         this.template = (arg, ...children) => {
             const { attributes, inputs, outputs, references, variables } = arg;
+            // 找到自定义指令对应的函数 执行run(instance,ref)
             console.log(`template`, {
                 arg,
                 children
