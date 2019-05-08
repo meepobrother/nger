@@ -1,6 +1,6 @@
 {
   "name": "ims-decorator",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "http://meepo.com.cn",
@@ -18,7 +18,7 @@
   },
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
-    "nger-di": "*",
+    "nger-di": "^1.0.8",
     "reflect-metadata": "^0.1.13"
   }
 }

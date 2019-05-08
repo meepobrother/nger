@@ -396,8 +396,6 @@ Component({
 ### [nger-di](./packages/nger-di)
 > 依赖注入实现
 
-### [nger-logger](./packages/nger-logger)
-> 带色打印工具
 
 - [x] Logger 接口
 - [x] `ConsoleLogger` `Logger`的`console`实现

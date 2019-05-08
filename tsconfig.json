@@ -59,9 +59,6 @@
             "nger-di": [
                 "packages/nger-di/lib/index.ts"
             ],
-            "nger-logger": [
-                "packages/nger-logger/lib/index.ts"
-            ],
             "nger-components": [
                 "packages/nger-components/lib/index.ts"
             ],

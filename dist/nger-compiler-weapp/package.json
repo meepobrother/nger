@@ -1,6 +1,6 @@
 {
   "name": "nger-compiler-weapp",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
@@ -28,8 +28,8 @@
   },
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
-    "nger-core": "*",
-    "nger-compiler": "*",
-    "nger-compiler-client": "*"
+    "nger-compiler": "^1.0.8",
+    "nger-compiler-client": "^1.0.8",
+    "nger-core": "^1.0.8"
   }
 }
