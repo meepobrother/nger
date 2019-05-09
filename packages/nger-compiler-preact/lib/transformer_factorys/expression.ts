@@ -21,12 +21,10 @@ function createBinaryOperator(operation: string): ts.BinaryOperatorToken {
 }
 
 export class ExpressionVisitor implements AstVisitor {
-
     createNodeStringLiteral(node: any) {
         const code = printer.printList(ts.ListFormat.NoSpaceIfEmpty, ts.createNodeArray([node]), sourceFile)
         return ts.createStringLiteral(code);
     }
-
     visitBinary(ast: Binary, context: any): any {
         debugger;
         return ts.createBinary(

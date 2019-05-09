@@ -9,4 +9,5 @@ export * from './cache';
 export * from './h';
 export * from './sdk';
 import * as ISdk from './sdk_types';
+export * from './ts';
 export { ISdk }

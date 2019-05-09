@@ -3,6 +3,7 @@ import { ComponentRef, NgerRender, NgModuleRef } from 'nger-core';
 import { h } from 'preact';
 import classNames from 'classnames';
 export class BrowserRender extends NgerRender {
+    templates: Map<any, any> = new Map();
     constructor(public instance: any = {}) {
         super();
     }
@@ -56,7 +57,6 @@ export class BrowserRender extends NgerRender {
                 if (type === '3') {
                     styleStr += `${this.instance[value]}${unit}`
                 }
-
             })
             const vnode = h(tag, {
                 ...res,
@@ -92,7 +92,24 @@ export class BrowserRender extends NgerRender {
                 arg,
                 children
             });
-            return <ng-template>{children}</ng-template>;
+            if (references) {
+                references.map(ref => this.templates.set(ref.name, children))
+            }
+            if (inputs) {
+                const isNgIf = inputs.find(input => input.name === 'ngIf');
+                console.log(isNgIf)
+                if (!!isNgIf) {
+                    // 处理ngIf // 找到ngIfElse
+                    const ifElse = inputs.find(input => input.name === 'ngIfElse');
+                    if (!!this.instance[isNgIf.value]) {
+                        return (props) => children;
+                    } else {
+                        if (!!ifElse) {
+                            return (props) => this.templates.get(ifElse.value)
+                        }
+                    }
+                }
+            }
         }
         this.content = (art) => {
             console.log(`content`, art)

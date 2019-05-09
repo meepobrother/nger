@@ -1,12 +1,11 @@
 {
-  "name": "nger-platform-koa",
-  "version": "1.0.9",
+  "name": "nger-workspace",
+  "version": "1.0.6",
   "description": "> TODO: description",
   "author": "imeepos <1037483576@qq.com>",
   "homepage": "https://github.com/meepobrother/nger#readme",
   "license": "ISC",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/nger-workspace.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -14,6 +13,22 @@
   "files": [
     "lib"
   ],
+  "schematics": "./collection.json",
+  "builders": "./builders.json",
+  "ng-update": {
+    "requirements": {},
+    "migrations": "./migrations.json",
+    "packageGroup": [
+      "@nrwl/angular",
+      "@nrwl/cypress",
+      "@nrwl/express",
+      "@nrwl/jest",
+      "@nrwl/nest",
+      "@nrwl/node",
+      "@nrwl/react",
+      "@nrwl/web"
+    ]
+  },
   "publishConfig": {
     "registry": "http://registry.npmjs.org/"
   },
@@ -26,6 +41,5 @@
   },
   "bugs": {
     "url": "https://github.com/meepobrother/nger/issues"
-  },
-  "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7"
+  }
 }

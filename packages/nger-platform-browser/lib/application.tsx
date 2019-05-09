@@ -4,16 +4,13 @@ import {
     ElementRef, ComponentFactoryResolver,
     NgerRenderFactory
 } from 'nger-core';
-
 import { Injector, Type, InjectFlags } from 'nger-di';
 import { render } from 'preact';
-
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;
     constructor(injector: Injector) {
         super(injector);
     }
-
     bootstrap<C>(
         componentOrFactory: ComponentFactory<C> | Type<C>,
         rootSelectorOrNode?: string | any

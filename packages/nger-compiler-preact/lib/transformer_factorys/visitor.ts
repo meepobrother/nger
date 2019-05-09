@@ -1,6 +1,6 @@
 import { Node, Visitor, BoundAttribute, TextAttribute, BoundEvent, Template, Text, Variable, Reference, Element, BoundText, Icu, Content } from '@angular/compiler/src/render3/r3_ast';
 import ts from 'typescript';
-import { ExpressionVisitor, BindingType } from './expression'
+import { ExpressionVisitor } from './expression'
 export class ComponentVisitor implements Visitor<ts.Node>{
     public expression: ExpressionVisitor;
     constructor() {
@@ -57,6 +57,7 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         }
         // 转化到小程序是 <template></template>
         return ts.createCall(ts.createIdentifier(`template`), [], [
+            ts.createIdentifier('props'),
             ts.createObjectLiteral(propertys),
             ...children.map(child => child.visit(this) as any)
         ]);
@@ -78,6 +79,8 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         if (outputs) propertys.push(this.createOutputs(outputs))
         // h(name,{...inputs,...outputs,...attributes},...children)
         return ts.createCall(ts.createIdentifier(`element`), [], [
+            ts.createIdentifier('props'),
+            ts.createParameter(undefined, undefined, undefined, 'props', undefined, undefined, undefined),
             ts.createStringLiteral(name),
             ts.createObjectLiteral(propertys),
             ...children.map(child => child.visit(this) as any)
@@ -89,6 +92,7 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         propertys.push(ts.createPropertyAssignment(`selector`, ts.createStringLiteral(selector)));
         propertys.push(this.createAttribute(attributes));
         return ts.createCall(ts.createIdentifier(`content`), [], [
+            ts.createIdentifier('props'),
             ts.createObjectLiteral(propertys)
         ]);
     }
@@ -115,7 +119,7 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         ]);
         return ts.createCall(
             ts.createIdentifier('textAttribute'),
-            undefined, [ast]
+            undefined, [ts.createIdentifier('props'), ast]
         )
     }
     // [class.active]="true" bound
@@ -131,7 +135,10 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         ])
         return ts.createCall(
             ts.createIdentifier('boundAttribute'),
-            undefined, [ast]
+            undefined, [
+                ts.createIdentifier('props'),
+                ast
+            ]
         )
     }
     // (click)="onClick($event)"
@@ -146,12 +153,12 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         ])
         return ts.createCall(
             ts.createIdentifier('boundEvent'),
-            undefined, [ast]
+            undefined, [ts.createIdentifier('props'), ast]
         )
     }
     visitText(text: Text) {
         return ts.createCall(ts.createIdentifier(`text`), [],
-            [ts.createStringLiteral(text.value)]
+            [ts.createIdentifier('props'), ts.createStringLiteral(text.value)]
         );
     }
     // {{text}}
@@ -160,12 +167,15 @@ export class ComponentVisitor implements Visitor<ts.Node>{
         return ts.createCall(
             ts.createIdentifier('boundText'),
             undefined, [
+                ts.createIdentifier('props'),
                 // 这里肯定是一个expression
                 value.visit(this.expression)
             ].filter(it => !!it)
         );
     };
     visitIcu(icu: Icu): ts.Node {
-        return ts.createCall(ts.createIdentifier(`icu`), [], []);
+        return ts.createCall(ts.createIdentifier(`icu`), [], [
+            ts.createIdentifier('props'),
+        ]);
     }
 }

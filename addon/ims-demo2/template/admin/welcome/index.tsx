@@ -19,3 +19,4 @@ export class ImsDemo2AdminWelcomePage {
     demo: string = `demo content`
     constructor() { }
 }
+

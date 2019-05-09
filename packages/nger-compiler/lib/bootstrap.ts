@@ -12,6 +12,7 @@ import { ModuleMetadata } from '@angular/compiler-cli'
 export let metadataCache: Map<string, ModuleMetadata> = new Map();
 export let templateCache: Map<string, Node[]> = new Map();
 export let hasHandlerFileCache: Set<string> = new Set();
+
 export class NgerCompilerBootstrap extends NgModuleBootstrap {
     constructor(
         public util: NgerUtil,

@@ -61,6 +61,3 @@ export const componentRenderTransformerFactory = (context: TransformationContext
     }
 }
 
-function needReplaceRender() {
-
-}

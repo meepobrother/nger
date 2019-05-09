@@ -3,6 +3,8 @@ import { NgerUtil } from 'nger-util'
 import fs from 'fs-extra';
 import { dirname, join } from 'path'
 import axios from 'axios';
+import { Project } from 'ts-morph'
+const project = new Project();
 import {
     NodeJsInputFileSystem,
     CachedInputFileSystem,
