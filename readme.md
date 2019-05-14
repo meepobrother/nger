@@ -1,6 +1,14 @@
 <p align="center"><img width="120" src="./docs/logo.png" alt="Vue logo"></p>
 
-<a href="https://travis-ci.org/meepobrother/nger" title="Build Status"><img src="https://travis-ci.org/meepobrother/nger.svg?branch=master"></a>
+<p align="center">
+  <a href="https://travis-ci.org/meepobrother/nger"><img src="https://travis-ci.org/meepobrother/nger.svg?branch=master" alt="Build Status"></a>
+  <a href="https://www.npmjs.com/package/nger"><img src="https://img.shields.io/npm/v/nger.svg" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/nger"><img src="https://img.shields.io/npm/l/nger.svg" alt="License"></a>
+<a href="https://npmcharts.com/compare/nger?minimal=true"><img src="https://img.shields.io/npm/dm/nger.svg" alt="Downloads"></a>
+  <!-- <a href="https://app.saucelabs.com/builds/50f8372d79f743a3b25fb6ca4851ca4c"><img src="https://app.saucelabs.com/buildstatus/nger" alt="Build Status"></a> -->
+  <!-- <a href="https://codecov.io/github/vuejs/vue?branch=dev"><img src="https://img.shields.io/codecov/c/github/vuejs/vue/dev.svg" alt="Coverage Status"></a>
+   -->
+</p>
 
 项目开发中，api频繁变动中!
 
