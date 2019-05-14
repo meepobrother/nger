@@ -1,5 +1,6 @@
 <p align="center"><img width="120" src="./docs/logo.png" alt="Vue logo"></p>
 
+<a href="https://travis-ci.org/meepobrother/nger" title="Build Status"><img src="https://travis-ci.org/meepobrother/nger.svg?branch=master"></a>
 
 项目开发中，api频繁变动中!
 
@@ -75,3 +76,8 @@ nger start [-p 4200]
 <p>
 <img height="320" style="margin-left:30px;" src="./wechat.png">
 </p>
+
+
+npm publish --access public
+
+## LZzvBT6k2D5
