@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from 'nger-core'
+import { Component, Input, EventEmitter, Output } from '@nger/core'
 import { Observable } from 'rxjs';
 export interface NgerTableSource<T = any> {
     count: number;

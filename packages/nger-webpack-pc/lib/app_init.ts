@@ -1,6 +1,6 @@
-import { NgerWebpackManager, optimization, assetsRules } from 'nger-webpack'
-import { Injector } from 'nger-di'
-import { isDevMode, getCurrentDev } from 'nger-core'
+import { NgerWebpackManager, optimization, assetsRules } from '@nger/webpack'
+import { Injector } from '@nger/di'
+import { isDevMode, getCurrentDev } from '@nger/core'
 const root = process.cwd();
 import { join } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin';

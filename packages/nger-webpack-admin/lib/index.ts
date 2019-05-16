@@ -1,5 +1,5 @@
-import { APP_INITIALIZER } from 'nger-core';
-import { Injector } from 'nger-di'
+import { APP_INITIALIZER } from '@nger/core';
+import { Injector } from '@nger/di'
 import { init } from './app_init'
 
 export default [{

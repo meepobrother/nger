@@ -1,5 +1,5 @@
 import webpack, { Configuration,Stats } from 'webpack'
-import { Logger } from 'nger-core'
+import { Logger } from '@nger/core'
 import chalk from 'chalk';
 export class NgerWebpackManager {
     options: Configuration[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, Output } from 'nger-core'
+import { Component, Input, Output } from '@nger/core'
 import { Element } from '../base'
 
 @Component({

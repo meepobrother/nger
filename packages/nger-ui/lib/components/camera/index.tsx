@@ -1,4 +1,4 @@
-import { Component } from 'nger-core';
+import { Component } from '@nger/core';
 @Component({
     selector: 'nger-camera'
 })

@@ -1,4 +1,4 @@
-import { Input } from 'nger-core'
+import { Input } from '@nger/core'
 
 export class VoidElement {
     @Input() className?: string;

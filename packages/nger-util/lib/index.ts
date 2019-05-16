@@ -1,7 +1,7 @@
 import { exec } from 'shelljs';
 import { execSync } from 'child_process';
 import { join } from 'path';
-import { Logger, NgerConfig } from 'nger-core';
+import { Logger, NgerConfig } from '@nger/core';
 import { CompilerOptions } from 'typescript'
 import rimraf = require('rimraf');
 
