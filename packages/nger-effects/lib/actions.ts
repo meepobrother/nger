@@ -1,10 +1,10 @@
-import { Inject, Injectable } from 'nger-core';
+import { Inject, Injectable } from '@nger/core';
 import {
   Action,
   ActionCreator,
   Creator,
   ScannedActionsSubject,
-} from 'nger-store';
+} from '@nger/store';
 import { Observable, OperatorFunction, Operator } from 'rxjs';
 import { filter } from 'rxjs/operators';
 

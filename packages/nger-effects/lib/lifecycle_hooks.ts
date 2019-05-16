@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { EffectNotification } from '.';
-import { Action } from 'nger-store';
+import { Action } from '@nger/store';
 
 /**
  * @description

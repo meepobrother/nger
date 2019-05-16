@@ -1,5 +1,5 @@
-import { createPlatformFactory, NgerRenderFactory, NgerRender, NgModuleRef, ApplicationRef, Http, platformCore, CustomElementRegistry, History, NgModuleBootstrap } from 'nger-core'
-import { Injector } from 'nger-di'
+import { createPlatformFactory, NgerRenderFactory, NgerRender, NgModuleRef, ApplicationRef, Http, platformCore, CustomElementRegistry, History, NgModuleBootstrap } from '@nger/core'
+import { Injector } from '@nger/di'
 import 'document-register-element';
 import { createBrowserHistory } from 'history';
 import { BrowserApplicationRef } from './application'

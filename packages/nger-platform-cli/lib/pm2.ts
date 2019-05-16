@@ -1,6 +1,6 @@
-import { Injectable, Inject, Logger } from 'nger-core';
+import { Injectable, Inject, Logger } from '@nger/core';
 import pm2, { StartOptions, Proc, ProcessDescription } from 'pm2';
-import { NgerUtil } from 'nger-util'
+import { NgerUtil } from '@nger/util'
 
 @Injectable()
 export class NgerPm2Service {

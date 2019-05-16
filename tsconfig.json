@@ -35,124 +35,124 @@
         "noErrorTruncation": true,
         "emitBOM": false,
         "paths": {
-            "ims-decorator": [
+            "@nger/decorator": [
                 "packages/ims-decorator/lib/index.ts"
             ],
-            "nger-core": [
+            "@nger/core": [
                 "packages/nger-core/lib/index.ts"
             ],
-            "nger-watcher": [
+            "@nger/watcher": [
                 "packages/nger-watcher/lib/index.ts"
             ],
-            "nger-module-pm2": [
+            "@nger/module-pm2": [
                 "packages/nger-module-pm2/lib/index.ts"
             ],
-            "nger-module-gulp": [
+            "@nger/module-gulp": [
                 "packages/nger-module-gulp/lib/index.ts"
             ],
-            "nger-module-webpack": [
+            "@nger/module-webpack": [
                 "packages/nger-module-webpack/lib/index.ts"
             ],
-            "nger-module-typeorm": [
+            "@nger/module-typeorm": [
                 "packages/nger-module-typeorm/lib/index.ts"
             ],
-            "nger-di": [
+            "@nger/di": [
                 "packages/nger-di/lib/index.ts"
             ],
-            "nger-components": [
+            "@nger/components": [
                 "packages/nger-components/lib/index.ts"
             ],
-            "nger-webpack": [
+            "@nger/webpack": [
                 "packages/nger-webpack/lib/index.ts"
             ],
-            "nger-webpack-admin": [
+            "@nger/webpack-admin": [
                 "packages/nger-webpack-admin/lib/index.ts"
             ],
-            "nger-webpack-app": [
+            "@nger/webpack-app": [
                 "packages/nger-webpack-app/lib/index.ts"
             ],
-            "nger-webpack-pc": [
+            "@nger/webpack-pc": [
                 "packages/nger-webpack-pc/lib/index.ts"
             ],
-            "nger-platform-native": [
+            "@nger/platform-native": [
                 "packages/nger-platform-native/lib/index.ts"
             ],
-            "nger-platform-ios": [
+            "@nger/platform-ios": [
                 "packages/nger-platform-ios/lib/index.ts"
             ],
-            "nger-platform-android": [
+            "@nger/platform-android": [
                 "packages/nger-platform-android/lib/index.ts"
             ],
-            "nger-platform-cli": [
+            "@nger/platform-cli": [
                 "packages/nger-platform-cli/lib/index.ts"
             ],
-            "nger-platform-test": [
+            "@nger/platform-test": [
                 "packages/nger-platform-test/lib/index.ts"
             ],
-            "nger-platform-express": [
+            "@nger/platform-express": [
                 "packages/nger-platform-express/lib/index.ts"
             ],
-            "nger-platform-axios": [
+            "@nger/platform-axios": [
                 "packages/nger-platform-axios/lib/index.ts"
             ],
-            "nger-platform-weapp": [
+            "@nger/platform-weapp": [
                 "packages/nger-platform-weapp/lib/index.ts"
             ],
-            "nger-platform-koa": [
+            "@nger/platform-koa": [
                 "packages/nger-platform-koa/lib/index.ts"
             ],
-            "nger-compiler": [
+            "@nger/compiler": [
                 "packages/nger-compiler/lib/index.ts"
             ],
-            "nger-compiler-client": [
+            "@nger/compiler-client": [
                 "packages/nger-compiler-client/lib/index.ts"
             ],
-            "nger-compiler-server": [
+            "@nger/compiler-server": [
                 "packages/nger-compiler-server/lib/index.ts"
             ],
-            "nger-compiler-preact": [
+            "@nger/compiler-preact": [
                 "packages/nger-compiler-preact/lib/index.ts"
             ],
-            "nger-provider-style": [
+            "@nger/provider-style": [
                 "packages/nger-provider-style/lib/index.ts"
             ],
-            "nger-compiler-uglify": [
+            "@nger/compiler-uglify": [
                 "packages/nger-compiler-uglify/lib/index.ts"
             ],
-            "nger-provider-typescript": [
+            "@nger/provider-typescript": [
                 "packages/nger-provider-typescript/lib/index.ts"
             ],
-            "nger-compiler-img": [
+            "@nger/compiler-img": [
                 "packages/nger-compiler-img/lib/index.ts"
             ],
-            "nger-compiler-weapp": [
+            "@nger/compiler-weapp": [
                 "packages/nger-compiler-weapp/lib/index.ts"
             ],
-            "nger-store": [
+            "@nger/store": [
                 "packages/nger-store/lib/index.ts"
             ],
-            "nger-util": [
+            "@nger/util": [
                 "packages/nger-util/lib/index.ts"
             ],
-            "nger-ui": [
+            "@nger/ui": [
                 "packages/nger-ui/lib/index.ts"
             ],
-            "nger-effects": [
+            "@nger/effects": [
                 "packages/nger-effects/lib/index.ts"
             ],
-            "nger-platform-di": [
+            "@nger/platform-di": [
                 "packages/nger-platform-di/lib/index.ts"
             ],
-            "nger-platform-node": [
+            "@nger/platform-node": [
                 "packages/nger-platform-node/lib/index.ts"
             ],
-            "nger-platform-style": [
+            "@nger/platform-style": [
                 "packages/nger-provider-style/lib/index.ts"
             ],
-            "nger-platform-browser": [
+            "@nger/platform-browser": [
                 "packages/nger-platform-browser/lib/index.tsx"
             ],
-            "nger-dom": [
+            "@nger/dom": [
                 "packages/nger-dom/lib/index.ts"
             ],
             "*": [

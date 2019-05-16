@@ -1,9 +1,9 @@
-import { NgModule, Inject, Optional } from 'nger-core';
+import { NgModule, Inject, Optional } from '@nger/core';
 import {
   Store,
   StoreRootModule,
   StoreFeatureModule,
-} from 'nger-store';
+} from '@nger/store';
 import { EffectsRunner } from './effects_runner';
 import { EffectSources } from './effect_sources';
 import { ROOT_EFFECTS } from './tokens';

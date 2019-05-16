@@ -1,6 +1,6 @@
-import { Command, Inject, Logger, createPlatformFactory, NgModule } from 'nger-core'
-import ngerCompilerPreact from 'nger-compiler-preact'
-import nodePlatform from 'nger-platform-node'
+import { Command, Inject, Logger, createPlatformFactory, NgModule } from '@nger/core'
+import ngerCompilerPreact from '@nger/compiler-preact'
+import nodePlatform from '@nger/platform-node'
 
 @NgModule()
 export class NgerDevModule { }

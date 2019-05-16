@@ -1,5 +1,5 @@
-import { Injector } from 'nger-di'
-import { ComponentRef, NgerRender, NgModuleRef } from 'nger-core';
+import { Injector } from '@nger/di'
+import { ComponentRef, NgerRender, NgModuleRef } from '@nger/core';
 import { h } from 'preact';
 import classNames from 'classnames';
 export class BrowserRender extends NgerRender {

@@ -1,4 +1,4 @@
-import { Router } from 'nger-core'
+import { Router } from '@nger/core'
 export class NgerH5Router extends Router {
     // 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
     switchTab(url: string): Promise<boolean> { 

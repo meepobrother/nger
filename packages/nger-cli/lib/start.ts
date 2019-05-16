@@ -1,8 +1,8 @@
-import { Command, Option, Inject, setPort, setDevMode, Logger, setCurrentDev } from 'nger-core'
+import { Command, Option, Inject, setPort, setDevMode, Logger, setCurrentDev } from '@nger/core'
 import { join } from 'path';
 const root = process.cwd();
 import { NgerCliStart } from './start/start';
-import { Injector } from 'nger-di';
+import { Injector } from '@nger/di';
 
 @Command({
     name: 'start [name]',

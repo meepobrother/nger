@@ -1,5 +1,5 @@
-import { ErrorHandler, Injectable } from 'nger-core';
-import { Action, Store } from 'nger-store';
+import { ErrorHandler, Injectable } from '@nger/core';
+import { Action, Store } from '@nger/store';
 import { Notification, Observable, Subject } from 'rxjs';
 import {
   dematerialize,

@@ -1,5 +1,5 @@
-import { ErrorHandler } from 'nger-core';
-import { Action } from 'nger-store';
+import { ErrorHandler } from '@nger/core';
+import { Action } from '@nger/store';
 import { Notification, Observable } from 'rxjs';
 
 export interface EffectNotification {

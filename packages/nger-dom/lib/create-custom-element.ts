@@ -1,4 +1,4 @@
-import { Injector, Type } from 'nger-di';
+import { Injector, Type } from '@nger/di';
 import { Subscription } from 'rxjs';
 import { ComponentNgElementStrategyFactory } from './component-factory-strategy';
 import { NgElementStrategy, NgElementStrategyFactory } from './element-strategy';

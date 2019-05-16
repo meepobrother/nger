@@ -1,4 +1,4 @@
-import { Cache } from 'nger-core'
+import { Cache } from '@nger/core'
 export class NgerH5Cache extends Cache {
     get<T>(key: string): Promise<T> {
         return new Promise(() => { })

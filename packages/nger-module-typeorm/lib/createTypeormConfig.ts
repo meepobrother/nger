@@ -1,6 +1,6 @@
-import { visitor } from 'nger-core';
+import { visitor } from '@nger/core';
 import { parseTypeorm } from './parseTypeorm'
-import { Type } from 'ims-decorator'
+import { Type } from '@nger/decorator'
 export function createTypeormConfig(typeorms: Type<any>[]) {
     let entities: Type<any>[] = [];
     let subscribers: Type<any>[] = [];

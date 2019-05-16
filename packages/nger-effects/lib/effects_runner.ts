@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from 'nger-core';
-import { Store } from 'nger-store';
+import { Injectable, OnDestroy } from '@nger/core';
+import { Store } from '@nger/store';
 import { Subscription } from 'rxjs';
 
 import { EffectSources } from './effect_sources';

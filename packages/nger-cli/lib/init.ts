@@ -1,4 +1,4 @@
-import { Command, Inject, Logger, FileSystem, FILE_SYSTEM } from 'nger-core'
+import { Command, Inject, Logger, FileSystem, FILE_SYSTEM } from '@nger/core'
 import { join } from 'path';
 const root = process.cwd();
 import { build } from './init/create'

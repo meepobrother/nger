@@ -1,5 +1,5 @@
-import * as core from 'nger-core';
-import { TypeContext, Type } from 'ims-decorator'
+import * as core from '@nger/core';
+import { TypeContext, Type } from '@nger/decorator'
 import * as typeorm from 'typeorm';
 
 export function parseTypeorm(context: TypeContext) {

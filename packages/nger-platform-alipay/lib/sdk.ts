@@ -1,4 +1,4 @@
-import { Sdk, ISdk as t } from 'nger-core'
+import { Sdk, ISdk as t } from '@nger/core'
 
 export class AlipaySdk extends Sdk {
     getAccountInfoSync(): t.AccountInfo {

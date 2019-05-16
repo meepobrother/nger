@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Observable } from 'rxjs';
-import { Injector } from 'nger-di'
+import { Injector } from '@nger/di'
 /**
  * Interface for the events emitted through the NgElementStrategy.
  *

@@ -10,8 +10,8 @@ import {
   ApplicationRef, ComponentFactory, ComponentFactoryResolver,
   ComponentRef, EventEmitter, OnChanges, SimpleChange,
   SimpleChanges, Type
-} from 'nger-core';
-import { Injector } from 'nger-di'
+} from '@nger/core';
+import { Injector } from '@nger/di'
 import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 

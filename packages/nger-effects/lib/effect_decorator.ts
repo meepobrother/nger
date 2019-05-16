@@ -1,4 +1,4 @@
-import { compose } from 'nger-store';
+import { compose } from '@nger/store';
 import { EffectMetadata } from './models';
 import { getSourceForInstance } from './utils';
 const METADATA_KEY = '__@ngrx/effects__';

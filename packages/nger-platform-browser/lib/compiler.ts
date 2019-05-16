@@ -1,4 +1,4 @@
-import { NgModuleBootstrap, NgModuleRef } from 'nger-core';
+import { NgModuleBootstrap, NgModuleRef } from '@nger/core';
 
 // 编译模板文件和样式文件还有ts文件处理
 

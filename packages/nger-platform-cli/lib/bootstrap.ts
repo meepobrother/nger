@@ -4,7 +4,7 @@ import {
     , NgModuleClassAst, NgModuleMetadataKey,
     NgModuleRef, Logger,
     NgModuleBootstrap
-} from "nger-core";
+} from "@nger/core";
 import yargs, { Argv, Arguments } from 'yargs';
 import chalk from 'chalk';
 import { join } from 'path';

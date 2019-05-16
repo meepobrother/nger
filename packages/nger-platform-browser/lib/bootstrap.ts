@@ -5,7 +5,7 @@ import {
     ComponentFactoryResolver, ElementRef, ApplicationRef
 } from 'nger-core'
 import { Location, Action } from 'history'
-import { createCustomElement } from 'nger-dom'
+import { createCustomElement } from '@nger/dom'
 export class NgerPlatformBrowser extends NgModuleBootstrap {
     elements: Map<any, any> = new Map();
     constructor(public history: History, public customElements: CustomElementRegistry) {

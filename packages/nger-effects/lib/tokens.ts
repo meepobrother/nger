@@ -1,4 +1,4 @@
-import { InjectionToken, Type } from 'nger-di';
+import { InjectionToken, Type } from '@nger/di';
 export const IMMEDIATE_EFFECTS = new InjectionToken<any[]>(
   'ngrx/effects: Immediate Effects'
 );

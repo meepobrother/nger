@@ -1,4 +1,4 @@
-import { Sdk, ISdk as t } from 'nger-core'
+import { Sdk, ISdk as t } from '@nger/core'
 
 export class H5Sdk extends Sdk {
     getAccountInfoSync(): t.AccountInfo {

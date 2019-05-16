@@ -1,4 +1,4 @@
-import { Sdk, createPlatformFactory, platformCore, Http } from 'nger-core'
+import { Sdk, createPlatformFactory, platformCore, Http } from '@nger/core'
 import { NgerAlipayHttp } from './http'
 import { AlipaySdk } from './sdk'
 export default createPlatformFactory(platformCore, 'alipay', [{

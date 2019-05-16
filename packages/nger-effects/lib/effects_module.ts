@@ -1,5 +1,5 @@
-import { NgModule, Type } from 'nger-core';
-import { ModuleWithProviders } from 'nger-di'
+import { NgModule, Type } from '@nger/core';
+import { ModuleWithProviders } from '@nger/di'
 import { EffectSources } from './effect_sources';
 import { Actions } from './actions';
 import { ROOT_EFFECTS, FEATURE_EFFECTS } from './tokens';

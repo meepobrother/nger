@@ -1,5 +1,5 @@
-import { NgModule, Inject, Optional } from 'nger-core';
-import { StoreRootModule, StoreFeatureModule } from 'nger-store';
+import { NgModule, Inject, Optional } from '@nger/core';
+import { StoreRootModule, StoreFeatureModule } from '@nger/store';
 import { EffectsRootModule } from './effects_root_module';
 import { FEATURE_EFFECTS } from './tokens';
 

@@ -3,8 +3,8 @@ import {
     ApplicationRef, ComponentFactory, ComponentRef,
     ElementRef, ComponentFactoryResolver,
     NgerRenderFactory
-} from 'nger-core';
-import { Injector, Type, InjectFlags } from 'nger-di';
+} from '@nger/core';
+import { Injector, Type, InjectFlags } from '@nger/di';
 import { render } from 'preact';
 export class BrowserApplicationRef extends ApplicationRef {
     root = document.getElementById('app') as HTMLDivElement;

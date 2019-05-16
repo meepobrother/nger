@@ -1,4 +1,4 @@
-import { Command, Inject, Logger } from 'nger-core'
+import { Command, Inject, Logger } from '@nger/core'
 @Command({
     name: 'install <name>',
     description: '安装脚本',

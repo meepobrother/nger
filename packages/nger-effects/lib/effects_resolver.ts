@@ -1,4 +1,4 @@
-import { Action } from 'nger-store';
+import { Action } from '@nger/store';
 import { merge, Notification, Observable } from 'rxjs';
 import { ignoreElements, map, materialize } from 'rxjs/operators';
 
