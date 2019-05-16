@@ -38,7 +38,7 @@ Typeorm/Nestjs/Angular/Ngrx/JSX/Injector(依赖注入)/Decorator(装饰器)/Webp
 您可以把他看做一个工具，可以帮您快速开发部署您的项目
 
 ```ts
-npm install -g nger-cli
+npm install -g @nger/cli
 // 初始化模块
 nger init ims-demo
 // 开发模块
@@ -55,7 +55,7 @@ nger publish ims-demo
 
 ```ts
 // 安装
-npm install -g nger-cli
+npm install -g @nger/cli
 // 启动
 nger start [-p 4200]
 // 首次安装 会自动跳转到安装配置页面

@@ -1,3 +1,3 @@
-# `nger-util`
+# `@nger/util`
 
 > 工具组

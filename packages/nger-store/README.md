@@ -1,4 +1,4 @@
-# `nger-store`
+# `@nger/store`
 
 > 状态管理, Reactive State for nger
 
@@ -6,7 +6,7 @@
 
 
 ```ts
-import { Action } from 'nger-store';
+import { Action } from '@nger/store';
 export enum ActionTypes {
   Increment = '[Counter Component] Increment',
   Decrement = '[Counter Component] Decrement',

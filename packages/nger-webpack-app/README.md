@@ -1,4 +1,4 @@
-# `nger-webpack-app`
+# `@nger/webpack-app`
 
 > TODO: description
 

@@ -1,4 +1,4 @@
-import { Page } from 'nger-core';
+import { Page } from '@nger/core';
 @Page({
     path: '/admin/ng',
     templateUrl: './index.html',

@@ -29,7 +29,7 @@
   },
   "gitHead": "b86981067c7da7653379ae461b9427f4aea193a7",
   "dependencies": {
-    "nger-core": "^1.0.9",
-    "nger-di": "^1.0.9"
+    "@nger/core": "^1.0.9",
+    "@nger/di": "^1.0.9"
   }
 }

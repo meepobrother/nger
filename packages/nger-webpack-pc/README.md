@@ -1,4 +1,4 @@
-# `nger-webpack-pc`
+# `@nger/webpack-pc`
 
 > TODO: description
 

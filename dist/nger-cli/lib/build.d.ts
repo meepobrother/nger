@@ -1,4 +1,4 @@
-import { Logger } from 'nger-core';
+import { Logger } from '@nger/core';
 import { NgerCliBuild } from './build/public_api';
 export declare class BuildCommand {
     type: 'lib' | 'prod';

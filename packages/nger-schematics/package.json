@@ -10,7 +10,7 @@
   "ng-update": {
     "requirements": {},
     "packageGroup": [
-      "nger-schematics"
+      "@nger/schematics"
     ],
     "migrations": "./migrations/migrations.json"
   },
