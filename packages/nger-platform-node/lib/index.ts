@@ -1,9 +1,9 @@
-import { createPlatformFactory, Logger, Http, NgerConfig, FILE_SYSTEM, Resolver, APP_ROOT, NGER_CONFIG, platformCore } from 'nger-core'
-import { NgerUtil } from 'nger-util'
+import { createPlatformFactory, Logger, Http, NgerConfig, FILE_SYSTEM, Resolver, APP_ROOT, NGER_CONFIG, platformCore } from '@nger/core'
+import { NgerUtil } from '@nger/util'
 import fs from 'fs-extra';
 import { dirname, join } from 'path'
 import axios from 'axios';
-import { Project } from 'ts-morph'
+import { Project } from '@nger/morph'
 const project = new Project();
 import {
     NodeJsInputFileSystem,

@@ -1,4 +1,4 @@
-import { createPlatformFactory, platformCore, Http, Sdk } from 'nger-core'
+import { createPlatformFactory, platformCore, Http, Sdk } from '@nger/core'
 import { NgerWeappHttp } from './http'
 declare const wx: any;
 // 微信端的SDK不用实现

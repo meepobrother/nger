@@ -1,4 +1,4 @@
-import { NgModuleBootstrap, NgModuleRef, ApplicationRef, NgModuleMetadataKey, NgModuleClassAst } from 'nger-core'
+import { NgModuleBootstrap, NgModuleRef, ApplicationRef, NgModuleMetadataKey, NgModuleClassAst } from '@nger/core'
 import {
     run as applicationRun,
     on,
@@ -11,7 +11,7 @@ import { profile, uptime } from "tns-core-modules/profiling";
 import { View } from "tns-core-modules/ui/core/view/view";
 import { Injector, InjectionToken } from 'nger-di'
 import { AppHostView } from './app-host-view'
-import { setRootPage } from 'nger-platform-native'
+import { setRootPage } from '@nger/platform-native'
 export const NATIVE_CONFIG = new InjectionToken(`NATIVE_CONFIG`)
 export class NgerPlatformNativeBootstrap extends NgModuleBootstrap {
     injector: Injector;

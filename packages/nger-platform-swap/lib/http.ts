@@ -1,5 +1,5 @@
 
-import { Http } from 'nger-core'
+import { Http } from '@nger/core'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 declare const swan: any;

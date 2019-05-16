@@ -1,5 +1,5 @@
-import { Provider } from 'nger-di';
-import { Injectable } from 'nger-core'
+import { Provider } from '@nger/di';
+import { Injectable } from '@nger/core'
 import { Observable, Observer, Operator } from 'rxjs';
 import { distinctUntilChanged, map, pluck } from 'rxjs/operators';
 

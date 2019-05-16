@@ -1,5 +1,5 @@
-import { Inject, Injectable, OnDestroy } from 'nger-core';
-import { Provider } from 'nger-di';
+import { Inject, Injectable, OnDestroy } from '@nger/core';
+import { Provider } from '@nger/di';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 

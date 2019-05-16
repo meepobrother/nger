@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { NgModuleMetadataKey, createPlatformFactory, NgModuleRef, NgModuleClassAst, ItMetadataKey, ItMethodAst, NgModuleBootstrap } from 'nger-core';
-import platformNode from 'nger-platform-node'
+import { NgModuleMetadataKey, createPlatformFactory, NgModuleRef, NgModuleClassAst, ItMetadataKey, ItMethodAst, NgModuleBootstrap } from '@nger/core';
+import platformNode from '@nger/platform-node'
 export class NgerPlatformTest extends NgModuleBootstrap {
     async run(ref: NgModuleRef<any>) {
         const ngModule = ref.context.getClass(NgModuleMetadataKey) as NgModuleClassAst;

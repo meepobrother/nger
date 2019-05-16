@@ -1,17 +1,17 @@
 import { createServer } from 'http';
-import { Injector } from 'nger-di'
+import { Injector } from '@nger/di'
 import Koa from 'koa';
-import { NgModuleRef, getPort, isDevMode } from 'nger-core';
-import { NgerUtil } from 'nger-util';
+import { NgModuleRef, getPort, isDevMode } from '@nger/core';
+import { NgerUtil } from '@nger/util';
 import Router from 'koa-router';
 import Static from 'koa-static';
-import { Logger, NgModuleBootstrap, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from 'nger-core';
+import { Logger, NgModuleBootstrap, NgModuleMetadataKey, NgModuleClassAst, ControllerMetadataKey, ControllerClassAst, GetMethodAst, PostMethodAst, GetMetadataKey, PostMetadataKey } from '@nger/core';
 import { join } from 'path';
 const compress = require('koa-compress');
-import { TypeContext } from 'ims-decorator';
-import { InjectionToken } from 'nger-di';
+import { TypeContext } from '@nger/decorator';
+import { InjectionToken } from '@nger/di';
 export const AdminTemplateEntry = new InjectionToken<string>(`AdminTemplateEntry`)
-import { NgerWebpackManager } from 'nger-webpack'
+import { NgerWebpackManager } from '@nger/webpack'
 
 export class NgerPlatformKoa extends NgModuleBootstrap {
     public injector: Injector

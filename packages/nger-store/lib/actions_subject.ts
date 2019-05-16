@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy, } from 'nger-core';
+import { Injectable, OnDestroy, } from '@nger/core';
 import { BehaviorSubject } from 'rxjs';
-import { Provider } from 'nger-di'
+import { Provider } from '@nger/di'
 import { Action } from './models';
 
 export const INIT = '@ngrx/store/init' as '@ngrx/store/init';

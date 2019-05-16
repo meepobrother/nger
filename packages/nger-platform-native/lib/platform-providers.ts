@@ -1,5 +1,5 @@
 import { Page } from "tns-core-modules/ui/page";
-import { InjectionToken } from 'nger-di'
+import { InjectionToken } from '@nger/di'
 import { device, Device } from "tns-core-modules/platform";
 export const DEVICE = new InjectionToken<Device>("platform device");
 export const PAGE_FACTORY = new InjectionToken<PageFactory>("page factory");

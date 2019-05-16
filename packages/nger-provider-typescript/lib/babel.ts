@@ -5,8 +5,8 @@ import { parse } from '@babel/parser';
 import { join, dirname, extname } from 'path'
 const root = process.cwd();
 import fs from 'fs-extra';
-import { Injectable } from 'nger-core';
-import { NgerCompilerTypescript } from 'nger-compiler';
+import { Injectable } from '@nger/core';
+import { NgerCompilerTypescript } from '@nger/compiler';
 const CID = require('cids');
 const multihashing = require('multihashing')
 export function createCid(code: string) {

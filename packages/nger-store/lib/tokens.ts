@@ -1,4 +1,4 @@
-import { InjectionToken } from 'nger-di';
+import { InjectionToken } from '@nger/di';
 import { RuntimeChecks, MetaReducer } from './models';
 
 export const _INITIAL_STATE = new InjectionToken(

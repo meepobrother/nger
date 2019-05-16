@@ -1,4 +1,4 @@
-import { isDevMode } from 'nger-core';
+import { isDevMode } from '@nger/core';
 import { ActionCreator, ActionReducer, ActionType, Action } from './models';
 
 // Return type of the `on` fn.

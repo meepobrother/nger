@@ -1,4 +1,4 @@
-import { Sdk, createPlatformFactory, platformCore, Http } from 'nger-core'
+import { Sdk, createPlatformFactory, platformCore, Http } from '@nger/core'
 import { NgerTtHttp } from './http'
 import { TtSdk} from './sdk'
 export default createPlatformFactory(platformCore, 'ttapp', [{

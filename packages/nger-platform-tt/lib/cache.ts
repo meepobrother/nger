@@ -1,4 +1,4 @@
-import { Cache } from 'nger-core'
+import { Cache } from '@nger/core'
 export class NgerTtCache extends Cache {
     async get<T>(key: string): Promise<T> {
         return new Promise(() => { })

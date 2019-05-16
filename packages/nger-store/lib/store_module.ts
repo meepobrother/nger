@@ -2,12 +2,12 @@ import {
     NgModule,
     Inject,
     OnDestroy
-} from 'nger-core';
+} from '@nger/core';
 import {
     ModuleWithProviders,
     InjectionToken,
     Injector,
-} from 'nger-di'
+} from '@nger/di'
 import {
     Action,
     ActionReducer,
