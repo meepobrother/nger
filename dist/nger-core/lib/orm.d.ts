@@ -1,8 +1,0 @@
-import { NullAstVisitor, ClassAst, ParserAstContext, PropertyAst, ParameterAst, MethodAst } from 'ims-decorator';
-import * as orm from './orm/index';
-export declare class OrmVisitor extends NullAstVisitor {
-    visitClass(ast: ClassAst, context: ParserAstContext): orm.ChildEntityClassAst | orm.EntityClassAst | orm.TableInheritanceClassAst | orm.EventSubscriberClassAst | orm.TreeClassAst | orm.MigrationClassAst | orm.TypeormClassAst;
-    visitProperty(ast: PropertyAst, context: ParserAstContext): orm.ColumnPropertyAst | orm.CreateDateColumnPropertyAst | orm.ObjectIdColumnPropertyAst | orm.PrimaryGeneratedColumnPropertyAst | orm.UpdateDateColumnPropertyAst | orm.VersionColumnPropertyAst | orm.PrimaryColumnPropertyAst | orm.JoinColumnPropertyAst | orm.JoinTablePropertyAst | orm.ManyToManyPropertyAst | orm.ManyToOnePropertyAst | orm.OneToManyPropertyAst | orm.OneToOnePropertyAst | orm.RelationCountPropertyAst | orm.RelationIdPropertyAst | orm.AfterInsertPropertyAst | orm.AfterLoadPropertyAst | orm.AfterRemovePropertyAst | orm.AfterUpdatePropertyAst | orm.BeforeInsertPropertyAst | orm.BeforeRemovePropertyAst | orm.BeforeUpdatePropertyAst | orm.TreeChildrenPropertyAst | orm.TreeLevelColumnPropertyAst | orm.TreeParentPropertyAst | orm.CheckPropertyAst | orm.EntityRepositoryPropertyAst | orm.ExclusionPropertyAst | orm.GeneratedPropertyAst | orm.IndexPropertyAst | orm.UniquePropertyAst;
-    visitMethod(ast: MethodAst, context: ParserAstContext): orm.TransactionMethodAst;
-    visitParameter(ast: ParameterAst, context: ParserAstContext): orm.TransactionManagerParameterAst | orm.TransactionRepositoryParameterAst;
-}

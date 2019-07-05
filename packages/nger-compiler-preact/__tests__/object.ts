@@ -1,5 +1,0 @@
-const code = `
-const props = {
-    
-}
-`
