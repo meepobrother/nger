@@ -4,7 +4,6 @@ import { InjectionToken } from './injection_token';
 import { Injector } from './injector';
 import { getInjectableDef, ɵɵInjectableDef } from './def';
 let _currentInjector: Injector | undefined | null = undefined;
-
 export function setCurrentInjector(injector: Injector | null | undefined): Injector | undefined | null {
     const former = _currentInjector;
     _currentInjector = injector;
