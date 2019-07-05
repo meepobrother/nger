@@ -2,7 +2,33 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "",
-  "projects": {},
+  "projects": {
+    "casbin": {
+      "root": "libs/casbin",
+      "sourceRoot": "libs/casbin/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/casbin/tsconfig.lib.json",
+              "libs/casbin/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/casbin/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/casbin/jest.config.js",
+            "tsConfig": "libs/casbin/tsconfig.spec.json"
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
