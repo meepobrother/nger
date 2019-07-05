@@ -4,11 +4,11 @@ import {
     NgerCompilerBabel,
     NgerCompilerNgMetadata,
     hasHandlerFileCache
-} from 'nger-compiler'
-import { Injector } from 'nger-di'
+} from '@nger/compiler'
+import { Injector } from '@nger/di'
 import { relative, extname, join } from 'path';
 const root = process.cwd();
-import { FILE_SYSTEM } from 'nger-core'
+import { FILE_SYSTEM } from '@nger/core'
 export const clientTask: Task = (file: string, opt: string, injector: Injector) => {
     if (file.endsWith('.ts')) {
         const fs = injector.get(FILE_SYSTEM)

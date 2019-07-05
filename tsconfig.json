@@ -34,6 +34,18 @@
         "noEmitOnError": true,
         "noErrorTruncation": true,
         "emitBOM": false,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": [
+            "node",
+            "mocha",
+            "reflect-metadata"
+        ],
         "paths": {
             "@nger/decorator": [
                 "packages/ims-decorator/lib/index.ts"
@@ -163,18 +175,6 @@
                 "app/*"
             ]
         },
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "types": [
-            "node",
-            "mocha",
-            "reflect-metadata"
-        ],
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
         "plugins": [
             {
                 "nger": "./dist/nger-language-service/lib/index.js"

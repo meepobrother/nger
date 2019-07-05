@@ -1,5 +1,5 @@
-import * as cli from '@angular/compiler-cli'
-import * as h from './metadata/index'
+import * as cli from '@angular/compiler-cli';
+import * as h from './metadata/index';
 import ts from 'typescript';
 import { join } from 'path'
 const root = process.cwd();
