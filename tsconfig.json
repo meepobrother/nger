@@ -16,7 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nger/casbin": ["libs/casbin/src/index.ts"]
+      "@nger/casbin": ["libs/casbin/src/index.ts"],
+      "@nger/graphql": ["libs/graphql/src/index.ts"],
+      "@nger/testing": ["libs/testing/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

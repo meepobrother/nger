@@ -27,6 +27,56 @@
           }
         }
       }
+    },
+    "graphql": {
+      "root": "libs/graphql",
+      "sourceRoot": "libs/graphql/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/graphql/tsconfig.lib.json",
+              "libs/graphql/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/graphql/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/graphql/jest.config.js",
+            "tsConfig": "libs/graphql/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "testing": {
+      "root": "libs/testing",
+      "sourceRoot": "libs/testing/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/testing/tsconfig.lib.json",
+              "libs/testing/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/testing/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/testing/jest.config.js",
+            "tsConfig": "libs/testing/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {
