@@ -9,11 +9,9 @@ export interface CommandOptions {
     };
 }
 export const Command = makeDecorator<CommandOptions>(CommandMetadataKey);
-
 export interface Command<O, R> {
     action(options: O): R;
 }
-
 export function isCommandClassAst(val: ClassAst): val is ClassAst<CommandOptions> {
     return val.metadataKey === CommandMetadataKey;
 }

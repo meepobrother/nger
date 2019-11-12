@@ -4,8 +4,6 @@ import { InjectionToken } from './injection_token';
 import { ɵɵinject } from './injector_compatibility';
 import { ɵɵdefineInjectable } from './def';
 import { ConstructorProvider, ExistingProvider, FactoryProvider, StaticClassProvider, StaticProvider, ValueProvider } from './type';
-// import { Inject, Optional, Self, SkipSelf } from './metadata';
-
 export const SOURCE = '__source';
 const _THROW_IF_NOT_FOUND = Symbol.for(`_THROW_IF_NOT_FOUND`);
 export const THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;

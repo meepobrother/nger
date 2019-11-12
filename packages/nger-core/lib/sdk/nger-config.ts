@@ -43,7 +43,7 @@ export class NgerConfig {
         } else {
         }
     }
-    
+
     get(name: INgerConfigKey): INgerConfig[INgerConfigKey] {
         const config: any = this.config[name];
         if (config) {

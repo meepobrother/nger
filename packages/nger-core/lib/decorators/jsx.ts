@@ -23,7 +23,7 @@ declare global {
         interface IntrinsicElements {
             [elemName: string]: any;
         }
-        interface ElementClass {}
+        interface ElementClass { }
         interface ElementAttributesProperty extends NgerComponent<any> { }
         interface ElementChildrenAttribute { }
     }

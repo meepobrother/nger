@@ -1,4 +1,4 @@
-import { makeDecorator,TypeDecorator, ConstructorContext, ConstructorAst } from 'ims-decorator';
+import { makeDecorator, TypeDecorator, ConstructorContext, ConstructorAst } from 'ims-decorator';
 export const SkipSelfMetadataKey = 'SkipSelfMetadataKey';
 export interface SkipSelfOptions { }
 export interface SkipSelfDecorator {

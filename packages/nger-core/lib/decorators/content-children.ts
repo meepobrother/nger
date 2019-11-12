@@ -23,4 +23,3 @@ export class ContentChildrenPropertyAst extends PropertyContext<ContentChildrenO
 export function isContentChildrenPropertyAst(ast: PropertyAst): ast is PropertyAst<ContentChildrenOptions> {
     return ast.metadataKey === ContentChildrenMetadataKey;
 }
-

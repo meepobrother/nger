@@ -1,5 +1,5 @@
-import { makeDecorator, ClassAst, PropertyContext, PropertyAst } from 'ims-decorator';
-import { Subject, Subscription } from 'rxjs'
+import { makeDecorator, PropertyContext, PropertyAst } from 'ims-decorator';
+import { Subject, Subscription } from 'rxjs';
 
 export const OutputMetadataKey = 'OutputMetadataKey';
 export interface OutputOptions {

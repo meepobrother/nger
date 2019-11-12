@@ -4,8 +4,7 @@ import {
     makeDecorator,
     getContext,
     isClassAst,
-    isPropertyAst,
-    getDesignParamTypes
+    isPropertyAst
 } from '../lib/index';
 import { expect } from 'chai'
 class ImsDemo { }

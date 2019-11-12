@@ -1,6 +1,6 @@
 import { makeDecorator, PropertyContext, PropertyAst } from "ims-decorator";
 export const OptionMetadataKey = 'OptionMetadataKey'
-import { Options } from 'yargs'
+import { Options } from 'yargs';
 export interface OptionOptions extends Options { }
 export const Option = makeDecorator<OptionOptions>(OptionMetadataKey);
 export interface Option<O, R> { }

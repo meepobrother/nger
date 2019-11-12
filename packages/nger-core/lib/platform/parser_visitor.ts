@@ -2,7 +2,7 @@ import { TypeContext } from 'ims-decorator'
 import { Inject, InjectMetadataKey, InjectPropertyAst } from '../decorators/inject'
 import { EntityRepositoryMetadataKey, EntityRepositoryPropertyAst } from '../orm/index';
 import { ConnectionToken } from '../tokens';
-import { Connection } from 'typeorm'
+import { Connection } from 'typeorm';
 import { Injector } from 'nger-di'
 import { Http } from '../sdk/http';
 import { GetMetadataKey, GetPropertyAst } from '../http/get'
